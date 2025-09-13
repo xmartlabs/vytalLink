@@ -1,0 +1,73 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+/* Scroll offset for fixed navbar */
+section[id] {
+    scroll-margin-top: 0px; /* reduced an additional 20px */
+}
+
+:root {
+    --primary-color: #6366f1;
+    --primary-dark: #4f46e5;
+    --secondary-color: #f1f5f9;
+    --accent-color: #10b981;
+    /* Alias to support existing usages */
+    --primary: var(--primary-color);
+    --text-dark: #1e293b;
+    --text-light: #64748b;
+    --white: #ffffff;
+    --gradient: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+    --shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+    --shadow-lg: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    --border-radius: 12px;
+    --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    line-height: 1.6;
+    color: var(--text-dark);
+    overflow-x: hidden;
+    padding-top: 120px; /* Increased space for fixed navbar */
+}
+
+/* Remove padding for pages with custom hero sections that handle spacing */
+body.home-page {
+    padding-top: 0;
+}
+
+/* Pages with subnav should only offset the main navbar */
+body.has-subnav {
+    padding-top: 80px;
+}
+
+@media (max-width: 768px) {
+    body.has-subnav {
+        padding-top: 70px;
+    }
+}
+
+/* Adjust padding for mobile */
+@media (max-width: 768px) {
+    body {
+        padding-top: 110px; /* Increased space for mobile */
+    }
+    
+    body.home-page {
+        padding-top: 0;
+    }
+}
+
+/* Layout utilities */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+}
