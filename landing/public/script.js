@@ -240,7 +240,7 @@ document.addEventListener('DOMContentLoaded', function() {
 (function() {
   const style = document.createElement('style');
   style.textContent = `
-    @media (max-width: 768px) {
+    @media (max-width: 1200px) {
       .nav-menu {
         position: fixed;
         top: 70px;
