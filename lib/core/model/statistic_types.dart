@@ -1,8 +1,8 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 enum StatisticType {
-  @JsonValue('COUNT')
-  count,
+  @JsonValue('SUM')
+  sum,
 
   @JsonValue('AVERAGE')
   average;

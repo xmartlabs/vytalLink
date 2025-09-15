@@ -144,6 +144,6 @@ const _$TimeGroupByEnumMap = {
 };
 
 const _$StatisticTypeEnumMap = {
-  StatisticType.count: 'COUNT',
+  StatisticType.sum: 'SUM',
   StatisticType.average: 'AVERAGE',
 };

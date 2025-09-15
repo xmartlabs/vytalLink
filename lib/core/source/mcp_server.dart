@@ -163,7 +163,14 @@ class HealthMcpServerService {
           break;
       }
     } catch (e) {
-      Logger.e('Error processing backend message: $e');
+      Logger.e('Error processing backend message: $e', e);
+      try {
+        await sendToBackend(
+          {'error': 'Error processing message: ${e.toString()}'},
+        );
+      } catch (e) {
+        Logger.e('Error sending error message to backend: $e', e);
+      }
     }
   }
 

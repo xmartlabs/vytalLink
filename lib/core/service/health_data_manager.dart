@@ -56,7 +56,7 @@ class HealthDataManager {
     );
 
     switch (statisticType) {
-      case StatisticType.count:
+      case StatisticType.sum:
         final context = HealthDataAggregationParameters(
           formattedData: formattedData,
           aggregatedData: aggregatedData,
