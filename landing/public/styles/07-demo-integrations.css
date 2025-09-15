@@ -1,0 +1,216 @@
+/* Demo Section */
+.demo-section {
+    padding: 6rem 0;
+    background: var(--secondary-color);
+}
+
+.demo-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
+}
+
+.demo-text h2 {
+    font-size: 2.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.demo-text p {
+    font-size: 1.125rem;
+    color: var(--text-light);
+    margin-bottom: 2rem;
+    line-height: 1.6;
+}
+
+.demo-features {
+    margin-bottom: 2rem;
+}
+
+.demo-feature {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.demo-feature i {
+    color: var(--primary-color);
+    width: 24px;       /* fixed icon box width */
+    min-width: 24px;   /* ensure alignment */
+    text-align: center;
+    font-size: 1.1rem; /* consistent icon size */
+}
+
+.cta-buttons {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.video-placeholder {
+    background: var(--text-dark);
+    border-radius: var(--border-radius);
+    aspect-ratio: 16/9;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.video-content {
+    text-align: center;
+    color: var(--white);
+}
+
+.video-content i {
+    font-size: 4rem;
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+}
+
+.video-content h3 {
+    margin-bottom: 0.5rem;
+}
+
+.video-content small {
+    color: #a0aec0;
+}
+
+/* Integrations Section */
+.integrations-section {
+    padding: 6rem 0;
+}
+
+.integrations-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+}
+
+.integration-card {
+    background: var(--white);
+    padding: 2rem;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+    transition: var(--transition);
+    position: relative;
+}
+
+.integration-card.featured {
+    border: 2px solid var(--primary-color);
+}
+
+.integration-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-lg);
+}
+
+.integration-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.integration-header i {
+    font-size: 2rem;
+    color: var(--primary-color);
+}
+
+.integration-header h3 {
+    flex: 1;
+}
+
+.integration-badge {
+    background: var(--gradient);
+    color: var(--white);
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 500;
+}
+
+.integration-badge.coming-soon {
+    background: linear-gradient(135deg, #f59e0b 0%, #f97316 100%);
+    animation: pulse-badge 2s ease-in-out infinite alternate;
+}
+
+@keyframes pulse-badge {
+    0% {
+        opacity: 0.8;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+/* Disabled button */
+.btn.disabled {
+    background: #e5e7eb;
+    color: #9ca3af;
+    cursor: not-allowed;
+    pointer-events: none;
+    opacity: 0.6;
+}
+
+.btn.disabled:hover {
+    background: #e5e7eb;
+    transform: none;
+    box-shadow: none;
+}
+
+.integration-steps {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin: 1.5rem 0;
+    padding: 1rem;
+    background: var(--secondary-color);
+    border-radius: 8px;
+}
+
+.integration-steps span {
+    font-size: 0.875rem;
+    color: var(--text-light);
+}
+
+.integration-steps span:before {
+    content: "→ ";
+    color: var(--primary-color);
+    font-weight: 600;
+}
+
+/* Download Footer */
+.download-footer {
+    margin-top: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+
+.download-footer img {
+    height: 48px;    /* base fallback */
+    width: auto;     /* preserve aspect ratio */
+    transition: var(--transition);
+}
+
+/* Visually balance Google Play badge (second link) */
+.download-footer a:first-child img { /* App Store */
+    height: 44px;
+}
+
+.download-footer a:last-child img {  /* Google Play */
+    height: 64px;
+}
+
+/* Left-align CTA buttons in demo section */
+.demo-text .cta-buttons {
+    justify-content: flex-start;
+}
+
+.download-footer img:hover {
+    transform: scale(1.05);
+}

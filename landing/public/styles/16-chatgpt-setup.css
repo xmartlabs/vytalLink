@@ -1,0 +1,307 @@
+/* ChatGPT Setup Page Styles */
+.chatgpt-hero-icon {
+    width: 100px;
+    height: 100px;
+    background: #10A37F;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 2rem;
+    box-shadow: var(--shadow-lg);
+}
+
+.chatgpt-hero-icon i {
+    font-size: 3rem;
+    color: var(--white);
+}
+
+.hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: var(--accent-color);
+    color: var(--white);
+    padding: 0.5rem 1rem;
+    border-radius: 50px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    margin-top: 1rem;
+}
+
+.what-is-section {
+    padding: 4rem 0;
+    background: var(--white);
+}
+
+.what-is-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    align-items: center;
+}
+
+.gpt-features {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    margin-top: 2rem;
+}
+
+.gpt-feature {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1rem;
+    background: var(--secondary-color);
+    border-radius: var(--border-radius);
+}
+
+.gpt-feature i {
+    color: var(--primary-color);
+    font-size: 1.25rem;
+}
+
+.chat-preview {
+    background: var(--white);
+    border: 2px solid var(--secondary-color);
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    box-shadow: var(--shadow);
+}
+
+.chat-header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1rem;
+    background: var(--secondary-color);
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.chat-avatar {
+    width: 40px;
+    height: 40px;
+    background: var(--primary-color);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.chat-avatar i {
+    color: var(--white);
+    font-size: 1.25rem;
+}
+
+.chat-messages {
+    padding: 1rem;
+}
+
+.chat-message {
+    margin-bottom: 1rem;
+    padding: 0.75rem 1rem;
+    border-radius: var(--border-radius);
+    max-width: 80%;
+}
+
+.chat-message.user {
+    background: var(--primary-color);
+    color: var(--white);
+    margin-left: auto;
+}
+
+.chat-message.assistant {
+    background: var(--secondary-color);
+    color: var(--text-dark);
+}
+
+.app-mockup {
+    display: flex;
+    justify-content: center;
+    margin-top: 1rem;
+}
+
+.app-screen {
+    width: 200px;
+    height: 140px;
+    background: transparent; /* remove outer box */
+    border: 0;
+    border-radius: var(--border-radius);
+    padding: 8px;
+}
+
+/* Credentials display inside app screen */
+.credentials-display { background: #f8fafc; border: 2px solid #e2e8f0; border-radius: 8px; padding: 0.75rem; }
+.credential-item { display: flex; justify-content: space-between; align-items: center; margin: 0.25rem 0; }
+.credential-item .label { font-size: 0.8rem; color: var(--text-light); font-weight: 600; }
+.credential-item .value { font-family: 'Courier New', monospace; font-weight: 700; color: var(--primary-color); }
+
+.examples-section {
+    padding: 4rem 0;
+}
+
+.examples-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+}
+
+/* Two-column question bubbles, responsive */
+.question-bubbles-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem 1rem;
+}
+
+@media (max-width: 768px) {
+    .question-bubbles-grid {
+        grid-template-columns: 1fr;
+    }
+    /* Show only first 3 questions on mobile */
+    .question-bubbles-grid .question-bubble:nth-child(n+4) {
+        display: none;
+    }
+}
+
+.example-card {
+    background: var(--white);
+    border: 2px solid var(--secondary-color);
+    border-radius: var(--border-radius);
+    padding: 1rem;
+}
+
+.cta-section {
+    padding: 4rem 0;
+    background: var(--secondary-color);
+}
+
+.cta-content {
+    max-width: 900px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.cta-content h2 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+}
+
+.cta-content p {
+    font-size: 1.25rem;
+    margin-bottom: 2rem;
+    opacity: 0.9;
+}
+
+.cta-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.btn-large {
+    padding: 1rem 2rem;
+    font-size: 1rem;
+}
+
+.btn-secondary {
+    background: var(--white);
+    color: var(--text-dark);
+}
+
+.btn-secondary:hover {
+    background: var(--secondary-color);
+}
+
+.step-action {
+    margin-top: 1rem;
+}
+
+.gpt-access-options {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+}
+
+.gpt-option {
+    background: var(--white);
+    border: 2px solid var(--secondary-color);
+    border-radius: var(--border-radius);
+    padding: 1.5rem;
+    text-align: center;
+    transition: var(--transition);
+}
+
+.gpt-option:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow);
+}
+
+.gpt-option.primary {
+    border-color: var(--primary-color);
+    background: linear-gradient(135deg, rgba(99, 102, 241, 0.05), rgba(99, 102, 241, 0.10));
+}
+
+.gpt-option.secondary {
+    border-color: var(--text-light);
+}
+
+.gpt-option-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.gpt-option-header i {
+    font-size: 2rem;
+    color: var(--primary-color);
+}
+
+.gpt-option.secondary .gpt-option-header i {
+    color: var(--text-light);
+}
+
+.gpt-option-header h4 {
+    margin: 0;
+    font-size: 1.1rem;
+    color: var(--text-dark);
+}
+
+.gpt-option p {
+    color: var(--text-light);
+    margin-bottom: 1.5rem;
+    font-size: 0.9rem;
+}
+
+/* Responsive Design for ChatGPT Setup */
+@media (max-width: 768px) {
+    .what-is-content {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+    
+    .gpt-features {
+        grid-template-columns: 1fr;
+    }
+    
+    .examples-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .cta-buttons {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .cta-content h2 {
+        font-size: 2rem;
+    }
+    
+    .gpt-access-options {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+}

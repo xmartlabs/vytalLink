@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, viewport-fit=cover">
     <title>About vytalLink - Connecting Health Data with AI</title>
     <meta name="description" content="Learn about vytalLink's mission to make health data accessible through AI assistants while maintaining privacy and security.">
     <link rel="stylesheet" href="/styles.css">
@@ -15,25 +15,40 @@
 </head>
 <body>
     <!-- Navigation -->
-        <nav class="navbar">
+    <nav class="navbar">
         <div class="nav-container">
             <div class="nav-logo">
                 <i class="fas fa-heartbeat"></i>
-                <a href="/">
-                    <span>vytalLink</span>
-                </a>
+                <a href="/"><span>vytalLink</span></a>
             </div>
             <div class="nav-menu">
-                <a href="/" class="nav-link">Home</a>
-                <a href="/mcp-setup.html" class="nav-link">MCP Setup</a>
-                <a href="/about" class="nav-link active">About</a>
-                <a href="/contact" class="nav-link">Contact</a>
+                <a href="/#features" class="nav-link home-only desktop-only">How it Works</a>
+                <a href="/#demo" class="nav-link home-only desktop-only">Demo</a>
+                <a href="/#integrations" class="nav-link home-only desktop-only">AI Integrations</a>
+
+                <!-- Unified mobile menu -->
+                <a href="/" class="nav-link mobile-only"><i class="fas fa-house"></i> Home</a>
+                <a href="/chatgpt-setup.html" class="nav-link mobile-only"><i class="fas fa-comments"></i> ChatGPT Setup</a>
+                <a href="/mcp-setup.html" class="nav-link mobile-only"><i class="fas fa-server"></i> MCP Setup</a>
+                <a href="/about.html" class="nav-link mobile-only"><i class="fas fa-circle-info"></i> About</a>
+                <a href="/privacy.html" class="nav-link mobile-only"><i class="fas fa-shield"></i> Privacy</a>
+                <a href="/terms.html" class="nav-link mobile-only"><i class="fas fa-file-contract"></i> Terms</a>
+                <a href="/contact.html" class="nav-link mobile-only"><i class="fas fa-envelope"></i> Contact</a>
+
+                <div class="nav-dropdown desktop-only">
+                    <button class="nav-link nav-dropdown-toggle" type="button">
+                        Setup Guides <i class="fas fa-chevron-down" aria-hidden="true"></i>
+                    </button>
+                    <div class="nav-dropdown-menu">
+                        <a class="nav-link" href="/chatgpt-setup.html">ChatGPT Setup</a>
+                        <a class="nav-link" href="/mcp-setup.html">MCP Setup</a>
+                    </div>
+                </div>
+
+                
+                <a href="#" class="btn btn-primary download-app-btn" onclick="openDownloadModal()">Download App</a>
             </div>
-            <div class="hamburger">
-                <span></span>
-                <span></span>
-                <span></span>
-            </div>
+            <div class="hamburger"><span></span><span></span><span></span></div>
         </div>
     </nav>
 
@@ -153,16 +168,14 @@
                         <li><a href="/#features">How it Works</a></li>
                         <li><a href="/#integrations">AI Integrations</a></li>
                         <li><a href="/#demo">Demo Video</a></li>
-                        <li><a href="/api">Developer API</a></li>
                     </ul>
                 </div>
                 <div class="footer-section">
-                    <h4>Connect AI</h4>
+                    <h4>Setup Guides</h4>
                     <ul>
-                        <li><a href="https://chatgpt.com/gpts" target="_blank">ChatGPT GPTs</a></li>
-                        <li><a href="/mcp-setup.html">MCP Setup Guide</a></li>
-                        <li><a href="/api">Custom Integration</a></li>
-                        <li><a href="#">API Documentation</a></li>
+                        <li><a href="/chatgpt-setup.html">ChatGPT Setup</a></li>
+                        <li><a href="/mcp-setup.html">MCP Setup</a></li>
+                        <li><a href="#" onclick="openDownloadModal(); return false;">Download App</a></li>
                     </ul>
                 </div>
                 <div class="footer-section">
@@ -187,5 +200,6 @@
     </footer>
 
     <script src="/script.js"></script>
+    <script src="/common-modal.js"></script>
 </body>
 </html>

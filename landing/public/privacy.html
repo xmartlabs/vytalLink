@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, viewport-fit=cover">
     <title>Privacy Policy - vytalLink</title>
     <meta name="description" content="vytalLink's privacy policy - Learn how we protect your health data and maintain your privacy.">
     <link rel="stylesheet" href="/styles.css">
@@ -15,25 +15,40 @@
 </head>
 <body>
     <!-- Navigation -->
-        <nav class="navbar">
+    <nav class="navbar">
         <div class="nav-container">
             <div class="nav-logo">
                 <i class="fas fa-heartbeat"></i>
-                <a href="/">
-                    <span>vytalLink</span>
-                </a>
+                <a href="/"><span>vytalLink</span></a>
             </div>
             <div class="nav-menu">
-                <a href="/" class="nav-link">Home</a>
-                <a href="/mcp-setup.html" class="nav-link">MCP Setup</a>
-                <a href="/about.html" class="nav-link">About</a>
-                <a href="/contact.html" class="nav-link">Contact</a>
+                <a href="/#features" class="nav-link home-only desktop-only">How it Works</a>
+                <a href="/#demo" class="nav-link home-only desktop-only">Demo</a>
+                <a href="/#integrations" class="nav-link home-only desktop-only">AI Integrations</a>
+
+                <!-- Unified mobile menu -->
+                <a href="/" class="nav-link mobile-only"><i class="fas fa-house"></i> Home</a>
+                <a href="/chatgpt-setup.html" class="nav-link mobile-only"><i class="fas fa-comments"></i> ChatGPT Setup</a>
+                <a href="/mcp-setup.html" class="nav-link mobile-only"><i class="fas fa-server"></i> MCP Setup</a>
+                <a href="/about.html" class="nav-link mobile-only"><i class="fas fa-circle-info"></i> About</a>
+                <a href="/privacy.html" class="nav-link mobile-only"><i class="fas fa-shield"></i> Privacy</a>
+                <a href="/terms.html" class="nav-link mobile-only"><i class="fas fa-file-contract"></i> Terms</a>
+                <a href="/contact.html" class="nav-link mobile-only"><i class="fas fa-envelope"></i> Contact</a>
+
+                <div class="nav-dropdown">
+                    <button class="nav-link nav-dropdown-toggle" type="button">
+                        Setup Guides <i class="fas fa-chevron-down" aria-hidden="true"></i>
+                    </button>
+                    <div class="nav-dropdown-menu">
+                        <a class="nav-link" href="/chatgpt-setup.html">ChatGPT Setup</a>
+                        <a class="nav-link" href="/mcp-setup.html">MCP Setup</a>
+                    </div>
+                </div>
+
+                
+                <a href="#" class="btn btn-primary download-app-btn" onclick="openDownloadModal()">Download App</a>
             </div>
-            <div class="hamburger">
-                <span></span>
-                <span></span>
-                <span></span>
-            </div>
+            <div class="hamburger"><span></span><span></span><span></span></div>
         </div>
     </nav>
 
@@ -43,7 +58,7 @@
             <div class="hero-content">
                 <h1>Privacy Policy</h1>
                 <p class="hero-subtitle">Your health data privacy is our top priority</p>
-                <p class="last-updated">Last updated: December 2024</p>
+                <p class="last-updated">Last updated: September 11, 2025</p>
             </div>
         </div>
     </section>
@@ -56,7 +71,7 @@
                 <section class="legal-section">
                     <h2>Overview</h2>
                     <p>At vytalLink, we believe your health data belongs to you. This Privacy Policy explains how we collect, use, and protect your information when you use our mobile application and services.</p>
-                    <p><strong>Key principle:</strong> Your health data stays on your device. We only access it when you explicitly request AI insights through our secure, encrypted connections.</p>
+                    <p><strong>Key principle:</strong> Your health data stays on your device. We create a local MCP (Model Context Protocol) server that allows AI tools to query your data directly from your device, ensuring maximum privacy and control.</p>
                 </section>
 
                 <section class="legal-section">
@@ -67,12 +82,13 @@
                         <li><strong>Device Storage:</strong> All health data (steps, heart rate, sleep, workouts) is stored locally on your device</li>
                         <li><strong>Temporary Access:</strong> We only access your health data when you make a specific request through an AI assistant</li>
                         <li><strong>No Storage:</strong> We do not store your health data on our servers</li>
+                           <li><strong>No Personal Data:</strong> vytalLink does not collect personally identifiable data (name, email, etc.).</li>
                     </ul>
 
                     <h3>Authentication Data</h3>
                     <ul>
-                        <li>Connection codes and session tokens for AI integration</li>
-                        <li>Encrypted authentication keys (stored temporarily)</li>
+                        <li>Local MCP server connection codes for AI integration</li>
+                        <li>Session tokens for device-to-AI communication (stored temporarily)</li>
                         <li>App usage analytics (anonymized)</li>
                     </ul>
 
@@ -87,8 +103,9 @@
                 <section class="legal-section">
                     <h2>How We Use Your Information</h2>
                     <ul>
-                        <li><strong>AI Integration:</strong> Securely transmit requested health data to your chosen AI assistant</li>
-                        <li><strong>Authentication:</strong> Verify connections between the app and AI services</li>
+                        <li><strong>Local MCP Server:</strong> Create a secure local server that AI tools can query for your health data</li>
+                        <li><strong>AI Integration:</strong> Enable secure communication between your device and AI assistants</li>
+                        <li><strong>Data Control:</strong> Give you complete control over what data is shared and when</li>
                         <li><strong>Service Improvement:</strong> Analyze usage patterns to improve app functionality</li>
                         <li><strong>Support:</strong> Provide customer support and troubleshoot issues</li>
                     </ul>
@@ -98,24 +115,26 @@
                     <h2>Data Sharing and Third Parties</h2>
                     
                     <h3>AI Services</h3>
-                    <p>When you request health insights, we securely transmit only the specific data you've requested to your chosen AI service (ChatGPT, Claude, etc.). This data is sent encrypted and is not stored by vytalLink.</p>
+                    <p>When you connect AI tools to vytalLink, they query your health data directly from the local MCP server running on your device. No data is transmitted to vytalLink servers - all communication is between your device and the AI service you choose.</p>
 
                     <h3>Third-Party Services</h3>
                     <ul>
                         <li><strong>Analytics:</strong> Anonymized usage data may be shared with analytics services</li>
                         <li><strong>Crash Reporting:</strong> Technical crash data to improve app stability</li>
                         <li><strong>No Health Data:</strong> We never share your health data with third parties for marketing or commercial purposes</li>
+                           <li><strong>Firebase Analytics and Crashlytics:</strong> We use Firebase Analytics and Crashlytics to obtain anonymous usage metrics and crash reports. These services may process data globally, but never include personally identifiable information or health data.</li>
                     </ul>
                 </section>
 
                 <section class="legal-section">
                     <h2>Security Measures</h2>
                     <ul>
-                        <li><strong>End-to-End Encryption:</strong> All data transmissions are encrypted</li>
-                        <li><strong>Local Storage:</strong> Health data remains on your device</li>
-                        <li><strong>Secure Authentication:</strong> OAuth 2.0 and secure token management</li>
-                        <li><strong>Regular Audits:</strong> Security assessments and updates</li>
-                        <li><strong>No Persistent Storage:</strong> Session data is cleared after use</li>
+                        <li><strong>Local Processing:</strong> All health data processing happens on your device</li>
+                        <li><strong>No Cloud Storage:</strong> Health data never leaves your device or gets stored on our servers</li>
+                        <li><strong>Secure MCP Protocol:</strong> Industry-standard MCP (Model Context Protocol) for AI communication</li>
+                        <li><strong>Device-level Security:</strong> Relies on your device's built-in security (iOS/Android)</li>
+                        <li><strong>Encrypted Connections:</strong> All AI communications are encrypted in transit</li>
+                        <li><strong>No Persistent Sessions:</strong> Connection data is cleared after each session</li>
                     </ul>
                 </section>
 
@@ -127,6 +146,7 @@
                         <li><strong>Selective Sharing:</strong> Choose exactly what health data to share</li>
                         <li><strong>Revoke Access:</strong> Disconnect AI services at any time</li>
                         <li><strong>Export Data:</strong> Download your data in a portable format</li>
+                           <li><strong>Total Deletion:</strong> Since vytalLink does not store data on its own servers, simply uninstalling the app removes all information.</li>
                     </ul>
                 </section>
 
@@ -162,6 +182,7 @@
                         <li><strong>Email:</strong> <a href="mailto:vytallink@xmartlabs.com">vytallink@xmartlabs.com</a></li>
                         <li><strong>Support:</strong> <a href="/contact.html">Contact Support</a></li>
                         <li><strong>Xmartlabs:</strong> <a href="https://xmartlabs.com" target="_blank">https://xmartlabs.com</a></li>
+                           <li><strong>Privacy Questions:</strong> We do not have a formal DPO, but you can write to this email for any privacy-related questions.</li>
                     </ul>
                 </section>
 
@@ -194,16 +215,14 @@
                         <li><a href="/#features">How it Works</a></li>
                         <li><a href="/#integrations">AI Integrations</a></li>
                         <li><a href="/#demo">Demo Video</a></li>
-                        <li><a href="/api">Developer API</a></li>
                     </ul>
                 </div>
                 <div class="footer-section">
-                    <h4>Connect AI</h4>
+                    <h4>Setup Guides</h4>
                     <ul>
-                        <li><a href="https://chatgpt.com/gpts" target="_blank">ChatGPT GPTs</a></li>
-                        <li><a href="/mcp-setup.html">MCP Setup Guide</a></li>
-                        <li><a href="/api">Custom Integration</a></li>
-                        <li><a href="#">API Documentation</a></li>
+                        <li><a href="/chatgpt-setup.html">ChatGPT Setup</a></li>
+                        <li><a href="/mcp-setup.html">MCP Setup</a></li>
+                        <li><a href="#" onclick="openDownloadModal(); return false;">Download App</a></li>
                     </ul>
                 </div>
                 <div class="footer-section">
@@ -228,5 +247,6 @@
     </footer>
 
     <script src="/script.js"></script>
+    <script src="/common-modal.js"></script>
 </body>
 </html>
