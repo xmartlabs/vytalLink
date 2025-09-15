@@ -35,13 +35,13 @@ class HealthDataManager {
   Future<List<AggregatedHealthDataPoint>> _retrieveHealthData(
     HealthDataRequest request,
   ) async {
-    final HealthDataType valueType = request.valueType;
+    final VytalHealthDataCategory valueType = request.valueType;
     final DateTime startTime = request.startTime;
     final DateTime endTime = request.endTime;
     final StatisticType statisticType = request.statistic;
 
     _validateTimeRange(startTime, endTime);
-    await ensureHealthPermissions([valueType]);
+    await ensureHealthPermissions(valueType.platformHealthDataTypes);
 
     final List<HealthDataPoint> healthDataPoints =
         await _fetchHealthDataPoints(valueType, startTime, endTime);
@@ -82,19 +82,6 @@ class HealthDataManager {
     final now = DateTime.now();
     if (startTime.isAfter(now)) {
       throw ArgumentError('Start time cannot be in the future');
-    }
-  }
-
-  VytalHealthDataCategory parseHealthDataType(String valueTypeStr) {
-    try {
-      return VytalHealthDataCategory.values.firstWhere(
-        (type) => type.name == valueTypeStr,
-      );
-    } catch (e) {
-      throw HealthMcpServerException(
-        'Invalid health data type: $valueTypeStr',
-        e,
-      );
     }
   }
 
@@ -162,14 +149,14 @@ class HealthDataManager {
   }
 
   Future<List<HealthDataPoint>> _fetchHealthDataPoints(
-    HealthDataType valueType,
+    VytalHealthDataCategory valueType,
     DateTime startTime,
     DateTime endTime,
   ) async {
     final List<HealthDataPoint> result = [];
 
     final healthData = await _healthClient.getHealthDataFromTypes(
-      types: [valueType],
+      types: valueType.platformHealthDataTypes,
       startTime: startTime,
       endTime: endTime,
     );
