@@ -1,0 +1,41 @@
+/* Responsive Design for New Pages */
+@media (max-width: 768px) {
+    .content-grid,
+    .content-grid.reverse,
+    .community-content {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+    
+    .contact-grid,
+    .help-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .values-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .community-links {
+        justify-content: center;
+    }
+    
+    .about-hero h1,
+    .legal-hero h1,
+    .contact-hero h1 {
+        font-size: 2rem;
+    }
+    
+    .content-text h2,
+    .section-title,
+    .quick-help h2,
+    .community-text h2,
+    .form-content h2 {
+        font-size: 2rem;
+    }
+    
+    .legal-section h2 {
+        font-size: 1.5rem;
+    }
+}
+

@@ -1,0 +1,6 @@
+/* Navigation Active State */
+.nav-menu a.active {
+    color: var(--primary);
+    font-weight: 600;
+}
+
