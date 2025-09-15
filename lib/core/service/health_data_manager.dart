@@ -35,10 +35,10 @@ class HealthDataManager {
   Future<List<AggregatedHealthDataPoint>> _retrieveHealthData(
     HealthDataRequest request,
   ) async {
-    final HealthDataType valueType = request.parsedValueType;
-    final DateTime startTime = request.parsedStartTime;
-    final DateTime endTime = request.parsedEndTime;
-    final StatisticType statisticType = request.parsedStatisticType;
+    final HealthDataType valueType = request.valueType;
+    final DateTime startTime = request.startTime;
+    final DateTime endTime = request.endTime;
+    final StatisticType statisticType = request.statistic;
 
     _validateTimeRange(startTime, endTime);
     await ensureHealthPermissions([valueType]);
@@ -50,7 +50,7 @@ class HealthDataManager {
 
     final aggregatedData = _aggregateHealthData(
       formattedData,
-      request.parsedGroupBy,
+      request.groupBy,
       startTime,
       endTime,
     );
@@ -62,7 +62,7 @@ class HealthDataManager {
           aggregatedData: aggregatedData,
           startTime: startTime,
           endTime: endTime,
-          groupBy: request.parsedGroupBy,
+          groupBy: request.groupBy,
           statisticType: statisticType,
         );
         return _buildOverallAverageResponse(context);
@@ -228,8 +228,9 @@ class HealthDataManager {
     );
     final List<AggregatedHealthDataPoint> aggregatedData = [];
 
-    // Determine the temporal behavior for this data type
-    final healthDataType = _parseHealthDataTypeFromString(data.first.type);
+    final healthDataType = HealthDataType.values.firstWhere(
+      (type) => type.name == data.first.type,
+    );
     final temporalBehavior =
         HealthDataTemporalBehavior.forHealthDataType(healthDataType);
 
@@ -533,58 +534,11 @@ class HealthDataManager {
         success: true,
         count: healthData.length,
         healthData: healthData,
-        valueType: request.valueType,
-        startTime: request.startTime,
-        endTime: request.endTime,
-        groupBy: request.groupBy,
+        valueType: request.valueType.name,
+        startTime: request.startTime.toIso8601String(),
+        endTime: request.endTime.toIso8601String(),
+        groupBy: request.groupBy.name,
         isAggregated: true,
-        statisticType: request.statistic,
+        statisticType: request.statistic.name,
       );
-
-  HealthDataType _parseHealthDataTypeFromString(String valueTypeStr) {
-    switch (valueTypeStr.toUpperCase()) {
-      case 'HEART_RATE':
-        return HealthDataType.HEART_RATE;
-      case 'STEPS':
-        return HealthDataType.STEPS;
-      case 'WEIGHT':
-        return HealthDataType.WEIGHT;
-      case 'HEIGHT':
-        return HealthDataType.HEIGHT;
-      case 'ACTIVE_ENERGY_BURNED':
-        return HealthDataType.ACTIVE_ENERGY_BURNED;
-      case 'DISTANCE_DELTA':
-        return HealthDataType.DISTANCE_DELTA;
-      case 'BLOOD_PRESSURE_SYSTOLIC':
-        return HealthDataType.BLOOD_PRESSURE_SYSTOLIC;
-      case 'BLOOD_PRESSURE_DIASTOLIC':
-        return HealthDataType.BLOOD_PRESSURE_DIASTOLIC;
-      case 'BLOOD_GLUCOSE':
-        return HealthDataType.BLOOD_GLUCOSE;
-      case 'WATER':
-        return HealthDataType.WATER;
-      case 'SLEEP_SESSION':
-        return HealthDataType.SLEEP_SESSION;
-      case 'SLEEP_ASLEEP':
-        return HealthDataType.SLEEP_ASLEEP;
-      case 'SLEEP_AWAKE':
-        return HealthDataType.SLEEP_AWAKE;
-      case 'SLEEP_DEEP':
-        return HealthDataType.SLEEP_DEEP;
-      case 'SLEEP_LIGHT':
-        return HealthDataType.SLEEP_LIGHT;
-      case 'SLEEP_REM':
-        return HealthDataType.SLEEP_REM;
-      case 'WORKOUT':
-        return HealthDataType.WORKOUT;
-      case 'BODY_TEMPERATURE':
-        return HealthDataType.BODY_TEMPERATURE;
-      case 'FLIGHTS_CLIMBED':
-        return HealthDataType.FLIGHTS_CLIMBED;
-      case 'MINDFULNESS':
-        return HealthDataType.MINDFULNESS;
-      default:
-        return HealthDataType.STEPS; // Default fallback
-    }
-  }
 }

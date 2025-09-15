@@ -24,7 +24,7 @@ class HealthPermissionManager {
       await _healthClient.configure();
       _isInitialized = true;
     } catch (e) {
-      _isInitialized = true;
+      _isInitialized = false;
     }
   }
 
