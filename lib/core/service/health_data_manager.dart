@@ -38,7 +38,6 @@ class HealthDataManager {
     final VytalHealthDataCategory valueType = request.valueType;
     final DateTime startTime = request.startTime;
     final DateTime endTime = request.endTime;
-    final StatisticType statisticType = request.statistic;
 
     _validateTimeRange(startTime, endTime);
     await ensureHealthPermissions(valueType.platformHealthDataTypes);
@@ -48,29 +47,39 @@ class HealthDataManager {
 
     final formattedData = _formatHealthDataPoints(healthDataPoints);
 
-    final aggregatedData = _aggregateHealthData(
-      formattedData,
-      request.groupBy,
-      startTime,
-      endTime,
-    );
+    final groupBy = request.groupBy;
+    if (groupBy == null) {
 
-    switch (statisticType) {
-      case StatisticType.sum:
-        final context = HealthDataAggregationParameters(
-          formattedData: formattedData,
-          aggregatedData: aggregatedData,
-          startTime: startTime,
-          endTime: endTime,
-          groupBy: request.groupBy,
-          statisticType: statisticType,
-        );
-        return _buildOverallAverageResponse(context);
-      case StatisticType.average:
-        return _buildAggregatedStatisticsResponse(
-          aggregatedData,
-          statisticType,
-        );
+    } else {
+      final StatisticType? statisticType = request.statistic;
+      final aggregatedData = _aggregateHealthData(
+        formattedData,
+        groupBy,
+        startTime,
+        endTime,
+      );
+
+      switch (statisticType) {
+        case StatisticType.sum:
+          final context = HealthDataAggregationParameters(
+            formattedData: formattedData,
+            aggregatedData: aggregatedData,
+            startTime: startTime,
+            endTime: endTime,
+            groupBy: groupBy,
+            statisticType: statisticType!,
+          );
+          return _buildOverallAverageResponse(context);
+        case StatisticType.average:
+          return _buildAggregatedStatisticsResponse(
+            aggregatedData,
+            statisticType!,
+          );
+        case null:
+          throw ArgumentError(
+            'Statistic type must be provided when groupBy is specified',
+          );
+      }
     }
   }
 

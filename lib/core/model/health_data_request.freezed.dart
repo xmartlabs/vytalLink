@@ -25,8 +25,8 @@ mixin _$HealthDataRequest {
   DateTime get startTime => throw _privateConstructorUsedError;
   @JsonKey(name: 'endTime')
   DateTime get endTime => throw _privateConstructorUsedError;
-  TimeGroupBy get groupBy => throw _privateConstructorUsedError;
-  StatisticType get statistic => throw _privateConstructorUsedError;
+  TimeGroupBy? get groupBy => throw _privateConstructorUsedError;
+  StatisticType? get statistic => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -44,8 +44,8 @@ abstract class $HealthDataRequestCopyWith<$Res> {
       {VytalHealthDataCategory valueType,
       @JsonKey(name: 'startTime') DateTime startTime,
       @JsonKey(name: 'endTime') DateTime endTime,
-      TimeGroupBy groupBy,
-      StatisticType statistic});
+      TimeGroupBy? groupBy,
+      StatisticType? statistic});
 }
 
 /// @nodoc
@@ -64,8 +64,8 @@ class _$HealthDataRequestCopyWithImpl<$Res, $Val extends HealthDataRequest>
     Object? valueType = null,
     Object? startTime = null,
     Object? endTime = null,
-    Object? groupBy = null,
-    Object? statistic = null,
+    Object? groupBy = freezed,
+    Object? statistic = freezed,
   }) {
     return _then(_value.copyWith(
       valueType: null == valueType
@@ -80,14 +80,14 @@ class _$HealthDataRequestCopyWithImpl<$Res, $Val extends HealthDataRequest>
           ? _value.endTime
           : endTime // ignore: cast_nullable_to_non_nullable
               as DateTime,
-      groupBy: null == groupBy
+      groupBy: freezed == groupBy
           ? _value.groupBy
           : groupBy // ignore: cast_nullable_to_non_nullable
-              as TimeGroupBy,
-      statistic: null == statistic
+              as TimeGroupBy?,
+      statistic: freezed == statistic
           ? _value.statistic
           : statistic // ignore: cast_nullable_to_non_nullable
-              as StatisticType,
+              as StatisticType?,
     ) as $Val);
   }
 }
@@ -104,8 +104,8 @@ abstract class _$$HealthDataRequestImplCopyWith<$Res>
       {VytalHealthDataCategory valueType,
       @JsonKey(name: 'startTime') DateTime startTime,
       @JsonKey(name: 'endTime') DateTime endTime,
-      TimeGroupBy groupBy,
-      StatisticType statistic});
+      TimeGroupBy? groupBy,
+      StatisticType? statistic});
 }
 
 /// @nodoc
@@ -122,8 +122,8 @@ class __$$HealthDataRequestImplCopyWithImpl<$Res>
     Object? valueType = null,
     Object? startTime = null,
     Object? endTime = null,
-    Object? groupBy = null,
-    Object? statistic = null,
+    Object? groupBy = freezed,
+    Object? statistic = freezed,
   }) {
     return _then(_$HealthDataRequestImpl(
       valueType: null == valueType
@@ -138,14 +138,14 @@ class __$$HealthDataRequestImplCopyWithImpl<$Res>
           ? _value.endTime
           : endTime // ignore: cast_nullable_to_non_nullable
               as DateTime,
-      groupBy: null == groupBy
+      groupBy: freezed == groupBy
           ? _value.groupBy
           : groupBy // ignore: cast_nullable_to_non_nullable
-              as TimeGroupBy,
-      statistic: null == statistic
+              as TimeGroupBy?,
+      statistic: freezed == statistic
           ? _value.statistic
           : statistic // ignore: cast_nullable_to_non_nullable
-              as StatisticType,
+              as StatisticType?,
     ));
   }
 }
@@ -157,8 +157,8 @@ class _$HealthDataRequestImpl implements _HealthDataRequest {
       {required this.valueType,
       @JsonKey(name: 'startTime') required this.startTime,
       @JsonKey(name: 'endTime') required this.endTime,
-      required this.groupBy,
-      required this.statistic});
+      this.groupBy,
+      this.statistic});
 
   factory _$HealthDataRequestImpl.fromJson(Map<String, dynamic> json) =>
       _$$HealthDataRequestImplFromJson(json);
@@ -172,9 +172,9 @@ class _$HealthDataRequestImpl implements _HealthDataRequest {
   @JsonKey(name: 'endTime')
   final DateTime endTime;
   @override
-  final TimeGroupBy groupBy;
+  final TimeGroupBy? groupBy;
   @override
-  final StatisticType statistic;
+  final StatisticType? statistic;
 
   @override
   String toString() {
@@ -221,8 +221,8 @@ abstract class _HealthDataRequest implements HealthDataRequest {
       {required final VytalHealthDataCategory valueType,
       @JsonKey(name: 'startTime') required final DateTime startTime,
       @JsonKey(name: 'endTime') required final DateTime endTime,
-      required final TimeGroupBy groupBy,
-      required final StatisticType statistic}) = _$HealthDataRequestImpl;
+      final TimeGroupBy? groupBy,
+      final StatisticType? statistic}) = _$HealthDataRequestImpl;
 
   factory _HealthDataRequest.fromJson(Map<String, dynamic> json) =
       _$HealthDataRequestImpl.fromJson;
@@ -236,9 +236,9 @@ abstract class _HealthDataRequest implements HealthDataRequest {
   @JsonKey(name: 'endTime')
   DateTime get endTime;
   @override
-  TimeGroupBy get groupBy;
+  TimeGroupBy? get groupBy;
   @override
-  StatisticType get statistic;
+  StatisticType? get statistic;
   @override
   @JsonKey(ignore: true)
   _$$HealthDataRequestImplCopyWith<_$HealthDataRequestImpl> get copyWith =>
