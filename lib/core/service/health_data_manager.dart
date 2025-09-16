@@ -9,6 +9,7 @@ import 'package:flutter_template/core/model/health_data_temporal_behavior.dart';
 import 'package:flutter_template/core/model/statistic_types.dart';
 import 'package:flutter_template/core/model/time_group_by.dart';
 import 'package:flutter_template/core/source/mcp_server.dart';
+import 'package:flutter_template/model/health_data_unit.dart';
 import 'package:flutter_template/model/vytal_health_data_category.dart';
 import 'package:health/health.dart';
 
@@ -53,7 +54,7 @@ class HealthDataManager {
       );
 
       switch (statisticType) {
-        case StatisticType.sum:
+        case StatisticType.average:
           final context = HealthDataAggregationParameters(
             formattedData: dataPoints,
             aggregatedData: aggregatedData,
@@ -63,7 +64,7 @@ class HealthDataManager {
             statisticType: statisticType!,
           );
           return _buildOverallAverageResponse(context);
-        case StatisticType.average:
+        case StatisticType.sum:
           return _buildAggregatedStatisticsResponse(
             aggregatedData,
             statisticType!,
@@ -251,22 +252,24 @@ class HealthDataManager {
         temporalBehavior,
       );
 
-      aggregatedData.add(
-        AggregatedHealthDataPoint(
-          type: data.first.type,
-          value: aggregatedValue,
-          unit: data.first.unit,
-          dateFrom: segmentStart.toIso8601String(),
-          dateTo: segmentEnd.toIso8601String(),
-        ),
-      );
+      for (final entry in aggregatedValue.entries) {
+        aggregatedData.add(
+          AggregatedHealthDataPoint(
+            type: entry.key.name,
+            value: entry.value,
+            unit: entry.key.unit.name,
+            dateFrom: segmentStart.toIso8601String(),
+            dateTo: segmentEnd.toIso8601String(),
+          ),
+        );
+      }
     }
 
     return aggregatedData;
   }
 
   /// Aggregate data for a specific time segment based on temporal behavior
-  double _aggregateDataForSegment(
+  Map<HealthDataType, double> _aggregateDataForSegment(
     List<AppHealthDataPoint> data,
     DateTime segmentStart,
     DateTime segmentEnd,
@@ -287,7 +290,7 @@ class HealthDataManager {
     }
   }
 
-  double _aggregateInstantaneousData(
+  Map<HealthDataType, double> _aggregateInstantaneousData(
     List<AppHealthDataPoint> data,
     DateTime segmentStart,
     DateTime segmentEnd,
@@ -302,46 +305,59 @@ class HealthDataManager {
     return _aggregateValues(filteredData);
   }
 
-  double _aggregateCumulativeData(
+  Map<HealthDataType, double> _aggregateCumulativeData(
     List<AppHealthDataPoint> data,
     DateTime segmentStart,
     DateTime segmentEnd,
   ) {
-    double totalValue = 0.0;
+    final Map<HealthDataType, double> totalValue = {};
 
-    for (final point in data) {
-      final DateTime pointStart = DateTime.parse(point.dateFrom);
-      final DateTime pointEnd = DateTime.parse(point.dateTo);
+    final dataByType = data.groupBy((point) =>
+        HealthDataType.values.firstWhere((type) => type.name == point.type));
 
-      final DateTime overlapStart = _maxDateTime(pointStart, segmentStart);
-      final DateTime overlapEnd = _minDateTime(pointEnd, segmentEnd);
+    for (final type in dataByType.keys) {
+      for (final point in dataByType[type]!) {
+        final DateTime pointStart = DateTime.parse(point.dateFrom);
+        final DateTime pointEnd = DateTime.parse(point.dateTo);
 
-      if (overlapStart.isBefore(overlapEnd)) {
-        // Calculate the proportion of the data point within this segment
-        final Duration pointDuration = pointEnd.difference(pointStart);
-        final Duration overlapDuration = overlapEnd.difference(overlapStart);
+        final DateTime overlapStart = _maxDateTime(pointStart, segmentStart);
+        final DateTime overlapEnd = _minDateTime(pointEnd, segmentEnd);
 
-        if (pointDuration.inMilliseconds > 0) {
-          final double proportion =
-              overlapDuration.inMilliseconds / pointDuration.inMilliseconds;
-          final double pointValue =
-              double.tryParse(point.value.toString()) ?? 0.0;
-          totalValue += pointValue * proportion;
+        if (overlapStart.isBefore(overlapEnd)) {
+          // Calculate the proportion of the data point within this segment
+          final Duration pointDuration = pointEnd.difference(pointStart);
+          final Duration overlapDuration = overlapEnd.difference(overlapStart);
+
+          if (pointDuration.inMilliseconds > 0) {
+            final double proportion =
+                overlapDuration.inMilliseconds / pointDuration.inMilliseconds;
+            final double pointValue =
+                double.tryParse(point.value.toString()) ?? 0.0;
+            totalValue[type] =
+                (totalValue[type] ?? 0.0) + pointValue * proportion;
+          }
         }
       }
     }
 
     return totalValue;
   }
+}
 
-  double _aggregateSessionalData(
-    List<AppHealthDataPoint> data,
-    DateTime segmentStart,
-    DateTime segmentEnd,
-  ) {
-    double totalValue = 0.0;
+Map<HealthDataType, double> _aggregateSessionalData(
+  List<AppHealthDataPoint> data,
+  DateTime segmentStart,
+  DateTime segmentEnd,
+) {
+  final Map<HealthDataType, double> totalValue = {};
 
-    for (final point in data) {
+  final dataByType = data.groupBy(
+    (point) =>
+        HealthDataType.values.firstWhere((type) => type.name == point.type),
+  );
+
+  for (final type in dataByType.keys) {
+    for (final point in dataByType[type]!) {
       final DateTime pointStart = DateTime.parse(point.dateFrom);
       final DateTime pointEnd = DateTime.parse(point.dateTo);
 
@@ -358,22 +374,27 @@ class HealthDataManager {
                 sessionDuration.inMilliseconds / 2) {
           final double pointValue =
               double.tryParse(point.value.toString()) ?? 0.0;
-          totalValue += pointValue;
+          totalValue[type] = (totalValue[type] ?? 0.0) + pointValue;
         }
       }
     }
-
-    return totalValue;
   }
 
-  double _aggregateDurationalData(
-    List<AppHealthDataPoint> data,
-    DateTime segmentStart,
-    DateTime segmentEnd,
-  ) {
-    double totalDuration = 0.0;
+  return totalValue;
+}
 
-    for (final point in data) {
+Map<HealthDataType, double> _aggregateDurationalData(
+  List<AppHealthDataPoint> data,
+  DateTime segmentStart,
+  DateTime segmentEnd,
+) {
+  final Map<HealthDataType, double> totalDuration = {};
+
+  final dataByType = data.groupBy((point) =>
+      HealthDataType.values.firstWhere((type) => type.name == point.type));
+
+  for (final type in dataByType.keys) {
+    for (final point in dataByType[type]!) {
       final DateTime pointStart = DateTime.parse(point.dateFrom);
       final DateTime pointEnd = DateTime.parse(point.dateTo);
 
@@ -385,169 +406,188 @@ class HealthDataManager {
           (pointEnd.isBefore(segmentEnd) ||
               pointEnd.isAtSameMomentAs(segmentEnd))) {
         final Duration sessionDuration = pointEnd.difference(pointStart);
-        totalDuration += sessionDuration.inMinutes.toDouble();
+        totalDuration[type] =
+            (totalDuration[type] ?? 0.0) + sessionDuration.inMinutes.toDouble();
       }
     }
-
-    return totalDuration;
   }
 
-  /// Utility: Get the maximum of two DateTimes
-  DateTime _maxDateTime(DateTime a, DateTime b) => a.isAfter(b) ? a : b;
+  return totalDuration;
+}
 
-  /// Utility: Get the minimum of two DateTimes
-  DateTime _minDateTime(DateTime a, DateTime b) => a.isBefore(b) ? a : b;
+/// Utility: Get the maximum of two DateTimes
+DateTime _maxDateTime(DateTime a, DateTime b) => a.isAfter(b) ? a : b;
 
-  List<DateTime> _generateTimeSegments(
-    DateTime startTime,
-    DateTime endTime,
-    TimeGroupBy groupBy,
-  ) {
-    final List<DateTime> segments = [];
-    DateTime current = _alignToGroupBy(startTime, groupBy);
+/// Utility: Get the minimum of two DateTimes
+DateTime _minDateTime(DateTime a, DateTime b) => a.isBefore(b) ? a : b;
 
-    while (current.isBefore(endTime)) {
-      segments.add(current);
-      current = _getNextSegment(current, groupBy);
-    }
+List<DateTime> _generateTimeSegments(
+  DateTime startTime,
+  DateTime endTime,
+  TimeGroupBy groupBy,
+) {
+  final List<DateTime> segments = [];
+  DateTime current = _alignToGroupBy(startTime, groupBy);
 
-    if (segments.isEmpty || segments.last.isBefore(endTime)) {
-      segments.add(endTime);
-    }
-
-    return segments;
+  while (current.isBefore(endTime)) {
+    segments.add(current);
+    current = _getNextSegment(current, groupBy);
   }
 
-  DateTime _alignToGroupBy(DateTime dateTime, TimeGroupBy groupBy) {
-    switch (groupBy) {
-      case TimeGroupBy.hour:
-        return DateTime(
-          dateTime.year,
-          dateTime.month,
-          dateTime.day,
-          dateTime.hour,
-        );
-      case TimeGroupBy.day:
-        return DateTime(dateTime.year, dateTime.month, dateTime.day);
-      case TimeGroupBy.week:
-        final int daysToSubtract = dateTime.weekday - 1;
-        return DateTime(
-          dateTime.year,
-          dateTime.month,
-          dateTime.day - daysToSubtract,
-        );
-      case TimeGroupBy.month:
-        return DateTime(dateTime.year, dateTime.month);
-    }
+  if (segments.isEmpty || segments.last.isBefore(endTime)) {
+    segments.add(endTime);
   }
 
-  DateTime _getNextSegment(DateTime current, TimeGroupBy groupBy) {
-    switch (groupBy) {
-      case TimeGroupBy.hour:
-        return current.add(const Duration(hours: 1));
-      case TimeGroupBy.day:
-        return current.add(const Duration(days: 1));
-      case TimeGroupBy.week:
-        return current.add(const Duration(days: 7));
-      case TimeGroupBy.month:
-        return DateTime(current.year, current.month + 1);
-    }
+  return segments;
+}
+
+DateTime _alignToGroupBy(DateTime dateTime, TimeGroupBy groupBy) {
+  switch (groupBy) {
+    case TimeGroupBy.hour:
+      return DateTime(
+        dateTime.year,
+        dateTime.month,
+        dateTime.day,
+        dateTime.hour,
+      );
+    case TimeGroupBy.day:
+      return DateTime(dateTime.year, dateTime.month, dateTime.day);
+    case TimeGroupBy.week:
+      final int daysToSubtract = dateTime.weekday - 1;
+      return DateTime(
+        dateTime.year,
+        dateTime.month,
+        dateTime.day - daysToSubtract,
+      );
+    case TimeGroupBy.month:
+      return DateTime(dateTime.year, dateTime.month);
+  }
+}
+
+DateTime _getNextSegment(DateTime current, TimeGroupBy groupBy) {
+  switch (groupBy) {
+    case TimeGroupBy.hour:
+      return current.add(const Duration(hours: 1));
+    case TimeGroupBy.day:
+      return current.add(const Duration(days: 1));
+    case TimeGroupBy.week:
+      return current.add(const Duration(days: 7));
+    case TimeGroupBy.month:
+      return DateTime(current.year, current.month + 1);
+  }
+}
+
+Map<HealthDataType, double> _aggregateValues(
+    List<AppHealthDataPoint> dataPoints) {
+  if (dataPoints.isEmpty) return {};
+
+  final Map<HealthDataType, List<AppHealthDataPoint>> groupedByType = {};
+  for (final point in dataPoints) {
+    groupedByType
+        .putIfAbsent(
+          HealthDataType.values.firstWhere((type) => type.name == point.type),
+          () => [],
+        )
+        .add(point);
   }
 
-  double _aggregateValues(List<AppHealthDataPoint> dataPoints) {
-    if (dataPoints.isEmpty) return 0;
+  final Map<HealthDataType, double> result = {};
 
-    final String dataType = dataPoints.first.type;
+  for (final entry in groupedByType.entries) {
+    final HealthDataType dataType = entry.key;
+    final List<AppHealthDataPoint> typeDataPoints = entry.value;
+
     double total = 0;
-
-    for (final point in dataPoints) {
+    for (final point in typeDataPoints) {
       final dynamic value = point.value;
       if (value is num) {
         total += value.toDouble();
       }
     }
 
-    if (!_isCumulativeDataType(dataType) && dataPoints.isNotEmpty) {
-      return total / dataPoints.length;
+    if (!_isCumulativeDataType(dataType) && typeDataPoints.isNotEmpty) {
+      result[dataType] = total / typeDataPoints.length;
+    } else {
+      result[dataType] = total;
     }
-
-    return total;
   }
 
-  bool _isCumulativeDataType(String dataType) {
-    const cumulativeTypes = {
-      'STEPS',
-      'DISTANCE_DELTA',
-      'ACTIVE_ENERGY_BURNED',
-      'BASAL_ENERGY_BURNED',
-      'WORKOUT',
-      'WATER',
-      'SLEEP_SESSION',
-      'SLEEP_ASLEEP',
-      'SLEEP_AWAKE',
-      'SLEEP_DEEP',
-      'SLEEP_LIGHT',
-      'SLEEP_REM',
-    };
+  return result;
+}
 
-    return cumulativeTypes.contains(dataType.toUpperCase());
+bool _isCumulativeDataType(HealthDataType dataType) {
+  const cumulativeTypes = {
+    'STEPS',
+    'DISTANCE_DELTA',
+    'ACTIVE_ENERGY_BURNED',
+    'BASAL_ENERGY_BURNED',
+    'WORKOUT',
+    'WATER',
+    'SLEEP_SESSION',
+    'SLEEP_ASLEEP',
+    'SLEEP_AWAKE',
+    'SLEEP_DEEP',
+    'SLEEP_LIGHT',
+    'SLEEP_REM',
+  };
+
+  return cumulativeTypes.contains(dataType.name);
+}
+
+List<AggregatedHealthDataPoint> _buildOverallAverageResponse(
+  HealthDataAggregationParameters aggregationParameters,
+) {
+  double totalValue = 0;
+  int totalDataPoints = 0;
+
+  for (final dataPoint in aggregationParameters.aggregatedData) {
+    final value = dataPoint.value;
+    const dataPointCount = 1;
+
+    totalValue += value;
+    totalDataPoints += dataPointCount;
   }
 
-  List<AggregatedHealthDataPoint> _buildOverallAverageResponse(
-    HealthDataAggregationParameters aggregationParameters,
-  ) {
-    double totalValue = 0;
-    int totalDataPoints = 0;
+  final overallAverage = totalDataPoints > 0
+      ? totalValue / aggregationParameters.aggregatedData.length
+      : 0.0;
 
-    for (final dataPoint in aggregationParameters.aggregatedData) {
-      final value = dataPoint.value;
-      const dataPointCount = 1;
+  return [
+    AggregatedHealthDataPoint(
+      type: aggregationParameters.formattedData.isNotEmpty
+          ? aggregationParameters.formattedData.first.type
+          : 'UNKNOWN',
+      value: overallAverage,
+      unit: aggregationParameters.formattedData.isNotEmpty
+          ? aggregationParameters.formattedData.first.unit
+          : 'NO_UNIT',
+      dateFrom: aggregationParameters.startTime.toIso8601String(),
+      dateTo: aggregationParameters.endTime.toIso8601String(),
+    ),
+  ];
+}
 
-      totalValue += value;
-      totalDataPoints += dataPointCount;
-    }
+List<AggregatedHealthDataPoint> _buildAggregatedStatisticsResponse(
+  List<AggregatedHealthDataPoint> aggregatedData,
+  StatisticType statisticType,
+) =>
+    aggregatedData;
 
-    final overallAverage = totalDataPoints > 0
-        ? totalValue / aggregationParameters.aggregatedData.length
-        : 0.0;
-
-    return [
-      AggregatedHealthDataPoint(
-        type: aggregationParameters.formattedData.isNotEmpty
-            ? aggregationParameters.formattedData.first.type
-            : 'UNKNOWN',
-        value: overallAverage,
-        unit: aggregationParameters.formattedData.isNotEmpty
-            ? aggregationParameters.formattedData.first.unit
-            : 'NO_UNIT',
-        dateFrom: aggregationParameters.startTime.toIso8601String(),
-        dateTo: aggregationParameters.endTime.toIso8601String(),
-      ),
-    ];
-  }
-
-  List<AggregatedHealthDataPoint> _buildAggregatedStatisticsResponse(
-    List<AggregatedHealthDataPoint> aggregatedData,
-    StatisticType statisticType,
-  ) =>
-      aggregatedData;
-
-  HealthDataResponse _createSuccessResponse(
-    List<AppHealthDataPoint> healthData,
-    HealthDataRequest request,
-  ) {
-    final isAggregated =
-        healthData.all((point) => point is AggregatedHealthDataPoint);
-    return HealthDataResponse(
-      success: true,
-      count: healthData.length,
-      healthData: healthData,
-      valueType: request.valueType.name,
-      startTime: request.startTime.toIso8601String(),
-      endTime: request.endTime.toIso8601String(),
-      groupBy: isAggregated ? request.groupBy?.name : null,
-      isAggregated: isAggregated,
-      statisticType: isAggregated ? request.statistic?.name : null,
-    );
-  }
+HealthDataResponse _createSuccessResponse(
+  List<AppHealthDataPoint> healthData,
+  HealthDataRequest request,
+) {
+  final isAggregated =
+      healthData.all((point) => point is AggregatedHealthDataPoint);
+  return HealthDataResponse(
+    success: true,
+    count: healthData.length,
+    healthData: healthData,
+    valueType: request.valueType.name,
+    startTime: request.startTime.toIso8601String(),
+    endTime: request.endTime.toIso8601String(),
+    groupBy: isAggregated ? request.groupBy?.name : null,
+    isAggregated: isAggregated,
+    statisticType: isAggregated ? request.statistic?.name : null,
+  );
 }
