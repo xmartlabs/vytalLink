@@ -105,14 +105,6 @@ class HealthDataManager {
     }
   }
 
-  void validateTimeRange(DateTime startTime, DateTime endTime) {
-    if (startTime.isAfter(endTime)) {
-      throw const HealthMcpServerException(
-        'Start time must be before end time',
-      );
-    }
-  }
-
   Future<void> checkHealthConnectAvailability() async {
     final isAvailable = await _healthClient.isHealthConnectAvailable();
 

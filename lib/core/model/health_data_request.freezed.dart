@@ -21,9 +21,7 @@ HealthDataRequest _$HealthDataRequestFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$HealthDataRequest {
   VytalHealthDataCategory get valueType => throw _privateConstructorUsedError;
-  @JsonKey(name: 'startTime')
   DateTime get startTime => throw _privateConstructorUsedError;
-  @JsonKey(name: 'endTime')
   DateTime get endTime => throw _privateConstructorUsedError;
   TimeGroupBy? get groupBy => throw _privateConstructorUsedError;
   StatisticType? get statistic => throw _privateConstructorUsedError;
@@ -42,8 +40,8 @@ abstract class $HealthDataRequestCopyWith<$Res> {
   @useResult
   $Res call(
       {VytalHealthDataCategory valueType,
-      @JsonKey(name: 'startTime') DateTime startTime,
-      @JsonKey(name: 'endTime') DateTime endTime,
+      DateTime startTime,
+      DateTime endTime,
       TimeGroupBy? groupBy,
       StatisticType? statistic});
 }
@@ -102,8 +100,8 @@ abstract class _$$HealthDataRequestImplCopyWith<$Res>
   @useResult
   $Res call(
       {VytalHealthDataCategory valueType,
-      @JsonKey(name: 'startTime') DateTime startTime,
-      @JsonKey(name: 'endTime') DateTime endTime,
+      DateTime startTime,
+      DateTime endTime,
       TimeGroupBy? groupBy,
       StatisticType? statistic});
 }
@@ -155,8 +153,8 @@ class __$$HealthDataRequestImplCopyWithImpl<$Res>
 class _$HealthDataRequestImpl implements _HealthDataRequest {
   const _$HealthDataRequestImpl(
       {required this.valueType,
-      @JsonKey(name: 'startTime') required this.startTime,
-      @JsonKey(name: 'endTime') required this.endTime,
+      required this.startTime,
+      required this.endTime,
       this.groupBy,
       this.statistic});
 
@@ -166,10 +164,8 @@ class _$HealthDataRequestImpl implements _HealthDataRequest {
   @override
   final VytalHealthDataCategory valueType;
   @override
-  @JsonKey(name: 'startTime')
   final DateTime startTime;
   @override
-  @JsonKey(name: 'endTime')
   final DateTime endTime;
   @override
   final TimeGroupBy? groupBy;
@@ -219,8 +215,8 @@ class _$HealthDataRequestImpl implements _HealthDataRequest {
 abstract class _HealthDataRequest implements HealthDataRequest {
   const factory _HealthDataRequest(
       {required final VytalHealthDataCategory valueType,
-      @JsonKey(name: 'startTime') required final DateTime startTime,
-      @JsonKey(name: 'endTime') required final DateTime endTime,
+      required final DateTime startTime,
+      required final DateTime endTime,
       final TimeGroupBy? groupBy,
       final StatisticType? statistic}) = _$HealthDataRequestImpl;
 
@@ -230,10 +226,8 @@ abstract class _HealthDataRequest implements HealthDataRequest {
   @override
   VytalHealthDataCategory get valueType;
   @override
-  @JsonKey(name: 'startTime')
   DateTime get startTime;
   @override
-  @JsonKey(name: 'endTime')
   DateTime get endTime;
   @override
   TimeGroupBy? get groupBy;

@@ -10,8 +10,8 @@ part 'health_data_request.g.dart';
 class HealthDataRequest with _$HealthDataRequest {
   const factory HealthDataRequest({
     required VytalHealthDataCategory valueType,
-    @JsonKey(name: 'startTime') required DateTime startTime,
-    @JsonKey(name: 'endTime') required DateTime endTime,
+    required DateTime startTime,
+    required DateTime endTime,
     TimeGroupBy? groupBy,
     StatisticType? statistic,
   }) = _HealthDataRequest;

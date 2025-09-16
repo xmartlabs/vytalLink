@@ -11,8 +11,8 @@ _$HealthDataRequestImpl _$$HealthDataRequestImplFromJson(
     _$HealthDataRequestImpl(
       valueType:
           $enumDecode(_$VytalHealthDataCategoryEnumMap, json['value_type']),
-      startTime: DateTime.parse(json['startTime'] as String),
-      endTime: DateTime.parse(json['endTime'] as String),
+      startTime: DateTime.parse(json['start_time'] as String),
+      endTime: DateTime.parse(json['end_time'] as String),
       groupBy: $enumDecodeNullable(_$TimeGroupByEnumMap, json['group_by']),
       statistic: $enumDecodeNullable(_$StatisticTypeEnumMap, json['statistic']),
     );
@@ -21,8 +21,8 @@ Map<String, dynamic> _$$HealthDataRequestImplToJson(
         _$HealthDataRequestImpl instance) =>
     <String, dynamic>{
       'value_type': _$VytalHealthDataCategoryEnumMap[instance.valueType]!,
-      'startTime': instance.startTime.toIso8601String(),
-      'endTime': instance.endTime.toIso8601String(),
+      'start_time': instance.startTime.toIso8601String(),
+      'end_time': instance.endTime.toIso8601String(),
       'group_by': _$TimeGroupByEnumMap[instance.groupBy],
       'statistic': _$StatisticTypeEnumMap[instance.statistic],
     };

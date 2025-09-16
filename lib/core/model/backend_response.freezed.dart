@@ -30,12 +30,12 @@ BackendResponse _$BackendResponseFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$BackendResponse {
   String? get id => throw _privateConstructorUsedError;
-  @JsonKey(name: 'healthData')
+  @JsonKey(name: 'health_data')
   Map<String, dynamic>? get data => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(
-            String id, @JsonKey(name: 'healthData') Map<String, dynamic> data)
+            String id, @JsonKey(name: 'health_data') Map<String, dynamic> data)
         healthDataResponse,
     required TResult Function(String? id, Map<String, dynamic>? data) generic,
   }) =>
@@ -43,7 +43,7 @@ mixin _$BackendResponse {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(
-            String id, @JsonKey(name: 'healthData') Map<String, dynamic> data)?
+            String id, @JsonKey(name: 'health_data') Map<String, dynamic> data)?
         healthDataResponse,
     TResult? Function(String? id, Map<String, dynamic>? data)? generic,
   }) =>
@@ -51,7 +51,7 @@ mixin _$BackendResponse {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(
-            String id, @JsonKey(name: 'healthData') Map<String, dynamic> data)?
+            String id, @JsonKey(name: 'health_data') Map<String, dynamic> data)?
         healthDataResponse,
     TResult Function(String? id, Map<String, dynamic>? data)? generic,
     required TResult orElse(),
@@ -90,7 +90,7 @@ abstract class $BackendResponseCopyWith<$Res> {
       _$BackendResponseCopyWithImpl<$Res, BackendResponse>;
   @useResult
   $Res call(
-      {String id, @JsonKey(name: 'healthData') Map<String, dynamic> data});
+      {String id, @JsonKey(name: 'health_data') Map<String, dynamic> data});
 }
 
 /// @nodoc
@@ -132,7 +132,7 @@ abstract class _$$HealthDataBackendResponseImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {String id, @JsonKey(name: 'healthData') Map<String, dynamic> data});
+      {String id, @JsonKey(name: 'health_data') Map<String, dynamic> data});
 }
 
 /// @nodoc
@@ -168,7 +168,7 @@ class __$$HealthDataBackendResponseImplCopyWithImpl<$Res>
 class _$HealthDataBackendResponseImpl implements HealthDataBackendResponse {
   const _$HealthDataBackendResponseImpl(
       {required this.id,
-      @JsonKey(name: 'healthData') required final Map<String, dynamic> data,
+      @JsonKey(name: 'health_data') required final Map<String, dynamic> data,
       final String? $type})
       : _data = data,
         $type = $type ?? 'health_data_response';
@@ -180,7 +180,7 @@ class _$HealthDataBackendResponseImpl implements HealthDataBackendResponse {
   final String id;
   final Map<String, dynamic> _data;
   @override
-  @JsonKey(name: 'healthData')
+  @JsonKey(name: 'health_data')
   Map<String, dynamic> get data {
     if (_data is EqualUnmodifiableMapView) return _data;
     // ignore: implicit_dynamic_type
@@ -220,7 +220,7 @@ class _$HealthDataBackendResponseImpl implements HealthDataBackendResponse {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(
-            String id, @JsonKey(name: 'healthData') Map<String, dynamic> data)
+            String id, @JsonKey(name: 'health_data') Map<String, dynamic> data)
         healthDataResponse,
     required TResult Function(String? id, Map<String, dynamic>? data) generic,
   }) {
@@ -231,7 +231,7 @@ class _$HealthDataBackendResponseImpl implements HealthDataBackendResponse {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(
-            String id, @JsonKey(name: 'healthData') Map<String, dynamic> data)?
+            String id, @JsonKey(name: 'health_data') Map<String, dynamic> data)?
         healthDataResponse,
     TResult? Function(String? id, Map<String, dynamic>? data)? generic,
   }) {
@@ -242,7 +242,7 @@ class _$HealthDataBackendResponseImpl implements HealthDataBackendResponse {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(
-            String id, @JsonKey(name: 'healthData') Map<String, dynamic> data)?
+            String id, @JsonKey(name: 'health_data') Map<String, dynamic> data)?
         healthDataResponse,
     TResult Function(String? id, Map<String, dynamic>? data)? generic,
     required TResult orElse(),
@@ -296,7 +296,7 @@ class _$HealthDataBackendResponseImpl implements HealthDataBackendResponse {
 abstract class HealthDataBackendResponse implements BackendResponse {
   const factory HealthDataBackendResponse(
           {required final String id,
-          @JsonKey(name: 'healthData')
+          @JsonKey(name: 'health_data')
           required final Map<String, dynamic> data}) =
       _$HealthDataBackendResponseImpl;
 
@@ -306,7 +306,7 @@ abstract class HealthDataBackendResponse implements BackendResponse {
   @override
   String get id;
   @override
-  @JsonKey(name: 'healthData')
+  @JsonKey(name: 'health_data')
   Map<String, dynamic> get data;
   @override
   @JsonKey(ignore: true)
@@ -410,7 +410,7 @@ class _$GenericBackendResponseImpl implements GenericBackendResponse {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(
-            String id, @JsonKey(name: 'healthData') Map<String, dynamic> data)
+            String id, @JsonKey(name: 'health_data') Map<String, dynamic> data)
         healthDataResponse,
     required TResult Function(String? id, Map<String, dynamic>? data) generic,
   }) {
@@ -421,7 +421,7 @@ class _$GenericBackendResponseImpl implements GenericBackendResponse {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(
-            String id, @JsonKey(name: 'healthData') Map<String, dynamic> data)?
+            String id, @JsonKey(name: 'health_data') Map<String, dynamic> data)?
         healthDataResponse,
     TResult? Function(String? id, Map<String, dynamic>? data)? generic,
   }) {
@@ -432,7 +432,7 @@ class _$GenericBackendResponseImpl implements GenericBackendResponse {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(
-            String id, @JsonKey(name: 'healthData') Map<String, dynamic> data)?
+            String id, @JsonKey(name: 'health_data') Map<String, dynamic> data)?
         healthDataResponse,
     TResult Function(String? id, Map<String, dynamic>? data)? generic,
     required TResult orElse(),

@@ -10,7 +10,7 @@ _$HealthDataBackendResponseImpl _$$HealthDataBackendResponseImplFromJson(
         Map<String, dynamic> json) =>
     _$HealthDataBackendResponseImpl(
       id: json['id'] as String,
-      data: json['healthData'] as Map<String, dynamic>,
+      data: json['health_data'] as Map<String, dynamic>,
       $type: json['type'] as String?,
     );
 
@@ -18,7 +18,7 @@ Map<String, dynamic> _$$HealthDataBackendResponseImplToJson(
         _$HealthDataBackendResponseImpl instance) =>
     <String, dynamic>{
       'id': instance.id,
-      'healthData': instance.data,
+      'health_data': instance.data,
       'type': instance.$type,
     };
 
