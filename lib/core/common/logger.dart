@@ -1,3 +1,5 @@
+import 'dart:developer' as developer;
+
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_template/core/common/config.dart';
@@ -13,7 +15,7 @@ interface class Logger {
   static final dart_log.Logger _instance = dart_log.Logger(
     printer: _CrashReportWrappedPrinter(PrettyPrinter(), _crashReportTool),
     filter: _DisplayAllLogFilter(),
-    output: MultiOutput([ConsoleOutput()]),
+    output: MultiOutput([MyConsoleOutput()]),
   );
 
   static Future init() async {
@@ -123,5 +125,12 @@ class _PrintableTrace extends Trace {
       final column = frame.column ?? 0;
       return '$number$member (${frame.uri}:$line:$column)\n';
     }).join();
+  }
+}
+
+class MyConsoleOutput extends ConsoleOutput {
+  @override
+  void output(OutputEvent event) {
+    event.lines.forEach(developer.log);
   }
 }

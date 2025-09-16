@@ -254,19 +254,29 @@ async function handleToolsCall(request) {
   }
   
   try {
-    const result = await callBackendTool(name, args, headers);
-    
+    // Prefer direct token flow when possible
+    let effectiveName = name;
+    if (name === "oauth_login") {
+      // If the client asked for oauth_login, try the streamlined direct_login instead
+      if (args && args.word && args.code) {
+        console.error("Redirecting oauth_login to direct_login for streamlined auth");
+        effectiveName = "direct_login";
+      }
+    }
+
+    const result = await callBackendTool(effectiveName, args, headers);
+
     // Handle oauth_login success - automatically call oauth_authorize
-    if (name === "oauth_login" && result.content && result.content[0] && result.content[0].text) {
+    if (name === "oauth_login" && effectiveName === "oauth_login" && result.content && result.content[0] && result.content[0].text) {
       const autoAuthResponse = await handleOAuthLoginFlow(request, result);
       if (autoAuthResponse) {
         console.log(JSON.stringify(autoAuthResponse));
         return;
       }
     }
-    
-    // Extract auth token if this is an oauth_authorize call
-    if (name === "oauth_authorize" && result.content && result.content[0] && result.content[0].text) {
+
+    // Extract auth token for direct flows
+    if ((effectiveName === "oauth_authorize" || effectiveName === "direct_login") && result.content && result.content[0] && result.content[0].text) {
       await extractAuthToken(result.content[0].text);
     }
     

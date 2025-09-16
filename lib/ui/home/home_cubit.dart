@@ -39,8 +39,7 @@ class HomeCubit extends Cubit<HomeState> {
       ..setConnectionCodeCallback(_onConnectionCodeReceived)
       ..setConnectionErrorCallback(_onConnectionError)
       ..setConnectionLostCallback(_onConnectionLost);
-    await healthServer.initialize();
-    healthPermissionManager = HealthPermissionManager(healthServer);
+    healthPermissionManager = HealthPermissionManager();
   }
 
   @override
