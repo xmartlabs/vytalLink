@@ -38,6 +38,7 @@ jobs:
       - uses: ruby/setup-ruby@v1
         with:
           bundler-cache: true
+          working-directory: ${{ env.MOBILE_DIR }}
       - name: Activate arb_utils
         run: |
           dart pub global activate arb_utils 0.8.3
