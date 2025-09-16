@@ -4,9 +4,10 @@ This document outlines the coding standards and best practices for the vytalLink
 
 ## Language Requirements
 
-### English-Only Code Policy
-- All code, including variables, functions, classes, and documentation, must be in English.
-- No Spanish text is allowed in source code.
+### English-Only Policy
+- All source code (variables, functions, classes, comments) must be written in English.
+- Repository documentation (READMEs, markdown files, commit messages, pull requests) must also be in English.
+- Do not add Spanish or other non-English words unless they are part of brand names or external APIs.
 
 ## Localization Requirements
 

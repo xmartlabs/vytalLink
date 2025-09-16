@@ -28,22 +28,23 @@ mason-lock.json
 # Flutter/Dart/Pub related
 **/doc/api/
 **/ios/Flutter/.last_build_id
-.dart_tool/
-.flutter-plugins
-.flutter-plugins-dependencies
+**/.dart_tool/
+**/.flutter-plugins
+**/.flutter-plugins-dependencies
 .packages
 .pub-cache/
 .pub/
-/build/
+build/
+**/build/
 
 # Web related
 lib/generated_plugin_registrant.dart
 # Firebase & Secrets
-android/app/google-services.json
-ios/Runner/GoogleService-Info.plist
-ios/Runner/Dev/GoogleService-Info.plist
-env_secrets/
-firebase.json
+mobile/android/app/google-services.json
+mobile/ios/Runner/GoogleService-Info.plist
+mobile/ios/Runner/Dev/GoogleService-Info.plist
+mobile/env/secrets/
+mobile/firebase.json
 
 # Symbolication related
 app.*.symbols
@@ -52,9 +53,9 @@ app.*.symbols
 app.*.map.json
 
 # Android Studio will place build artifacts here
-/android/app/debug
-/android/app/profile
-/android/app/release
+/mobile/android/app/debug
+/mobile/android/app/profile
+/mobile/android/app/release
 
 # Environment files
 *.env
