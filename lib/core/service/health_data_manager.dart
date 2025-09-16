@@ -90,8 +90,7 @@ class HealthDataManager {
     final List<HealthDataPoint> healthDataPoints =
         await _fetchHealthDataPoints(valueType, startTime, endTime);
 
-    final formattedData = _formatHealthDataPoints(healthDataPoints);
-    return formattedData;
+    return _formatHealthDataPoints(healthDataPoints);
   }
 
   void _validateTimeRange(DateTime startTime, DateTime endTime) {
@@ -304,8 +303,10 @@ class HealthDataManager {
   ) {
     final Map<HealthDataType, double> totalValue = {};
 
-    final dataByType = data.groupBy((point) =>
-        HealthDataType.values.firstWhere((type) => type.name == point.type));
+    final dataByType = data.groupBy(
+      (point) =>
+          HealthDataType.values.firstWhere((type) => type.name == point.type),
+    );
 
     for (final type in dataByType.keys) {
       for (final point in dataByType[type]!) {
@@ -382,8 +383,10 @@ Map<HealthDataType, double> _aggregateDurationalData(
 ) {
   final Map<HealthDataType, double> totalDuration = {};
 
-  final dataByType = data.groupBy((point) =>
-      HealthDataType.values.firstWhere((type) => type.name == point.type));
+  final dataByType = data.groupBy(
+    (point) =>
+        HealthDataType.values.firstWhere((type) => type.name == point.type),
+  );
 
   for (final type in dataByType.keys) {
     for (final point in dataByType[type]!) {
@@ -470,7 +473,8 @@ DateTime _getNextSegment(DateTime current, TimeGroupBy groupBy) {
 }
 
 Map<HealthDataType, double> _aggregateValues(
-    List<AppHealthDataPoint> dataPoints) {
+  List<AppHealthDataPoint> dataPoints,
+) {
   if (dataPoints.isEmpty) return {};
 
   final Map<HealthDataType, List<AppHealthDataPoint>> groupedByType = {};
