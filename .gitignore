@@ -50,7 +50,7 @@ app.*.map.json
 # Environment files
 *.env
 *.env.default
-!mobile/env/environments/default.env
+!mobile/environments/default.env
 
 # fastlane specific
 **/fastlane/report.xml

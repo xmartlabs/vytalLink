@@ -89,7 +89,7 @@ Example payload:
 
 ## Firebase configuration
 
-1. Place the binaries into `env/secrets/`:
+1. Place the binaries into `secrets/`:
    - `google-services.json` for Android.
    - `GoogleService-Info.plist` for iOS (both dev and prod variants).
 
@@ -103,7 +103,8 @@ Example payload:
 - `lib/core/source/mcp_server.dart` — MCP service and tool definition.
 - `lib/ui/home/` — Screen that controls the server.
 - `android/app/src/main/AndroidManifest.xml` — Permissions (ACCESS_NETWORK_STATE, Health Connect, etc.).
-- `env/secrets/` & `env/environments/` — Environment-specific configuration.
+- `secrets/` — Secrets synced outside of version control.
+- `environments/` — Versioned environment templates (e.g., `default.env`).
 - `design_system/` — UI library plus the `design_system_gallery/` demo.
 - `scripts/` — Setup and CI tasks (including the `install/` helpers).
 - `fastlane/` — Mobile delivery pipelines.

@@ -5,6 +5,7 @@
       "name": "Main Dev",
       "request": "launch",
       "type": "dart",
+      "cwd": "${workspaceFolder}/mobile",
       "program": "lib/main.dart",
       "args": ["--flavor=dev", "--dart-define=ENV=dev", "--web-port=3003"]
     },
@@ -12,6 +13,7 @@
       "name": "Main prod",
       "request": "launch",
       "type": "dart",
+      "cwd": "${workspaceFolder}/mobile",
       "program": "lib/main.dart",
       "args": ["--flavor=prod", "--web-port=3003", "--dart-define=ENV=prod"]
     },
@@ -19,6 +21,7 @@
       "name": "Main staging",
       "request": "launch",
       "type": "dart",
+      "cwd": "${workspaceFolder}/mobile",
       "program": "lib/main.dart",
       "args": [
         "--flavor=staging",
@@ -28,6 +31,7 @@
     },
     {
       "name": "Integration Test",
+      "cwd": "${workspaceFolder}/mobile",
       "program": "integration_test/test",
       "request": "launch",
       "type": "dart",

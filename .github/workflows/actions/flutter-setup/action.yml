@@ -9,6 +9,10 @@ inputs:
   setup-ios:
     description: "Setup iOS"
     required: true
+  project-directory:
+    description: "Flutter project directory"
+    required: false
+    default: "mobile"
 
 runs:
   using: "composite"
@@ -36,17 +40,19 @@ runs:
     - uses: ruby/setup-ruby@v1
       with:
         bundler-cache: true
+        working-directory: ${{ inputs.project-directory }}
     - uses: ruby/setup-ruby@v1
       if: ${{ inputs.setup-android }}
       with:
         bundler-cache: true
-        working-directory: ${{ vars.ANDROID_APP_FOLDER }}
+        working-directory: ${{ env.ANDROID_APP_FOLDER != '' && env.ANDROID_APP_FOLDER || vars.ANDROID_APP_FOLDER }}
     - uses: ruby/setup-ruby@v1
       if: ${{ inputs.setup-ios }}
       with:
         bundler-cache: true
-        working-directory: ${{ vars.IOS_APP_FOLDER }}
+        working-directory: ${{ env.IOS_APP_FOLDER != '' && env.IOS_APP_FOLDER || vars.IOS_APP_FOLDER }}
     - name: Get dependencies
       uses: maierj/fastlane-action@v3.0.0
       with:
         lane: "fetch_dependencies"
+        subdirectory: ${{ inputs.project-directory }}
