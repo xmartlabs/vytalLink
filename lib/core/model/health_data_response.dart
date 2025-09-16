@@ -1,5 +1,5 @@
-import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:flutter_template/core/model/health_data_point.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'health_data_response.freezed.dart';
 part 'health_data_response.g.dart';
@@ -20,24 +20,6 @@ class HealthDataResponse with _$HealthDataResponse {
 
   factory HealthDataResponse.fromJson(Map<String, dynamic> json) =>
       _$HealthDataResponseFromJson(json);
-}
-
-@freezed
-class AggregatedHealthDataResponse with _$AggregatedHealthDataResponse {
-  const factory AggregatedHealthDataResponse({
-    required bool success,
-    required int count,
-    required List<AggregatedHealthDataPoint> healthData,
-    @JsonKey(name: 'value_type') required String valueType,
-    required String startTime,
-    required String endTime,
-    String? groupBy,
-    bool? isAggregated,
-    String? statisticType,
-  }) = _AggregatedHealthDataResponse;
-
-  factory AggregatedHealthDataResponse.fromJson(Map<String, dynamic> json) =>
-      _$AggregatedHealthDataResponseFromJson(json);
 }
 
 @freezed

@@ -6,24 +6,26 @@ part of 'health_data_point.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$AppHealthDataPointImpl _$$AppHealthDataPointImplFromJson(
+_$SimpleHealthDataPointImpl _$$SimpleHealthDataPointImplFromJson(
         Map<String, dynamic> json) =>
-    _$AppHealthDataPointImpl(
+    _$SimpleHealthDataPointImpl(
       type: json['type'] as String,
       value: json['value'],
       unit: json['unit'] as String,
       dateFrom: json['date_from'] as String,
       dateTo: json['date_to'] as String,
+      $type: json['runtimeType'] as String?,
     );
 
-Map<String, dynamic> _$$AppHealthDataPointImplToJson(
-        _$AppHealthDataPointImpl instance) =>
+Map<String, dynamic> _$$SimpleHealthDataPointImplToJson(
+        _$SimpleHealthDataPointImpl instance) =>
     <String, dynamic>{
       'type': instance.type,
       'value': instance.value,
       'unit': instance.unit,
       'date_from': instance.dateFrom,
       'date_to': instance.dateTo,
+      'runtimeType': instance.$type,
     };
 
 _$AggregatedHealthDataPointImpl _$$AggregatedHealthDataPointImplFromJson(
@@ -34,6 +36,7 @@ _$AggregatedHealthDataPointImpl _$$AggregatedHealthDataPointImplFromJson(
       unit: json['unit'] as String,
       dateFrom: json['date_from'] as String,
       dateTo: json['date_to'] as String,
+      $type: json['runtimeType'] as String?,
     );
 
 Map<String, dynamic> _$$AggregatedHealthDataPointImplToJson(
@@ -44,4 +47,5 @@ Map<String, dynamic> _$$AggregatedHealthDataPointImplToJson(
       'unit': instance.unit,
       'date_from': instance.dateFrom,
       'date_to': instance.dateTo,
+      'runtimeType': instance.$type,
     };

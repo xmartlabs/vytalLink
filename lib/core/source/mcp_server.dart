@@ -165,9 +165,11 @@ class HealthMcpServerService {
     } catch (e) {
       Logger.e('Error processing backend message: $e', e);
       try {
-        await sendToBackend(
-          {'error': 'Error processing message: ${e.toString()}'},
+        final errorResponse = HealthDataErrorResponse(
+          success: false,
+          errorMessage: 'Error retrieving health data: ${e.toString()}',
         );
+        await sendToBackend(errorResponse.toJson());
       } catch (e) {
         Logger.e('Error sending error message to backend: $e', e);
       }

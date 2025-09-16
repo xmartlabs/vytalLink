@@ -349,8 +349,7 @@ AggregatedHealthDataResponse _$AggregatedHealthDataResponseFromJson(
 mixin _$AggregatedHealthDataResponse {
   bool get success => throw _privateConstructorUsedError;
   int get count => throw _privateConstructorUsedError;
-  List<AggregatedHealthDataPoint> get healthData =>
-      throw _privateConstructorUsedError;
+  List<AppHealthDataPoint> get healthData => throw _privateConstructorUsedError;
   @JsonKey(name: 'value_type')
   String get valueType => throw _privateConstructorUsedError;
   String get startTime => throw _privateConstructorUsedError;
@@ -376,7 +375,7 @@ abstract class $AggregatedHealthDataResponseCopyWith<$Res> {
   $Res call(
       {bool success,
       int count,
-      List<AggregatedHealthDataPoint> healthData,
+      List<AppHealthDataPoint> healthData,
       @JsonKey(name: 'value_type') String valueType,
       String startTime,
       String endTime,
@@ -421,7 +420,7 @@ class _$AggregatedHealthDataResponseCopyWithImpl<$Res,
       healthData: null == healthData
           ? _value.healthData
           : healthData // ignore: cast_nullable_to_non_nullable
-              as List<AggregatedHealthDataPoint>,
+              as List<AppHealthDataPoint>,
       valueType: null == valueType
           ? _value.valueType
           : valueType // ignore: cast_nullable_to_non_nullable
@@ -462,7 +461,7 @@ abstract class _$$AggregatedHealthDataResponseImplCopyWith<$Res>
   $Res call(
       {bool success,
       int count,
-      List<AggregatedHealthDataPoint> healthData,
+      List<AppHealthDataPoint> healthData,
       @JsonKey(name: 'value_type') String valueType,
       String startTime,
       String endTime,
@@ -506,7 +505,7 @@ class __$$AggregatedHealthDataResponseImplCopyWithImpl<$Res>
       healthData: null == healthData
           ? _value._healthData
           : healthData // ignore: cast_nullable_to_non_nullable
-              as List<AggregatedHealthDataPoint>,
+              as List<AppHealthDataPoint>,
       valueType: null == valueType
           ? _value.valueType
           : valueType // ignore: cast_nullable_to_non_nullable
@@ -542,7 +541,7 @@ class _$AggregatedHealthDataResponseImpl
   const _$AggregatedHealthDataResponseImpl(
       {required this.success,
       required this.count,
-      required final List<AggregatedHealthDataPoint> healthData,
+      required final List<AppHealthDataPoint> healthData,
       @JsonKey(name: 'value_type') required this.valueType,
       required this.startTime,
       required this.endTime,
@@ -559,9 +558,9 @@ class _$AggregatedHealthDataResponseImpl
   final bool success;
   @override
   final int count;
-  final List<AggregatedHealthDataPoint> _healthData;
+  final List<AppHealthDataPoint> _healthData;
   @override
-  List<AggregatedHealthDataPoint> get healthData {
+  List<AppHealthDataPoint> get healthData {
     if (_healthData is EqualUnmodifiableListView) return _healthData;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_healthData);
@@ -642,7 +641,7 @@ abstract class _AggregatedHealthDataResponse
   const factory _AggregatedHealthDataResponse(
       {required final bool success,
       required final int count,
-      required final List<AggregatedHealthDataPoint> healthData,
+      required final List<AppHealthDataPoint> healthData,
       @JsonKey(name: 'value_type') required final String valueType,
       required final String startTime,
       required final String endTime,
@@ -658,7 +657,7 @@ abstract class _AggregatedHealthDataResponse
   @override
   int get count;
   @override
-  List<AggregatedHealthDataPoint> get healthData;
+  List<AppHealthDataPoint> get healthData;
   @override
   @JsonKey(name: 'value_type')
   String get valueType;

@@ -5,28 +5,22 @@ part 'health_data_point.g.dart';
 
 @freezed
 class AppHealthDataPoint with _$AppHealthDataPoint {
-  const factory AppHealthDataPoint({
+  const factory AppHealthDataPoint.raw({
     required String type,
     required dynamic value,
     required String unit,
     required String dateFrom,
     required String dateTo,
-  }) = _AppHealthDataPoint;
+  }) = SimpleHealthDataPoint;
 
-  factory AppHealthDataPoint.fromJson(Map<String, dynamic> json) =>
-      _$AppHealthDataPointFromJson(json);
-}
-
-@freezed
-class AggregatedHealthDataPoint with _$AggregatedHealthDataPoint {
-  const factory AggregatedHealthDataPoint({
+  const factory AppHealthDataPoint.aggregated({
     required String type,
     required double value,
     required String unit,
     required String dateFrom,
     required String dateTo,
-  }) = _AggregatedHealthDataPoint;
+  }) = AggregatedHealthDataPoint;
 
-  factory AggregatedHealthDataPoint.fromJson(Map<String, dynamic> json) =>
-      _$AggregatedHealthDataPointFromJson(json);
+  factory AppHealthDataPoint.fromJson(Map<String, dynamic> json) =>
+      _$AppHealthDataPointFromJson(json);
 }

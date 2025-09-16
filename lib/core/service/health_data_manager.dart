@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:dartx/dartx.dart';
 import 'package:flutter_template/core/model/aggregation_parameters.dart';
 import 'package:flutter_template/core/model/health_data_point.dart';
 import 'package:flutter_template/core/model/health_data_request.dart';
@@ -18,7 +19,7 @@ class HealthDataManager {
 
   final Health _healthClient;
 
-  Future<AggregatedHealthDataResponse> processHealthDataRequest(
+  Future<HealthDataResponse> processHealthDataRequest(
     HealthDataRequest request,
   ) async {
     try {
@@ -32,28 +33,20 @@ class HealthDataManager {
     }
   }
 
-  Future<List<AggregatedHealthDataPoint>> _retrieveHealthData(
+  Future<List<AppHealthDataPoint>> _retrieveHealthData(
     HealthDataRequest request,
   ) async {
-    final VytalHealthDataCategory valueType = request.valueType;
     final DateTime startTime = request.startTime;
     final DateTime endTime = request.endTime;
 
-    _validateTimeRange(startTime, endTime);
-    await ensureHealthPermissions(valueType.platformHealthDataTypes);
-
-    final List<HealthDataPoint> healthDataPoints =
-        await _fetchHealthDataPoints(valueType, startTime, endTime);
-
-    final formattedData = _formatHealthDataPoints(healthDataPoints);
-
+    final dataPoints = await _processDataPoints(request, startTime, endTime);
     final groupBy = request.groupBy;
     if (groupBy == null) {
-
+      return dataPoints;
     } else {
       final StatisticType? statisticType = request.statistic;
       final aggregatedData = _aggregateHealthData(
-        formattedData,
+        dataPoints,
         groupBy,
         startTime,
         endTime,
@@ -62,7 +55,7 @@ class HealthDataManager {
       switch (statisticType) {
         case StatisticType.sum:
           final context = HealthDataAggregationParameters(
-            formattedData: formattedData,
+            formattedData: dataPoints,
             aggregatedData: aggregatedData,
             startTime: startTime,
             endTime: endTime,
@@ -81,6 +74,23 @@ class HealthDataManager {
           );
       }
     }
+  }
+
+  Future<List<AppHealthDataPoint>> _processDataPoints(
+    HealthDataRequest request,
+    DateTime startTime,
+    DateTime endTime,
+  ) async {
+    final VytalHealthDataCategory valueType = request.valueType;
+
+    _validateTimeRange(startTime, endTime);
+    await ensureHealthPermissions(valueType.platformHealthDataTypes);
+
+    final List<HealthDataPoint> healthDataPoints =
+        await _fetchHealthDataPoints(valueType, startTime, endTime);
+
+    final formattedData = _formatHealthDataPoints(healthDataPoints);
+    return formattedData;
   }
 
   void _validateTimeRange(DateTime startTime, DateTime endTime) {
@@ -179,7 +189,7 @@ class HealthDataManager {
   ) =>
       dataPoints
           .map(
-            (dataPoint) => AppHealthDataPoint(
+            (dataPoint) => AppHealthDataPoint.raw(
               type: dataPoint.type.name,
               value: _formatHealthValue(dataPoint.value),
               unit: dataPoint.unit.name,
@@ -522,19 +532,22 @@ class HealthDataManager {
   ) =>
       aggregatedData;
 
-  AggregatedHealthDataResponse _createSuccessResponse(
-    List<AggregatedHealthDataPoint> healthData,
+  HealthDataResponse _createSuccessResponse(
+    List<AppHealthDataPoint> healthData,
     HealthDataRequest request,
-  ) =>
-      AggregatedHealthDataResponse(
-        success: true,
-        count: healthData.length,
-        healthData: healthData,
-        valueType: request.valueType.name,
-        startTime: request.startTime.toIso8601String(),
-        endTime: request.endTime.toIso8601String(),
-        groupBy: request.groupBy.name,
-        isAggregated: true,
-        statisticType: request.statistic.name,
-      );
+  ) {
+    final isAggregated =
+        healthData.all((point) => point is AggregatedHealthDataPoint);
+    return HealthDataResponse(
+      success: true,
+      count: healthData.length,
+      healthData: healthData,
+      valueType: request.valueType.name,
+      startTime: request.startTime.toIso8601String(),
+      endTime: request.endTime.toIso8601String(),
+      groupBy: isAggregated ? request.groupBy?.name : null,
+      isAggregated: isAggregated,
+      statisticType: isAggregated ? request.statistic?.name : null,
+    );
+  }
 }

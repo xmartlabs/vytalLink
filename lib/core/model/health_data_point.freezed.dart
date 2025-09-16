@@ -15,7 +15,16 @@ final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 AppHealthDataPoint _$AppHealthDataPointFromJson(Map<String, dynamic> json) {
-  return _AppHealthDataPoint.fromJson(json);
+  switch (json['runtimeType']) {
+    case 'raw':
+      return SimpleHealthDataPoint.fromJson(json);
+    case 'aggregated':
+      return AggregatedHealthDataPoint.fromJson(json);
+
+    default:
+      throw CheckedFromJsonException(json, 'runtimeType', 'AppHealthDataPoint',
+          'Invalid union type "${json['runtimeType']}"!');
+  }
 }
 
 /// @nodoc
@@ -25,7 +34,56 @@ mixin _$AppHealthDataPoint {
   String get unit => throw _privateConstructorUsedError;
   String get dateFrom => throw _privateConstructorUsedError;
   String get dateTo => throw _privateConstructorUsedError;
-
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(String type, dynamic value, String unit,
+            String dateFrom, String dateTo)
+        raw,
+    required TResult Function(String type, double value, String unit,
+            String dateFrom, String dateTo)
+        aggregated,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(String type, dynamic value, String unit, String dateFrom,
+            String dateTo)?
+        raw,
+    TResult? Function(String type, double value, String unit, String dateFrom,
+            String dateTo)?
+        aggregated,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(String type, dynamic value, String unit, String dateFrom,
+            String dateTo)?
+        raw,
+    TResult Function(String type, double value, String unit, String dateFrom,
+            String dateTo)?
+        aggregated,
+    required TResult orElse(),
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(SimpleHealthDataPoint value) raw,
+    required TResult Function(AggregatedHealthDataPoint value) aggregated,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(SimpleHealthDataPoint value)? raw,
+    TResult? Function(AggregatedHealthDataPoint value)? aggregated,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(SimpleHealthDataPoint value)? raw,
+    TResult Function(AggregatedHealthDataPoint value)? aggregated,
+    required TResult orElse(),
+  }) =>
+      throw _privateConstructorUsedError;
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
   $AppHealthDataPointCopyWith<AppHealthDataPoint> get copyWith =>
@@ -38,12 +96,7 @@ abstract class $AppHealthDataPointCopyWith<$Res> {
           AppHealthDataPoint value, $Res Function(AppHealthDataPoint) then) =
       _$AppHealthDataPointCopyWithImpl<$Res, AppHealthDataPoint>;
   @useResult
-  $Res call(
-      {String type,
-      dynamic value,
-      String unit,
-      String dateFrom,
-      String dateTo});
+  $Res call({String type, String unit, String dateFrom, String dateTo});
 }
 
 /// @nodoc
@@ -60,7 +113,6 @@ class _$AppHealthDataPointCopyWithImpl<$Res, $Val extends AppHealthDataPoint>
   @override
   $Res call({
     Object? type = null,
-    Object? value = freezed,
     Object? unit = null,
     Object? dateFrom = null,
     Object? dateTo = null,
@@ -70,10 +122,6 @@ class _$AppHealthDataPointCopyWithImpl<$Res, $Val extends AppHealthDataPoint>
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
               as String,
-      value: freezed == value
-          ? _value.value
-          : value // ignore: cast_nullable_to_non_nullable
-              as dynamic,
       unit: null == unit
           ? _value.unit
           : unit // ignore: cast_nullable_to_non_nullable
@@ -91,11 +139,12 @@ class _$AppHealthDataPointCopyWithImpl<$Res, $Val extends AppHealthDataPoint>
 }
 
 /// @nodoc
-abstract class _$$AppHealthDataPointImplCopyWith<$Res>
+abstract class _$$SimpleHealthDataPointImplCopyWith<$Res>
     implements $AppHealthDataPointCopyWith<$Res> {
-  factory _$$AppHealthDataPointImplCopyWith(_$AppHealthDataPointImpl value,
-          $Res Function(_$AppHealthDataPointImpl) then) =
-      __$$AppHealthDataPointImplCopyWithImpl<$Res>;
+  factory _$$SimpleHealthDataPointImplCopyWith(
+          _$SimpleHealthDataPointImpl value,
+          $Res Function(_$SimpleHealthDataPointImpl) then) =
+      __$$SimpleHealthDataPointImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -107,11 +156,11 @@ abstract class _$$AppHealthDataPointImplCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$AppHealthDataPointImplCopyWithImpl<$Res>
-    extends _$AppHealthDataPointCopyWithImpl<$Res, _$AppHealthDataPointImpl>
-    implements _$$AppHealthDataPointImplCopyWith<$Res> {
-  __$$AppHealthDataPointImplCopyWithImpl(_$AppHealthDataPointImpl _value,
-      $Res Function(_$AppHealthDataPointImpl) _then)
+class __$$SimpleHealthDataPointImplCopyWithImpl<$Res>
+    extends _$AppHealthDataPointCopyWithImpl<$Res, _$SimpleHealthDataPointImpl>
+    implements _$$SimpleHealthDataPointImplCopyWith<$Res> {
+  __$$SimpleHealthDataPointImplCopyWithImpl(_$SimpleHealthDataPointImpl _value,
+      $Res Function(_$SimpleHealthDataPointImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -123,7 +172,7 @@ class __$$AppHealthDataPointImplCopyWithImpl<$Res>
     Object? dateFrom = null,
     Object? dateTo = null,
   }) {
-    return _then(_$AppHealthDataPointImpl(
+    return _then(_$SimpleHealthDataPointImpl(
       type: null == type
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
@@ -150,16 +199,18 @@ class __$$AppHealthDataPointImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$AppHealthDataPointImpl implements _AppHealthDataPoint {
-  const _$AppHealthDataPointImpl(
+class _$SimpleHealthDataPointImpl implements SimpleHealthDataPoint {
+  const _$SimpleHealthDataPointImpl(
       {required this.type,
       required this.value,
       required this.unit,
       required this.dateFrom,
-      required this.dateTo});
+      required this.dateTo,
+      final String? $type})
+      : $type = $type ?? 'raw';
 
-  factory _$AppHealthDataPointImpl.fromJson(Map<String, dynamic> json) =>
-      _$$AppHealthDataPointImplFromJson(json);
+  factory _$SimpleHealthDataPointImpl.fromJson(Map<String, dynamic> json) =>
+      _$$SimpleHealthDataPointImplFromJson(json);
 
   @override
   final String type;
@@ -172,16 +223,19 @@ class _$AppHealthDataPointImpl implements _AppHealthDataPoint {
   @override
   final String dateTo;
 
+  @JsonKey(name: 'runtimeType')
+  final String $type;
+
   @override
   String toString() {
-    return 'AppHealthDataPoint(type: $type, value: $value, unit: $unit, dateFrom: $dateFrom, dateTo: $dateTo)';
+    return 'AppHealthDataPoint.raw(type: $type, value: $value, unit: $unit, dateFrom: $dateFrom, dateTo: $dateTo)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$AppHealthDataPointImpl &&
+            other is _$SimpleHealthDataPointImpl &&
             (identical(other.type, type) || other.type == type) &&
             const DeepCollectionEquality().equals(other.value, value) &&
             (identical(other.unit, unit) || other.unit == unit) &&
@@ -198,28 +252,102 @@ class _$AppHealthDataPointImpl implements _AppHealthDataPoint {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$AppHealthDataPointImplCopyWith<_$AppHealthDataPointImpl> get copyWith =>
-      __$$AppHealthDataPointImplCopyWithImpl<_$AppHealthDataPointImpl>(
-          this, _$identity);
+  _$$SimpleHealthDataPointImplCopyWith<_$SimpleHealthDataPointImpl>
+      get copyWith => __$$SimpleHealthDataPointImplCopyWithImpl<
+          _$SimpleHealthDataPointImpl>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(String type, dynamic value, String unit,
+            String dateFrom, String dateTo)
+        raw,
+    required TResult Function(String type, double value, String unit,
+            String dateFrom, String dateTo)
+        aggregated,
+  }) {
+    return raw(type, value, unit, dateFrom, dateTo);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(String type, dynamic value, String unit, String dateFrom,
+            String dateTo)?
+        raw,
+    TResult? Function(String type, double value, String unit, String dateFrom,
+            String dateTo)?
+        aggregated,
+  }) {
+    return raw?.call(type, value, unit, dateFrom, dateTo);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(String type, dynamic value, String unit, String dateFrom,
+            String dateTo)?
+        raw,
+    TResult Function(String type, double value, String unit, String dateFrom,
+            String dateTo)?
+        aggregated,
+    required TResult orElse(),
+  }) {
+    if (raw != null) {
+      return raw(type, value, unit, dateFrom, dateTo);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(SimpleHealthDataPoint value) raw,
+    required TResult Function(AggregatedHealthDataPoint value) aggregated,
+  }) {
+    return raw(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(SimpleHealthDataPoint value)? raw,
+    TResult? Function(AggregatedHealthDataPoint value)? aggregated,
+  }) {
+    return raw?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(SimpleHealthDataPoint value)? raw,
+    TResult Function(AggregatedHealthDataPoint value)? aggregated,
+    required TResult orElse(),
+  }) {
+    if (raw != null) {
+      return raw(this);
+    }
+    return orElse();
+  }
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$AppHealthDataPointImplToJson(
+    return _$$SimpleHealthDataPointImplToJson(
       this,
     );
   }
 }
 
-abstract class _AppHealthDataPoint implements AppHealthDataPoint {
-  const factory _AppHealthDataPoint(
+abstract class SimpleHealthDataPoint implements AppHealthDataPoint {
+  const factory SimpleHealthDataPoint(
       {required final String type,
       required final dynamic value,
       required final String unit,
       required final String dateFrom,
-      required final String dateTo}) = _$AppHealthDataPointImpl;
+      required final String dateTo}) = _$SimpleHealthDataPointImpl;
 
-  factory _AppHealthDataPoint.fromJson(Map<String, dynamic> json) =
-      _$AppHealthDataPointImpl.fromJson;
+  factory SimpleHealthDataPoint.fromJson(Map<String, dynamic> json) =
+      _$SimpleHealthDataPointImpl.fromJson;
 
   @override
   String get type;
@@ -233,87 +361,13 @@ abstract class _AppHealthDataPoint implements AppHealthDataPoint {
   String get dateTo;
   @override
   @JsonKey(ignore: true)
-  _$$AppHealthDataPointImplCopyWith<_$AppHealthDataPointImpl> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-AggregatedHealthDataPoint _$AggregatedHealthDataPointFromJson(
-    Map<String, dynamic> json) {
-  return _AggregatedHealthDataPoint.fromJson(json);
-}
-
-/// @nodoc
-mixin _$AggregatedHealthDataPoint {
-  String get type => throw _privateConstructorUsedError;
-  double get value => throw _privateConstructorUsedError;
-  String get unit => throw _privateConstructorUsedError;
-  String get dateFrom => throw _privateConstructorUsedError;
-  String get dateTo => throw _privateConstructorUsedError;
-
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
-  $AggregatedHealthDataPointCopyWith<AggregatedHealthDataPoint> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $AggregatedHealthDataPointCopyWith<$Res> {
-  factory $AggregatedHealthDataPointCopyWith(AggregatedHealthDataPoint value,
-          $Res Function(AggregatedHealthDataPoint) then) =
-      _$AggregatedHealthDataPointCopyWithImpl<$Res, AggregatedHealthDataPoint>;
-  @useResult
-  $Res call(
-      {String type, double value, String unit, String dateFrom, String dateTo});
-}
-
-/// @nodoc
-class _$AggregatedHealthDataPointCopyWithImpl<$Res,
-        $Val extends AggregatedHealthDataPoint>
-    implements $AggregatedHealthDataPointCopyWith<$Res> {
-  _$AggregatedHealthDataPointCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? type = null,
-    Object? value = null,
-    Object? unit = null,
-    Object? dateFrom = null,
-    Object? dateTo = null,
-  }) {
-    return _then(_value.copyWith(
-      type: null == type
-          ? _value.type
-          : type // ignore: cast_nullable_to_non_nullable
-              as String,
-      value: null == value
-          ? _value.value
-          : value // ignore: cast_nullable_to_non_nullable
-              as double,
-      unit: null == unit
-          ? _value.unit
-          : unit // ignore: cast_nullable_to_non_nullable
-              as String,
-      dateFrom: null == dateFrom
-          ? _value.dateFrom
-          : dateFrom // ignore: cast_nullable_to_non_nullable
-              as String,
-      dateTo: null == dateTo
-          ? _value.dateTo
-          : dateTo // ignore: cast_nullable_to_non_nullable
-              as String,
-    ) as $Val);
-  }
+  _$$SimpleHealthDataPointImplCopyWith<_$SimpleHealthDataPointImpl>
+      get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
 abstract class _$$AggregatedHealthDataPointImplCopyWith<$Res>
-    implements $AggregatedHealthDataPointCopyWith<$Res> {
+    implements $AppHealthDataPointCopyWith<$Res> {
   factory _$$AggregatedHealthDataPointImplCopyWith(
           _$AggregatedHealthDataPointImpl value,
           $Res Function(_$AggregatedHealthDataPointImpl) then) =
@@ -326,7 +380,7 @@ abstract class _$$AggregatedHealthDataPointImplCopyWith<$Res>
 
 /// @nodoc
 class __$$AggregatedHealthDataPointImplCopyWithImpl<$Res>
-    extends _$AggregatedHealthDataPointCopyWithImpl<$Res,
+    extends _$AppHealthDataPointCopyWithImpl<$Res,
         _$AggregatedHealthDataPointImpl>
     implements _$$AggregatedHealthDataPointImplCopyWith<$Res> {
   __$$AggregatedHealthDataPointImplCopyWithImpl(
@@ -370,13 +424,15 @@ class __$$AggregatedHealthDataPointImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$AggregatedHealthDataPointImpl implements _AggregatedHealthDataPoint {
+class _$AggregatedHealthDataPointImpl implements AggregatedHealthDataPoint {
   const _$AggregatedHealthDataPointImpl(
       {required this.type,
       required this.value,
       required this.unit,
       required this.dateFrom,
-      required this.dateTo});
+      required this.dateTo,
+      final String? $type})
+      : $type = $type ?? 'aggregated';
 
   factory _$AggregatedHealthDataPointImpl.fromJson(Map<String, dynamic> json) =>
       _$$AggregatedHealthDataPointImplFromJson(json);
@@ -392,9 +448,12 @@ class _$AggregatedHealthDataPointImpl implements _AggregatedHealthDataPoint {
   @override
   final String dateTo;
 
+  @JsonKey(name: 'runtimeType')
+  final String $type;
+
   @override
   String toString() {
-    return 'AggregatedHealthDataPoint(type: $type, value: $value, unit: $unit, dateFrom: $dateFrom, dateTo: $dateTo)';
+    return 'AppHealthDataPoint.aggregated(type: $type, value: $value, unit: $unit, dateFrom: $dateFrom, dateTo: $dateTo)';
   }
 
   @override
@@ -423,6 +482,80 @@ class _$AggregatedHealthDataPointImpl implements _AggregatedHealthDataPoint {
           _$AggregatedHealthDataPointImpl>(this, _$identity);
 
   @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(String type, dynamic value, String unit,
+            String dateFrom, String dateTo)
+        raw,
+    required TResult Function(String type, double value, String unit,
+            String dateFrom, String dateTo)
+        aggregated,
+  }) {
+    return aggregated(type, value, unit, dateFrom, dateTo);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(String type, dynamic value, String unit, String dateFrom,
+            String dateTo)?
+        raw,
+    TResult? Function(String type, double value, String unit, String dateFrom,
+            String dateTo)?
+        aggregated,
+  }) {
+    return aggregated?.call(type, value, unit, dateFrom, dateTo);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(String type, dynamic value, String unit, String dateFrom,
+            String dateTo)?
+        raw,
+    TResult Function(String type, double value, String unit, String dateFrom,
+            String dateTo)?
+        aggregated,
+    required TResult orElse(),
+  }) {
+    if (aggregated != null) {
+      return aggregated(type, value, unit, dateFrom, dateTo);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(SimpleHealthDataPoint value) raw,
+    required TResult Function(AggregatedHealthDataPoint value) aggregated,
+  }) {
+    return aggregated(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(SimpleHealthDataPoint value)? raw,
+    TResult? Function(AggregatedHealthDataPoint value)? aggregated,
+  }) {
+    return aggregated?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(SimpleHealthDataPoint value)? raw,
+    TResult Function(AggregatedHealthDataPoint value)? aggregated,
+    required TResult orElse(),
+  }) {
+    if (aggregated != null) {
+      return aggregated(this);
+    }
+    return orElse();
+  }
+
+  @override
   Map<String, dynamic> toJson() {
     return _$$AggregatedHealthDataPointImplToJson(
       this,
@@ -430,15 +563,15 @@ class _$AggregatedHealthDataPointImpl implements _AggregatedHealthDataPoint {
   }
 }
 
-abstract class _AggregatedHealthDataPoint implements AggregatedHealthDataPoint {
-  const factory _AggregatedHealthDataPoint(
+abstract class AggregatedHealthDataPoint implements AppHealthDataPoint {
+  const factory AggregatedHealthDataPoint(
       {required final String type,
       required final double value,
       required final String unit,
       required final String dateFrom,
       required final String dateTo}) = _$AggregatedHealthDataPointImpl;
 
-  factory _AggregatedHealthDataPoint.fromJson(Map<String, dynamic> json) =
+  factory AggregatedHealthDataPoint.fromJson(Map<String, dynamic> json) =
       _$AggregatedHealthDataPointImpl.fromJson;
 
   @override

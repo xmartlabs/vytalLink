@@ -42,8 +42,7 @@ _$AggregatedHealthDataResponseImpl _$$AggregatedHealthDataResponseImplFromJson(
       success: json['success'] as bool,
       count: (json['count'] as num).toInt(),
       healthData: (json['health_data'] as List<dynamic>)
-          .map((e) =>
-              AggregatedHealthDataPoint.fromJson(e as Map<String, dynamic>))
+          .map((e) => AppHealthDataPoint.fromJson(e as Map<String, dynamic>))
           .toList(),
       valueType: json['value_type'] as String,
       startTime: json['start_time'] as String,
