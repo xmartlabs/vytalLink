@@ -8,6 +8,10 @@ on:
 jobs:
   build:
     runs-on: macos-latest
+    env:
+      MOBILE_DIR: mobile
+      ANDROID_APP_DIR: mobile/android
+      IOS_APP_DIR: mobile/ios
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-java@v3
@@ -34,6 +38,7 @@ jobs:
       - uses: ruby/setup-ruby@v1
         with:
           bundler-cache: true
+          working-directory: ${{ env.MOBILE_DIR }}
       - name: Activate arb_utils
         run: |
           dart pub global activate arb_utils 0.8.3
@@ -41,18 +46,21 @@ jobs:
         uses: maierj/fastlane-action@v3.0.0
         with:
           lane: 'fetch_dependencies'
+          subdirectory: ${{ env.MOBILE_DIR }}
       - name: 'Run lints'
         uses: maierj/fastlane-action@v3.0.0
         with:
           lane: 'lints'
+          subdirectory: ${{ env.MOBILE_DIR }}
       - name: 'Check generated code'
         uses: maierj/fastlane-action@v3.0.0
         with:
           lane: 'ensure_no_change_in_generated_code'
+          subdirectory: ${{ env.MOBILE_DIR }}
       - name: 'Build android app'
         env:
           APP_ENV: 'dev'
         uses: maierj/fastlane-action@v3.0.0
         with:
           lane: 'android build_dev_debug_apk'
-          subdirectory: 'android'
+          subdirectory: ${{ env.ANDROID_APP_DIR }}

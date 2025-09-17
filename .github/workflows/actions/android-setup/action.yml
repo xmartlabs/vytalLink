@@ -9,6 +9,10 @@ inputs:
   android-app-folder:
     description: "Android app folder"
     required: true
+  project-directory:
+    description: "Flutter project directory"
+    required: false
+    default: "mobile"
   
 
 runs:
@@ -19,9 +23,13 @@ runs:
           fetch-depth: 15
 
       - name: Setup
-        uses: ./.github/workflows/actions/flutter_setup
+        uses: ./.github/workflows/actions/flutter-setup
         with:
           setup-android: true
+          setup-ios: false
+          project-directory: ${{ inputs.project-directory }}
+        env:
+          ANDROID_APP_FOLDER: ${{ inputs.android-app-folder }}
 
       - name: Download Android Keystore
         shell: bash
