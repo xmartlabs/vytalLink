@@ -64,11 +64,13 @@ class HealthDataManager {
     } else {
       final StatisticType? statisticType = request.statistic;
       final aggregatedData = _healthDataAggregator.aggregate(
-        data: dataPoints,
-        groupBy: groupBy,
-        startTime: startTime,
-        endTime: endTime,
-        aggregatePerSource: _aggregatePerSource,
+        (
+          data: dataPoints,
+          groupBy: groupBy,
+          startTime: startTime,
+          endTime: endTime,
+          aggregatePerSource: _aggregatePerSource,
+        ),
       );
 
       switch (statisticType) {

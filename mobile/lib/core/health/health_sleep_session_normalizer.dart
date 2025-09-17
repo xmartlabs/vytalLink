@@ -50,16 +50,16 @@ class HealthSleepSessionNormalizer {
 
       for (final session in sessions.skip(1)) {
         if (_sessionsOverlapOrAreContinuous(current, session, gapTolerance)) {
-          if (strategy == SleepNormalizationStrategy.preferConsolidated &&
-              _isAlmostContained(
-                current,
-                session,
-                containmentThreshold,
-              )) {
-            current = _selectLongerSession(current, session);
-          } else {
-            current = _mergeSleepSessionPair(current, session);
-          }
+          final preferConsolidated =
+              strategy == SleepNormalizationStrategy.preferConsolidated &&
+                  _isAlmostContained(
+                    current,
+                    session,
+                    containmentThreshold,
+                  );
+          current = preferConsolidated
+              ? _selectLongerSession(current, session)
+              : _mergeSleepSessionPair(current, session);
         } else {
           mergedSessions.add(current);
           current = session;
@@ -79,8 +79,7 @@ class HealthSleepSessionNormalizer {
         point.recordingMethod.name,
       ].join('::');
 
-  HealthDataPoint _cloneSleepSession(HealthDataPoint point) =>
-      HealthDataPoint(
+  HealthDataPoint _cloneSleepSession(HealthDataPoint point) => HealthDataPoint(
         uuid: point.uuid,
         value: point.value is NumericHealthValue
             ? NumericHealthValue(

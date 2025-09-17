@@ -7,24 +7,37 @@ import 'package:flutter_template/model/health_data_unit.dart'
 import 'package:health/health.dart';
 
 typedef _AggregationKey = ({HealthDataType type, String? sourceId});
+typedef _SegmentAggregationContext = ({
+  List<AppHealthDataPoint> data,
+  DateTime segmentStart,
+  DateTime segmentEnd,
+  bool aggregatePerSource,
+});
+
+typedef HealthAggregationRequest = ({
+  List<AppHealthDataPoint> data,
+  TimeGroupBy groupBy,
+  DateTime startTime,
+  DateTime endTime,
+  bool aggregatePerSource,
+});
 
 class HealthDataAggregator {
   const HealthDataAggregator();
 
-  List<AggregatedHealthDataPoint> aggregate({
-    required List<AppHealthDataPoint> data,
-    required TimeGroupBy groupBy,
-    required DateTime startTime,
-    required DateTime endTime,
-    bool aggregatePerSource = true,
-  }) {
-    if (data.isEmpty) return [];
+  List<AggregatedHealthDataPoint> aggregate(
+    HealthAggregationRequest request,
+  ) {
+    if (request.data.isEmpty) return [];
 
-    final timeSegments = _generateTimeSegments(startTime, endTime, groupBy);
+    final timeSegments = _generateTimeSegments(
+      request.startTime,
+      request.endTime,
+      request.groupBy,
+    );
     final aggregatedData = <AggregatedHealthDataPoint>[];
-
     final healthDataType = HealthDataType.values
-        .firstWhere((type) => type.name == data.first.type);
+        .firstWhere((type) => type.name == request.data.first.type);
     final temporalBehavior =
         HealthDataTemporalBehavior.forHealthDataType(healthDataType);
 
@@ -33,11 +46,13 @@ class HealthDataAggregator {
       final segmentEnd = timeSegments[i + 1];
 
       final aggregatedValue = _aggregateDataForSegment(
-        data,
-        segmentStart,
-        segmentEnd,
+        (
+          data: request.data,
+          segmentStart: segmentStart,
+          segmentEnd: segmentEnd,
+          aggregatePerSource: request.aggregatePerSource,
+        ),
         temporalBehavior,
-        aggregatePerSource,
       );
 
       for (final entry in aggregatedValue.entries) {
@@ -58,75 +73,45 @@ class HealthDataAggregator {
   }
 
   Map<_AggregationKey, double> _aggregateDataForSegment(
-    List<AppHealthDataPoint> data,
-    DateTime segmentStart,
-    DateTime segmentEnd,
+    _SegmentAggregationContext context,
     HealthDataTemporalBehavior temporalBehavior,
-    bool aggregatePerSource,
-  ) {
-    switch (temporalBehavior) {
-      case HealthDataTemporalBehavior.instantaneous:
-        return _aggregateInstantaneousData(
-          data,
-          segmentStart,
-          segmentEnd,
-          aggregatePerSource,
-        );
-      case HealthDataTemporalBehavior.cumulative:
-        return _aggregateCumulativeData(
-          data,
-          segmentStart,
-          segmentEnd,
-          aggregatePerSource,
-        );
-      case HealthDataTemporalBehavior.sessional:
-        return _aggregateSessionalData(
-          data,
-          segmentStart,
-          segmentEnd,
-          aggregatePerSource,
-        );
-      case HealthDataTemporalBehavior.durational:
-        return _aggregateDurationalData(
-          data,
-          segmentStart,
-          segmentEnd,
-          aggregatePerSource,
-        );
-    }
-  }
+  ) =>
+      switch (temporalBehavior) {
+        HealthDataTemporalBehavior.instantaneous =>
+          _aggregateInstantaneousData(context),
+        HealthDataTemporalBehavior.cumulative =>
+          _aggregateCumulativeData(context),
+        HealthDataTemporalBehavior.sessional =>
+          _aggregateSessionalData(context),
+        HealthDataTemporalBehavior.durational =>
+          _aggregateDurationalData(context),
+      };
 
   Map<_AggregationKey, double> _aggregateInstantaneousData(
-    List<AppHealthDataPoint> data,
-    DateTime segmentStart,
-    DateTime segmentEnd,
-    bool aggregatePerSource,
+    _SegmentAggregationContext context,
   ) {
-    final filteredData = data.where((point) {
+    final filteredData = context.data.where((point) {
       final pointDate = DateTime.parse(point.dateFrom);
-      return (pointDate.isAfter(segmentStart) ||
-              pointDate.isAtSameMomentAs(segmentStart)) &&
-          pointDate.isBefore(segmentEnd);
+      return (pointDate.isAfter(context.segmentStart) ||
+              pointDate.isAtSameMomentAs(context.segmentStart)) &&
+          pointDate.isBefore(context.segmentEnd);
     }).toList();
 
-    return _aggregateValues(filteredData, aggregatePerSource);
+    return _aggregateValues(filteredData, context.aggregatePerSource);
   }
 
   Map<_AggregationKey, double> _aggregateCumulativeData(
-    List<AppHealthDataPoint> data,
-    DateTime segmentStart,
-    DateTime segmentEnd,
-    bool aggregatePerSource,
+    _SegmentAggregationContext context,
   ) {
     final totalValue = <_AggregationKey, double>{};
 
-    final dataByKey = data.groupBy(
+    final dataByKey = context.data.groupBy(
       (point) {
         final type = HealthDataType.values
             .firstWhere((element) => element.name == point.type);
         return (
           type: type,
-          sourceId: aggregatePerSource ? point.sourceId : null
+          sourceId: context.aggregatePerSource ? point.sourceId : null,
         );
       },
     );
@@ -137,8 +122,8 @@ class HealthDataAggregator {
         final pointStart = DateTime.parse(point.dateFrom);
         final pointEnd = DateTime.parse(point.dateTo);
 
-        final overlapStart = _maxDateTime(pointStart, segmentStart);
-        final overlapEnd = _minDateTime(pointEnd, segmentEnd);
+        final overlapStart = _maxDateTime(pointStart, context.segmentStart);
+        final overlapEnd = _minDateTime(pointEnd, context.segmentEnd);
 
         if (overlapStart.isBefore(overlapEnd)) {
           final pointDuration = pointEnd.difference(pointStart);
@@ -159,20 +144,17 @@ class HealthDataAggregator {
   }
 
   Map<_AggregationKey, double> _aggregateSessionalData(
-    List<AppHealthDataPoint> data,
-    DateTime segmentStart,
-    DateTime segmentEnd,
-    bool aggregatePerSource,
+    _SegmentAggregationContext context,
   ) {
     final totalValue = <_AggregationKey, double>{};
 
-    final dataByKey = data.groupBy(
+    final dataByKey = context.data.groupBy(
       (point) {
         final type = HealthDataType.values
             .firstWhere((element) => element.name == point.type);
         return (
           type: type,
-          sourceId: aggregatePerSource ? point.sourceId : null
+          sourceId: context.aggregatePerSource ? point.sourceId : null,
         );
       },
     );
@@ -183,8 +165,8 @@ class HealthDataAggregator {
         final pointStart = DateTime.parse(point.dateFrom);
         final pointEnd = DateTime.parse(point.dateTo);
 
-        final overlapStart = _maxDateTime(pointStart, segmentStart);
-        final overlapEnd = _minDateTime(pointEnd, segmentEnd);
+        final overlapStart = _maxDateTime(pointStart, context.segmentStart);
+        final overlapEnd = _minDateTime(pointEnd, context.segmentEnd);
 
         if (overlapStart.isBefore(overlapEnd)) {
           final sessionDuration = pointEnd.difference(pointStart);
@@ -204,20 +186,17 @@ class HealthDataAggregator {
   }
 
   Map<_AggregationKey, double> _aggregateDurationalData(
-    List<AppHealthDataPoint> data,
-    DateTime segmentStart,
-    DateTime segmentEnd,
-    bool aggregatePerSource,
+    _SegmentAggregationContext context,
   ) {
     final totalDuration = <_AggregationKey, double>{};
 
-    final dataByKey = data.groupBy(
+    final dataByKey = context.data.groupBy(
       (point) {
         final type = HealthDataType.values
             .firstWhere((element) => element.name == point.type);
         return (
           type: type,
-          sourceId: aggregatePerSource ? point.sourceId : null
+          sourceId: context.aggregatePerSource ? point.sourceId : null,
         );
       },
     );
@@ -228,9 +207,9 @@ class HealthDataAggregator {
         final pointStart = DateTime.parse(point.dateFrom);
         final pointEnd = DateTime.parse(point.dateTo);
 
-        if (pointEnd.isAfter(segmentStart) &&
-            (pointEnd.isBefore(segmentEnd) ||
-                pointEnd.isAtSameMomentAs(segmentEnd))) {
+        if (pointEnd.isAfter(context.segmentStart) &&
+            (pointEnd.isBefore(context.segmentEnd) ||
+                pointEnd.isAtSameMomentAs(context.segmentEnd))) {
           final sessionDuration = pointEnd.difference(pointStart);
           totalDuration[key] = (totalDuration[key] ?? 0.0) +
               sessionDuration.inMinutes.toDouble();
@@ -254,7 +233,7 @@ class HealthDataAggregator {
       groupedByKey.putIfAbsent(
         (
           type: healthType,
-          sourceId: aggregatePerSource ? point.sourceId : null
+          sourceId: aggregatePerSource ? point.sourceId : null,
         ),
         () => <AppHealthDataPoint>[],
       ).add(point);
