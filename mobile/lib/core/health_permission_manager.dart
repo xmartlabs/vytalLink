@@ -73,8 +73,6 @@ class HealthPermissionManager {
   }
 
   Future<bool> isHealthConnectAvailable() async {
-    if (!Platform.isAndroid) return true;
-
     try {
       await _ensureInitialized();
       return await _healthClient.isHealthConnectAvailable();

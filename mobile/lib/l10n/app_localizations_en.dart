@@ -271,24 +271,24 @@ class AppLocalizationsEn extends AppLocalizations {
   String get health_client_config_failed => 'Failed to configure health client';
 
   @override
-  String get health_data_unavailable => 'Health data unavailable';
+  String get health_connect_required_alert_cancel => 'Not now';
 
   @override
-  String get health_permission_required => 'Health permission required';
-
-  @override
-  String get health_connect_required_alert_title =>
-      'Install Google Health Connect';
+  String get health_connect_required_alert_install => 'Install';
 
   @override
   String get health_connect_required_alert_message =>
       'vytalLink uses Google Health Connect to securely sync your activity, sleep, and workout data from your Android device. Install Health Connect to enable the connection and keep your information flowing safely.';
 
   @override
-  String get health_connect_required_alert_install => 'Install';
+  String get health_connect_required_alert_title =>
+      'Install Google Health Connect';
 
   @override
-  String get health_connect_required_alert_cancel => 'Not now';
+  String get health_data_unavailable => 'Health data unavailable';
+
+  @override
+  String get health_permission_required => 'Health permission required';
 
   @override
   String get health_permissions_alert_accept => 'Accept';
