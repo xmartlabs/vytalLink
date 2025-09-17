@@ -44,6 +44,43 @@ This document outlines the coding standards and best practices for the vytalLink
 - Group related imports together.
 - Remove unused imports.
 
+## Code Style
+
+### Follow the Flutter Style Guide
+- Analyzer configuration lives in [`mobile/analysis_options.yaml`](../mobile/analysis_options.yaml) and [`mobile/analysis_options_custom.yaml`](../mobile/analysis_options_custom.yaml); run `flutter analyze` locally to catch violations early.
+- Use `lowerCamelCase` for variables, parameters, and functions, and `UpperCamelCase` for classes, enums, and typedefs.
+- Keep indentation at two spaces and let `dart format` handle formatting details.
+- Place required named parameters before optional ones (`always_put_required_named_parameters_first`).
+- Prefer named arguments over positional booleans—add lightweight wrappers if necessary.
+
+### Readability and Formatting
+- Keep lines within 80 characters; rely on trailing commas (`require_trailing_commas`) to help the formatter break widgets cleanly.
+- Prefer single quotes for strings unless interpolation or apostrophes require double quotes.
+- Use `const` constructors and literals (`prefer_const_*` rules) and mark local variables `final` whenever possible to express immutability.
+
+### Import and Module Hygiene
+- Always use `package:` imports instead of relative paths for code under `lib/`.
+- Avoid redundant argument values and unused parameters; remove unused private helpers.
+- Do not introduce `print` statements—use the shared logger instead.
+- Keep module boundaries clear by exposing APIs through public libraries rather than deep relative paths.
+
+### Widgets and Layout
+- Provide a `Key` for stateful widgets and list items that need stable identity.
+- Avoid wrapping widgets with unnecessary `Container` instances; rely on `Padding`, `SizedBox`, or decoration widgets as appropriate.
+- Sort widget constructor arguments so `child`/`children` come last to match Flutter conventions.
+
+### Asynchronous Code
+- Avoid `async` methods that return `void`; use `Future<void>` unless implementing callbacks.
+- Use `unawaited` from `dart:async` when deliberately dropping a `Future` and document why in code comments when it is not obvious.
+- Never return `null` from a `Future`; throw or return a meaningful value instead.
+- Make side effects explicit—do not hide network or disk calls behind getters.
+
+### Generated Code
+- When you touch code that depends on code generation (`freezed`, `json_serializable`, localizations, etc.), run `./mobile/scripts/clean_up.sh` to clean, fetch dependencies, and rebuild generated files.
+
+### Quality Gates
+- Run `./mobile/scripts/checks.sh` locally before opening a pull request; it sorts ARB files, formats Dart, runs the analyzer, enforces Dart Code Metrics, and lints the design system packages.
+
 ## Error Handling
 
 ### Exception Guidelines
