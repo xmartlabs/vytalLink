@@ -1,0 +1,37 @@
+{
+  "name": "@xmartlabs/vytallink-mcp-server",
+  "version": "0.0.3",
+  "description": "MCP Server for vytalLink",
+  "main": "vytalLink_mcp_server.js",
+  "type": "module",
+  "license": "MIT",
+  "author": "Xmartlabs <vytalLink@xmartlabs.com>",
+  "homepage": "https://vytallink.xmartlabs.com",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/xmartlabs/vytalLink.git"
+  },
+  "bugs": {
+    "url": "https://github.com/xmartlabs/vytalLink/issues",
+    "email": "vytalLink@xmartlabs.com"
+  },
+  "bin": {
+    "vytallink-mcp-server": "./vytalLink_mcp_server.js"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.0.0",
+    "node-fetch": "^3.3.2"
+  },
+  "scripts": {
+    "start": "node vytalLink_mcp_server.js",
+    "dev": "node vytalLink_mcp_server.js",
+    "install-global": "npm install -g .",
+    "uninstall-global": "npm uninstall -g @xmartlabs/vytallink-mcp-server"
+  },
+  "files": [
+    "vytalLink_mcp_server.js",
+    "README.md",
+    "LICENSE"
+  ],
+  "readme": "README.md"
+}

@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, viewport-fit=cover">
+    <meta name="description" content="Complete setup guide for vytalLink MCP integration with Claude Desktop, Cursor, VS Code, and other MCP clients.">
+    <meta name="keywords" content="MCP, Model Context Protocol, Claude Desktop, Cursor, VS Code, vytalLink, health data, AI integration">
+    <meta name="author" content="Xmartlabs">
+    
+    <title>MCP Setup Guide - vytalLink</title>
+    <link rel="stylesheet" href="/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
+
+    <!-- Firebase Analytics (Google Analytics 4) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-KNFZRXV054"></script>
+    <script src="analytics.js"></script>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <i class="fas fa-heartbeat"></i>
+                <a href="/"><span>vytalLink</span></a>
+            </div>
+            <div class="nav-menu">
+                <a href="/#features" class="nav-link home-only desktop-only">How it Works</a>
+                <a href="/#demo" class="nav-link home-only desktop-only">Demo</a>
+                <a href="/#integrations" class="nav-link home-only desktop-only">AI Integrations</a>
+
+                <!-- Unified mobile menu -->
+                <a href="/" class="nav-link mobile-only"><i class="fas fa-house"></i> Home</a>
+                <a href="/chatgpt-setup.html" class="nav-link mobile-only"><i class="fas fa-comments"></i> ChatGPT Setup</a>
+                <a href="/mcp-setup.html" class="nav-link mobile-only"><i class="fas fa-server"></i> MCP Setup</a>
+                <a href="/about.html" class="nav-link mobile-only"><i class="fas fa-circle-info"></i> About</a>
+                <a href="/privacy.html" class="nav-link mobile-only"><i class="fas fa-shield"></i> Privacy</a>
+                <a href="/terms.html" class="nav-link mobile-only"><i class="fas fa-file-contract"></i> Terms</a>
+                <a href="/contact.html" class="nav-link mobile-only"><i class="fas fa-envelope"></i> Contact</a>
+
+                <div class="nav-dropdown">
+                    <button class="nav-link nav-dropdown-toggle" type="button">
+                        Setup Guides <i class="fas fa-chevron-down" aria-hidden="true"></i>
+                    </button>
+                    <div class="nav-dropdown-menu">
+                        <a class="nav-link" href="/chatgpt-setup.html">ChatGPT Setup</a>
+                        <a class="nav-link" href="/mcp-setup.html">MCP Setup</a>
+                    </div>
+                </div>
+
+                
+                <a href="#" class="btn btn-primary download-app-btn" onclick="openDownloadModal()">Download App</a>
+            </div>
+            <div class="hamburger"><span></span><span></span><span></span></div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="setup-hero">
+        <div class="container">
+            <div class="setup-header">
+                <h1>MCP Setup Guide</h1>
+                <p>Connect vytalLink to any MCP-compatible client in minutes</p>
+                <div class="supported-clients">
+                    <div class="client-badge">
+                        <i class="fas fa-brain"></i>
+                        <span>Claude Desktop</span>
+                    </div>
+                    <div class="client-badge">
+                        <i class="fas fa-code"></i>
+                        <span>Cursor</span>
+                    </div>
+                    <div class="client-badge">
+                        <i class="fas fa-laptop-code"></i>
+                        <span>VS Code</span>
+                    </div>
+                    <div class="client-badge">
+                        <i class="fas fa-plus"></i>
+                        <span>Any MCP Client</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Prerequisites -->
+    <section class="prerequisites">
+        <div class="container">
+            <div class="section-header">
+                <h2>Prerequisites</h2>
+                <p>What you need before setting up MCP integration</p>
+            </div>
+            
+            <div class="prereq-grid">
+                <div class="prereq-card">
+                    <div class="prereq-icon">
+                        <i class="fas fa-mobile-alt"></i>
+                    </div>
+                    <h3>vytalLink Mobile App</h3>
+                    <p>Download and set up the vytalLink mobile app to generate connection codes.</p>
+                    <div class="prereq-links">
+                        <a href="https://apps.apple.com/app/vytallink" target="_blank">
+                            <i class="fab fa-apple"></i> App Store
+                        </a>
+                        <a href="https://play.google.com/store/apps/details?id=com.vytallink" target="_blank">
+                            <i class="fab fa-google-play"></i> Google Play
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="prereq-card">
+                    <div class="prereq-icon">
+                        <i class="fab fa-npm"></i>
+                    </div>
+                    <h3>Node.js & npm</h3>
+                    <p>Required to install and run the vytalLink MCP server package.</p>
+                    <div class="prereq-links">
+                        <a href="https://nodejs.org/" target="_blank">
+                            <i class="fas fa-download"></i> Download Node.js
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="prereq-card">
+                    <div class="prereq-icon">
+                        <i class="fas fa-desktop"></i>
+                    </div>
+                    <h3>MCP Client</h3>
+                    <p>Any MCP-compatible client like Claude Desktop, Cursor, or VS Code with MCP support.</p>
+                    <div class="prereq-links">
+                        <a href="https://claude.ai/download" target="_blank">
+                            <i class="fas fa-brain"></i> Claude Desktop
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Setup Instructions -->
+    <section class="setup-instructions">
+        <div class="container">
+            <div class="section-header">
+                <h2>Setup Instructions</h2>
+                <p>Choose your MCP client and follow the setup guide</p>
+            </div>
+
+            <!-- Client Tabs -->
+            <div class="client-tabs">
+                <button class="tab-btn active" data-client="claude">
+                    <i class="fas fa-brain"></i>
+                    Claude Desktop
+                </button>
+                <button class="tab-btn" data-client="cursor">
+                    <i class="fas fa-code"></i>
+                    Cursor
+                </button>
+                <button class="tab-btn" data-client="vscode">
+                    <i class="fas fa-laptop-code"></i>
+                    VS Code
+                </button>
+                <button class="tab-btn" data-client="other">
+                    <i class="fas fa-cog"></i>
+                    Other MCP Clients
+                </button>
+            </div>
+
+            <!-- Claude Desktop Setup -->
+            <div class="client-content active" id="claude-content">
+                <div class="setup-steps">
+                    <div class="step">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <h3>Install the MCP Server</h3>
+                            <p>Install the vytalLink MCP server package globally using npm:</p>
+                            <div class="code-block">
+                                <div class="code-header">
+                                    <span>Terminal</span>
+                                    <button class="copy-btn" data-target="claude-install">
+                                        <i class="fas fa-copy"></i>
+                                    </button>
+                                </div>
+                                <pre><code id="claude-install">npm install -g @xmartlabs/vytallink-mcp-server</code></pre>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="step">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <h3>Configure Claude Desktop</h3>
+                            <p>Add vytalLink to your Claude Desktop configuration file:</p>
+                            
+                            <div class="config-location">
+                                <h4>Configuration file location:</h4>
+                                <div class="os-tabs">
+                                    <button class="os-tab active" data-os="mac">macOS</button>
+                                    <button class="os-tab" data-os="windows">Windows</button>
+                                    <button class="os-tab" data-os="linux">Linux</button>
+                                </div>
+                                <div class="os-path active" id="mac-path">
+                                    <code>~/Library/Application Support/Claude/claude_desktop_config.json</code>
+                                </div>
+                                <div class="os-path" id="windows-path">
+                                    <code>%APPDATA%\Claude\claude_desktop_config.json</code>
+                                </div>
+                                <div class="os-path" id="linux-path">
+                                    <code>~/.config/claude/claude_desktop_config.json</code>
+                                </div>
+                            </div>
+
+                            <div class="code-block">
+                                <div class="code-header">
+                                    <span>claude_desktop_config.json</span>
+                                    <button class="copy-btn" data-target="claude-config">
+                                        <i class="fas fa-copy"></i>
+                                    </button>
+                                </div>
+                                <pre><code id="claude-config" class="language-json">{
+  "mcpServers": {
+    "vytalLink": {
+      "command": "npx",
+      "args": [
+        "@xmartlabs/vytallink-mcp-server"
+      ]
+    }
+  }
+}</code></pre>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="step">
+                        <div class="step-number">3</div>
+                        <div class="step-content">
+                            <h3>Restart Claude Desktop</h3>
+                            <p>Close and restart Claude Desktop to load the new MCP server configuration.</p>
+                        </div>
+                    </div>
+
+                    <div class="step">
+                        <div class="step-number">4</div>
+                        <div class="step-content">
+                            <h3>Connect Your Health Data</h3>
+                            <p>Use the connection codes from your vytalLink mobile app to authenticate:</p>
+                            <div class="auth-example">
+                                <div class="chat-message">
+                                    <strong>You:</strong> Connect to my health data using code HEALTH7 and password sunset42
+                                </div>
+                                <div class="chat-message claude">
+                                    <strong>Claude:</strong> I've successfully connected to your health data! I can now help you analyze your fitness metrics, sleep patterns, and wellness trends.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Cursor Setup -->
+            <div class="client-content" id="cursor-content">
+                <div class="setup-steps">
+                    <div class="step">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <h3>Install the MCP Server</h3>
+                            <p>Install the vytalLink MCP server package:</p>
+                            <div class="code-block">
+                                <div class="code-header">
+                                    <span>Terminal</span>
+                                    <button class="copy-btn" data-target="cursor-install">
+                                        <i class="fas fa-copy"></i>
+                                    </button>
+                                </div>
+                                <pre><code id="cursor-install">npm install -g @xmartlabs/vytallink-mcp-server</code></pre>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="step">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <h3>Configure Cursor</h3>
+                            <p>Add vytalLink to your Cursor MCP configuration:</p>
+                            <div class="code-block">
+                                <div class="code-header">
+                                    <span>Cursor MCP Configuration</span>
+                                    <button class="copy-btn" data-target="cursor-config">
+                                        <i class="fas fa-copy"></i>
+                                    </button>
+                                </div>
+                                <pre><code id="cursor-config" class="language-json">{
+  "mcpServers": {
+    "vytalLink": {
+      "command": "npx",
+      "args": [
+        "@xmartlabs/vytallink-mcp-server"
+      ]
+    }
+  }
+}</code></pre>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="step">
+                        <div class="step-number">3</div>
+                        <div class="step-content">
+                            <h3>Enable MCP in Cursor</h3>
+                            <p>Make sure MCP is enabled in Cursor settings and restart the application.</p>
+                            <div class="cursor-note">
+                                <i class="fas fa-lightbulb"></i>
+                                <span>Check Cursor's documentation for the latest MCP setup instructions</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- VS Code Setup -->
+            <div class="client-content" id="vscode-content">
+                <div class="setup-steps">
+                    <div class="step">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <h3>Install MCP Extension</h3>
+                            <p>Install an MCP-compatible extension in VS Code (availability may vary).</p>
+                            <div class="vscode-note">
+                                <i class="fas fa-info-circle"></i>
+                                <span>MCP support in VS Code is evolving. Check the VS Code marketplace for MCP extensions.</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="step">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <h3>Install the MCP Server</h3>
+                            <div class="code-block">
+                                <div class="code-header">
+                                    <span>Terminal</span>
+                                    <button class="copy-btn" data-target="vscode-install">
+                                        <i class="fas fa-copy"></i>
+                                    </button>
+                                </div>
+                                <pre><code id="vscode-install">npm install -g @xmartlabs/vytallink-mcp-server</code></pre>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="step">
+                        <div class="step-number">3</div>
+                        <div class="step-content">
+                            <h3>Configure MCP Server</h3>
+                            <p>Create or edit the MCP configuration file in your VS Code user directory:</p>
+                            
+                            <div class="config-paths">
+                                <div class="os-selector">
+                                    <button class="os-tab active" data-os="mac">macOS</button>
+                                    <button class="os-tab" data-os="windows">Windows</button>
+                                    <button class="os-tab" data-os="linux">Linux</button>
+                                </div>
+                                <div class="os-path active" id="mac-vscode-path">
+                                    <code>~/Library/Application Support/Code/User/mcp.json</code>
+                                </div>
+                                <div class="os-path" id="windows-vscode-path">
+                                    <code>%APPDATA%\Code\User\mcp.json</code>
+                                </div>
+                                <div class="os-path" id="linux-vscode-path">
+                                    <code>~/.config/Code/User/mcp.json</code>
+                                </div>
+                            </div>
+
+                            <div class="code-block">
+                                <div class="code-header">
+                                    <span>mcp.json</span>
+                                    <button class="copy-btn" data-target="vscode-config">
+                                        <i class="fas fa-copy"></i>
+                                    </button>
+                                </div>
+                                <pre><code id="vscode-config" class="language-json">{
+  "servers": {
+    "vytalLink": {
+      "command": "npx",
+      "args": ["@xmartlabs/vytallink-mcp-server"]
+    }
+  }
+}</code></pre>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="step">
+                        <div class="step-number">4</div>
+                        <div class="step-content">
+                            <h3>Restart VS Code</h3>
+                            <p>Close and restart VS Code to load the new MCP server configuration.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Other Clients Setup -->
+            <div class="client-content" id="other-content">
+                <div class="setup-steps">
+                    <div class="step">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <h3>Install the MCP Server</h3>
+                            <div class="code-block">
+                                <div class="code-header">
+                                    <span>Terminal</span>
+                                    <button class="copy-btn" data-target="other-install">
+                                        <i class="fas fa-copy"></i>
+                                    </button>
+                                </div>
+                                <pre><code id="other-install">npm install -g @xmartlabs/vytallink-mcp-server</code></pre>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="step">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <h3>Generic MCP Configuration</h3>
+                            <p>Use this configuration template for any MCP-compatible client:</p>
+                            <div class="code-block">
+                                <div class="code-header">
+                                    <span>MCP Configuration Template</span>
+                                    <button class="copy-btn" data-target="other-config">
+                                        <i class="fas fa-copy"></i>
+                                    </button>
+                                </div>
+                                <pre><code id="other-config" class="language-json">{
+  "mcpServers": {
+    "vytalLink": {
+      "command": "npx",
+      "args": [
+        "@xmartlabs/vytallink-mcp-server"
+      ]
+    }
+  }
+}</code></pre>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="step">
+                        <div class="step-number">3</div>
+                        <div class="step-content">
+                            <h3>Client-Specific Setup</h3>
+                            <p>Follow your MCP client's documentation to:</p>
+                            <ul>
+                                <li>Add the server configuration</li>
+                                <li>Enable MCP functionality</li>
+                                <li>Restart the application</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Troubleshooting -->
+    <section class="troubleshooting">
+        <div class="container">
+            <div class="section-header">
+                <h2>Troubleshooting</h2>
+                <p>Common issues and solutions</p>
+            </div>
+
+            <div class="faq-grid">
+                <div class="faq-item">
+                    <h3><i class="fas fa-question-circle"></i> MCP server not found</h3>
+                    <p>Verify that @xmartlabs/vytallink-mcp-server is installed globally and npx is available in your PATH.</p>
+                </div>
+
+                <div class="faq-item">
+                    <h3><i class="fas fa-question-circle"></i> Authentication failed</h3>
+                    <p>Check that you're using the correct connection codes from your vytalLink mobile app. Codes expire after some time.</p>
+                </div>
+
+                <div class="faq-item">
+                    <h3><i class="fas fa-question-circle"></i> No health data</h3>
+                    <p>Ensure your mobile app has permission to access health data and is actively syncing with your device's health platform.</p>
+                </div>
+            </div>
+
+            <div class="support-section">
+                <h3>Need More Help?</h3>
+                <p>If you're still having issues, check our documentation or reach out for support:</p>
+                <div class="support-links">
+                    <a href="https://github.com/xmartlabs/vytalLink" class="btn btn-secondary" target="_blank">
+                        <i class="fab fa-github"></i>
+                        GitHub Repository
+                    </a>
+                    <a href="https://xmartlabs.com" class="btn btn-secondary" target="_blank">
+                        <i class="fas fa-envelope"></i>
+                        Contact Support
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="footer-logo">
+                        <i class="fas fa-heartbeat"></i>
+                        <span>vytalLink</span>
+                    </div>
+                    <p>Connecting your health data with AI, securely and privately.</p>
+                    <div class="download-footer">
+                        <a href="https://apps.apple.com/app/vytallink" target="_blank">
+                            <img src="https://developer.apple.com/assets/elements/badges/download-on-the-app-store.svg" alt="Download on App Store">
+                        </a>
+                        <a href="https://play.google.com/store/apps/details?id=com.vytallink" target="_blank">
+                            <img src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png" alt="Get it on Google Play">
+                        </a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h4>Product</h4>
+                    <ul>
+                        <li><a href="/#features">How it Works</a></li>
+                        <li><a href="/#integrations">AI Integrations</a></li>
+                        <li><a href="/#demo">Demo Video</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Setup Guides</h4>
+                    <ul>
+                        <li><a href="/chatgpt-setup.html">ChatGPT Setup</a></li>
+                        <li><a href="/mcp-setup.html">MCP Setup</a></li>
+                        <li><a href="#" onclick="openDownloadModal(); return false;">Download App</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Support</h4>
+                    <ul>
+                        <li><a href="/about.html">About vytalLink</a></li>
+                        <li><a href="/privacy.html">Privacy Policy</a></li>
+                        <li><a href="/terms.html">Terms of Service</a></li>
+                        <li><a href="/contact.html">Contact Support</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>Made with ❤️ by <a href="https://xmartlabs.com" target="_blank" style="color: var(--primary-color); text-decoration: none;">Xmartlabs</a></p>
+                <div class="social-links">
+                    <a href="https://github.com/xmartlabs/vytalLink" target="_blank"><i class="fab fa-github"></i></a>
+                    <a href="https://xmartlabs.com" target="_blank"><i class="fas fa-globe"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="/script.js"></script>
+    <script src="/common-modal.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+    <script src="/mcp-setup.js"></script>
+</body>
+</html>

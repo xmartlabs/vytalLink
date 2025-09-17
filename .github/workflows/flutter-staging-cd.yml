@@ -23,6 +23,7 @@ jobs:
         uses: ruby/setup-ruby@v1
         with:
           bundler-cache: true
+          working-directory: mobile
 
       - name: Download Firebase Service Account
         shell: bash
@@ -37,7 +38,7 @@ jobs:
           FIREBASE_APP_ID: ${{ env.FIREBASE_ANDROID_APP_ID }}
         run: |
           set -e
-          command_result=$(bundle exec fastlane get_next_build_number)
+          command_result=$(cd mobile && bundle exec fastlane get_next_build_number)
           build_number=$(echo -e -n $command_result | grep -o 'Next Build Number: [0-9]\+' | awk '{print $NF}')
           echo -n -e "Result: $command_result"
           if [[ $build_number =~ ^[0-9]+$ ]]; then
@@ -53,8 +54,8 @@ jobs:
     if: github.event.pull_request.merged == true
     timeout-minutes: 20
     env:
-      IOS_APP_FOLDER: "ios"
-      SERVICE_ACCOUNT: "${{ github.workspace }}/ios/service_account.json"
+      IOS_APP_FOLDER: "mobile/ios"
+      SERVICE_ACCOUNT: "${{ github.workspace }}/mobile/ios/service_account.json"
       FIREBASE_APP_ID_STAGING: "" ## Add your Firebase iOS App ID here
       FIREBASE_TESTER_GROUPS: "" ## Add your Firebase tester groups here
       APP_ENV: "staging"
@@ -83,8 +84,8 @@ jobs:
     timeout-minutes: 20
     runs-on: ubuntu-latest
     env:
-      ANDROID_APP_FOLDER: "android"
-      SERVICE_ACCOUNT: "${{ github.workspace }}/android/service_account.json"
+      ANDROID_APP_FOLDER: "mobile/android"
+      SERVICE_ACCOUNT: "${{ github.workspace }}/mobile/android/service_account.json"
       PROD_KEY_PROPERTIES_FILE: "key.properties"
       FIREBASE_APP_ID_STAGING: "" ## Add your Firebase Android App ID here
       FIREBASE_TESTER_GROUPS: "" ## Add your Firebase tester groups here
@@ -94,7 +95,7 @@ jobs:
       - name: Deploy Andorid to Firebase
         uses: ./.github/workflows/actions/deploy-android-firebase
         with:
-          "key-properties-file": ${{ inputs.key-properties-file }}
+          "key-properties-file": ${{ env.PROD_KEY_PROPERTIES_FILE }}
           "firebase-base64-service-account-credentials": ${{ secrets.FIREBASE_SERVICE_ACCOUNT_CREDENTIALS_BASE_64 }}
           "android-app-folder": ${{ env.ANDROID_APP_FOLDER }}
           "app-env": ${{ env.APP_ENV }}

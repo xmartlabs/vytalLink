@@ -1,0 +1,44 @@
+# IMPORTANT
+# To keep integration test working, after excecuting flavorizr for creating more schemas
+# you need to remove FLUTTER_TARGET line from all .xcconfig files on ios/Flutter directory
+
+flavors:
+  dev:
+    app:
+      name: 'VytalLink Dev'
+    android:
+      applicationId: 'com.xmartlabs.vytallink.dev'
+    ios:
+      bundleId: 'com.xmartlabs.vytallink.dev'
+      variables:
+        FLUTTER_TARGET:
+          value: 'lib/main.dart'
+  staging:
+    app:
+      name: 'VytalLink Sta'
+    android:
+      applicationId: 'com.xmartlabs.vytallink.sta'
+    ios:
+      bundleId: 'com.xmartlabs.vytallink.sta'
+      variables:
+        FLUTTER_TARGET:
+          value: 'lib/main.dart'
+  prod:
+    app:
+      name: 'VytalLink'
+    android:
+      applicationId: 'com.xmartlabs.vytallink'
+    ios:
+      bundleId: 'com.xmartlabs.vytallink'
+      variables:
+        FLUTTER_TARGET:
+          value: 'lib/main.dart'
+instructions:
+  - assets:download
+  - assets:extract
+  - android:buildGradle
+  - ios:xcconfig
+  - ios:buildTargets
+  - ios:schema
+  - ios:plist
+  - assets:clean

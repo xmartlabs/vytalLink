@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>vytalLink - Demo</title>
+
+    <!-- Firebase Analytics (Google Analytics 4) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-KNFZRXV054"></script>
+    <script src="analytics.js"></script>
+
+    <style>
+        body { 
+            font-family: Arial, sans-serif; 
+            margin: 20px;
+            background: #f0f0f0;
+        }
+        .demo-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+        .status { 
+            padding: 10px; 
+            margin: 10px 0; 
+            border-radius: 5px; 
+        }
+        .success { 
+            background: #d4edda; 
+            color: #155724; 
+            border: 1px solid #c3e6cb; 
+        }
+        .info { 
+            background: #d1ecf1; 
+            color: #0c5460; 
+            border: 1px solid #bee5eb; 
+        }
+        .preview {
+            border: 2px solid #6366f1;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+        }
+        h1 { color: #6366f1; }
+        h2 { color: #4f46e5; }
+        .btn {
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            text-decoration: none;
+            display: inline-block;
+            margin: 10px 5px;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        .btn:hover { transform: translateY(-2px); }
+        .metrics {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        .metric {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .metric-value { font-size: 1.5em; font-weight: bold; color: #6366f1; }
+        .code {
+            background: #1e293b;
+            color: #e2e8f0;
+            padding: 15px;
+            border-radius: 8px;
+            font-family: monospace;
+            overflow-x: auto;
+            margin: 15px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="demo-container">
+        <h1>🏥 vytalLink Landing Page - Vista Previa</h1>
+        
+        <div class="status success">
+            ✅ Landing page creada exitosamente
+        </div>
+        
+        <div class="status info">
+            💡 Para ver la landing completa, ejecuta el servidor y ve a http://localhost:8000
+        </div>
+
+        <div class="preview">
+            <h2>🚀 Características de la Landing</h2>
+            
+            <h3>🎨 Diseño Moderno</h3>
+            <ul>
+                <li>Gradientes y colores profesionales</li>
+                <li>Tipografía Inter para mejor legibilidad</li>
+                <li>Iconos FontAwesome</li>
+                <li>Animaciones CSS suaves</li>
+            </ul>
+
+            <h3>📱 Completamente Responsivo</h3>
+            <ul>
+                <li>Se adapta a móviles, tablets y desktop</li>
+                <li>Menu hamburguesa para móviles</li>
+                <li>Grid y Flexbox para layouts flexibles</li>
+            </ul>
+
+            <h3>💻 Simulación de Dashboard</h3>
+            <div class="metrics">
+                <div class="metric">
+                    <div>❤️</div>
+                    <div class="metric-value">72 BPM</div>
+                    <div>Heart Rate</div>
+                </div>
+                <div class="metric">
+                    <div>🚶</div>
+                    <div class="metric-value">8,547</div>
+                    <div>Steps</div>
+                </div>
+                <div class="metric">
+                    <div>😴</div>
+                    <div class="metric-value">7.5h</div>
+                    <div>Sleep</div>
+                </div>
+                <div class="metric">
+                    <div>🔥</div>
+                    <div class="metric-value">420</div>
+                    <div>Calories</div>
+                </div>
+            </div>
+
+            <h3>📚 Ejemplo de API</h3>
+            <div class="code">
+// Get user health metrics
+const response = await fetch('/api/health/metrics', {
+  headers: {
+    'Authorization': 'Bearer ' + accessToken,
+    'Content-Type': 'application/json'
+  }
+});
+
+const healthData = await response.json();
+            </div>
+        </div>
+
+        <h2>🛠 Cómo ejecutar</h2>
+        
+        <h3>Con Docker (Recomendado):</h3>
+        <div class="code">
+docker-compose up -d
+        </div>
+
+        <h3>Desarrollo local:</h3>
+        <div class="code">
+cd backend
+python main.py
+        </div>
+
+        <div style="text-align: center; margin: 30px 0;">
+            <a href="http://localhost:8000" class="btn" target="_blank">
+                🌐 Ver Landing Page Completa
+            </a>
+            <a href="http://localhost:8000/api" class="btn" target="_blank">
+                🔌 Ver API Endpoints
+            </a>
+        </div>
+
+        <div class="status info">
+            📁 Archivos creados:
+            <ul style="margin: 10px 0; padding-left: 20px;">
+                <li><strong>frontend/index.html</strong> - Página principal</li>
+                <li><strong>frontend/styles.css</strong> - Estilos responsivos</li>
+                <li><strong>frontend/script.js</strong> - Interactividad</li>
+                <li><strong>frontend/README.md</strong> - Documentación</li>
+            </ul>
+        </div>
+
+        <div style="margin-top: 30px; padding: 20px; background: #f8f9fa; border-radius: 8px; text-align: center;">
+            <h3>🎯 vytalLink</h3>
+            <p><em>Your Health Data, Connected</em></p>
+            <p>OAuth 2.0 • REST API • WebSocket • MCP Support</p>
+        </div>
+    </div>
+
+    <script>
+        // Simulate real-time updates like the main landing page
+        setInterval(() => {
+            const metrics = document.querySelectorAll('.metric-value');
+            metrics.forEach(metric => {
+                if (metric.textContent.includes('BPM')) {
+                    const value = 70 + Math.floor(Math.random() * 10);
+                    metric.textContent = value + ' BPM';
+                } else if (metric.textContent.includes(',')) {
+                    const value = 8500 + Math.floor(Math.random() * 200);
+                    metric.textContent = value.toLocaleString();
+                }
+            });
+        }, 2000);
+    </script>
+</body>
+</html>

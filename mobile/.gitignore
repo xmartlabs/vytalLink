@@ -1,0 +1,38 @@
+# Flutter/Dart/Pub related
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+.packages
+.pub-cache/
+.pub/
+build/
+**/build/
+**/doc/api/
+ios/Flutter/.last_build_id
+
+# Firebase & secrets
+android/app/google-services.json
+ios/Runner/GoogleService-Info.plist
+ios/Runner/Dev/GoogleService-Info.plist
+/secrets/
+firebase.json
+
+# Android Studio build artifacts
+android/app/debug
+android/app/profile
+android/app/release
+
+# Fastlane outputs
+fastlane/report.xml
+fastlane/Preview.html
+fastlane/screenshots
+fastlane/test_output
+
+# Bundler
+.bundle/
+vendor/bundle/
+
+# FVM cache
+.fvm/
+
+lib/generated_plugin_registrant.dart

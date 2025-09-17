@@ -25,6 +25,7 @@ jobs:
         uses: ruby/setup-ruby@v1
         with:
           bundler-cache: true
+          working-directory: mobile
 
       - name: Download Firebase Service Account
         shell: bash
@@ -40,7 +41,7 @@ jobs:
           FIREBASE_APP_ID: ${{ env.FIREBASE_ANDROID_APP_ID }}
         run: |
           set -e
-          command_result=$(bundle exec fastlane get_next_build_number)
+          command_result=$(cd mobile && bundle exec fastlane get_next_build_number)
           echo -n -e "Result: $command_result"
           build_number=$(echo -e -n $command_result | grep -o 'Next Build Number: [0-9]\+' | awk '{print $NF}')
           if [[ $build_number =~ ^[0-9]+$ ]]; then
@@ -56,7 +57,7 @@ jobs:
     if: github.event.pull_request.merged == true
     timeout-minutes: 30
     env:
-      IOS_APP_FOLDER: "ios"
+      IOS_APP_FOLDER: "mobile/ios"
       FIREBASE_APP_ID_PRODUCTION: "" ## Add your Firebase iOS App ID here
 
     runs-on: macos-13
@@ -79,7 +80,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 30
     env:
-      ANDROID_APP_FOLDER: "android"
+      ANDROID_APP_FOLDER: "mobile/android"
       PROD_KEY_PROPERTIES_FILE: "key.properties"
       APP_ENV: 'prod'
     steps:
