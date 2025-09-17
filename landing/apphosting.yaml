@@ -1,0 +1,50 @@
+# Settings for Backend (on Cloud Run).
+# See https://firebase.google.com/docs/app-hosting/configure#cloud-run
+runConfig:
+  minInstances: 0
+  # maxInstances: 100
+  # concurrency: 80
+  # cpu: 1
+  # memoryMiB: 512
+
+# Environment variables and secrets.
+# env:
+  # Configure environment variables.
+  # See https://firebase.google.com/docs/app-hosting/configure#user-defined-environment
+  # - variable: MESSAGE
+  #   value: Hello world!
+  #   availability:
+  #     - BUILD
+  #     - RUNTIME
+
+  # Grant access to secrets in Cloud Secret Manager.
+  # See https://firebase.google.com/docs/app-hosting/configure#secret-parameters
+  # - variable: MY_SECRET
+  #   secret: mySecretRef
+
+# Settings for serving static pages.
+hosting:
+  public: public
+  ignore:
+    - firebase.json
+    - "**/.*"
+    - "**/node_modules/**"
+  rewrites:
+    - source: "**"
+      destination: /index.html
+  redirects:
+    - source: /about
+      destination: /about.html
+      type: 301
+    - source: /contact
+      destination: /contact.html
+      type: 301
+    - source: /demo
+      destination: /demo.html
+      type: 301
+    - source: /privacy
+      destination: /privacy.html
+      type: 301
+    - source: /terms
+      destination: /terms.html
+      type: 301

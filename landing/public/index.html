@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, viewport-fit=cover">
+    <meta name="description" content="Connect your health data with AI using vytalLink. Download the mobile app and instantly connect to ChatGPT, Claude, and other AI tools. Secure, private, and easy to use.">
+    <meta name="keywords" content="health data, AI, ChatGPT, Claude, MCP, OAuth, fitness tracker, health app, vytalLink">
+    <meta name="author" content="Xmartlabs">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://vytallink.com/">
+    <meta property="og:title" content="vytalLink - Connect Your Health Data with AI">
+    <meta property="og:description" content="Download the mobile app and instantly connect your health data to ChatGPT, Claude, and other AI tools. Secure, private, and incredibly easy to use.">
+    <meta property="og:image" content="https://vytallink.com/og-image.png">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://vytallink.com/">
+    <meta property="twitter:title" content="vytalLink - Connect Your Health Data with AI">
+    <meta property="twitter:description" content="Download the mobile app and instantly connect your health data to ChatGPT, Claude, and other AI tools. Secure, private, and incredibly easy to use.">
+    <meta property="twitter:image" content="https://vytallink.com/og-image.png">
+    
+    <title>vytalLink - Connect Your Health Data with AI</title>
+    <link rel="stylesheet" href="/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+
+    <!-- Firebase Analytics (Google Analytics 4) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-KNFZRXV054"></script>
+    <script src="analytics.js"></script>
+</head>
+<body class="home-page">
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <i class="fas fa-heartbeat"></i>
+                <a href="/"><span>vytalLink</span></a>
+            </div>
+            <div class="nav-menu">
+                <a href="#features" class="nav-link home-only desktop-only">How it Works</a>
+                <a href="#demo" class="nav-link home-only desktop-only">Demo</a>
+                <a href="#integrations" class="nav-link home-only desktop-only">AI Integrations</a>
+
+                <!-- Unified mobile menu -->
+                <a href="/" class="nav-link mobile-only"><i class="fas fa-house"></i> Home</a>
+                <a href="/chatgpt-setup.html" class="nav-link mobile-only"><i class="fas fa-comments"></i> ChatGPT Setup</a>
+                <a href="/mcp-setup.html" class="nav-link mobile-only"><i class="fas fa-server"></i> MCP Setup</a>
+                <a href="/about.html" class="nav-link mobile-only"><i class="fas fa-circle-info"></i> About</a>
+                <a href="/privacy.html" class="nav-link mobile-only"><i class="fas fa-shield"></i> Privacy</a>
+                <a href="/terms.html" class="nav-link mobile-only"><i class="fas fa-file-contract"></i> Terms</a>
+                <a href="/contact.html" class="nav-link mobile-only"><i class="fas fa-envelope"></i> Contact</a>
+
+                <div class="nav-dropdown desktop-only">
+                    <button class="nav-link nav-dropdown-toggle" type="button">
+                        Setup Guides <i class="fas fa-chevron-down" aria-hidden="true"></i>
+                    </button>
+                    <div class="nav-dropdown-menu">
+                        <a class="nav-link" href="/chatgpt-setup.html">ChatGPT Setup</a>
+                        <a class="nav-link" href="/mcp-setup.html">MCP Setup</a>
+                    </div>
+                </div>
+
+                <a href="#" class="btn btn-primary download-app-btn" onclick="openDownloadModal()">Download App</a>
+            </div>
+            <div class="hamburger"><span></span><span></span><span></span></div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-container">
+            <div class="hero-content">
+                <h1 class="hero-title">
+                    Connect Your Health Data with AI using
+                    <span class="gradient-text">vytalLink</span>
+                </h1>
+                <p class="hero-description">
+                    Download the mobile app and instantly connect your health data to ChatGPT, Claude, and other AI tools. 
+                    Secure, private, and incredibly easy to use.
+                </p>
+                <div class="hero-buttons">
+                    <a href="https://apps.apple.com/app/vytallink" class="btn btn-primary btn-large" target="_blank">
+                        <i class="fab fa-apple"></i>
+                        Download on App Store
+                    </a>
+                    <a href="https://play.google.com/store/apps/details?id=com.vytallink" class="btn btn-primary btn-large" target="_blank">
+                        <i class="fab fa-google-play"></i>
+                        Get it on Google Play
+                    </a>
+                </div>
+                <div class="hero-stats">
+                    <div class="stat">
+                        <span class="stat-number">🔒</span>
+                        <span class="stat-label">100% Secure</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number">📱</span>
+                        <span class="stat-label">Mobile First</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number">🤖</span>
+                        <span class="stat-label">AI Ready</span>
+                    </div>
+                </div>
+            </div>
+            <div class="hero-visual">
+                <div class="phone-mockup">
+                    <div class="phone-screen">
+                        <div class="app-header">
+                            <div class="app-logo">
+                                <i class="fas fa-heartbeat"></i>
+                                <span>vytalLink</span>
+                            </div>
+                        </div>
+                        
+                        <!-- Connection Credentials Card -->
+                        <div class="credentials-card">
+                            <div class="card-header">
+                                <i class="fas fa-shield-alt"></i>
+                                <span class="card-title">Connection Credentials</span>
+                            </div>
+                            <div class="credentials-content">
+                                <div class="credential-row">
+                                    <span class="credential-label">Code</span>
+                                    <span class="credential-value">health</span>
+                                </div>
+                                <div class="credential-row">
+                                    <span class="credential-label">Password</span>
+                                    <span class="credential-value">123456</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Server Status Card -->
+                        <div class="server-card">
+                            <div class="server-header">
+                                <div class="server-info">
+                                    <span class="server-title">vytalLink Server Running</span>
+                                    <span class="server-subtitle">Health data bridge is active</span>
+                                </div>
+                                <div class="status-badge">
+                                    <div class="status-dot"></div>
+                                    <span>ONLINE</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="features">
+        <div class="container">
+            <div class="section-header">
+                <h2>How vytalLink Works</h2>
+                <p>Three simple steps to connect your health data with AI</p>
+            </div>
+            
+            <!-- Step-by-step process -->
+            <div class="steps-container">
+                <div class="step-card">
+                    <div class="step-icon">
+                        <span class="step-number">1</span>
+                        <h3>Download & Connect</h3>
+                    </div>
+                    <div class="step-info">
+                        <p>Get vytalLink from the App Store or Google Play and connect your health data. The app automatically syncs with Apple Health, Google Fit, and other health platforms on your phone.</p>
+                        <div class="combined-features">
+                            <div class="download-buttons">
+                                <a href="https://apps.apple.com/app/vytallink" target="_blank" class="download-btn">
+                                    <i class="fab fa-apple"></i>
+                                    <span>App Store</span>
+                                </a>
+                                <a href="https://play.google.com/store/apps/details?id=com.vytallink" target="_blank" class="download-btn">
+                                    <i class="fab fa-google-play"></i>
+                                    <span>Google Play</span>
+                                </a>
+                            </div>
+                            <div class="health-platforms">
+                                <p class="platforms-intro">Automatically syncs with:</p>
+                                <div class="platforms-list">
+                                    <span class="platform-tag">
+                                        <i class="fab fa-apple"></i>
+                                        Apple Health
+                                    </span>
+                                    <span class="platform-tag">
+                                        <i class="fab fa-google"></i>
+                                        Google Fit
+                                    </span>
+                                    <span class="platform-tag">
+                                        <i class="fas fa-watch"></i>
+                                        Wearables
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="step-card">
+                    <div class="step-icon">
+                        <span class="step-number">2</span>
+                        <h3>Connect Your AI Tool</h3>
+                    </div>
+                    <div class="step-info">
+                        <p>Set up vytalLink with your preferred AI assistant. Choose from ChatGPT GPTs, MCP-compatible clients, or direct API integration.</p>
+                        <div class="connection-options">
+                            <a class="connection-item" href="/chatgpt-setup.html">
+                                <div class="connection-badge most-popular">Most Popular</div>
+                                <i class="fas fa-robot"></i>
+                                <span>ChatGPT GPTs</span>
+                                <small>Use our custom GPT</small>
+                            </a>
+                            <a class="connection-item" href="/mcp-setup.html">
+                                <div class="connection-badge advanced">Advanced</div>
+                                <i class="fas fa-server"></i>
+                                <span>MCP Server</span>
+                                <small>Claude, Cursor, VS Code</small>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="step-card">
+                    <div class="step-icon">
+                        <span class="step-number">3</span>
+                        <h3>Ask Your Questions</h3>
+                    </div>
+                    <div class="step-info">
+                        <p>Use natural language to query your health data. Ask about trends, patterns, correlations, and get personalized insights.</p>
+                        <div class="example-questions">
+                            <div class="question-bubble">How has my sleep quality changed this month?</div>
+                            <div class="question-bubble">Show me my heart rate during workouts</div>
+                            <div class="question-bubble">What's the correlation between my steps and sleep?</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Key Features Grid -->
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3>100% Secure & Private</h3>
+                    <p>We never store your health data. Everything stays on your device and is only shared when you explicitly choose to.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-mobile-alt"></i>
+                    </div>
+                    <h3>Incredibly Easy to Use</h3>
+                    <p>Download, connect, and start chatting with AI about your health in under 2 minutes. No technical knowledge required.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <h3>Works with Any AI</h3>
+                    <p>Compatible with ChatGPT, Claude, and any AI assistant that supports health data integration.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-sync-alt"></i>
+                    </div>
+                    <h3>Real-time Sync</h3>
+                    <p>Your health data updates automatically from your phone's health app and connected devices.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-heart"></i>
+                    </div>
+                    <h3>Comprehensive Health Data</h3>
+                    <p>Heart rate, steps, sleep, workouts, and more. Get insights about all aspects of your health.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-code"></i>
+                    </div>
+                    <h3>Developer Friendly</h3>
+                    <p>OAuth 2.0, REST API, WebSocket support, and MCP integration for developers building health apps.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- API Overview Section -->
+    <section id="demo" class="demo-section">
+        <div class="container">
+            <div class="demo-content">
+                <div class="demo-text">
+                    <h2>See It In Action</h2>
+                    <p>Watch how easy it is to connect your health data with AI assistants using vytalLink.</p>
+                    
+                    <div class="demo-features">
+                        <div class="demo-feature">
+                            <i class="fas fa-play-circle"></i>
+                            <span>Step-by-step tutorial</span>
+                        </div>
+                        <div class="demo-feature">
+                            <i class="fas fa-mobile-alt"></i>
+                            <span>Real app demonstration</span>
+                        </div>
+                        <div class="demo-feature">
+                            <i class="fas fa-comments"></i>
+                            <span>AI conversation examples</span>
+                        </div>
+                        <div class="demo-feature">
+                            <i class="fas fa-shield-alt"></i>
+                            <span>Security and privacy</span>
+                        </div>
+                    </div>
+
+                    <div class="cta-buttons">
+                        <a href="https://apps.apple.com/app/vytallink" class="btn btn-primary" target="_blank">
+                            <i class="fab fa-apple"></i>
+                            Download Now
+                        </a>
+                        <a href="https://chatgpt.com/gpts" class="btn btn-secondary" target="_blank">
+                            <i class="fas fa-robot"></i>
+                            Try with ChatGPT
+                        </a>
+                    </div>
+                </div>
+                <div class="demo-video">
+                    <div class="video-placeholder">
+                        <div class="video-content">
+                            <i class="fas fa-play-circle"></i>
+                            <h3>Demo Video</h3>
+                            <p>Coming Soon!</p>
+                            <small>We're preparing an amazing demo video to show you exactly how vytalLink works.</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Getting Started Section -->
+    <section id="integrations" class="integrations-section">
+        <div class="container">
+            <div class="section-header">
+                <h2>Connect with Your Favorite AI</h2>
+                <p>vytalLink works seamlessly with the most popular AI assistants</p>
+            </div>
+            
+            <div class="integrations-grid">
+                <div class="integration-card featured">
+                    <div class="integration-header">
+                        <i class="fas fa-robot"></i>
+                        <h3>ChatGPT</h3>
+                        <span class="integration-badge">Most Popular</span>
+                    </div>
+                    <p>Ask ChatGPT about your health data, get personalized insights, and track your wellness goals.</p>
+                        <div class="integration-steps">
+                            <span>1. Download the vytalLink mobile app</span>
+                            <span>2. Get connection codes</span>
+                            <span>3. Configure ChatGPT GPT</span>
+                        </div>
+                    <a href="/chatgpt-setup.html" class="btn btn-primary">
+                        <i class="fas fa-cog"></i>
+                        Setup Guide
+                    </a>
+                </div>
+                
+                <div class="integration-card">
+                    <div class="integration-header">
+                        <i class="fas fa-brain"></i>
+                        <h3>MCP Clients</h3>
+                        <span class="integration-badge">Advanced</span>
+                    </div>
+                    <p>Connect to any MCP-compatible client like Claude Desktop, Cursor, VS Code, and more through Model Context Protocol.</p>
+                        <div class="integration-steps">
+                            <span>1. Download the vytalLink mobile app</span>
+                            <span>2. Configure MCP client</span>
+                            <span>3. Connect & Chat</span>
+                        </div>
+                    <a href="/mcp-setup.html" class="btn btn-secondary">
+                        <i class="fas fa-cog"></i>
+                        Setup Guide
+                    </a>
+                </div>
+                
+                <div class="integration-card">
+                    <div class="integration-header">
+                        <i class="fas fa-code"></i>
+                        <h3>Custom AI</h3>
+                        <span class="integration-badge coming-soon">Coming Soon</span>
+                    </div>
+                    <p>Build your own health AI applications using our OAuth 2.0 API and real-time data streams.</p>
+                    <div class="integration-steps">
+                        <span>1. API Documentation</span>
+                        <span>2. OAuth Setup</span>
+                        <span>3. Build & Deploy</span>
+                    </div>
+                    <a href="#" class="btn btn-secondary disabled">
+                        <i class="fas fa-clock"></i>
+                        Coming Soon
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="footer-logo">
+                        <i class="fas fa-heartbeat"></i>
+                        <span>vytalLink</span>
+                    </div>
+                    <p>Connecting your health data with AI, securely and privately.</p>
+                    <div class="download-footer">
+                        <a href="https://apps.apple.com/app/vytallink" target="_blank">
+                            <img src="https://developer.apple.com/assets/elements/badges/download-on-the-app-store.svg" alt="Download on App Store">
+                        </a>
+                        <a href="https://play.google.com/store/apps/details?id=com.vytallink" target="_blank">
+                            <img src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png" alt="Get it on Google Play">
+                        </a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h4>Product</h4>
+                    <ul>
+                        <li><a href="#features">How it Works</a></li>
+                        <li><a href="#integrations">AI Integrations</a></li>
+                        <li><a href="#demo">Demo Video</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Setup Guides</h4>
+                    <ul>
+                        <li><a href="/chatgpt-setup.html">ChatGPT Setup</a></li>
+                        <li><a href="/mcp-setup.html">MCP Setup</a></li>
+                        <li><a href="#" onclick="openDownloadModal(); return false;">Download App</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Support</h4>
+                    <ul>
+                        <li><a href="/about.html">About vytalLink</a></li>
+                        <li><a href="/privacy.html">Privacy Policy</a></li>
+                        <li><a href="/terms.html">Terms of Service</a></li>
+                        <li><a href="/contact.html">Contact Support</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>Made with ❤️ by <a href="https://xmartlabs.com" target="_blank" style="color: var(--primary-color); text-decoration: none;">Xmartlabs</a></p>
+                <div class="social-links">
+                    <a href="https://github.com/xmartlabs/vytalLink" target="_blank"><i class="fab fa-github"></i></a>
+                    <a href="https://xmartlabs.com" target="_blank"><i class="fas fa-globe"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="/script.js"></script>
+    <script src="/common-modal.js"></script>
+</body>
+</html>

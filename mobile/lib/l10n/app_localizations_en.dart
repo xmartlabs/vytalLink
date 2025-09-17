@@ -1,0 +1,631 @@
+// ignore: unused_import
+import 'package:intl/intl.dart' as intl;
+import 'app_localizations.dart';
+
+// ignore_for_file: type=lint
+
+/// The translations for English (`en`).
+class AppLocalizationsEn extends AppLocalizations {
+  AppLocalizationsEn([String locale = 'en']) : super(locale);
+
+  @override
+  String get ai_integration_chatgpt => 'ChatGPT';
+
+  @override
+  String get ai_integration_chatgpt_subtitle => 'Most Popular';
+
+  @override
+  String get ai_integration_mcp => 'MCP';
+
+  @override
+  String get ai_integration_mcp_subtitle => 'Claude, Cursor';
+
+  @override
+  String get ai_integration_subtitle =>
+      'Analyze your health data with ChatGPT, Claude and more';
+
+  @override
+  String get ai_integration_title => 'Connect with AI';
+
+  @override
+  String get app_name => 'vytalLink';
+
+  @override
+  String get chatgpt_example_1 =>
+      'What were my average heart rate and steps yesterday?';
+
+  @override
+  String get chatgpt_example_2 => 'Show me my sleep patterns for the last week';
+
+  @override
+  String get chatgpt_example_3 =>
+      'How many calories did I burn during my last workout?';
+
+  @override
+  String get chatgpt_example_4 =>
+      'Compare my activity levels between this month and last month';
+
+  @override
+  String get chatgpt_example_5 =>
+      'What time did I go to bed on average this week?';
+
+  @override
+  String get chatgpt_example_6 =>
+      'Show me my health trends over the past 30 days';
+
+  @override
+  String get chatgpt_examples_description =>
+      'Here are some questions you can ask ChatGPT about your health data:';
+
+  @override
+  String get chatgpt_examples_title => 'Example Questions';
+
+  @override
+  String get chatgpt_feature_1 =>
+      'Simply ask questions about your health in everyday language';
+
+  @override
+  String get chatgpt_feature_2 =>
+      'Get instant, personalized insights about your wellness trends';
+
+  @override
+  String get chatgpt_feature_3 =>
+      'No technical knowledge needed - just start a conversation';
+
+  @override
+  String get chatgpt_feature_4 =>
+      'Understand your health data with clear, friendly explanations';
+
+  @override
+  String get chatgpt_integration_hero_subtitle =>
+      'ChatGPT is one of the world\'s most popular AI assistants. With vytalLink\'s custom GPT, analyzing your health data becomes incredibly simple and intuitive.';
+
+  @override
+  String get chatgpt_integration_hero_title => 'Connect with ChatGPT';
+
+  @override
+  String get chatgpt_integration_title => 'ChatGPT Integration';
+
+  @override
+  String get chatgpt_open_custom_gpt => 'Open vytalLink GPT';
+
+  @override
+  String get chatgpt_setup_title => 'How to Set Up';
+
+  @override
+  String get chatgpt_start_button => 'Start with ChatGPT';
+
+  @override
+  String get chatgpt_step_1_description =>
+      'First, go to the Home screen and tap \'Start Connection\' to connect this app. You\'ll receive a connection word and PIN that you\'ll use to authenticate with ChatGPT.';
+
+  @override
+  String get chatgpt_step_1_title => 'Connect This App';
+
+  @override
+  String get chatgpt_step_2_description =>
+      'We recommend using ChatGPT on the web at chatgpt.com since this app needs to stay open to send your data to ChatGPT.';
+
+  @override
+  String get chatgpt_step_2_title => 'Open ChatGPT Web';
+
+  @override
+  String get chatgpt_step_3_description =>
+      'In ChatGPT, go to GPTs and search for \'vytalLink\'. Click on it and then select \'Start Chat\' to begin.';
+
+  @override
+  String get chatgpt_step_3_title => 'Find vytalLink GPT';
+
+  @override
+  String get chatgpt_step_4_description =>
+      'Ask any question about your health data. ChatGPT will request your connection word and PIN - simply provide the credentials shown in this app, then start exploring your health insights!';
+
+  @override
+  String get chatgpt_step_4_title => 'Connect and Start Asking';
+
+  @override
+  String get chatgpt_what_is_description =>
+      'We\'ve created a special version of ChatGPT specifically designed for health data analysis. This custom GPT understands health metrics and can provide personalized insights about your wellness journey in simple, easy-to-understand language.';
+
+  @override
+  String get chatgpt_what_is_title => 'What is vytalLink\'s Custom GPT?';
+
+  @override
+  String get connection_code_label => 'Connection Code';
+
+  @override
+  String connection_copied_to_clipboard(String label) {
+    return '$label copied to clipboard';
+  }
+
+  @override
+  String get connection_copy_button => 'Copy';
+
+  @override
+  String get connection_could_not_connect_default =>
+      'Could not connect to server';
+
+  @override
+  String get connection_could_not_establish => 'Could not establish connection';
+
+  @override
+  String get connection_credentials_info_button => 'Info';
+
+  @override
+  String get connection_credentials_info_message =>
+      'These credentials are temporary and automatically generated by the backend each time you connect. They provide secure access without storing any sensitive information on your device. New credentials are created for every connection session to ensure maximum security.';
+
+  @override
+  String get connection_credentials_info_title => 'About Temporary Credentials';
+
+  @override
+  String get connection_credentials_subtitle =>
+      'These credentials are temporary and change with each connection';
+
+  @override
+  String get connection_credentials_title => 'Temporary Credentials';
+
+  @override
+  String get connection_error_network_description =>
+      'Unable to connect to the vytalLink server. Please check your internet connection and try again.';
+
+  @override
+  String get connection_error_network_title => 'Connection Failed';
+
+  @override
+  String connection_error_prefix(String error) {
+    return 'Connection error: $error';
+  }
+
+  @override
+  String get connection_error_retry => 'Retry Connection';
+
+  @override
+  String get connection_error_server_description =>
+      'The vytalLink server is not responding. Please verify the server is running and try again.';
+
+  @override
+  String get connection_error_server_title => 'Server Connection Error';
+
+  @override
+  String get connection_error_title => 'Connection Error';
+
+  @override
+  String get connection_failed_to_establish =>
+      'Connection failed - could not establish';
+
+  @override
+  String get connection_lost_description =>
+      'The connection to the vytalLink server was lost unexpectedly. Please check your network and try reconnecting.';
+
+  @override
+  String get connection_lost_title => 'Connection Lost';
+
+  @override
+  String get connection_lost_unexpectedly => 'Connection lost unexpectedly';
+
+  @override
+  String get connection_lost_with_server => 'Connection lost with server';
+
+  @override
+  String get connection_not_connected => 'Not connected to backend';
+
+  @override
+  String get connection_password_label => 'Connection Word';
+
+  @override
+  String get connection_retry_button => 'Retry';
+
+  @override
+  String get connection_section_title => 'Connection Credentials';
+
+  @override
+  String get copied_to_clipboard => 'Copied to clipboard';
+
+  @override
+  String get credentials_copied_to_clipboard =>
+      'Credentials copied to clipboard';
+
+  @override
+  String get credentials_keep_app_open => 'Keep app open and device unlocked';
+
+  @override
+  String get credentials_pin_label => 'PIN';
+
+  @override
+  String credentials_text(String word, String pin) {
+    return 'Word: $word • PIN: $pin';
+  }
+
+  @override
+  String get credentials_word_label => 'WORD';
+
+  @override
+  String error(String text) {
+    return 'Error: $text';
+  }
+
+  @override
+  String get error_button_ok => 'Ok';
+
+  @override
+  String get error_button_retry => 'Retry';
+
+  @override
+  String get error_no_internet_connection_error_description =>
+      'You have no internet connection';
+
+  @override
+  String get error_no_internet_connection_error_title => 'Error';
+
+  @override
+  String get error_unknown_error_description => 'Something went wrong!';
+
+  @override
+  String get error_unknown_error_title => 'Ops!';
+
+  @override
+  String get example_config_title => 'Example Claude Configuration:';
+
+  @override
+  String get health_client_config_failed => 'Failed to configure health client';
+
+  @override
+  String get health_data_unavailable => 'Health data unavailable';
+
+  @override
+  String get health_permission_required => 'Health permission required';
+
+  @override
+  String get health_permissions_alert_accept => 'Accept';
+
+  @override
+  String get health_permissions_alert_cancel => 'Cancel';
+
+  @override
+  String get health_permissions_alert_message =>
+      'We do not store or keep any of your health data. We simply act as an intermediary with the provider you choose. To connect to the server, you must first accept and grant permissions to access your health wearables. Only then can we send your data as you request.';
+
+  @override
+  String get health_permissions_alert_title => 'Health Data Privacy';
+
+  @override
+  String get health_permissions_dialog_accept => 'Allow';
+
+  @override
+  String get health_permissions_dialog_cancel => 'Cancel';
+
+  @override
+  String get health_permissions_dialog_message =>
+      'To connect and share your health data with AI assistants, you need to grant ALL the following permissions:\n\n• Access to health data (steps, heart rate, sleep, workouts)\n• Access to health history (more than 30 days)\n\nBoth permissions are mandatory for the connection to work.';
+
+  @override
+  String get health_permissions_dialog_title => 'Health Data Access Required';
+
+  @override
+  String get home_button_start_server => 'Start Connection';
+
+  @override
+  String get home_button_starting => 'Starting...';
+
+  @override
+  String get home_button_stop_server => 'Stop Connection';
+
+  @override
+  String get home_button_stopping => 'Stopping...';
+
+  @override
+  String get home_description_error =>
+      'Unable to connect to the vytalLink server. Please check your connection and try again.';
+
+  @override
+  String get home_description_offline =>
+      'Ready to start the vytalLink server on this device';
+
+  @override
+  String get home_description_running =>
+      'vytalLink server is active and ready to receive connections';
+
+  @override
+  String get home_description_starting =>
+      'Initializing vytalLink server and binding to port...';
+
+  @override
+  String get home_description_stopping =>
+      'Shutting down server and closing connections...';
+
+  @override
+  String home_endpoint_label(String endpoint) {
+    return 'Endpoint: $endpoint';
+  }
+
+  @override
+  String get home_online_status => 'ONLINE';
+
+  @override
+  String home_server_ip_label(String ipAddress) {
+    return 'Server IP: $ipAddress';
+  }
+
+  @override
+  String get home_status_error => 'Connection Error';
+
+  @override
+  String get home_status_offline => 'vytalLink Server Offline';
+
+  @override
+  String get home_status_running => 'vytalLink Server Running';
+
+  @override
+  String get home_status_starting => 'Starting Server...';
+
+  @override
+  String get home_status_stopping => 'Stopping Server...';
+
+  @override
+  String get home_title => 'vytalLink Server Control';
+
+  @override
+  String get how_it_works_step1_description => 'Use the codes above to connect';
+
+  @override
+  String get how_it_works_step1_title => 'Connect the server';
+
+  @override
+  String get how_it_works_step2_description =>
+      'ChatGPT, Claude, or any compatible AI client';
+
+  @override
+  String get how_it_works_step2_title => 'Configure your AI';
+
+  @override
+  String get how_it_works_step3_description =>
+      'Get personalized insights from your data';
+
+  @override
+  String get how_it_works_step3_title => 'Ask about your health';
+
+  @override
+  String get how_it_works_title => 'How It Works?';
+
+  @override
+  String get mcp_any_client_description =>
+      'Any client that implements the MCP protocol is supported.';
+
+  @override
+  String get mcp_any_client_name => 'Any MCP Client';
+
+  @override
+  String get mcp_choose_development_tool => 'Choose your development tool';
+
+  @override
+  String get mcp_claude_desktop_description =>
+      'Anthropic\'s desktop AI assistant. Ideal for general use, chat, and productivity.';
+
+  @override
+  String get mcp_claude_desktop_name => 'Claude Desktop';
+
+  @override
+  String get mcp_cursor_description => 'AI-powered code editor';
+
+  @override
+  String get mcp_cursor_name => 'Cursor';
+
+  @override
+  String get mcp_development_tools_description =>
+      'Professional code editors with MCP support';
+
+  @override
+  String get mcp_development_tools_name => 'Development Tools';
+
+  @override
+  String get mcp_example_1 =>
+      'Analyze health data directly in Claude Desktop conversations';
+
+  @override
+  String get mcp_example_2 =>
+      'Access health metrics in your development workflow with Cursor';
+
+  @override
+  String get mcp_example_3 =>
+      'Build health-focused applications with VS Code integration';
+
+  @override
+  String get mcp_example_4 => 'Create custom analysis and reporting tools';
+
+  @override
+  String get mcp_examples_description => 'With MCP integration, you can:';
+
+  @override
+  String get mcp_examples_title => 'What You Can Do';
+
+  @override
+  String get mcp_feature_1 =>
+      'Direct integration with Claude Desktop and other MCP clients';
+
+  @override
+  String get mcp_feature_2 => 'Secure and standardized data access protocol';
+
+  @override
+  String get mcp_feature_3 => 'Professional-grade AI development tools';
+
+  @override
+  String get mcp_feature_4 => 'Real-time data synchronization';
+
+  @override
+  String get mcp_integration_hero_subtitle =>
+      'Connect with Claude, Cursor, VS Code and other professional AI development tools for advanced data analysis.';
+
+  @override
+  String get mcp_integration_hero_title => 'Connect with Professional AI Tools';
+
+  @override
+  String get mcp_integration_title => 'Professional AI Tools';
+
+  @override
+  String get mcp_recommended_badge => 'Recommended';
+
+  @override
+  String get mcp_setup_guide_button => 'View Setup Guide';
+
+  @override
+  String get mcp_setup_nodejs_requirement =>
+      'You must have Node.js installed on your system to run the vytalLink server.';
+
+  @override
+  String get mcp_setup_title => 'How to Set Up';
+
+  @override
+  String get mcp_start_button => 'Start with MCP';
+
+  @override
+  String get mcp_step_1_description =>
+      'Install the vytalLink MCP server package on your computer using npm.';
+
+  @override
+  String get mcp_step_1_title => 'Install MCP Server';
+
+  @override
+  String get mcp_step_2_description =>
+      'Add vytalLink to your Claude Desktop, Cursor, or VS Code MCP configuration.';
+
+  @override
+  String get mcp_step_2_title => 'Configure Your MCP Client';
+
+  @override
+  String get mcp_step_3_description =>
+      'Start asking questions about your health data in your MCP client. When prompted, provide the connection word and PIN shown in this app. Once connected, you can analyze your health data directly within your professional AI tools.';
+
+  @override
+  String get mcp_step_3_title => 'Connect and Start Analyzing';
+
+  @override
+  String get mcp_supported_clients_title => 'Supported Clients';
+
+  @override
+  String get mcp_vscode_description => 'With MCP extension support';
+
+  @override
+  String get mcp_vscode_name => 'VS Code';
+
+  @override
+  String get mcp_what_is_description =>
+      'Model Context Protocol (MCP) is a standard that allows AI applications to securely access external data sources. It\'s used by professional tools like Claude Desktop, Cursor, and VS Code.';
+
+  @override
+  String get mcp_what_is_title => 'What is MCP?';
+
+  @override
+  String get onboarding_ai_integration_description =>
+      'You\'re all set! Start connecting your health data with AI assistants to get personalized insights and take control of your wellness journey.';
+
+  @override
+  String get onboarding_ai_integration_feature_1 =>
+      'Secure and private data sharing';
+
+  @override
+  String get onboarding_ai_integration_feature_2 =>
+      'Instant setup with connection codes';
+
+  @override
+  String get onboarding_ai_integration_feature_3 => '24/7 AI health companion';
+
+  @override
+  String get onboarding_ai_integration_subtitle =>
+      'Ready to explore your health with AI?';
+
+  @override
+  String get onboarding_ai_integration_title => 'Get Started';
+
+  @override
+  String get onboarding_ask_questions_description =>
+      'Simply ask questions about your health data in everyday language and get personalized insights.';
+
+  @override
+  String get onboarding_ask_questions_feature_1 =>
+      'How has my sleep quality changed?';
+
+  @override
+  String get onboarding_ask_questions_feature_2 =>
+      'Show my heart rate during workouts';
+
+  @override
+  String get onboarding_ask_questions_feature_3 =>
+      'Graph my steps for the entire week';
+
+  @override
+  String get onboarding_ask_questions_subtitle =>
+      'Get insights in natural language';
+
+  @override
+  String get onboarding_ask_questions_title => 'Ask Questions';
+
+  @override
+  String get onboarding_get_started => 'Get Started';
+
+  @override
+  String get onboarding_health_monitoring_description =>
+      'Monitor your heart rate, steps, sleep patterns, and more with seamless integration to your favorite health apps.';
+
+  @override
+  String get onboarding_health_monitoring_feature_1 =>
+      'Real-time heart rate monitoring';
+
+  @override
+  String get onboarding_health_monitoring_feature_2 =>
+      'Daily step and activity tracking';
+
+  @override
+  String get onboarding_health_monitoring_feature_3 =>
+      'Integration with Google Fit & Apple Health';
+
+  @override
+  String get onboarding_health_monitoring_subtitle =>
+      'Track your vital signs in real-time';
+
+  @override
+  String get onboarding_health_monitoring_title => 'Health Monitoring';
+
+  @override
+  String get onboarding_how_it_works_description =>
+      'vytalLink seamlessly integrates with ChatGPT GPTs and MCP clients like Claude Desktop, Cursor, and VS Code.';
+
+  @override
+  String get onboarding_how_it_works_feature_1 =>
+      'ChatGPT Custom GPTs integration';
+
+  @override
+  String get onboarding_how_it_works_feature_2 =>
+      'MCP server for Claude & professional tools';
+
+  @override
+  String get onboarding_how_it_works_feature_3 =>
+      'Secure authentication with connection codes';
+
+  @override
+  String get onboarding_how_it_works_subtitle =>
+      'Connect with your favorite AI tools';
+
+  @override
+  String get onboarding_how_it_works_title => 'How It Works';
+
+  @override
+  String get onboarding_next => 'Next';
+
+  @override
+  String get onboarding_previous => 'Previous';
+
+  @override
+  String get onboarding_skip => 'Skip';
+
+  @override
+  String get onboarding_welcome_description =>
+      'Transform how you understand and manage your health with intelligent insights and comprehensive monitoring.';
+
+  @override
+  String get onboarding_welcome_subtitle =>
+      'Your personal health companion powered by AI';
+
+  @override
+  String get onboarding_welcome_title => 'Welcome to vytalLink';
+}

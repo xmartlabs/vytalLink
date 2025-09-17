@@ -1,0 +1,212 @@
+/* Download Modal Styles - Modern Design */
+.download-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 10000;
+}
+
+.download-modal.active {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(8px);
+}
+
+.modal-content {
+    position: relative;
+    background: white;
+    border-radius: 24px;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    max-width: 480px;
+    width: 90%;
+    max-height: 90vh;
+    overflow: hidden;
+    animation: modalSlideIn 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    padding: 32px;
+    text-align: center;
+}
+
+@keyframes modalSlideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px) scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.modal-close {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    background: rgba(107, 114, 128, 0.1);
+    border: none;
+    border-radius: 12px;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: #6b7280;
+    transition: all 0.2s ease;
+}
+
+.modal-close:hover {
+    background: rgba(107, 114, 128, 0.2);
+    transform: scale(1.05);
+}
+
+.modal-icon {
+    margin-bottom: 16px;
+    display: flex;
+    justify-content: center;
+}
+
+.modal-header h2 {
+    font-size: 24px;
+    font-weight: 700;
+    color: #111827;
+    margin: 0 0 8px 0;
+    line-height: 1.3;
+}
+
+.modal-header p {
+    font-size: 16px;
+    color: #6b7280;
+    margin: 0 0 32px 0;
+    line-height: 1.5;
+}
+
+.download-options {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.download-card {
+    display: flex;
+    align-items: center;
+    padding: 20px;
+    background: #f9fafb;
+    border: 2px solid #f3f4f6;
+    border-radius: 16px;
+    text-decoration: none;
+    color: inherit;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.download-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.6), transparent);
+    transition: left 0.5s ease;
+}
+
+.download-card:hover::before {
+    left: 100%;
+}
+
+.download-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px -8px rgba(0, 0, 0, 0.15);
+    border-color: #e5e7eb;
+}
+
+.download-card.ios:hover {
+    border-color: #007AFF;
+    background: linear-gradient(135deg, #f8faff 0%, #f0f4ff 100%);
+}
+
+.download-card.android:hover {
+    border-color: #01875f;
+    background: linear-gradient(135deg, #f8fffe 0%, #f0fdf9 100%);
+}
+
+.card-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 16px;
+    flex-shrink: 0;
+}
+
+.download-card.ios .card-icon {
+    background: linear-gradient(135deg, #007AFF 0%, #5856D6 100%);
+    color: white;
+}
+
+.download-card.android .card-icon {
+    background: white;
+    border: 2px solid #e5e7eb;
+    color: white;
+}
+
+.card-content {
+    flex: 1;
+    text-align: left;
+}
+
+.card-content h3 {
+    font-size: 18px;
+    font-weight: 600;
+    color: #111827;
+    margin: 0 0 4px 0;
+    line-height: 1.2;
+}
+
+.card-content p {
+    font-size: 14px;
+    color: #6b7280;
+    margin: 0;
+    line-height: 1.4;
+}
+
+.card-arrow {
+    color: #9ca3af;
+    transition: all 0.2s ease;
+}
+
+.download-card:hover .card-arrow {
+    color: #6b7280;
+    transform: translate(4px, -4px);
+}
+
+@media (min-width: 640px) {
+    .modal-content {
+        padding: 40px;
+    }
+    
+    .modal-header h2 {
+        font-size: 28px;
+    }
+    
+    .modal-header p {
+        font-size: 18px;
+    }
+}
+

@@ -1,140 +1,38 @@
-# Xmartlabs' Flutter template
+# VytalLink Monorepo
 
-## Arch Overview
+VytalLink brings your personal health metrics to life by collecting Apple HealthKit or Google Health Connect data and exposing it through an MCP-compatible interface, so any AI assistant can query it securely from your own device. Learn more at [vytallink.xmartlabs.com](https://vytallink.xmartlabs.com/).
 
-The project is divided into two main folders:
+We initially launched this repository as a Flutter mobile application that bundled its own MCP server; the full story is captured in our blog post “[Building Health Apps with MCP + LLMs](https://blog.xmartlabs.com/blog/blog-building-health-apps-mcp-llms/).” To make the experience more accessible and less dependent on technical setup, we shifted toward a GPT integration backed by a cloud-hosted MCP server, keeping this app as the bridge between the two worlds. If you want to explore the original local MCP server version, you can still find it at [github.com/xmartlabs/vytalLink/tree/1.0.0](https://github.com/xmartlabs/vytalLink/tree/1.0.0).
 
-- The UI contains all app screens.
-- The Core contains the models and the data layer.
+This monorepo hosts every piece of the product experience:
 
-The design system is located on a package called [design_system][design_system], 
+- **[mobile/](mobile/)** — Flutter application that runs on device and exposes the embedded MCP server.
+- **[landing/](landing/)** — Static marketing site deployed to Firebase Hosting.
+- **[mcp-server/](mcp-server/)** — Standalone MCP server (Node.js) intended to run outside the mobile app.
+- **[docs/](docs/)** — Shared documentation (coding standards, contribution guides, etc.).
 
-### UI section
+Each folder contains its own README with the detailed setup. This document only summarizes the repository layout.
 
-[Flutter Bloc][bloc] is used for state management, specifically, we use Cubit to manage the screen state.
-Each app section is added in a project folder which contains three components, the Screen (a `StatelessWidget`, the UI), the Cubit and the state.
+## Global prerequisites
 
-The `MainScreen` is the Widget that contains all screens. It defines the `MaterialApp` and provides the app router.
-The router has two subgraphs, the `UnauthenticatedRouter` used for unauthenticated users and the `AuthenticatedRouter` used for authenticated users.
+- Flutter + FVM (see `.fvmrc`).
+- Node.js with your preferred package manager (npm, pnpm) for the web/Node portions.
+- Firebase CLI if you plan to deploy the landing or use hosting commands.
 
-The [app router][app_router] is provided by [auto_route][auto_route], and contains the previous sections with some nested screens.
+## Documentation
 
-### Core section
+- Repository guidelines: [`AGENTS.md`](AGENTS.md).
+- Coding standards: [`docs/CODE_STANDARDS.md`](docs/CODE_STANDARDS.md).
+- Add any new repository-wide guides under [`docs/`](docs/).
 
-The models are defined in the [models folder][models]. If you need to use different models for database or networking, you can create them in `db` and `service` folders respectively.
+## Contributing
 
-The repository pattern is used to manage the data layer.
-A [repository][repository_folder] uses different [data sources][data_source_folder] (for example a local cache or a REST API).
-These components are injected in the Cubits using [get_it][get_it].
+1. Create a descriptive branch.
+2. Run the checks for every package/app you touched.
+3. Open a pull request referencing the relevant issues or tickets.
 
-## Project Overview
+## License
 
-### Assets
+MIT License. See individual project READMEs for any additional notes.
 
-The [`/assets/`](./assets) folder contains the assets used by the application, such as images, fonts, and other files.
-
-### Environments
-
-The environment variables are defined in the `default.env` file located in [`/environments/`](./environments) folder.
-You can read more information about the environment variables in the [README.md](./environments/README.md) file.
-
-### Testing
-
-#### Mocks
-
-For moking the projects uses [mocktail][mocktail], a library inspired on [mockito][mockito] which deletes the code generation part.
-
-#### Integration test
-
-The integration tests for the project are defined in [integration_test][integration_test]. Dart package integration_test is used for the implementation.
-
-## Project Setup
-
-The project setup is based on some plugins which generate the required native code.
-
-You can use [project_setup.sh](scripts/project_setup.sh) to reload all project setups.
-
-### Flavor setup: Project name, properties BundleId & Application id
-
-This information is set using [flavorizr], a flutter utility to easily create flavors in your flutter application.
-To change it go to `flavorizr` section in the [pubspec] file.
-
-For example, to add a new flavour, you can do something like:
-
-```yaml
-flavorizr:
-  flavors:
-    qa:
-      app:
-        name: "My Project - QA"
-      android:
-        applicationId: "com.xmartlabs.myproject.qa"
-      ios:
-        bundleId: "com.xmartlabs.myproject.qa"
-```
-
-After a change is made, you need to regenerate your native files.
-You can do that by executing `flutter pub run flutter_flavorizr`.
-
-More information in [flavorizr] page.
-
-### App icons
-
-Icons are generated using [flutter_launcher_icons] plugin.
-To change it go to `flutter_icons` section in the [pubspec] file.
-
-After a change is made, you need to regenerate your native files.
-You can do that by executing `flutter pub run flutter_launcher_icons:main`.
-
-### Splash screen
-
-Splash screen is generated using [flutter_native_splash].
-To change it go to `flutter_native_splash` section in the [pubspec] file.
-
-After a change is made, you need to regenerate your native files.
-You can do that by executing `flutter pub run flutter_native_splash:create`.
-
-Although you can setup a bunch of features in this library, it doesn't provide a way to display animations.
-If you need a more personalized splash screen, you can edit the native code or just remove this library.
-
-### Code generation
-
-Code generation is created using `build_runner` package.\
-To configure this package edit the `build.yaml`\
-To add new files to watch for code generation add the following lines:
-
-```
-targets:
-  $default:
-    builders:
-      # Previous configured builders
-      ...
-      builder_package_name:
-        generate_for:
-          # Example glob for only the Dart files under `lib/models`
-          - lib/models/*.dart
-```
-
-To create generated code run `clean_up.sh` under [scripts] folder or the following command: `flutter pub run build_runner build --delete-conflicting-outputs`
-
-### Pre Push config
-
-In order to setup pre-push hook you need to go to the root of the project and run `git config core.hooksPath .github/hooks`
-
-[design_system]: https://github.com/xmartlabs/flutter-template/tree/main/design_system
-[flavorizr]: https://pub.dev/packages/flutter_flavorizr
-[flutter_launcher_icons]: https://pub.dev/packages/flutter_launcher_icons
-[flutter_native_splash]: https://pub.dev/packages/flutter_native_splash
-[pubspec]: ./pubspec.yaml
-[app_router]: https://github.com/xmartlabs/flutter-template/blob/main/lib/ui/app_router.dart
-[bloc]: https://bloclibrary.dev
-[auto_route]: https://pub.dev/packages/auto_route
-[flutter_screenutil]: https://pub.dev/packages/flutter_screenutil
-[models]: https://github.com/xmartlabs/flutter-template/tree/main/lib/core/model
-[repository_folder]: https://github.com/xmartlabs/flutter-template/tree/main/lib/core/repository
-[data_source_folder]: https://github.com/xmartlabs/flutter-template/tree/main/lib/core/source
-[get_it]: https://pub.dev/packages/get_it
-[scripts]: https://github.com/xmartlabs/flutter-template/tree/main/scripts
-[integration_test]: https://github.com/xmartlabs/flutter-template/tree/main/intgration_test
-[mocktail]: https://pub.dev/packages/mocktail
-[mockito]: https://pub.dev/packages/mockito
+Made with ❤️ by [Xmartlabs](https://xmartlabs.com/).

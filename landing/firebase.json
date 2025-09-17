@@ -1,0 +1,48 @@
+{
+  "hosting": {
+    "public": "public",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ],
+    "redirects": [
+      {
+        "source": "/about",
+        "destination": "/about.html",
+        "type": 301
+      },
+      {
+        "source": "/contact",
+        "destination": "/contact.html",
+        "type": 301
+      },
+      {
+        "source": "/terms",
+        "destination": "/terms.html",
+        "type": 301
+      },
+      {
+        "source": "/privacy",
+        "destination": "/privacy.html",
+        "type": 301
+      },
+      {
+        "source": "/mcp-setup",
+        "destination": "/mcp-setup.html",
+        "type": 301
+      },
+      {
+        "source": "/demo",
+        "destination": "/demo.html",
+        "type": 301
+      }
+    ],
+    "rewrites": [
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
+    ]
+  }
+}

@@ -1,0 +1,24 @@
+/*
+  VytalLink Landing Styles (modular)
+  NOTE: Order matters. Edit files under /public/styles.
+*/
+
+@import url('styles/00-globals.css');
+@import url('styles/01-nav.css');
+@import url('styles/02-typography.css');
+@import url('styles/03-buttons.css');
+@import url('styles/04-hero.css');
+@import url('styles/05-credentials-server.css');
+@import url('styles/06-steps.css');
+@import url('styles/07-demo-integrations.css');
+@import url('styles/08-mcp-setup.css');
+@import url('styles/09-home-sections.css');
+@import url('styles/10-responsive-and-effects.css');
+@import url('styles/11-about.css');
+@import url('styles/12-legal.css');
+@import url('styles/13-contact.css');
+@import url('styles/14-nav-active.css');
+@import url('styles/15-responsive-new-pages.css');
+@import url('styles/16-chatgpt-setup.css');
+@import url('styles/17-modal.css');
+

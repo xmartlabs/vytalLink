@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, viewport-fit=cover">
+    <title>About vytalLink - Connecting Health Data with AI</title>
+    <meta name="description" content="Learn about vytalLink's mission to make health data accessible through AI assistants while maintaining privacy and security.">
+    <link rel="stylesheet" href="/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <!-- Firebase Analytics (Google Analytics 4) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-KNFZRXV054"></script>
+    <script src="analytics.js"></script>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <i class="fas fa-heartbeat"></i>
+                <a href="/"><span>vytalLink</span></a>
+            </div>
+            <div class="nav-menu">
+                <a href="/#features" class="nav-link home-only desktop-only">How it Works</a>
+                <a href="/#demo" class="nav-link home-only desktop-only">Demo</a>
+                <a href="/#integrations" class="nav-link home-only desktop-only">AI Integrations</a>
+
+                <!-- Unified mobile menu -->
+                <a href="/" class="nav-link mobile-only"><i class="fas fa-house"></i> Home</a>
+                <a href="/chatgpt-setup.html" class="nav-link mobile-only"><i class="fas fa-comments"></i> ChatGPT Setup</a>
+                <a href="/mcp-setup.html" class="nav-link mobile-only"><i class="fas fa-server"></i> MCP Setup</a>
+                <a href="/about.html" class="nav-link mobile-only"><i class="fas fa-circle-info"></i> About</a>
+                <a href="/privacy.html" class="nav-link mobile-only"><i class="fas fa-shield"></i> Privacy</a>
+                <a href="/terms.html" class="nav-link mobile-only"><i class="fas fa-file-contract"></i> Terms</a>
+                <a href="/contact.html" class="nav-link mobile-only"><i class="fas fa-envelope"></i> Contact</a>
+
+                <div class="nav-dropdown desktop-only">
+                    <button class="nav-link nav-dropdown-toggle" type="button">
+                        Setup Guides <i class="fas fa-chevron-down" aria-hidden="true"></i>
+                    </button>
+                    <div class="nav-dropdown-menu">
+                        <a class="nav-link" href="/chatgpt-setup.html">ChatGPT Setup</a>
+                        <a class="nav-link" href="/mcp-setup.html">MCP Setup</a>
+                    </div>
+                </div>
+
+                
+                <a href="#" class="btn btn-primary download-app-btn" onclick="openDownloadModal()">Download App</a>
+            </div>
+            <div class="hamburger"><span></span><span></span><span></span></div>
+        </div>
+    </nav>
+
+    <!-- About Hero -->
+    <section class="about-hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1>About vytalLink</h1>
+                <p class="hero-subtitle">Bridging the gap between your health data and artificial intelligence</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Mission Section -->
+    <section class="about-section">
+        <div class="container">
+            <div class="content-grid">
+                <div class="content-text">
+                    <h2>Our Mission</h2>
+                    <p>At vytalLink, we believe that your health data should work for you. Our mission is to make personal health information accessible to AI assistants in a secure, private, and user-controlled way.</p>
+                    <p>We're democratizing access to health insights by connecting your fitness trackers, health apps, and wearable devices with the most advanced AI assistants available today.</p>
+                </div>
+                <div class="content-icon">
+                    <i class="fas fa-bullseye"></i>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Started -->
+    <section class="about-section gray-bg">
+        <div class="container">
+            <div class="content-grid reverse">
+                <div class="content-text">
+                    <h2>How It Started</h2>
+                    <p>vytalLink was born from a simple frustration: having tons of health data trapped in different apps and devices, but no easy way to get meaningful insights from it.</p>
+                    <p>We realized that AI assistants like ChatGPT and Claude could provide incredible health insights, but they needed access to our personal data in a secure way. That's where vytalLink comes in.</p>
+                </div>
+                <div class="content-icon">
+                    <i class="fas fa-lightbulb"></i>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Our Values -->
+    <section class="about-section">
+        <div class="container">
+            <h2 class="section-title">Our Values</h2>
+            <div class="values-grid">
+                <div class="value-card">
+                    <div class="value-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3>Privacy First</h3>
+                    <p>Your health data stays on your device. We only provide secure access when you explicitly request it.</p>
+                </div>
+                <div class="value-card">
+                    <div class="value-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h3>User Control</h3>
+                    <p>You decide what data to share, when to share it, and which AI assistants can access it.</p>
+                </div>
+                <div class="value-card">
+                    <div class="value-icon">
+                        <i class="fas fa-code-branch"></i>
+                    </div>
+                    <h3>Open Innovation</h3>
+                    <p>We believe in open standards like MCP to ensure interoperability across AI platforms.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Team Section -->
+    <section class="about-section gray-bg">
+        <div class="container">
+            <div class="content-grid">
+                <div class="content-text">
+                    <h2>Built by Xmartlabs</h2>
+                    <p>vytalLink is developed by <a href="https://xmartlabs.com" target="_blank" style="color: var(--primary-color);">Xmartlabs</a>, a leading software development company with expertise in mobile apps, AI integration, and health technology.</p>
+                    <p>With over a decade of experience building digital health solutions, we understand the importance of privacy, security, and user experience in health technology.</p>
+                    <div class="cta-buttons">
+                        <a href="https://xmartlabs.com" target="_blank" class="btn btn-outline">Learn About Xmartlabs</a>
+                    </div>
+                </div>
+                <div class="content-icon">
+                    <i class="fas fa-heart"></i>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="footer-brand">
+                        <i class="fas fa-heartbeat"></i>
+                        <span>vytalLink</span>
+                    </div>
+                    <p>Connecting your health data with AI, securely and privately.</p>
+                    <div class="download-footer">
+                        <a href="https://apps.apple.com/app/vytallink" target="_blank">
+                            <img src="https://developer.apple.com/assets/elements/badges/download-on-the-app-store.svg" alt="Download on App Store">
+                        </a>
+                        <a href="https://play.google.com/store/apps/details?id=com.vytallink" target="_blank">
+                            <img src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png" alt="Get it on Google Play">
+                        </a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h4>Product</h4>
+                    <ul>
+                        <li><a href="/#features">How it Works</a></li>
+                        <li><a href="/#integrations">AI Integrations</a></li>
+                        <li><a href="/#demo">Demo Video</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Setup Guides</h4>
+                    <ul>
+                        <li><a href="/chatgpt-setup.html">ChatGPT Setup</a></li>
+                        <li><a href="/mcp-setup.html">MCP Setup</a></li>
+                        <li><a href="#" onclick="openDownloadModal(); return false;">Download App</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Support</h4>
+                    <ul>
+                        <li><a href="/about">About vytalLink</a></li>
+                        <li><a href="/privacy">Privacy Policy</a></li>
+                        <li><a href="/terms">Terms of Service</a></li>
+                        <li><a href="/contact">Contact Support</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>Made with ❤️ by <a href="https://xmartlabs.com" target="_blank" style="color: var(--primary-color); text-decoration: none;">Xmartlabs</a></p>
+                <div class="social-links">
+                    <a href="https://github.com/xmartlabs/vytalLink" target="_blank"><i class="fab fa-github"></i></a>
+                    <a href="https://xmartlabs.com" target="_blank"><i class="fas fa-globe"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="/script.js"></script>
+    <script src="/common-modal.js"></script>
+</body>
+</html>

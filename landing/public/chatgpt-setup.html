@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, viewport-fit=cover">
+    <meta name="description" content="Complete setup guide for connecting vytalLink with ChatGPT. Learn how to use our custom GPT for health data analysis.">
+    <meta name="keywords" content="ChatGPT, GPT, vytalLink, health data, AI integration, setup guide">
+    <meta name="author" content="Xmartlabs">
+    
+    <title>ChatGPT Setup Guide - vytalLink</title>
+    <link rel="stylesheet" href="/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+
+    <!-- Firebase Analytics (Google Analytics 4) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-KNFZRXV054"></script>
+    <script src="analytics.js"></script>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <i class="fas fa-heartbeat"></i>
+                <a href="/"><span>vytalLink</span></a>
+            </div>
+            <div class="nav-menu">
+                <a href="/#features" class="nav-link home-only desktop-only">How it Works</a>
+                <a href="/#demo" class="nav-link home-only desktop-only">Demo</a>
+                <a href="/#integrations" class="nav-link home-only desktop-only">AI Integrations</a>
+
+                <!-- Unified mobile menu -->
+                <a href="/" class="nav-link mobile-only"><i class="fas fa-house"></i> Home</a>
+                <a href="/chatgpt-setup.html" class="nav-link mobile-only"><i class="fas fa-comments"></i> ChatGPT Setup</a>
+                <a href="/mcp-setup.html" class="nav-link mobile-only"><i class="fas fa-server"></i> MCP Setup</a>
+                <a href="/about.html" class="nav-link mobile-only"><i class="fas fa-circle-info"></i> About</a>
+                <a href="/privacy.html" class="nav-link mobile-only"><i class="fas fa-shield"></i> Privacy</a>
+                <a href="/terms.html" class="nav-link mobile-only"><i class="fas fa-file-contract"></i> Terms</a>
+                <a href="/contact.html" class="nav-link mobile-only"><i class="fas fa-envelope"></i> Contact</a>
+
+                <div class="nav-dropdown">
+                    <button class="nav-link nav-dropdown-toggle" type="button">
+                        Setup Guides <i class="fas fa-chevron-down" aria-hidden="true"></i>
+                    </button>
+                    <div class="nav-dropdown-menu">
+                        <a class="nav-link" href="/chatgpt-setup.html">ChatGPT Setup</a>
+                        <a class="nav-link" href="/mcp-setup.html">MCP Setup</a>
+                    </div>
+                </div>
+
+                
+                <a href="#" class="btn btn-primary download-app-btn" onclick="openDownloadModal()">Download App</a>
+            </div>
+            <div class="hamburger"><span></span><span></span><span></span></div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="setup-hero">
+        <div class="container">
+            <div class="setup-header">
+                <div class="chatgpt-hero-icon">
+                    <i class="fas fa-comments"></i>
+                </div>
+                <h1>ChatGPT Setup Guide</h1>
+                <p>Connect vytalLink with ChatGPT and start asking questions about your health data</p>
+                <div class="hero-badge">
+                    <i class="fas fa-star"></i>
+                    <span>Most Popular Integration</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- What is ChatGPT Section -->
+    <section class="what-is-section">
+        <div class="container">
+            <div class="section-header">
+                <h2>What is vytalLink's Custom GPT?</h2>
+            </div>
+            
+            <div class="what-is-content">
+                <div class="what-is-text">
+                    <p>We've created a special version of ChatGPT specifically designed for health data analysis. This custom GPT understands health metrics and can provide personalized insights about your wellness journey in simple, easy-to-understand language.</p>
+                    
+                    <div class="gpt-features">
+                        <div class="gpt-feature">
+                            <i class="fas fa-brain"></i>
+                            <span>Health-focused AI trained on wellness data</span>
+                        </div>
+                        <div class="gpt-feature">
+                            <i class="fas fa-chart-line"></i>
+                            <span>Understands fitness trends and patterns</span>
+                        </div>
+                        <div class="gpt-feature">
+                            <i class="fas fa-comments"></i>
+                            <span>Explains insights in simple language</span>
+                        </div>
+                        <div class="gpt-feature">
+                            <i class="fas fa-shield-alt"></i>
+                            <span>Secure connection to your health data</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="gpt-visual">
+                    <div class="chat-preview">
+                        <div class="chat-header">
+                            <div class="chat-avatar">
+                                <i class="fas fa-heartbeat"></i>
+                            </div>
+                            <span>vytalLink GPT</span>
+                        </div>
+                        <div class="chat-messages">
+                            <div class="chat-message user">
+                                <span>Show me my sleep patterns for the last week</span>
+                            </div>
+                            <div class="chat-message assistant">
+                                <span>Based on your data, you've been averaging 7.2 hours of sleep per night this week. I notice you're going to bed consistently around 11 PM, which is great for maintaining a healthy sleep schedule! 📊</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Setup Instructions -->
+    <section class="setup-instructions">
+        <div class="container">
+            <div class="section-header">
+                <h2>How to Set Up ChatGPT Integration</h2>
+                <p>Follow these simple steps to connect your health data with ChatGPT</p>
+            </div>
+
+            <div class="setup-steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <div class="step-content">
+                        <h3>Download and Connect the App</h3>
+                        <p>Download the vytalLink mobile app and tap 'Start Connection' to create a secure server. You'll receive connection credentials that you'll use to authenticate with ChatGPT.</p>
+                        <div class="step-visual">
+                            <div class="app-mockup">
+                                <div class="app-screen">
+                                    <div class="credentials-display">
+                                        <div class="credential-item">
+                                            <span class="label">Code</span>
+                                            <span class="value">health</span>
+                                        </div>
+                                        <div class="credential-item">
+                                            <span class="label">Password</span>
+                                            <span class="value">123456</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <div class="step-content">
+                        <h3>Open vytalLink GPT</h3>
+                        <p>Click the button below to access our custom ChatGPT designed specifically for health data analysis. Alternatively, you can go to ChatGPT, navigate to the GPTs section, and search for "vytalLink".</p>
+                        
+                        <div class="gpt-access-options">
+                            <div class="gpt-option primary">
+                                <div class="gpt-option-header">
+                                    <i class="fas fa-link"></i>
+                                    <h4>Direct Access (Recommended)</h4>
+                                </div>
+                                <p>Click here to open vytalLink GPT directly</p>
+                                <a href="https://chatgpt.com/g/g-68c2fb58447c8191b5af624f6b33bdd6-vytallink" class="btn btn-primary" target="_blank">
+                                    <i class="fas fa-comments"></i>
+                                    Open vytalLink GPT
+                                </a>
+                            </div>
+                            
+                            <div class="gpt-option secondary">
+                                <div class="gpt-option-header">
+                                    <i class="fas fa-search"></i>
+                                    <h4>Manual Search</h4>
+                                </div>
+                                <p>Go to ChatGPT → GPTs → Search for "vytalLink"</p>
+                                <a href="https://chatgpt.com/gpts" class="btn btn-secondary" target="_blank">
+                                    <i class="fas fa-external-link-alt"></i>
+                                    Browse GPTs
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <div class="step-content">
+                        <h3>Connect and Start Asking</h3>
+                        <p>Ask any question about your health data. ChatGPT will request your connection credentials - simply provide the code and password shown in your mobile app, then start exploring your health insights!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Example Questions -->
+    <section class="examples-section">
+        <div class="container">
+            <div class="section-header">
+                <h2>Example Questions</h2>
+                <p>Here are some questions you can ask ChatGPT about your health data</p>
+            </div>
+
+            <div class="examples-grid question-bubbles-grid">
+                <div class="question-bubble">What were my average heart rate and steps yesterday?</div>
+                <div class="question-bubble">Show me my sleep patterns for the last week</div>
+                <div class="question-bubble">How many calories did I burn during my last workout?</div>
+                <div class="question-bubble">Compare my activity levels between this month and last month</div>
+                <div class="question-bubble">What time did I go to bed on average this week?</div>
+                <div class="question-bubble">Show me my health trends over the past 30 days</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Call to Action -->
+    <section class="cta-section">
+        <div class="container">
+            <div class="cta-content">
+                <h2>Ready to Get Started?</h2>
+                <p>Download the vytalLink app and start asking ChatGPT about your health data today!</p>
+                <div class="cta-buttons">
+                    <a href="#" class="btn btn-primary btn-large download-app-btn" onclick="openDownloadModal()">
+                        <i class="fab fa-apple"></i>
+                        Download App
+                    </a>
+                    <a href="https://chatgpt.com/g/g-68c2fb58447c8191b5af624f6b33bdd6-vytallink" class="btn btn-secondary btn-large" target="_blank">
+                        <i class="fas fa-comments"></i>
+                        Try vytalLink GPT
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="footer-logo">
+                        <i class="fas fa-heartbeat"></i>
+                        <span>vytalLink</span>
+                    </div>
+                    <p>Connecting your health data with AI, securely and privately.</p>
+                    <div class="download-footer">
+                        <a href="https://apps.apple.com/app/vytallink" target="_blank">
+                            <img src="https://developer.apple.com/assets/elements/badges/download-on-the-app-store.svg" alt="Download on App Store">
+                        </a>
+                        <a href="https://play.google.com/store/apps/details?id=com.vytallink" target="_blank">
+                            <img src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png" alt="Get it on Google Play">
+                        </a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h4>Product</h4>
+                    <ul>
+                        <li><a href="/#features">How it Works</a></li>
+                        <li><a href="/#integrations">AI Integrations</a></li>
+                        <li><a href="/#demo">Demo Video</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Setup Guides</h4>
+                    <ul>
+                        <li><a href="/chatgpt-setup.html">ChatGPT Setup</a></li>
+                        <li><a href="/mcp-setup.html">MCP Setup</a></li>
+                        <li><a href="#" onclick="openDownloadModal(); return false;">Download App</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Support</h4>
+                    <ul>
+                        <li><a href="/about.html">About vytalLink</a></li>
+                        <li><a href="/privacy.html">Privacy Policy</a></li>
+                        <li><a href="/terms.html">Terms of Service</a></li>
+                        <li><a href="/contact.html">Contact Support</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>Made with ❤️ by <a href="https://xmartlabs.com" target="_blank" style="color: var(--primary-color); text-decoration: none;">Xmartlabs</a></p>
+                <div class="social-links">
+                    <a href="https://github.com/xmartlabs/vytalLink" target="_blank"><i class="fab fa-github"></i></a>
+                    <a href="https://xmartlabs.com" target="_blank"><i class="fas fa-globe"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="/script.js"></script>
+    <script src="/common-modal.js"></script>
+</body>
+</html>

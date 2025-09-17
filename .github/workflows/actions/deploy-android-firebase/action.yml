@@ -31,7 +31,7 @@ runs:
   using: "composite"
     steps:
       - name: Setup android
-        uses: ./.github/workflows/actions/setup-android
+        uses: ./.github/workflows/actions/android-setup
         with:
           "key-properties-file": ${{ inputs.key-properties-file }}
           "android-app-folder": ${{ inputs.android-app-folder }}
