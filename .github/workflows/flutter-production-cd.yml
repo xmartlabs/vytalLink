@@ -20,7 +20,7 @@ jobs:
       GOOGLE_PLAY_SERVICE_ACCOUNT_CREDENTIALS_CONTENT: ${{ secrets.GOOGLE_PLAY_SERVICE_ACCOUNT_CREDENTIALS_CONTENT }}
       SERVICE_ACCOUNT: "${{ github.workspace }}/service_account.json"
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - name: Install ruby dependencies
         uses: ruby/setup-ruby@v1
         with:
