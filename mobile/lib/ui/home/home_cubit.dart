@@ -127,6 +127,12 @@ class HomeCubit extends Cubit<HomeState> {
   Future<bool> requestHealthPermissions() =>
       healthPermissionManager.requestHealthPermissions();
 
+  Future<bool> isHealthConnectInstallationRequired() async =>
+      !await healthPermissionManager.isHealthConnectAvailable();
+
+  Future<void> installHealthConnect() =>
+      healthPermissionManager.installHealthConnect();
+
   Future<void> startMCPServer() async {
     try {
       _globalEventHandler.clearError();

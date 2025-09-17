@@ -562,6 +562,30 @@ abstract class AppLocalizations {
   /// **'Health permission required'**
   String get health_permission_required;
 
+  /// No description provided for @health_connect_required_alert_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Install Google Health Connect'**
+  String get health_connect_required_alert_title;
+
+  /// No description provided for @health_connect_required_alert_message.
+  ///
+  /// In en, this message translates to:
+  /// **'vytalLink uses Google Health Connect to securely sync your activity, sleep, and workout data from your Android device. Install Health Connect to enable the connection and keep your information flowing safely.'**
+  String get health_connect_required_alert_message;
+
+  /// No description provided for @health_connect_required_alert_install.
+  ///
+  /// In en, this message translates to:
+  /// **'Install Health Connect'**
+  String get health_connect_required_alert_install;
+
+  /// No description provided for @health_connect_required_alert_cancel.
+  ///
+  /// In en, this message translates to:
+  /// **'Not now'**
+  String get health_connect_required_alert_cancel;
+
   /// No description provided for @health_permissions_alert_accept.
   ///
   /// In en, this message translates to:

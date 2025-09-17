@@ -37,6 +37,36 @@ class _HomeContentScreenState extends State<_HomeContentScreen>
   late AnimationController _pulseController;
   late Animation<double> _pulseAnimation;
 
+  Future<bool?> _showHealthConnectRequiredAlert() => showDialog<bool>(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: Text(
+            context.localizations.health_connect_required_alert_title,
+            style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                  fontSize: 22,
+                  fontWeight: FontWeight.bold,
+                ),
+          ),
+          content: Text(
+            context.localizations.health_connect_required_alert_message,
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(false),
+              child: Text(
+                context.localizations.health_connect_required_alert_cancel,
+              ),
+            ),
+            FilledButton(
+              onPressed: () => Navigator.of(context).pop(true),
+              child: Text(
+                context.localizations.health_connect_required_alert_install,
+              ),
+            ),
+          ],
+        ),
+      );
+
   Future<bool?> _showHealthPermissionsAlert() => showDialog<bool>(
         context: context,
         builder: (context) => AlertDialog(
@@ -145,6 +175,15 @@ class _HomeContentScreenState extends State<_HomeContentScreen>
 
   Future<void> _checkPermissionsAndStartServer() async {
     final cubit = context.read<HomeCubit>();
+
+    if (await cubit.isHealthConnectInstallationRequired()) {
+      final shouldInstall = await _showHealthConnectRequiredAlert();
+      if (shouldInstall ?? false) {
+        await cubit.installHealthConnect();
+      }
+      return;
+    }
+
     final hasPermissions = await cubit.hasAllHealthPermissions();
 
     if (!hasPermissions &&

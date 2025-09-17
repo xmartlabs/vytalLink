@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:dartx/dartx.dart';
+import 'package:flutter_template/core/common/logger.dart';
 import 'package:flutter_template/model/vytal_health_data_category.dart';
 import 'package:health/health.dart';
 
@@ -68,6 +69,34 @@ class HealthPermissionManager {
       return true;
     } catch (error) {
       return false;
+    }
+  }
+
+  Future<bool> isHealthConnectAvailable() async {
+    if (!Platform.isAndroid) return true;
+
+    try {
+      await _ensureInitialized();
+      return await _healthClient.isHealthConnectAvailable();
+    } catch (error, stackTrace) {
+      Logger.w(
+        'Failed to determine Health Connect availability',
+        error,
+        stackTrace,
+      );
+      return false;
+    }
+  }
+
+  Future<void> installHealthConnect() async {
+    try {
+      await _healthClient.installHealthConnect();
+    } catch (error, stackTrace) {
+      Logger.w(
+        'Failed to launch Health Connect installation flow',
+        error,
+        stackTrace,
+      );
     }
   }
 }
