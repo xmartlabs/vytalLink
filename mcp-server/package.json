@@ -1,6 +1,6 @@
 {
   "name": "@xmartlabs/vytallink-mcp-server",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "MCP Server for vytalLink",
   "main": "vytalLink_mcp_server.js",
   "type": "module",
