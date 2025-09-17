@@ -34,33 +34,34 @@ mixin _$AppHealthDataPoint {
   String get unit => throw _privateConstructorUsedError;
   String get dateFrom => throw _privateConstructorUsedError;
   String get dateTo => throw _privateConstructorUsedError;
+  String? get sourceId => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(String type, dynamic value, String unit,
-            String dateFrom, String dateTo)
+            String dateFrom, String dateTo, String? sourceId)
         raw,
     required TResult Function(String type, double value, String unit,
-            String dateFrom, String dateTo)
+            String dateFrom, String dateTo, String? sourceId)
         aggregated,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(String type, dynamic value, String unit, String dateFrom,
-            String dateTo)?
+            String dateTo, String? sourceId)?
         raw,
     TResult? Function(String type, double value, String unit, String dateFrom,
-            String dateTo)?
+            String dateTo, String? sourceId)?
         aggregated,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(String type, dynamic value, String unit, String dateFrom,
-            String dateTo)?
+            String dateTo, String? sourceId)?
         raw,
     TResult Function(String type, double value, String unit, String dateFrom,
-            String dateTo)?
+            String dateTo, String? sourceId)?
         aggregated,
     required TResult orElse(),
   }) =>
@@ -96,7 +97,12 @@ abstract class $AppHealthDataPointCopyWith<$Res> {
           AppHealthDataPoint value, $Res Function(AppHealthDataPoint) then) =
       _$AppHealthDataPointCopyWithImpl<$Res, AppHealthDataPoint>;
   @useResult
-  $Res call({String type, String unit, String dateFrom, String dateTo});
+  $Res call(
+      {String type,
+      String unit,
+      String dateFrom,
+      String dateTo,
+      String? sourceId});
 }
 
 /// @nodoc
@@ -116,6 +122,7 @@ class _$AppHealthDataPointCopyWithImpl<$Res, $Val extends AppHealthDataPoint>
     Object? unit = null,
     Object? dateFrom = null,
     Object? dateTo = null,
+    Object? sourceId = freezed,
   }) {
     return _then(_value.copyWith(
       type: null == type
@@ -134,6 +141,10 @@ class _$AppHealthDataPointCopyWithImpl<$Res, $Val extends AppHealthDataPoint>
           ? _value.dateTo
           : dateTo // ignore: cast_nullable_to_non_nullable
               as String,
+      sourceId: freezed == sourceId
+          ? _value.sourceId
+          : sourceId // ignore: cast_nullable_to_non_nullable
+              as String?,
     ) as $Val);
   }
 }
@@ -152,7 +163,8 @@ abstract class _$$SimpleHealthDataPointImplCopyWith<$Res>
       dynamic value,
       String unit,
       String dateFrom,
-      String dateTo});
+      String dateTo,
+      String? sourceId});
 }
 
 /// @nodoc
@@ -171,6 +183,7 @@ class __$$SimpleHealthDataPointImplCopyWithImpl<$Res>
     Object? unit = null,
     Object? dateFrom = null,
     Object? dateTo = null,
+    Object? sourceId = freezed,
   }) {
     return _then(_$SimpleHealthDataPointImpl(
       type: null == type
@@ -193,6 +206,10 @@ class __$$SimpleHealthDataPointImplCopyWithImpl<$Res>
           ? _value.dateTo
           : dateTo // ignore: cast_nullable_to_non_nullable
               as String,
+      sourceId: freezed == sourceId
+          ? _value.sourceId
+          : sourceId // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -206,6 +223,7 @@ class _$SimpleHealthDataPointImpl implements SimpleHealthDataPoint {
       required this.unit,
       required this.dateFrom,
       required this.dateTo,
+      required this.sourceId,
       final String? $type})
       : $type = $type ?? 'raw';
 
@@ -222,13 +240,15 @@ class _$SimpleHealthDataPointImpl implements SimpleHealthDataPoint {
   final String dateFrom;
   @override
   final String dateTo;
+  @override
+  final String? sourceId;
 
   @JsonKey(name: 'runtimeType')
   final String $type;
 
   @override
   String toString() {
-    return 'AppHealthDataPoint.raw(type: $type, value: $value, unit: $unit, dateFrom: $dateFrom, dateTo: $dateTo)';
+    return 'AppHealthDataPoint.raw(type: $type, value: $value, unit: $unit, dateFrom: $dateFrom, dateTo: $dateTo, sourceId: $sourceId)';
   }
 
   @override
@@ -241,13 +261,21 @@ class _$SimpleHealthDataPointImpl implements SimpleHealthDataPoint {
             (identical(other.unit, unit) || other.unit == unit) &&
             (identical(other.dateFrom, dateFrom) ||
                 other.dateFrom == dateFrom) &&
-            (identical(other.dateTo, dateTo) || other.dateTo == dateTo));
+            (identical(other.dateTo, dateTo) || other.dateTo == dateTo) &&
+            (identical(other.sourceId, sourceId) ||
+                other.sourceId == sourceId));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, type,
-      const DeepCollectionEquality().hash(value), unit, dateFrom, dateTo);
+  int get hashCode => Object.hash(
+      runtimeType,
+      type,
+      const DeepCollectionEquality().hash(value),
+      unit,
+      dateFrom,
+      dateTo,
+      sourceId);
 
   @JsonKey(ignore: true)
   @override
@@ -260,41 +288,41 @@ class _$SimpleHealthDataPointImpl implements SimpleHealthDataPoint {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(String type, dynamic value, String unit,
-            String dateFrom, String dateTo)
+            String dateFrom, String dateTo, String? sourceId)
         raw,
     required TResult Function(String type, double value, String unit,
-            String dateFrom, String dateTo)
+            String dateFrom, String dateTo, String? sourceId)
         aggregated,
   }) {
-    return raw(type, value, unit, dateFrom, dateTo);
+    return raw(type, value, unit, dateFrom, dateTo, sourceId);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(String type, dynamic value, String unit, String dateFrom,
-            String dateTo)?
+            String dateTo, String? sourceId)?
         raw,
     TResult? Function(String type, double value, String unit, String dateFrom,
-            String dateTo)?
+            String dateTo, String? sourceId)?
         aggregated,
   }) {
-    return raw?.call(type, value, unit, dateFrom, dateTo);
+    return raw?.call(type, value, unit, dateFrom, dateTo, sourceId);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(String type, dynamic value, String unit, String dateFrom,
-            String dateTo)?
+            String dateTo, String? sourceId)?
         raw,
     TResult Function(String type, double value, String unit, String dateFrom,
-            String dateTo)?
+            String dateTo, String? sourceId)?
         aggregated,
     required TResult orElse(),
   }) {
     if (raw != null) {
-      return raw(type, value, unit, dateFrom, dateTo);
+      return raw(type, value, unit, dateFrom, dateTo, sourceId);
     }
     return orElse();
   }
@@ -344,7 +372,8 @@ abstract class SimpleHealthDataPoint implements AppHealthDataPoint {
       required final dynamic value,
       required final String unit,
       required final String dateFrom,
-      required final String dateTo}) = _$SimpleHealthDataPointImpl;
+      required final String dateTo,
+      required final String? sourceId}) = _$SimpleHealthDataPointImpl;
 
   factory SimpleHealthDataPoint.fromJson(Map<String, dynamic> json) =
       _$SimpleHealthDataPointImpl.fromJson;
@@ -359,6 +388,8 @@ abstract class SimpleHealthDataPoint implements AppHealthDataPoint {
   String get dateFrom;
   @override
   String get dateTo;
+  @override
+  String? get sourceId;
   @override
   @JsonKey(ignore: true)
   _$$SimpleHealthDataPointImplCopyWith<_$SimpleHealthDataPointImpl>
@@ -375,7 +406,12 @@ abstract class _$$AggregatedHealthDataPointImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {String type, double value, String unit, String dateFrom, String dateTo});
+      {String type,
+      double value,
+      String unit,
+      String dateFrom,
+      String dateTo,
+      String? sourceId});
 }
 
 /// @nodoc
@@ -396,6 +432,7 @@ class __$$AggregatedHealthDataPointImplCopyWithImpl<$Res>
     Object? unit = null,
     Object? dateFrom = null,
     Object? dateTo = null,
+    Object? sourceId = freezed,
   }) {
     return _then(_$AggregatedHealthDataPointImpl(
       type: null == type
@@ -418,6 +455,10 @@ class __$$AggregatedHealthDataPointImplCopyWithImpl<$Res>
           ? _value.dateTo
           : dateTo // ignore: cast_nullable_to_non_nullable
               as String,
+      sourceId: freezed == sourceId
+          ? _value.sourceId
+          : sourceId // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -431,6 +472,7 @@ class _$AggregatedHealthDataPointImpl implements AggregatedHealthDataPoint {
       required this.unit,
       required this.dateFrom,
       required this.dateTo,
+      required this.sourceId,
       final String? $type})
       : $type = $type ?? 'aggregated';
 
@@ -447,13 +489,15 @@ class _$AggregatedHealthDataPointImpl implements AggregatedHealthDataPoint {
   final String dateFrom;
   @override
   final String dateTo;
+  @override
+  final String? sourceId;
 
   @JsonKey(name: 'runtimeType')
   final String $type;
 
   @override
   String toString() {
-    return 'AppHealthDataPoint.aggregated(type: $type, value: $value, unit: $unit, dateFrom: $dateFrom, dateTo: $dateTo)';
+    return 'AppHealthDataPoint.aggregated(type: $type, value: $value, unit: $unit, dateFrom: $dateFrom, dateTo: $dateTo, sourceId: $sourceId)';
   }
 
   @override
@@ -466,13 +510,15 @@ class _$AggregatedHealthDataPointImpl implements AggregatedHealthDataPoint {
             (identical(other.unit, unit) || other.unit == unit) &&
             (identical(other.dateFrom, dateFrom) ||
                 other.dateFrom == dateFrom) &&
-            (identical(other.dateTo, dateTo) || other.dateTo == dateTo));
+            (identical(other.dateTo, dateTo) || other.dateTo == dateTo) &&
+            (identical(other.sourceId, sourceId) ||
+                other.sourceId == sourceId));
   }
 
   @JsonKey(ignore: true)
   @override
   int get hashCode =>
-      Object.hash(runtimeType, type, value, unit, dateFrom, dateTo);
+      Object.hash(runtimeType, type, value, unit, dateFrom, dateTo, sourceId);
 
   @JsonKey(ignore: true)
   @override
@@ -485,41 +531,41 @@ class _$AggregatedHealthDataPointImpl implements AggregatedHealthDataPoint {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(String type, dynamic value, String unit,
-            String dateFrom, String dateTo)
+            String dateFrom, String dateTo, String? sourceId)
         raw,
     required TResult Function(String type, double value, String unit,
-            String dateFrom, String dateTo)
+            String dateFrom, String dateTo, String? sourceId)
         aggregated,
   }) {
-    return aggregated(type, value, unit, dateFrom, dateTo);
+    return aggregated(type, value, unit, dateFrom, dateTo, sourceId);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(String type, dynamic value, String unit, String dateFrom,
-            String dateTo)?
+            String dateTo, String? sourceId)?
         raw,
     TResult? Function(String type, double value, String unit, String dateFrom,
-            String dateTo)?
+            String dateTo, String? sourceId)?
         aggregated,
   }) {
-    return aggregated?.call(type, value, unit, dateFrom, dateTo);
+    return aggregated?.call(type, value, unit, dateFrom, dateTo, sourceId);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(String type, dynamic value, String unit, String dateFrom,
-            String dateTo)?
+            String dateTo, String? sourceId)?
         raw,
     TResult Function(String type, double value, String unit, String dateFrom,
-            String dateTo)?
+            String dateTo, String? sourceId)?
         aggregated,
     required TResult orElse(),
   }) {
     if (aggregated != null) {
-      return aggregated(type, value, unit, dateFrom, dateTo);
+      return aggregated(type, value, unit, dateFrom, dateTo, sourceId);
     }
     return orElse();
   }
@@ -569,7 +615,8 @@ abstract class AggregatedHealthDataPoint implements AppHealthDataPoint {
       required final double value,
       required final String unit,
       required final String dateFrom,
-      required final String dateTo}) = _$AggregatedHealthDataPointImpl;
+      required final String dateTo,
+      required final String? sourceId}) = _$AggregatedHealthDataPointImpl;
 
   factory AggregatedHealthDataPoint.fromJson(Map<String, dynamic> json) =
       _$AggregatedHealthDataPointImpl.fromJson;
@@ -584,6 +631,8 @@ abstract class AggregatedHealthDataPoint implements AppHealthDataPoint {
   String get dateFrom;
   @override
   String get dateTo;
+  @override
+  String? get sourceId;
   @override
   @JsonKey(ignore: true)
   _$$AggregatedHealthDataPointImplCopyWith<_$AggregatedHealthDataPointImpl>
