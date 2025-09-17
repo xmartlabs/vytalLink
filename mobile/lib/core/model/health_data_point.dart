@@ -11,6 +11,7 @@ class AppHealthDataPoint with _$AppHealthDataPoint {
     required String unit,
     required String dateFrom,
     required String dateTo,
+    required String? sourceId,
   }) = SimpleHealthDataPoint;
 
   const factory AppHealthDataPoint.aggregated({
@@ -19,6 +20,7 @@ class AppHealthDataPoint with _$AppHealthDataPoint {
     required String unit,
     required String dateFrom,
     required String dateTo,
+    required String? sourceId,
   }) = AggregatedHealthDataPoint;
 
   factory AppHealthDataPoint.fromJson(Map<String, dynamic> json) =>

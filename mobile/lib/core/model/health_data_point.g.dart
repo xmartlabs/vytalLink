@@ -14,6 +14,7 @@ _$SimpleHealthDataPointImpl _$$SimpleHealthDataPointImplFromJson(
       unit: json['unit'] as String,
       dateFrom: json['date_from'] as String,
       dateTo: json['date_to'] as String,
+      sourceId: json['source_id'] as String?,
       $type: json['runtimeType'] as String?,
     );
 
@@ -25,6 +26,7 @@ Map<String, dynamic> _$$SimpleHealthDataPointImplToJson(
       'unit': instance.unit,
       'date_from': instance.dateFrom,
       'date_to': instance.dateTo,
+      'source_id': instance.sourceId,
       'runtimeType': instance.$type,
     };
 
@@ -36,6 +38,7 @@ _$AggregatedHealthDataPointImpl _$$AggregatedHealthDataPointImplFromJson(
       unit: json['unit'] as String,
       dateFrom: json['date_from'] as String,
       dateTo: json['date_to'] as String,
+      sourceId: json['source_id'] as String?,
       $type: json['runtimeType'] as String?,
     );
 
@@ -47,5 +50,6 @@ Map<String, dynamic> _$$AggregatedHealthDataPointImplToJson(
       'unit': instance.unit,
       'date_from': instance.dateFrom,
       'date_to': instance.dateTo,
+      'source_id': instance.sourceId,
       'runtimeType': instance.$type,
     };
