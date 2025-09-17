@@ -57,7 +57,7 @@ class _HomeContentScreenState extends State<_HomeContentScreen>
                 context.localizations.health_connect_required_alert_cancel,
               ),
             ),
-            FilledButton(
+            TextButton(
               onPressed: () => Navigator.of(context).pop(true),
               child: Text(
                 context.localizations.health_connect_required_alert_install,

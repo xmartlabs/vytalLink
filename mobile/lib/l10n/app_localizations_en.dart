@@ -285,7 +285,7 @@ class AppLocalizationsEn extends AppLocalizations {
       'vytalLink uses Google Health Connect to securely sync your activity, sleep, and workout data from your Android device. Install Health Connect to enable the connection and keep your information flowing safely.';
 
   @override
-  String get health_connect_required_alert_install => 'Install Health Connect';
+  String get health_connect_required_alert_install => 'Install';
 
   @override
   String get health_connect_required_alert_cancel => 'Not now';

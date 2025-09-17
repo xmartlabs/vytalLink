@@ -577,7 +577,7 @@ abstract class AppLocalizations {
   /// No description provided for @health_connect_required_alert_install.
   ///
   /// In en, this message translates to:
-  /// **'Install Health Connect'**
+  /// **'Install'**
   String get health_connect_required_alert_install;
 
   /// No description provided for @health_connect_required_alert_cancel.
