@@ -550,6 +550,30 @@ abstract class AppLocalizations {
   /// **'Failed to configure health client'**
   String get health_client_config_failed;
 
+  /// No description provided for @health_connect_required_alert_cancel.
+  ///
+  /// In en, this message translates to:
+  /// **'Not now'**
+  String get health_connect_required_alert_cancel;
+
+  /// No description provided for @health_connect_required_alert_install.
+  ///
+  /// In en, this message translates to:
+  /// **'Install'**
+  String get health_connect_required_alert_install;
+
+  /// No description provided for @health_connect_required_alert_message.
+  ///
+  /// In en, this message translates to:
+  /// **'vytalLink uses Google Health Connect to securely sync your activity, sleep, and workout data from your Android device. Install Health Connect to enable the connection and keep your information flowing safely.'**
+  String get health_connect_required_alert_message;
+
+  /// No description provided for @health_connect_required_alert_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Install Google Health Connect'**
+  String get health_connect_required_alert_title;
+
   /// No description provided for @health_data_unavailable.
   ///
   /// In en, this message translates to:
