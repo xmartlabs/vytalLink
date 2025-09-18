@@ -33,7 +33,12 @@ Use the flow that matches your target, or run both when shipping a coordinated r
    ```bash
    npm pack --dry-run
    ```
-   Ensure only `vytalLink_mcp_server.js`, `README.md`, `LICENSE`, and `package.json` are included.
+   Ensure only `vytalLink_mcp_server.js`, `README-NPM.md`, `LICENSE`, and `package.json` are included.
+   For a tangible tarball you can open locally, run:
+   ```bash
+   npm run pack:dist
+   ```
+   This writes `dist/xmartlabs-vytallink-mcp-server-<version>.tgz` using the same payload.
 5. Publish to npm (fails if the version already exists or you are not authenticated):
    ```bash
    npm publish --access public

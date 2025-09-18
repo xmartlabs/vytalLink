@@ -51,6 +51,7 @@
     "uninstall-global": "npm uninstall -g @xmartlabs/vytallink-mcp-server",
     "mcpb:package": "node scripts/package-extension.js",
     "mcpb:update-icon": "node scripts/update-icon.js",
+    "pack:dist": "node scripts/ensure-dist.js && npm pack --pack-destination dist",
     "prepack": "node scripts/toggle-readme-for-pack.js prepare",
     "postpack": "node scripts/toggle-readme-for-pack.js restore"
   },
