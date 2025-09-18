@@ -8,6 +8,7 @@ icon.png
 scripts/package-extension.js
 scripts/prepare-extension.js
 scripts/update-icon.js
+scripts/toggle-readme-for-pack.js
 
 # Archivos temporales de desarrollo
 vytallink-original-fixed/

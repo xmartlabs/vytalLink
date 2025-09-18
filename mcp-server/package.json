@@ -19,7 +19,7 @@
     "email": "vytalLink@xmartlabs.com"
   },
   "documentation": "https://vytallink.xmartlabs.com",
-  "readme": "README-NPM.md",
+  "readmeFilename": "README-NPM.md",
   "keywords": [
     "digital-health",
     "fitness",
@@ -50,7 +50,9 @@
     "install-global": "npm pack && npm install -g $(npm pack | tail -1)",
     "uninstall-global": "npm uninstall -g @xmartlabs/vytallink-mcp-server",
     "mcpb:package": "node scripts/package-extension.js",
-    "mcpb:update-icon": "node scripts/update-icon.js"
+    "mcpb:update-icon": "node scripts/update-icon.js",
+    "prepack": "node scripts/toggle-readme-for-pack.js prepare",
+    "postpack": "node scripts/toggle-readme-for-pack.js restore"
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.12.1",

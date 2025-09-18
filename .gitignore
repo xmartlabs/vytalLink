@@ -12,6 +12,7 @@
 # MCP bundles
 *.mcpb
 mcp-server/dist/
+mcp-server/.README.md.prepack-backup
 
 # Node.js
 node_modules/
