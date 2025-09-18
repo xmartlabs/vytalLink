@@ -202,6 +202,17 @@
     margin-bottom: 1.5rem;
 }
 
+.setup-steps .step p a,
+.setup-steps .step li a {
+    color: var(--primary-color);
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.setup-steps .step a:hover {
+    text-decoration: underline;
+}
+
 .code-block {
     background: #111827;
     color: #e5e7eb;

@@ -230,9 +230,10 @@
 /* Connection Options */
 .connection-options {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 1rem;
     margin-top: 1rem;
+    justify-items: center;
 }
 
 .connection-item {
@@ -245,7 +246,6 @@
     border: 2px solid var(--secondary-color);
     border-radius: 12px;
     transition: var(--transition);
-    min-height: 140px;
     text-align: center;
     text-decoration: none;
     color: inherit;
@@ -253,6 +253,8 @@
     cursor: pointer;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
     flex-shrink: 0;
+    width: 100%;
+    max-width: 220px;
 }
 
 .connection-item:hover {
@@ -300,6 +302,11 @@
 .connection-item small {
     color: var(--text-light);
     font-size: 0.75rem;
+}
+
+.connection-item.full-width {
+    grid-column: 1 / -1;
+    max-width: 100%;
 }
 
 /* Example Questions */
