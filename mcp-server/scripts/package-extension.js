@@ -17,6 +17,38 @@ async function packageExtension() {
 
   let manifestUpdated = false;
 
+  const buildAuthor = () => {
+    const existing = manifestJson.author;
+    const author = packageJson.author;
+
+    if (!author) {
+      return existing;
+    }
+
+    if (typeof author === 'string') {
+      const match = author.match(/^(.*?)\s*(<([^>]+)>)?\s*(\(([^)]+)\))?$/);
+      const name = match?.[1]?.trim() || existing?.name;
+      const email = match?.[3]?.trim() || existing?.email;
+      const url = existing?.url || packageJson.homepage || undefined;
+
+      return {
+        ...(name ? { name } : {}),
+        ...(email ? { email } : {}),
+        ...(url ? { url } : {}),
+      };
+    }
+
+    if (typeof author === 'object') {
+      return {
+        ...(author.name ? { name: author.name } : existing?.name ? { name: existing.name } : {}),
+        ...(author.email ? { email: author.email } : existing?.email ? { email: existing.email } : {}),
+        ...(author.url ? { url: author.url } : existing?.url ? { url: existing.url } : {}),
+      };
+    }
+
+    return existing;
+  };
+
   const syncField = (pathSegments, value) => {
     if (value === undefined) {
       return;
@@ -46,13 +78,12 @@ async function packageExtension() {
   };
 
   syncField(['version'], packageJson.version);
-  syncField(['description'], packageJson.description);
   syncField(['keywords'], packageJson.keywords);
   syncField(['homepage'], packageJson.homepage);
   syncField(['repository'], packageJson.repository);
   syncField(['documentation'], packageJson.documentation);
   syncField(['support'], packageJson.bugs?.url ?? manifestJson.support);
-  syncField(['author'], packageJson.author);
+  syncField(['author'], buildAuthor());
 
   if (manifestUpdated) {
     fs.writeFileSync(manifestJsonPath, JSON.stringify(manifestJson, null, 2) + '\n');
