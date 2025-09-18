@@ -1,7 +1,7 @@
 {
   "name": "@xmartlabs/vytallink-mcp-server",
   "version": "0.0.5",
-  "description": "A Model Context Protocol (MCP) server that provides access to vytalLink health and fitness data. vytalLink is a comprehensive health platform that aggregates data from wearable devices, fitness apps, and health monitoring systems, providing unified access to your health metrics, workout data, sleep patterns, and vital signs through any MCP-compatible client.",
+  "description": "A Model Context Protocol (MCP) server that provides access to vytalLink health and fitness data. vytalLink is a comprehensive health platform that aggregates data from wearable devices, fitness apps, and health monitoring systems, providing unified access to your health metrics, workout data, sleep patterns, and vital signs through any MCP-compatible client. The server proxies requests to the vytalLink backend and keeps tooling definitions in sync with the mobile app. Requires the vytalLink mobile app for onboarding and authentication.",
   "type": "module",
   "main": "vytalLink_mcp_server.js",
   "bin": {
@@ -18,23 +18,27 @@
     "url": "https://github.com/xmartlabs/vytalLink/issues",
     "email": "vytalLink@xmartlabs.com"
   },
-  "documentation": "https://vytallink.xmartlabs.com/docs",
+  "documentation": "https://vytallink.xmartlabs.com",
   "readme": "README-NPM.md",
   "keywords": [
-    "health",
+    "digital-health",
     "fitness",
-    "vitals",
-    "mcp",
-    "claude",
-    "desktop",
-    "wearables",
-    "sleep",
-    "heart-rate",
-    "workout",
+    "health",
     "health-data",
+    "heart-rate",
+    "mcp",
+    "mcp-server",
     "model-context-protocol",
+    "sleep",
+    "wearables",
+    "wellness",
+    "workout",
+    "vitals",
     "vytallink",
-    "xmartlabs"
+    "xmartlabs",
+    "anthropic",
+    "claude",
+    "claude-desktop"
   ],
   "files": [
     "vytalLink_mcp_server.js",

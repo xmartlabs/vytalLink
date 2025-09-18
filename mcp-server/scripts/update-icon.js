@@ -46,10 +46,8 @@ async function main() {
   await cleanup();
   await fs.mkdir(paths.targetDir, { recursive: true });
 
-  // Crop the central square (50% of original on each dimension).
   runSips(['-c', '512', '512', paths.sourceIcon, '--out', paths.tempIcon]);
 
-  // Resize to 256x256 keeping transparency.
   runSips(['-z', '256', '256', paths.tempIcon]);
   runSips(['-s', 'format', 'png', paths.tempIcon, '--out', paths.targetIcon]);
 

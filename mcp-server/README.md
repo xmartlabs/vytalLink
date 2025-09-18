@@ -26,19 +26,7 @@ npm install -g @xmartlabs/vytallink-mcp-server
 
 ## Usage
 
-### Running the Server
-
-Start the MCP server:
-
-```bash
-npx @xmartlabs/vytallink-mcp-server
-```
-
-Or if installed globally:
-
-```bash
-vytallink-mcp-server
-```
+MCP clients launch the server automatically. Point your client at `npx @xmartlabs/vytallink-mcp-server` (or the globally installed binary) and provide any required environment variables.
 
 ### Configuration
 
@@ -46,7 +34,7 @@ The server accepts the following environment variables:
 
 - `VYTALLINK_BASE_URL` - Base URL for the vytalLink API (defaults to production)
 
-Example:
+For manual smoke testing you can still run:
 ```bash
 VYTALLINK_BASE_URL=https://api.vytallink.com npx @xmartlabs/vytallink-mcp-server
 ```

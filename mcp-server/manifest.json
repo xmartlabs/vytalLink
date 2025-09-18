@@ -2,13 +2,9 @@
   "name": "vytallink",
   "display_name": "vytalLink MCP",
   "version": "0.0.5",
-  "description": "Install the vytalLink MCP server to access personal health and fitness data from Claude Desktop.",
+  "description": "A Model Context Protocol (MCP) server that provides access to vytalLink health and fitness data. vytalLink is a comprehensive health platform that aggregates data from wearable devices, fitness apps, and health monitoring systems, providing unified access to your health metrics, workout data, sleep patterns, and vital signs through any MCP-compatible client. The server proxies requests to the vytalLink backend and keeps tooling definitions in sync with the mobile app. Requires the vytalLink mobile app for onboarding and authentication.",
   "long_description": "Connect Claude Desktop with the vytalLink platform to review workouts, sleep insights, and vital metrics without leaving your desk. The extension bundles the official vytalLink MCP server, which proxies requests to the vytalLink backend and keeps tooling definitions in sync with the mobile app. Requires the vytalLink mobile app for onboarding and authentication. Learn more on the [vytalLink site](https://vytallink.xmartlabs.com).",
-  "author": {
-    "name": "Xmartlabs",
-    "email": "vytalLink@xmartlabs.com",
-    "url": "https://xmartlabs.com"
-  },
+  "author": "Xmartlabs <vytalLink@xmartlabs.com>",
   "homepage": "https://vytallink.xmartlabs.com/",
   "repository": {
     "type": "git",
@@ -18,9 +14,24 @@
   "support": "https://github.com/xmartlabs/vytalLink/issues",
   "icon": "icon.png",
   "keywords": [
-    "health",
+    "anthropic",
+    "claude",
+    "claude-desktop",
+    "digital-health",
     "fitness",
-    "vitals"
+    "health",
+    "health-data",
+    "heart-rate",
+    "mcp",
+    "mcp-server",
+    "model-context-protocol",
+    "sleep",
+    "wearables",
+    "wellness",
+    "workout",
+    "vitals",
+    "vytallink",
+    "xmartlabs"
   ],
   "server": {
     "type": "node",

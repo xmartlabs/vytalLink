@@ -9,16 +9,52 @@ const projectRoot = path.join(path.dirname(__filename), '..');
 async function packageExtension() {
   console.log('📦 Packaging vytalLink MCP extension...');
   
-  // Sync version from package.json to manifest.json
   const packageJsonPath = path.join(projectRoot, 'package.json');
   const manifestJsonPath = path.join(projectRoot, 'manifest.json');
   
   const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, 'utf-8'));
   const manifestJson = JSON.parse(fs.readFileSync(manifestJsonPath, 'utf-8'));
-  
-  if (packageJson.version !== manifestJson.version) {
-    console.log(`🔄 Syncing version: ${manifestJson.version} → ${packageJson.version}`);
-    manifestJson.version = packageJson.version;
+
+  let manifestUpdated = false;
+
+  const syncField = (pathSegments, value) => {
+    if (value === undefined) {
+      return;
+    }
+
+    const currentValue = pathSegments.reduce((acc, key) => (acc ? acc[key] : undefined), manifestJson);
+    const serializedCurrent = JSON.stringify(currentValue);
+    const serializedNext = JSON.stringify(value);
+
+    if (serializedCurrent === serializedNext) {
+      return;
+    }
+
+    let target = manifestJson;
+    for (let i = 0; i < pathSegments.length - 1; i += 1) {
+      const key = pathSegments[i];
+      if (typeof target[key] !== 'object' || target[key] === null) {
+        target[key] = {};
+      }
+      target = target[key];
+    }
+
+    const leafKey = pathSegments[pathSegments.length - 1];
+    target[leafKey] = value;
+    manifestUpdated = true;
+    console.log(`🔄 Synced manifest field ${pathSegments.join('.')} → ${serializedNext}`);
+  };
+
+  syncField(['version'], packageJson.version);
+  syncField(['description'], packageJson.description);
+  syncField(['keywords'], packageJson.keywords);
+  syncField(['homepage'], packageJson.homepage);
+  syncField(['repository'], packageJson.repository);
+  syncField(['documentation'], packageJson.documentation);
+  syncField(['support'], packageJson.bugs?.url ?? manifestJson.support);
+  syncField(['author'], packageJson.author);
+
+  if (manifestUpdated) {
     fs.writeFileSync(manifestJsonPath, JSON.stringify(manifestJson, null, 2) + '\n');
   }
   
@@ -32,18 +68,15 @@ async function packageExtension() {
       encoding: 'utf-8'
     });
     
-    // Check for generated .mcpb file and move it to dist/
     const defaultMcpbFile = path.join(projectRoot, 'mcp-server.mcpb');
     const distDir = path.join(projectRoot, 'dist');
     const finalMcpbFile = path.join(distDir, 'vytallink-mcp-server.mcpb');
     
     if (fs.existsSync(defaultMcpbFile)) {
-      // Create dist directory if it doesn't exist
       if (!fs.existsSync(distDir)) {
         fs.mkdirSync(distDir, { recursive: true });
       }
       
-      // Move to dist/ with descriptive name
       fs.renameSync(defaultMcpbFile, finalMcpbFile);
       
       const stats = fs.statSync(finalMcpbFile);
