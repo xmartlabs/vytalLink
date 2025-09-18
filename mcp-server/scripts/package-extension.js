@@ -9,6 +9,19 @@ const projectRoot = path.join(path.dirname(__filename), '..');
 async function packageExtension() {
   console.log('📦 Packaging vytalLink MCP extension...');
   
+  // Sync version from package.json to manifest.json
+  const packageJsonPath = path.join(projectRoot, 'package.json');
+  const manifestJsonPath = path.join(projectRoot, 'manifest.json');
+  
+  const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, 'utf-8'));
+  const manifestJson = JSON.parse(fs.readFileSync(manifestJsonPath, 'utf-8'));
+  
+  if (packageJson.version !== manifestJson.version) {
+    console.log(`🔄 Syncing version: ${manifestJson.version} → ${packageJson.version}`);
+    manifestJson.version = packageJson.version;
+    fs.writeFileSync(manifestJsonPath, JSON.stringify(manifestJson, null, 2) + '\n');
+  }
+  
   try {
     const packCommand = `npx @anthropic-ai/mcpb pack`;
     console.log(`Running: ${packCommand} in ${projectRoot}`);

@@ -55,6 +55,14 @@ VYTALLINK_BASE_URL=https://api.vytallink.com npx @xmartlabs/vytallink-mcp-server
 
 #### Claude Desktop
 
+**Option A: One-click bundle (Recommended)**
+
+1. Download the latest `vytallink-mcp-server.mcpb` bundle from the releases page
+2. Double-click the file or drag it into Claude Desktop Settings > Extensions
+3. Review the permissions and click **Install**
+
+**Option B: Manual npm configuration**
+
 Add to your Claude Desktop configuration (`claude_desktop_config.json`):
 
 ```json
@@ -106,6 +114,26 @@ The server dynamically loads tools from the vytalLink backend, ensuring you alwa
 The MCP server connects to our backend to handle requests and business logic. All authentication is exclusively managed through our mobile applications.
 
 For more information, visit [vytallink.xmartlabs.com](https://vytallink.xmartlabs.com/).
+
+## Development
+
+### Building Claude Desktop Bundle
+
+To build the Claude Desktop bundle:
+
+```bash
+npm run mcpb:package
+```
+
+This creates a `dist/vytallink-mcp-server.mcpb` bundle that can be installed in Claude Desktop.
+
+### Available Scripts
+
+- `npm start` - Run the MCP server directly
+- `npm run install-global` - Install server globally via npm
+- `npm run uninstall-global` - Uninstall server globally via npm
+- `npm run mcpb:package` - Build Claude Desktop bundle
+- `npm run mcpb:update-icon` - Process and optimize icon
 
 ## Support
 

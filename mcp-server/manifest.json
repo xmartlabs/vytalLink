@@ -1,7 +1,7 @@
 {
   "name": "vytallink",
   "display_name": "vytalLink MCP",
-  "version": "1.0.0",
+  "version": "0.0.5",
   "description": "Install the vytalLink MCP server to access personal health and fitness data from Claude Desktop.",
   "long_description": "Connect Claude Desktop with the vytalLink platform to review workouts, sleep insights, and vital metrics without leaving your desk. The extension bundles the official vytalLink MCP server, which proxies requests to the vytalLink backend and keeps tooling definitions in sync with the mobile app. Requires the vytalLink mobile app for onboarding and authentication. Learn more on the [vytalLink site](https://vytallink.xmartlabs.com).",
   "author": {

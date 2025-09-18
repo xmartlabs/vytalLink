@@ -1,6 +1,6 @@
 {
   "name": "@xmartlabs/vytallink-mcp-server",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "A Model Context Protocol (MCP) server that provides access to vytalLink health and fitness data. vytalLink is a comprehensive health platform that aggregates data from wearable devices, fitness apps, and health monitoring systems, providing unified access to your health metrics, workout data, sleep patterns, and vital signs through any MCP-compatible client.",
   "type": "module",
   "main": "vytalLink_mcp_server.js",
@@ -8,7 +8,7 @@
     "vytallink-mcp-server": "./vytalLink_mcp_server.js"
   },
   "license": "MIT",
-] "author": "Xmartlabs <vytalLink@xmartlabs.com>",
+  "author": "Xmartlabs <vytalLink@xmartlabs.com>",
   "homepage": "https://vytallink.xmartlabs.com/",
   "repository": {
     "type": "git",
@@ -46,8 +46,7 @@
     "install-global": "npm pack && npm install -g $(npm pack | tail -1)",
     "uninstall-global": "npm uninstall -g @xmartlabs/vytallink-mcp-server",
     "mcpb:package": "node scripts/package-extension.js",
-    "mcpb:update-icon": "node scripts/update-icon.js",
-    "mcpb:pack": "npx @anthropic-ai/mcpb pack"
+    "mcpb:update-icon": "node scripts/update-icon.js"
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.12.1",
