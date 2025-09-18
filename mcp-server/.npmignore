@@ -1,11 +1,23 @@
-# Node modules
+# Claude Desktop bundle files (no van a npm)
+*.mcpb
+dist/
+manifest.json
+icon.png
+
+# Build scripts para Claude Desktop
+scripts/package-extension.js
+scripts/prepare-extension.js
+scripts/update-icon.js
+
+# Archivos temporales de desarrollo
+vytallink-original-fixed/
+.icon.tmp.png
+
+# Documentación específica de bundles y desarrollo
+PUBLISHING.md
+README-CLAUDE.md
+
+# Node modules y build artifacts
 node_modules/
-
-# Development files
 *.log
-.env
-.env.*
-
-# OS files
 .DS_Store
-Thumbs.db

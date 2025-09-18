@@ -25,27 +25,32 @@ Internal checklist for shipping `@xmartlabs/vytallink-mcp-server` to the public 
    npm version <patch|minor|major> --no-git-tag-version
    ```
    Verify only `package.json` changed.
-4. Inspect the publish payload before pushing:
+4. Inspect the npm publish payload:
    ```bash
    npm pack --dry-run
    ```
-   Ensure only `vytalLink_mcp_server.js`, `README.md`, and `LICENSE` are included.
-5. Publish to npm (fails if the version already exists or you are not authenticated):
+   Ensure only `vytalLink_mcp_server.js`, `README.md`, `LICENSE`, and `package.json` are included (no Claude Desktop files).
+5. Build the Claude Desktop extension bundle (separately):
+   ```bash
+   npm run mcpb:package
+   ```
+   This creates `mcp-server.mcpb` in the root directory. Confirm the bundle exists and attach it to the release notes.
+6. Publish to npm (fails if the version already exists or you are not authenticated):
    ```bash
    npm publish --access public
    ```
    Enter the OTP when prompted.
-6. Confirm availability and copy the tarball URL for release notes:
+7. Confirm availability and copy the tarball URL for release notes:
    ```bash
    npm view @xmartlabs/vytallink-mcp-server version
    ```
-7. Commit, tag, and push the release metadata:
+8. Commit, tag, and push the release metadata:
    ```bash
    git commit -am "chore(mcp-server): release v<version>"
    git tag mcp-server-v<version>
    git push origin main --tags
    ```
-8. Share the release (Slack, changelog, or GitHub release) and update any documentation that references the new version.
+9. Share the release (Slack, changelog, or GitHub release) and update any documentation that references the new version.
 
 ## Troubleshooting
 - **401 Unauthorized**: run `npm logout`, then `npm login` with valid org credentials and OTP.

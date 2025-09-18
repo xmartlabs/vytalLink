@@ -1,37 +1,56 @@
 {
   "name": "@xmartlabs/vytallink-mcp-server",
-  "version": "0.0.3",
-  "description": "MCP Server for vytalLink",
-  "main": "vytalLink_mcp_server.js",
+  "version": "0.0.4",
+  "description": "A Model Context Protocol (MCP) server that provides access to vytalLink health and fitness data. vytalLink is a comprehensive health platform that aggregates data from wearable devices, fitness apps, and health monitoring systems, providing unified access to your health metrics, workout data, sleep patterns, and vital signs through any MCP-compatible client.",
   "type": "module",
+  "main": "vytalLink_mcp_server.js",
+  "bin": {
+    "vytallink-mcp-server": "./vytalLink_mcp_server.js"
+  },
   "license": "MIT",
-  "author": "Xmartlabs <vytalLink@xmartlabs.com>",
-  "homepage": "https://vytallink.xmartlabs.com",
+] "author": "Xmartlabs <vytalLink@xmartlabs.com>",
+  "homepage": "https://vytallink.xmartlabs.com/",
   "repository": {
     "type": "git",
-    "url": "https://github.com/xmartlabs/vytalLink.git"
+    "url": "https://github.com/xmartlabs/vytalLink"
   },
   "bugs": {
     "url": "https://github.com/xmartlabs/vytalLink/issues",
     "email": "vytalLink@xmartlabs.com"
   },
-  "bin": {
-    "vytallink-mcp-server": "./vytalLink_mcp_server.js"
-  },
-  "dependencies": {
-    "@modelcontextprotocol/sdk": "^1.0.0",
-    "node-fetch": "^3.3.2"
-  },
-  "scripts": {
-    "start": "node vytalLink_mcp_server.js",
-    "dev": "node vytalLink_mcp_server.js",
-    "install-global": "npm install -g .",
-    "uninstall-global": "npm uninstall -g @xmartlabs/vytallink-mcp-server"
-  },
+  "documentation": "https://vytallink.xmartlabs.com/docs",
+  "readme": "README-NPM.md",
+  "keywords": [
+    "health",
+    "fitness",
+    "vitals",
+    "mcp",
+    "claude",
+    "desktop",
+    "wearables",
+    "sleep",
+    "heart-rate",
+    "workout",
+    "health-data",
+    "model-context-protocol",
+    "vytallink",
+    "xmartlabs"
+  ],
   "files": [
     "vytalLink_mcp_server.js",
-    "README.md",
+    "README-NPM.md",
     "LICENSE"
   ],
-  "readme": "README.md"
+  "scripts": {
+    "start": "node vytalLink_mcp_server.js",
+    "install-global": "npm pack && npm install -g $(npm pack | tail -1)",
+    "uninstall-global": "npm uninstall -g @xmartlabs/vytallink-mcp-server",
+    "mcpb:package": "node scripts/package-extension.js",
+    "mcpb:update-icon": "node scripts/update-icon.js",
+    "mcpb:pack": "npx @anthropic-ai/mcpb pack"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.12.1",
+    "node-fetch": "^3.3.2"
+  }
 }
