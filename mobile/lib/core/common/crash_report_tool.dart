@@ -15,17 +15,34 @@ abstract interface class CrashReportTool {
 class CrashlyticsCrashReportTool extends CrashReportTool {
   @override
   Future init() async {
+    // Skip Firebase initialization during tests
+    if (Config.testingMode) {
+      return;
+    }
+
     FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterFatalError;
     await FirebaseCrashlytics.instance
         .setCrashlyticsCollectionEnabled(Config.firebaseCollectEventsEnabled);
   }
 
   @override
-  Future logFatal(error, StackTrace? stackTrace) =>
-      FirebaseCrashlytics.instance.recordError(error, stackTrace, fatal: true);
+  Future logFatal(error, StackTrace? stackTrace) async {
+    // Skip Firebase logging during tests
+    if (Config.testingMode) {
+      return;
+    }
+
+    await FirebaseCrashlytics.instance
+        .recordError(error, stackTrace, fatal: true);
+  }
 
   @override
   Future logNonFatal(LogEvent event) async {
+    // Skip Firebase logging during tests
+    if (Config.testingMode) {
+      return;
+    }
+
     await FirebaseCrashlytics.instance.setCustomKey('level', event.level.name);
     await FirebaseCrashlytics.instance.recordError(
       event.error ?? FlutterError(event.message),
