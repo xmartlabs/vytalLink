@@ -229,10 +229,10 @@
 
 /* Connection Options */
 .connection-options {
-    display: flex;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
     gap: 1rem;
-    flex-wrap: wrap;
-    justify-content: center;
+    margin-top: 1rem;
 }
 
 .connection-item {
@@ -245,8 +245,7 @@
     border: 2px solid var(--secondary-color);
     border-radius: 12px;
     transition: var(--transition);
-    width: 160px;
-    height: 140px;
+    min-height: 140px;
     text-align: center;
     text-decoration: none;
     color: inherit;
@@ -277,7 +276,9 @@
     z-index: 2;
 }
 
-.connection-badge.most-popular {
+
+.connection-badge.most-popular,
+.connection-badge.popular {
     background: var(--gradient);
 }
 
