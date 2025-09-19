@@ -14,6 +14,24 @@
  */
 
 import fetch from 'node-fetch';
+import { readFileSync } from 'node:fs';
+import { fileURLToPath } from 'node:url';
+import path from 'node:path';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const packageJsonPath = path.join(__dirname, 'package.json');
+let MCP_VERSION = 'unknown';
+
+try {
+  const packageContents = readFileSync(packageJsonPath, 'utf-8');
+  const packageJson = JSON.parse(packageContents);
+  MCP_VERSION = packageJson.version ?? MCP_VERSION;
+} catch (versionError) {
+  console.error('Failed to read MCP version from package.json:', versionError);
+}
+
+const MCP_DISTRIBUTION = process.env.VYTALLINK_MCP_DIST || 'npm';
 
 const BASE_URL = process.env.VYTALLINK_BASE_URL || 'https://vytallink.local.xmartlabs.com';
 const API_BASE_URL = `${BASE_URL}/mcp/call`;
@@ -21,11 +39,14 @@ const TOOLS_URL = `${BASE_URL}/mcp/tools`;
 
 console.error('MCP Server starting...');
 console.error(`Backend URL: ${BASE_URL}`);
+console.error(`MCP Version: ${MCP_VERSION} (${MCP_DISTRIBUTION})`);
 
 process.stdin.setEncoding('utf8');
 
 let buffer = '';
 let authToken = null;
+let versionWarning = null;
+let versionWarningShown = false;
 
 process.stdin.on('data', (chunk) => {
   buffer += chunk;
@@ -106,18 +127,22 @@ async function handleInitialize(request) {
   try {
     const requestBody = {
       method: "initialize",
-      params: request.params || {}
+      params: {
+        ...(request.params || {}),
+        clientVersion: MCP_VERSION,
+        clientDistribution: MCP_DISTRIBUTION,
+      }
     };
     
     const response = await fetch(API_BASE_URL, {
       method: "POST",
-      headers: {
+      headers: withVersionHeaders({
         "Content-Type": "application/json",
-      },
+      }),
       body: JSON.stringify(requestBody),
     });
     
-    const result = await response.json();
+    const result = captureClientWarning(await parseBackendResponse(response));
     
     const initResponse = {
       jsonrpc: "2.0",
@@ -133,8 +158,8 @@ async function handleInitialize(request) {
       id: request.id,
       error: {
         code: -32603,
-        message: "Backend server unavailable",
-        data: fetchError.message
+        message: fetchError instanceof BackendError ? fetchError.message : "Backend server unavailable",
+        data: fetchError instanceof BackendError ? fetchError.detail : fetchError.message
       }
     };
     console.log(JSON.stringify(errorResponse));
@@ -143,8 +168,10 @@ async function handleInitialize(request) {
 
 async function handleToolsList(request) {
   try {
-    const toolsResponse = await fetch(TOOLS_URL);
-    const toolsData = await toolsResponse.json();
+    const toolsResponse = await fetch(TOOLS_URL, {
+      headers: withVersionHeaders(),
+    });
+    const toolsData = captureClientWarning(await parseBackendResponse(toolsResponse));
     
     const response = {
       jsonrpc: "2.0",
@@ -186,16 +213,18 @@ async function callBackendTool(name, args, headers) {
     params: {
       name: name,
       arguments: args,
+      clientVersion: MCP_VERSION,
+      clientDistribution: MCP_DISTRIBUTION,
     },
   };
   
   const response = await fetch(API_BASE_URL, {
     method: "POST",
-    headers: headers,
+    headers: withVersionHeaders(headers),
     body: JSON.stringify(requestBody),
   });
   
-  return await response.json();
+  return await parseBackendResponse(response);
 }
 
 async function handleOAuthLoginFlow(request, result) {
@@ -215,10 +244,12 @@ async function handleOAuthLoginFlow(request, result) {
     };
     
     // Call oauth_authorize automatically
-    const authorizeResult = await callBackendTool("oauth_authorize", {
-      code: authCode,
-      state: "random_state"
-    }, headers);
+    const authorizeResult = captureClientWarning(
+      await callBackendTool("oauth_authorize", {
+        code: authCode,
+        state: "random_state"
+      }, headers)
+    );
     
     // Extract and store the auth token
     if (authorizeResult.content && authorizeResult.content[0] && authorizeResult.content[0].text) {
@@ -229,7 +260,7 @@ async function handleOAuthLoginFlow(request, result) {
     return {
       jsonrpc: "2.0",
       id: request.id,
-      result: authorizeResult,
+      result: appendWarningToResult(authorizeResult),
     };
   } catch (authorizeError) {
     console.error('Error during automatic oauth_authorize:', authorizeError);
@@ -264,7 +295,9 @@ async function handleToolsCall(request) {
       }
     }
 
-    const result = await callBackendTool(effectiveName, args, headers);
+    const result = captureClientWarning(
+      await callBackendTool(effectiveName, args, headers)
+    );
 
     // Handle oauth_login success - automatically call oauth_authorize
     if (name === "oauth_login" && effectiveName === "oauth_login" && result.content && result.content[0] && result.content[0].text) {
@@ -280,10 +313,12 @@ async function handleToolsCall(request) {
       await extractAuthToken(result.content[0].text);
     }
     
+    const decoratedResult = appendWarningToResult(result);
+
     const mcpResponse = {
       jsonrpc: "2.0",
       id: request.id,
-      result: result,
+      result: decoratedResult,
     };
     console.log(JSON.stringify(mcpResponse));
   } catch (fetchError) {
@@ -294,8 +329,8 @@ async function handleToolsCall(request) {
       id: request.id,
       error: {
         code: -32603,
-        message: "Failed to call tool",
-        data: fetchError.message
+        message: fetchError instanceof BackendError ? fetchError.message : "Failed to call tool",
+        data: fetchError instanceof BackendError ? fetchError.detail : fetchError.message
       }
     };
     console.log(JSON.stringify(errorResponse));
@@ -327,3 +362,92 @@ async function handleResourcesList(request) {
 }
 
 console.error('MCP Server ready, waiting for requests...');
+
+function formatWarningMessage(warning) {
+  if (!warning) {
+    return '';
+  }
+  return `⚠️ ${warning.message} (minimum ${warning.minimumVersion}, latest ${warning.latestVersion}). Download: ${warning.downloadUrl}`;
+}
+
+function captureClientWarning(payload) {
+  if (!payload || typeof payload !== 'object') {
+    return payload;
+  }
+
+  const warning = payload.clientWarning;
+  if (!warning) {
+    return payload;
+  }
+
+  const warningSignature = JSON.stringify(warning);
+  const currentSignature = versionWarning ? JSON.stringify(versionWarning) : null;
+
+  versionWarning = warning;
+  versionWarningShown = false;
+
+  if (warningSignature !== currentSignature) {
+    console.error(formatWarningMessage(warning));
+  }
+
+  delete payload.clientWarning;
+  return payload;
+}
+
+function appendWarningToResult(result) {
+  if (!versionWarning || versionWarningShown) {
+    return result;
+  }
+
+  if (!result || typeof result !== 'object') {
+    return result;
+  }
+
+  if (result.isOutdated) {
+    versionWarningShown = true;
+    return result;
+  }
+
+  if (!Array.isArray(result.content)) {
+    result.content = [];
+  }
+
+  result.content.push({ type: 'text', text: formatWarningMessage(versionWarning) });
+  versionWarningShown = true;
+  return result;
+}
+
+function withVersionHeaders(headers = {}) {
+  return {
+    ...headers,
+    'X-Vytallink-MCP-Version': MCP_VERSION,
+    'X-Vytallink-MCP-Dist': MCP_DISTRIBUTION,
+  };
+}
+
+class BackendError extends Error {
+  constructor(message, detail) {
+    super(message);
+    this.name = 'BackendError';
+    this.detail = detail;
+  }
+}
+
+async function parseBackendResponse(response) {
+  let payload = null;
+  try {
+    payload = await response.json();
+  } catch (parseError) {
+    console.error('Failed to parse backend response as JSON:', parseError);
+  }
+
+  if (!response.ok) {
+    const detail = payload?.detail ?? payload;
+    const message =
+      (detail && (detail.message || detail.error)) ||
+      `Backend responded with status ${response.status}`;
+    throw new BackendError(message, detail);
+  }
+
+  return payload;
+}
