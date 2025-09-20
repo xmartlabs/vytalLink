@@ -23,6 +23,7 @@ Each folder contains its own README with the detailed setup. This document only 
 
 - Repository guidelines: [`AGENTS.md`](AGENTS.md).
 - Coding standards: [`docs/CODE_STANDARDS.md`](docs/CODE_STANDARDS.md).
+- Mobile connection behavior: [`docs/MCP_MOBILE_CONNECTION.md`](docs/MCP_MOBILE_CONNECTION.md).
 - Add any new repository-wide guides under [`docs/`](docs/).
 
 ## Contributing
