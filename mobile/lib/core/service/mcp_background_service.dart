@@ -35,6 +35,7 @@ class McpBackgroundService {
   static const String eventPayloadKey = 'payload';
   static const String eventReasonKey = 'reason';
   static const String eventServiceStarted = 'service_started';
+  static const String eventIdleTimeout = 'idle_timeout';
 
   static bool _initialized = false;
   static bool _permissionsRequested = false;
@@ -267,6 +268,8 @@ class _McpForegroundTaskHandler extends TaskHandler {
   StreamSubscription<McpConnectionState>? _stateSubscription;
   StreamSubscription<Object>? _errorSubscription;
   String? _webSocketUrl;
+  Timer? _idleTimer;
+  final Duration _idleTimeout = const Duration(minutes: 15);
 
   @override
   Future<void> onStart(DateTime timestamp, TaskStarter starter) async {
@@ -399,6 +402,7 @@ class _McpForegroundTaskHandler extends TaskHandler {
   }
 
   Future<void> _disposeConnection() async {
+    _cancelIdleTimer();
     await _stateSubscription?.cancel();
     await _errorSubscription?.cancel();
     _stateSubscription = null;
@@ -409,6 +413,7 @@ class _McpForegroundTaskHandler extends TaskHandler {
   }
 
   Future<void> _onBackendMessage(dynamic data) {
+    _resetIdleTimer();
     FlutterForegroundTask.sendDataToMain(<String, dynamic>{
       McpBackgroundService.eventTypeKey: McpBackgroundService.eventMessage,
       McpBackgroundService.eventPayloadKey: data,
@@ -419,12 +424,14 @@ class _McpForegroundTaskHandler extends TaskHandler {
   void _handleConnectionState(McpConnectionState state) {
     switch (state) {
       case McpConnectionState.connected:
+        _resetIdleTimer();
         FlutterForegroundTask.sendDataToMain(<String, dynamic>{
           McpBackgroundService.eventTypeKey:
               McpBackgroundService.eventConnected,
         });
         break;
       case McpConnectionState.disconnected:
+        _cancelIdleTimer();
         FlutterForegroundTask.sendDataToMain(<String, dynamic>{
           McpBackgroundService.eventTypeKey:
               McpBackgroundService.eventDisconnected,
@@ -445,6 +452,24 @@ class _McpForegroundTaskHandler extends TaskHandler {
       McpBackgroundService.eventTypeKey: McpBackgroundService.eventError,
       McpBackgroundService.eventDetailKey: message,
     });
+  }
+
+  void _resetIdleTimer() {
+    _cancelIdleTimer();
+    _idleTimer = Timer(_idleTimeout, _onIdleTimeout);
+  }
+
+  void _cancelIdleTimer() {
+    _idleTimer?.cancel();
+    _idleTimer = null;
+  }
+
+  void _onIdleTimeout() {
+    FlutterForegroundTask.sendDataToMain(<String, dynamic>{
+      McpBackgroundService.eventTypeKey: McpBackgroundService.eventIdleTimeout,
+    });
+    unawaited(_disposeConnection());
+    FlutterForegroundTask.stopService();
   }
 }
 

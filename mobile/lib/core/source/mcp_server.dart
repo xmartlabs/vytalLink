@@ -100,6 +100,7 @@ class HealthMcpServerService {
   void Function(String error)? _onConnectionError;
   void Function()? _onConnectionLost;
   void Function()? _onConnectionEstablished;
+  void Function()? _onServiceStopped;
 
   void setConnectionCodeCallback(
     void Function(String code, String word, String message) callback,
@@ -123,6 +124,12 @@ class HealthMcpServerService {
     void Function() callback,
   ) {
     _onConnectionEstablished = callback;
+  }
+
+  void setServiceStoppedCallback(
+    void Function() callback,
+  ) {
+    _onServiceStopped = callback;
   }
 
   Future<void> stop() async {
@@ -332,6 +339,10 @@ class HealthMcpServerService {
       case McpBackgroundService.eventServiceStarted:
         _onServiceStarted();
         break;
+
+      case McpBackgroundService.eventIdleTimeout:
+        _onServiceStoppedByIdle();
+        break;
     }
   }
 
@@ -395,6 +406,13 @@ class HealthMcpServerService {
     if (_maintainConnection) {
       _requestServiceReconnect();
     }
+  }
+
+  void _onServiceStoppedByIdle() {
+    _foregroundConnected = false;
+    _sessionEstablished = false;
+    _maintainConnection = false;
+    _onServiceStopped?.call();
   }
 
   void _requestServiceReconnect() {

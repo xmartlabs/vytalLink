@@ -46,7 +46,8 @@ class HomeCubit extends Cubit<HomeState> {
       ..setConnectionCodeCallback(_onConnectionCodeReceived)
       ..setConnectionErrorCallback(_onConnectionError)
       ..setConnectionLostCallback(_onConnectionLost)
-      ..setConnectionEstablishedCallback(_onConnectionEstablished);
+      ..setConnectionEstablishedCallback(_onConnectionEstablished)
+      ..setServiceStoppedCallback(_onServiceStoppedByIdle);
     healthPermissionManager = HealthPermissionManager();
   }
 
@@ -302,6 +303,20 @@ class HomeCubit extends Cubit<HomeState> {
         ),
       );
     }
+  }
+
+  void _onServiceStoppedByIdle() {
+    _stopConnectionMonitoring();
+    emit(
+      state.copyWith(
+        status: McpServerStatus.idle,
+        ipAddress: "",
+        endpoint: "",
+        connectionCode: "",
+        connectionWord: "",
+        errorMessage: "",
+      ),
+    );
   }
 
   void _enterReconnectingState() {
