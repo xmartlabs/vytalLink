@@ -34,6 +34,7 @@ dependencies:
   freezed_annotation: 2.4.1
   get_it: 7.7.0
   google_fonts: 6.2.1
+  flutter_foreground_task: ^8.17.0
   health: 13.1.4
   intl: 0.20.2
   json_annotation: 4.9.0

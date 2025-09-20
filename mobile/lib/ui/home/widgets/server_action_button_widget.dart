@@ -23,11 +23,19 @@ class ServerActionButtonWidget extends StatelessWidget {
       case McpServerStatus.idle:
         return _StartButton(onPressed: onStartPressed);
       case McpServerStatus.starting:
-        return const _LoadingButton();
+        return _LoadingButton(
+          label: context.localizations.home_button_starting,
+        );
+      case McpServerStatus.reconnecting:
+        return _LoadingButton(
+          label: context.localizations.home_button_starting,
+        );
       case McpServerStatus.running:
         return const _StopButton();
       case McpServerStatus.stopping:
-        return const _LoadingButton();
+        return _LoadingButton(
+          label: context.localizations.home_button_stopping,
+        );
       case McpServerStatus.error:
         return _ErrorButton(errorMessage: errorMessage);
     }
@@ -106,7 +114,10 @@ class _ErrorButton extends StatelessWidget {
 }
 
 class _LoadingButton extends StatelessWidget {
+  final String label;
+
   const _LoadingButton({
+    required this.label,
     super.key,
   });
 
@@ -123,7 +134,7 @@ class _LoadingButton extends StatelessWidget {
               valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
             ),
           ),
-          label: Text(context.localizations.home_button_stopping),
+          label: Text(label),
           style: ElevatedButton.styleFrom(
             backgroundColor: context.theme.customColors.warning,
             foregroundColor: Colors.white,

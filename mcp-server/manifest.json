@@ -46,7 +46,7 @@
         "${__dirname}/vytalLink_mcp_server.js"
       ],
       "env": {
-        "VYTALLINK_BASE_URL": "https://vytallink.local.xmartlabs.com",
+        "VYTALLINK_BASE_URL": "https://19ad04138002.ngrok-free.app",
         "VYTALLINK_MCP_DIST": "bundle"
       }
     }

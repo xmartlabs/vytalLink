@@ -55,6 +55,7 @@ class AnimatedServerCard extends StatelessWidget {
                       child: AnimatedRotation(
                         duration: const Duration(seconds: 2),
                         turns: status == McpServerStatus.starting ||
+                                status == McpServerStatus.reconnecting ||
                                 status == McpServerStatus.stopping
                             ? 1
                             : 0,
@@ -150,6 +151,8 @@ class AnimatedServerCard extends StatelessWidget {
         return AppLocalizations.of(context)!.home_status_offline;
       case McpServerStatus.starting:
         return AppLocalizations.of(context)!.home_status_starting;
+      case McpServerStatus.reconnecting:
+        return AppLocalizations.of(context)!.home_status_starting;
       case McpServerStatus.running:
         return AppLocalizations.of(context)!.home_status_running;
       case McpServerStatus.stopping:
@@ -165,6 +168,8 @@ class AnimatedServerCard extends StatelessWidget {
         return Icons.cloud_off;
       case McpServerStatus.starting:
         return Icons.cloud_sync;
+      case McpServerStatus.reconnecting:
+        return Icons.cloud_sync;
       case McpServerStatus.running:
         return Icons.cloud_done;
       case McpServerStatus.stopping:
@@ -179,6 +184,8 @@ class AnimatedServerCard extends StatelessWidget {
       case McpServerStatus.idle:
         return context.theme.customColors.textColor!.getShade(300);
       case McpServerStatus.starting:
+        return context.theme.colorScheme.primary;
+      case McpServerStatus.reconnecting:
         return context.theme.colorScheme.primary;
       case McpServerStatus.running:
         return context.theme.customColors.success!;
@@ -197,6 +204,8 @@ class AnimatedServerCard extends StatelessWidget {
       case McpServerStatus.idle:
         return context.localizations.home_description_offline;
       case McpServerStatus.starting:
+        return context.localizations.home_description_starting;
+      case McpServerStatus.reconnecting:
         return context.localizations.home_description_starting;
       case McpServerStatus.running:
         return context.localizations.home_description_running;
