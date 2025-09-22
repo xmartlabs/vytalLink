@@ -223,28 +223,36 @@ class SupportedClientsSection extends StatelessWidget {
                 Positioned(
                   top: 10,
                   right: 10,
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 8,
-                      vertical: 4,
-                    ),
-                    decoration: BoxDecoration(
-                      color: context.theme.colorScheme.secondary,
-                      borderRadius: BorderRadius.circular(12),
-                      boxShadow: [
-                        BoxShadow(
-                          color: context.theme.customColors.shadow!,
-                          blurRadius: 4,
-                          offset: const Offset(0, 2),
+                  child: IgnorePointer(
+                    ignoring: true,
+                    child: Container(
+                      constraints: const BoxConstraints(maxWidth: 140),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 8,
+                        vertical: 2,
+                      ),
+                      decoration: BoxDecoration(
+                        color: context.theme.colorScheme.secondary,
+                        borderRadius: BorderRadius.circular(12),
+                        boxShadow: [
+                          BoxShadow(
+                            color: context.theme.customColors.shadow!,
+                            blurRadius: 4,
+                            offset: const Offset(0, 2),
+                          ),
+                        ],
+                      ),
+                      child: Text(
+                        context.localizations.mcp_recommended_badge,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        softWrap: false,
+                        style: TextStyle(
+                          fontSize: 10,
+                          fontWeight: FontWeight.w700,
+                          color: context.theme.customColors.textColor!
+                              .getShade(100),
                         ),
-                      ],
-                    ),
-                    child: Text(
-                      context.localizations.mcp_recommended_badge,
-                      style: context.theme.textTheme.labelSmall?.copyWith(
-                        color: context.theme.customColors.textColor!
-                            .getShade(100),
-                        fontWeight: FontWeight.bold,
                       ),
                     ),
                   ),
