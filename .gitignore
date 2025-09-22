@@ -9,6 +9,17 @@
 .history
 .svn/
 
+# MCP bundles
+*.mcpb
+mcp-server/dist/
+mcp-server/.README.md.prepack-backup
+
+# Node.js
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
 # Mason
 .mason/
 mason-lock.json

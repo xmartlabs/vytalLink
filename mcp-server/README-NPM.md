@@ -26,7 +26,7 @@ npm install -g @xmartlabs/vytallink-mcp-server
 
 ## Usage
 
-MCP clients launch the server automatically. Point your client at `npx @xmartlabs/vytallink-mcp-server` (or the globally installed binary) and provide any required environment variables.
+MCP clients are responsible for launching the server with the appropriate command. Configure your client to run `npx @xmartlabs/vytallink-mcp-server` (or the globally installed binary) and provide any required environment variables.
 
 ### Configuration
 
@@ -34,7 +34,7 @@ The server accepts the following environment variables:
 
 - `VYTALLINK_BASE_URL` - Base URL for the vytalLink API (defaults to production)
 
-For manual smoke testing you can still run:
+Most clients support setting environment variables alongside the command. For manual smoke testing, you can run:
 ```bash
 VYTALLINK_BASE_URL=https://api.vytallink.com npx @xmartlabs/vytallink-mcp-server
 ```
@@ -42,14 +42,6 @@ VYTALLINK_BASE_URL=https://api.vytallink.com npx @xmartlabs/vytallink-mcp-server
 ### MCP Client Configuration
 
 #### Claude Desktop
-
-**Option A: One-click bundle (Recommended)**
-
-1. Download the latest `vytallink-mcp-server.mcpb` bundle from the releases page
-2. Double-click the file or drag it into Claude Desktop Settings > Extensions
-3. Review the permissions and click **Install**
-
-**Option B: Manual npm configuration**
 
 Add to your Claude Desktop configuration (`claude_desktop_config.json`):
 
@@ -102,26 +94,6 @@ The server dynamically loads tools from the vytalLink backend, ensuring you alwa
 The MCP server connects to our backend to handle requests and business logic. All authentication is exclusively managed through our mobile applications.
 
 For more information, visit [vytallink.xmartlabs.com](https://vytallink.xmartlabs.com/).
-
-## Development
-
-### Building Claude Desktop Bundle
-
-To build the Claude Desktop bundle:
-
-```bash
-npm run mcpb:package
-```
-
-This creates a `dist/vytallink-mcp-server.mcpb` bundle that can be installed in Claude Desktop.
-
-### Available Scripts
-
-- `npm start` - Run the MCP server directly
-- `npm run install-global` - Install server globally via npm
-- `npm run uninstall-global` - Uninstall server globally via npm
-- `npm run mcpb:package` - Build Claude Desktop bundle
-- `npm run mcpb:update-icon` - Process and optimize icon
 
 ## Support
 
