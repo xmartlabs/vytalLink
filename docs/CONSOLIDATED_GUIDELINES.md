@@ -78,4 +78,4 @@ This document serves as a unified reference for the key guidelines and principle
 ## Related Resources
 
 ### Content Creation Tools
-- **[AI Text Rewriter](AI_TEXT_REWRITER.md)**: Comprehensive guide for humanizing AI-generated content and creating authentic copy for apps and landing pages.
+- **[Human-First Writing Guidelines](HUMAN_FIRST_WRITING.md)**: Comprehensive guidelines for writing human-sounding, authentic content from the start for apps and landing pages.
