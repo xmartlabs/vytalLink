@@ -46,7 +46,8 @@
                 <!-- Unified mobile menu -->
                 <a href="/" class="nav-link mobile-only"><i class="fas fa-house"></i> Home</a>
                 <a href="/chatgpt-setup.html" class="nav-link mobile-only"><i class="fas fa-comments"></i> ChatGPT Setup</a>
-                <a href="/mcp-setup.html" class="nav-link mobile-only"><i class="fas fa-server"></i> MCP Setup</a>
+                <a href="/claude-bundle-setup.html" class="nav-link mobile-only"><i class="fas fa-plug"></i> Claude Bundle</a>
+                <a href="/mcp-setup.html" class="nav-link mobile-only"><i class="fas fa-server"></i> MCP Advanced</a>
                 <a href="/about.html" class="nav-link mobile-only"><i class="fas fa-circle-info"></i> About</a>
                 <a href="/privacy.html" class="nav-link mobile-only"><i class="fas fa-shield"></i> Privacy</a>
                 <a href="/terms.html" class="nav-link mobile-only"><i class="fas fa-file-contract"></i> Terms</a>
@@ -58,7 +59,8 @@
                     </button>
                     <div class="nav-dropdown-menu">
                         <a class="nav-link" href="/chatgpt-setup.html">ChatGPT Setup</a>
-                        <a class="nav-link" href="/mcp-setup.html">MCP Setup</a>
+                        <a class="nav-link" href="/claude-bundle-setup.html">Claude Desktop Bundle</a>
+                        <a class="nav-link" href="/mcp-setup.html">MCP Advanced (npm)</a>
                     </div>
                 </div>
 
@@ -215,11 +217,17 @@
                                 <span>ChatGPT GPTs</span>
                                 <small>Use our custom GPT</small>
                             </a>
-                            <a class="connection-item" href="/mcp-setup.html">
+                            <a class="connection-item" href="/claude-bundle-setup.html">
+                                <div class="connection-badge popular">Popular</div>
+                                <i class="fas fa-plug"></i>
+                                <span>Claude Desktop Bundle</span>
+                                <small>One-click desktop install</small>
+                            </a>
+                            <a class="connection-item full-width" href="/mcp-setup.html">
                                 <div class="connection-badge advanced">Advanced</div>
                                 <i class="fas fa-server"></i>
-                                <span>MCP Server</span>
-                                <small>Claude, Cursor, VS Code</small>
+                                <span>MCP Advanced</span>
+                                <small>npm & custom MCP clients</small>
                             </a>
                         </div>
                     </div>
@@ -371,36 +379,36 @@
                 <div class="integration-card">
                     <div class="integration-header">
                         <i class="fas fa-brain"></i>
-                        <h3>MCP Clients</h3>
-                        <span class="integration-badge">Advanced</span>
+                        <h3>Claude Desktop Bundle</h3>
+                        <span class="integration-badge">Popular</span>
                     </div>
-                    <p>Connect to any MCP-compatible client like Claude Desktop, Cursor, VS Code, and more through Model Context Protocol.</p>
+                    <p>Install the vytalLink MCP server inside Claude Desktop with a double-clickable bundle. No terminal commands required.</p>
                         <div class="integration-steps">
                             <span>1. Download the vytalLink mobile app</span>
-                            <span>2. Configure MCP client</span>
+                            <span>2. Install the Claude Desktop bundle</span>
                             <span>3. Connect & Chat</span>
+                        </div>
+                    <a href="/claude-bundle-setup.html" class="btn btn-secondary">
+                        <i class="fas fa-plug"></i>
+                        Setup Guide
+                    </a>
+                </div>
+
+                <div class="integration-card">
+                    <div class="integration-header">
+                        <i class="fas fa-server"></i>
+                        <h3>MCP Advanced (npm)</h3>
+                        <span class="integration-badge">Advanced</span>
+                    </div>
+                    <p>Prefer the manual workflow or need support for Cursor, VS Code, or custom MCP clients? Use the npm-based setup.</p>
+                        <div class="integration-steps">
+                            <span>1. Install the npm package</span>
+                            <span>2. Configure your MCP client</span>
+                            <span>3. Authenticate with codes</span>
                         </div>
                     <a href="/mcp-setup.html" class="btn btn-secondary">
                         <i class="fas fa-cog"></i>
                         Setup Guide
-                    </a>
-                </div>
-                
-                <div class="integration-card">
-                    <div class="integration-header">
-                        <i class="fas fa-code"></i>
-                        <h3>Custom AI</h3>
-                        <span class="integration-badge coming-soon">Coming Soon</span>
-                    </div>
-                    <p>Build your own health AI applications using our OAuth 2.0 API and real-time data streams.</p>
-                    <div class="integration-steps">
-                        <span>1. API Documentation</span>
-                        <span>2. OAuth Setup</span>
-                        <span>3. Build & Deploy</span>
-                    </div>
-                    <a href="#" class="btn btn-secondary disabled">
-                        <i class="fas fa-clock"></i>
-                        Coming Soon
                     </a>
                 </div>
             </div>
@@ -438,8 +446,8 @@
                     <h4>Setup Guides</h4>
                     <ul>
                         <li><a href="/chatgpt-setup.html">ChatGPT Setup</a></li>
-                        <li><a href="/mcp-setup.html">MCP Setup</a></li>
-                        <li><a href="#" onclick="openDownloadModal(); return false;">Download App</a></li>
+                        <li><a href="/claude-bundle-setup.html">Claude Desktop Bundle</a></li>
+                        <li><a href="/mcp-setup.html">MCP Advanced Setup</a></li>
                     </ul>
                 </div>
                 <div class="footer-section">

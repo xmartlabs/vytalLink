@@ -158,6 +158,30 @@
     box-shadow: var(--shadow-lg);
 }
 
+.help-card .help-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--primary);
+    font-weight: 600;
+    text-decoration: none;
+    margin-bottom: 0.75rem;
+}
+
+.help-card .help-link i {
+    font-size: 0.85rem;
+}
+
+.help-card small {
+    display: block;
+    color: var(--text-light);
+}
+
+.help-card small a {
+    color: var(--primary);
+    font-weight: 600;
+}
+
 .community-section {
     padding: 4rem 0;
     background: #f8fafc;
@@ -295,4 +319,3 @@
     transform: translateY(-2px);
     box-shadow: var(--shadow-lg);
 }
-
