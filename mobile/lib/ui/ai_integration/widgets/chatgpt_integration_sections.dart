@@ -1,4 +1,5 @@
 import 'package:design_system/design_system.dart';
+import 'package:design_system/extensions/color_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_template/core/common/config.dart';
 import 'package:flutter_template/ui/ai_integration/widgets/expandable_section.dart';
@@ -124,13 +125,13 @@ class ChatGptIntegrationHeroSection extends StatelessWidget {
               width: 80,
               height: 80,
               decoration: BoxDecoration(
-                color: const Color(0xFF10A37F),
+                color: context.theme.colorScheme.secondary,
                 borderRadius: BorderRadius.circular(16),
               ),
-              child: const Center(
+              child: Center(
                 child: Icon(
                   FontAwesomeIcons.comments,
-                  color: Colors.white,
+                  color: context.theme.customColors.textColor!.getShade(100),
                   size: 36,
                 ),
               ),

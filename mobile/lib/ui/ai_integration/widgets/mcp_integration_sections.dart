@@ -1,4 +1,5 @@
 import 'package:design_system/design_system.dart';
+import 'package:design_system/extensions/color_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_template/core/common/config.dart';
 import 'package:flutter_template/ui/ai_integration/widgets/client_card.dart';
@@ -232,7 +233,7 @@ class SupportedClientsSection extends StatelessWidget {
                       borderRadius: BorderRadius.circular(12),
                       boxShadow: [
                         BoxShadow(
-                          color: Colors.black.withValues(alpha: 0.1),
+                          color: context.theme.customColors.shadow!,
                           blurRadius: 4,
                           offset: const Offset(0, 2),
                         ),
@@ -240,10 +241,10 @@ class SupportedClientsSection extends StatelessWidget {
                     ),
                     child: Text(
                       context.localizations.mcp_recommended_badge,
-                      style: const TextStyle(
-                        color: Colors.white,
+                      style: context.theme.textTheme.labelSmall?.copyWith(
+                        color: context.theme.customColors.textColor!
+                            .getShade(100),
                         fontWeight: FontWeight.bold,
-                        fontSize: 10,
                       ),
                     ),
                   ),
@@ -327,13 +328,13 @@ class McpHeroCardSection extends StatelessWidget {
               width: 80,
               height: 80,
               decoration: BoxDecoration(
-                color: const Color(0xFF6366F1),
+                color: context.theme.colorScheme.primary,
                 borderRadius: BorderRadius.circular(16),
               ),
-              child: const Center(
+              child: Center(
                 child: Icon(
                   FontAwesomeIcons.server,
-                  color: Colors.white,
+                  color: context.theme.customColors.textColor!.getShade(100),
                   size: 36,
                 ),
               ),

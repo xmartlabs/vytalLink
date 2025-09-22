@@ -1,4 +1,5 @@
 import 'package:design_system/design_system.dart';
+import 'package:design_system/extensions/color_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -97,7 +98,7 @@ class _ExpandableSectionState extends State<ExpandableSection>
                     ),
                     child: Icon(
                       widget.icon,
-                      color: Colors.white,
+                      color: theme.customColors.textColor!.getShade(100),
                       size: 20,
                     ),
                   ),
