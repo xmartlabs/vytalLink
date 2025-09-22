@@ -1,3 +1,4 @@
+import 'package:design_system/extensions/color_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_template/ui/extensions/context_extensions.dart';
@@ -34,8 +35,8 @@ class SetupStep extends StatelessWidget {
             child: Center(
               child: Text(
                 number,
-                style: const TextStyle(
-                  color: Colors.white,
+                style: TextStyle(
+                  color: context.theme.customColors.textColor!.getShade(100),
                   fontWeight: FontWeight.w600,
                   fontSize: 14,
                 ),

@@ -12,13 +12,17 @@ This document outlines the coding standards and best practices for the vytalLink
 ## Localization Requirements
 
 ### No Hardcoded User-Facing Strings
-- All user-facing text must use `AppLocalizations`.
+- All user-facing text must use `AppLocalizations` via the context extension.
 - No hardcoded strings for UI text.
+
+### Accessing Localizations
+- Prefer the extension: `context.localizations.your_key`.
+- Import the extension: `import 'package:flutter_template/ui/extensions/context_extensions.dart';`.
 
 ### Adding New Localized Strings
 1. Add the key-value pair to `lib/l10n/intl_en.arb`.
-2. Run `flutter gen-l10n` to regenerate localization files.
-3. Use `AppLocalizations.of(context)!.your_key` in the code.
+2. Run `flutter gen-l10n` to regenerate localization files (or `./scripts/checks.sh`).
+3. Use `context.localizations.your_key` in the code.
 
 ## Logging Standards
 
@@ -54,9 +58,16 @@ This document outlines the coding standards and best practices for the vytalLink
 - Prefer named arguments over positional booleans—add lightweight wrappers if necessary.
 
 ### Readability and Formatting
-- Keep lines within 80 characters; rely on trailing commas (`require_trailing_commas`) to help the formatter break widgets cleanly.
+- Keep lines within 80 characters; trailing commas are mandatory for multi‑line argument lists and collections. They enable `dart format` to break lines cleanly (`require_trailing_commas`).
 - Prefer single quotes for strings unless interpolation or apostrophes require double quotes.
 - Use `const` constructors and literals (`prefer_const_*` rules) and mark local variables `final` whenever possible to express immutability.
+
+### Lint Rules and Style Configuration
+- The canonical lint/style configuration is defined in:
+  - `mobile/analysis_options.yaml`
+  - `mobile/analysis_options_custom.yaml`
+- When in doubt about a style rule (formatting, commas, imports, etc.), consult those files first.
+- Run `cd mobile && ./scripts/checks.sh` (or `fvm flutter analyze`) before committing to see all lint guidance applied.
 
 ### Import and Module Hygiene
 - Always use `package:` imports instead of relative paths for code under `lib/`.
@@ -90,11 +101,24 @@ This document outlines the coding standards and best practices for the vytalLink
 
 ## Design System Requirements
 
-### No Hardcoded Colors
-- All colors used in the application must come from the Design System.
-- No hardcoded color values (e.g., `Color(0xFF123456)`) are allowed.
-- Use the `customColors` or `colorScheme` provided by the Design System.
+### No Hardcoded Colors or Gradients
+- All visual tokens (colors, gradients, elevations) must come from the Design System.
+- Do not use hardcoded color values (e.g., `Color(0xFF123456)`) or ad‑hoc gradients.
+- Prefer context helpers: `context.theme.colorScheme`, `context.theme.customColors`, and DS widgets (e.g., `VytalLinkCard`).
+- Import the DS barrel to enable `context.theme`: `import 'package:design_system/design_system.dart';`.
 
-### Adding New Colors
-1. Define the new color in the Design System.
-2. Use the appropriate extension or theme property to access the color in the code.
+### Color Alpha and Opacity
+- Use `withValues(alpha: 0.XX)` for transparency. Do not compute 0–255 integer alphas.
+  - Do: `color.withValues(alpha: 0.12)`
+  - Don’t: `color.withAlpha((0.12 * 255).toInt())`
+- Keep opacity in the 0.0–1.0 range and prefer constants for readability.
+
+### Borders with Rounded Corners
+- When using rounded corners (`borderRadius`) on a `BoxDecoration`, keep borders uniform (`Border.all(...)`).
+- Avoid mixing different `BorderSide`s (e.g., thicker left) together with `borderRadius`, which can cause rendering errors.
+- If you need an accent stripe, layer it using a `Stack` + `ClipRRect` overlay instead of non‑uniform borders.
+
+### Adding or Changing Visual Tokens
+1. Propose new tokens (colors, gradients, shadows) in the Design System.
+2. Implement them under `mobile/design_system/` and expose via `customColors`/components.
+3. Consume them through the DS API; never inline values in app code.

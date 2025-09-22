@@ -1,4 +1,5 @@
 import 'package:design_system/design_system.dart';
+import 'package:design_system/extensions/color_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_template/core/common/config.dart';
 import 'package:flutter_template/ui/ai_integration/widgets/client_card.dart';
@@ -7,7 +8,6 @@ import 'package:flutter_template/ui/ai_integration/widgets/section_card.dart';
 import 'package:flutter_template/ui/ai_integration/widgets/setup_step.dart';
 import 'package:flutter_template/ui/extensions/context_extensions.dart';
 import 'package:flutter_template/ui/helpers/url_launcher_helper.dart';
-import 'package:flutter_template/ui/home/widgets/ai_integration_card.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 const String _setupMcpCommand =
@@ -54,41 +54,35 @@ class HowToSetupSection extends StatelessWidget {
         icon: FontAwesomeIcons.gear,
         title: context.localizations.mcp_setup_title,
         isInitiallyExpanded: false,
-        actionButton: SizedBox(
-          width: double.infinity,
-          child: OutlinedButton.icon(
-            onPressed: () => UrlLauncherHelper.launch(
-              Config.setupMcpDocumentationUri,
-            ),
-            icon: const Icon(
-              FontAwesomeIcons.arrowUpRightFromSquare,
-              size: 14,
-            ),
-            label: Text(context.localizations.mcp_setup_guide_button),
-            style: OutlinedButton.styleFrom(
-              foregroundColor: context.theme.colorScheme.primary,
-              side: BorderSide(
-                color: context.theme.colorScheme.primary,
-              ),
-              padding: const EdgeInsets.symmetric(
-                horizontal: 16,
-                vertical: 14,
-              ),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(8),
-              ),
-            ),
-          ),
-        ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            Text(
+              context.localizations.mcp_setup_intro,
+              style: context.theme.textTheme.bodyMedium?.copyWith(
+                color: context.theme.colorScheme.onSurfaceVariant,
+              ),
+            ),
+            const SizedBox(height: 16),
             SetupStep(
               number: '1',
               title: context.localizations.mcp_step_1_title,
               description: '${context.localizations.mcp_step_1_description}\n\n'
                   '${context.localizations.mcp_setup_nodejs_requirement}',
               codeSnippet: _setupMcpCommand,
+              actionButton: Align(
+                alignment: Alignment.centerLeft,
+                child: TextButton.icon(
+                  onPressed: () => UrlLauncherHelper.launch(
+                    Config.setupMcpDocumentationUri,
+                  ),
+                  icon: const Icon(
+                    FontAwesomeIcons.arrowUpRightFromSquare,
+                    size: 14,
+                  ),
+                  label: Text(context.localizations.mcp_setup_guide_button),
+                ),
+              ),
             ),
             const SizedBox(height: 24),
             SetupStep(
@@ -223,34 +217,42 @@ class SupportedClientsSection extends StatelessWidget {
                       context.localizations.mcp_claude_desktop_description,
                   color: context.theme.colorScheme.primary,
                   onTap: () => UrlLauncherHelper.launch(
-                    Config.claudeDesktopDownloadUrl,
+                    Config.claudeBundleSetupUri,
                   ),
                 ),
                 Positioned(
                   top: 10,
                   right: 10,
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 8,
-                      vertical: 4,
-                    ),
-                    decoration: BoxDecoration(
-                      color: context.theme.colorScheme.secondary,
-                      borderRadius: BorderRadius.circular(12),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withValues(alpha: 0.1),
-                          blurRadius: 4,
-                          offset: const Offset(0, 2),
+                  child: IgnorePointer(
+                    ignoring: true,
+                    child: Container(
+                      constraints: const BoxConstraints(maxWidth: 140),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 8,
+                        vertical: 2,
+                      ),
+                      decoration: BoxDecoration(
+                        color: context.theme.colorScheme.secondary,
+                        borderRadius: BorderRadius.circular(12),
+                        boxShadow: [
+                          BoxShadow(
+                            color: context.theme.customColors.shadow!,
+                            blurRadius: 4,
+                            offset: const Offset(0, 2),
+                          ),
+                        ],
+                      ),
+                      child: Text(
+                        context.localizations.mcp_recommended_badge,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        softWrap: false,
+                        style: TextStyle(
+                          fontSize: 10,
+                          fontWeight: FontWeight.w700,
+                          color: context.theme.customColors.textColor!
+                              .getShade(100),
                         ),
-                      ],
-                    ),
-                    child: Text(
-                      context.localizations.mcp_recommended_badge,
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 10,
                       ),
                     ),
                   ),
@@ -267,6 +269,39 @@ class SupportedClientsSection extends StatelessWidget {
               color: context.theme.colorScheme.primary,
               onTap: null,
               showLinkIcon: false,
+            ),
+          ],
+        ),
+      );
+}
+
+class ClaudeBundleSection extends StatelessWidget {
+  const ClaudeBundleSection({super.key});
+
+  @override
+  Widget build(BuildContext context) => SectionCard(
+        icon: FontAwesomeIcons.boltLightning,
+        title: context.localizations.mcp_bundle_section_title,
+        content: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              context.localizations.mcp_bundle_section_description,
+              style: context.theme.textTheme.bodyMedium?.copyWith(
+                color: context.theme.colorScheme.onSurfaceVariant,
+              ),
+            ),
+            const SizedBox(height: 16),
+            SizedBox(
+              width: double.infinity,
+              child: FilledButton.icon(
+                onPressed: () =>
+                    UrlLauncherHelper.launch(Config.claudeBundleSetupUri),
+                icon: const Icon(FontAwesomeIcons.arrowUpRightFromSquare),
+                label: Text(
+                  context.localizations.mcp_bundle_guide_button,
+                ),
+              ),
             ),
           ],
         ),
@@ -297,21 +332,18 @@ class McpHeroCardSection extends StatelessWidget {
         ),
         child: Column(
           children: [
-            Hero(
-              tag: mcpHeroTag,
-              child: Container(
-                width: 80,
-                height: 80,
-                decoration: BoxDecoration(
-                  color: const Color(0xFF6366F1),
-                  borderRadius: BorderRadius.circular(16),
-                ),
-                child: const Center(
-                  child: Icon(
-                    FontAwesomeIcons.server,
-                    color: Colors.white,
-                    size: 36,
-                  ),
+            Container(
+              width: 80,
+              height: 80,
+              decoration: BoxDecoration(
+                color: context.theme.colorScheme.primary,
+                borderRadius: BorderRadius.circular(16),
+              ),
+              child: Center(
+                child: Icon(
+                  FontAwesomeIcons.server,
+                  color: context.theme.customColors.textColor!.getShade(100),
+                  size: 36,
                 ),
               ),
             ),

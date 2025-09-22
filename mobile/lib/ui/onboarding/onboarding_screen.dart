@@ -252,35 +252,34 @@ class _OnboardingPageWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bool isSmallScreen = _isSmallScreen(context);
-
+    final colorScheme = context.theme.colorScheme;
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 24.w),
       child: Column(
         children: [
-          SizedBox(height: isSmallScreen ? 28.h : 40.h),
+          SizedBox(height: isSmallScreen ? 20.h : 32.h),
           ScaleTransition(
             scale: iconAnimation,
             child: Builder(
               builder: (context) {
-                final double logoSize = isSmallScreen ? 80.w : 120.w;
+                final double logoSize = isSmallScreen ? 72.w : 108.w;
                 return Container(
                   width: logoSize,
                   height: logoSize,
                   decoration: BoxDecoration(
-                    color: context.theme.colorScheme.primary
-                        .withValues(alpha: 0.1),
+                    color: colorScheme.primary.withValues(alpha: 0.1),
                     borderRadius: BorderRadius.circular(logoSize / 2),
                   ),
                   child: Icon(
                     page.icon,
-                    size: 48.sp,
-                    color: context.theme.colorScheme.primary,
+                    size: isSmallScreen ? 40.sp : 44.sp,
+                    color: colorScheme.primary,
                   ),
                 );
               },
             ),
           ),
-          SizedBox(height: isSmallScreen ? 20.h : 28.h),
+          SizedBox(height: isSmallScreen ? 14.h : 20.h),
           FadeTransition(
             opacity: fadeAnimation,
             child: Text(
@@ -298,22 +297,29 @@ class _OnboardingPageWidget extends StatelessWidget {
             child: Text(
               page.subtitle,
               style: context.theme.textTheme.bodyLarge?.copyWith(
-                color: context.theme.colorScheme.primary,
+                color: colorScheme.primary,
                 fontWeight: FontWeight.w500,
               ),
               textAlign: TextAlign.center,
             ),
           ),
-          SizedBox(height: isSmallScreen ? 14.h : 20.h),
-          Text(
-            page.description,
-            style: context.theme.textTheme.bodyLarge?.copyWith(
-              color: context.theme.customColors.textColor!.getShade(300),
-              height: 1.4,
+          SizedBox(height: isSmallScreen ? 10.h : 16.h),
+          Container(
+            padding: EdgeInsets.symmetric(
+              horizontal: 16.w,
+              vertical: isSmallScreen ? 10.h : 12.h,
             ),
-            textAlign: TextAlign.center,
+            decoration: BoxDecoration(
+              color: colorScheme.primary.withValues(alpha: 0.03),
+              border: Border.all(
+                color: colorScheme.primary.withValues(alpha: 0.12),
+                width: 1,
+              ),
+              borderRadius: BorderRadius.circular(12.r),
+            ),
+            child: _HighlightedDescription(text: page.description),
           ),
-          SizedBox(height: isSmallScreen ? 16.h : 24.h),
+          SizedBox(height: isSmallScreen ? 12.h : 20.h),
           if (page.features.isNotEmpty)
             Flexible(
               child: Column(
@@ -325,12 +331,12 @@ class _OnboardingPageWidget extends StatelessWidget {
                       isQuestion: page.features[i].startsWith('"'),
                     ),
                     if (i < page.features.length - 1)
-                      SizedBox(height: isSmallScreen ? 8.h : 12.h),
+                      SizedBox(height: isSmallScreen ? 6.h : 10.h),
                   ],
                 ],
               ),
             ),
-          SizedBox(height: isSmallScreen ? 14.h : 20.h),
+          SizedBox(height: isSmallScreen ? 10.h : 16.h),
         ],
       ),
     );
@@ -339,6 +345,61 @@ class _OnboardingPageWidget extends StatelessWidget {
   bool _isSmallScreen(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
     return screenHeight < _kSmallScreenHeightThreshold;
+  }
+}
+
+class _HighlightedDescription extends StatelessWidget {
+  final String text;
+
+  const _HighlightedDescription({required this.text});
+
+  @override
+  Widget build(BuildContext context) {
+    final bool isSmall =
+        MediaQuery.of(context).size.height < _kSmallScreenHeightThreshold;
+    final baseStyle = context.theme.textTheme.bodyLarge?.copyWith(
+      color: context.theme.customColors.textColor!.getShade(400),
+      height: 1.4,
+      fontSize: isSmall ? 13.sp : null,
+    );
+    final boldStyle = baseStyle?.copyWith(
+      color: context.theme.customColors.textColor!.getShade(600),
+      fontWeight: FontWeight.w700,
+    );
+
+    final spans = _buildBoldTagSpans(text, baseStyle!, boldStyle!);
+
+    return RichText(
+      textAlign: TextAlign.center,
+      text: TextSpan(children: spans, style: baseStyle),
+    );
+  }
+
+  List<TextSpan> _buildBoldTagSpans(
+    String source,
+    TextStyle base,
+    TextStyle bold,
+  ) {
+    final spans = <TextSpan>[];
+    int index = 0;
+    while (index < source.length) {
+      final start = source.indexOf('<b>', index);
+      if (start == -1) {
+        spans.add(TextSpan(text: source.substring(index), style: base));
+        break;
+      }
+      if (start > index) {
+        spans.add(TextSpan(text: source.substring(index, start), style: base));
+      }
+      final end = source.indexOf('</b>', start + 3);
+      if (end == -1) {
+        spans.add(TextSpan(text: source.substring(start), style: base));
+        break;
+      }
+      spans.add(TextSpan(text: source.substring(start + 3, end), style: bold));
+      index = end + 4;
+    }
+    return spans;
   }
 }
 
@@ -354,10 +415,12 @@ class _FeatureItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final bool isSmallScreen =
+        MediaQuery.of(context).size.height < _kSmallScreenHeightThreshold;
     if (isQuestion) {
       return Container(
         width: double.infinity,
-        padding: EdgeInsets.all(16.w),
+        padding: EdgeInsets.all(isSmallScreen ? 12.w : 14.w),
         decoration: BoxDecoration(
           color: context.theme.colorScheme.primary.withValues(alpha: 0.05),
           borderRadius: BorderRadius.circular(12.r),
@@ -371,6 +434,7 @@ class _FeatureItem extends StatelessWidget {
           style: context.theme.textTheme.bodyMedium?.copyWith(
             color: context.theme.customColors.textColor!.getShade(400),
             fontStyle: FontStyle.italic,
+            fontSize: isSmallScreen ? 12.sp : 13.sp,
           ),
           textAlign: TextAlign.center,
         ),
@@ -379,25 +443,17 @@ class _FeatureItem extends StatelessWidget {
 
     return Row(
       children: [
-        Container(
-          width: 24.w,
-          height: 24.w,
-          decoration: BoxDecoration(
-            color: context.theme.customColors.success!.getShade(300),
-            borderRadius: BorderRadius.circular(12.r),
-          ),
-          child: Icon(
-            FontAwesomeIcons.check,
-            size: 12.sp,
-            color: Colors.white,
-          ),
+        Icon(
+          FontAwesomeIcons.circleCheck,
+          size: 16.sp,
+          color: context.theme.colorScheme.primary,
         ),
-        SizedBox(width: 16.w),
+        SizedBox(width: isSmallScreen ? 10.w : 12.w),
         Expanded(
           child: Text(
             text,
-            style: context.theme.textTheme.bodyLarge?.copyWith(
-              color: context.theme.customColors.textColor!.getShade(400),
+            style: context.theme.textTheme.bodyMedium?.copyWith(
+              color: context.theme.customColors.textColor!.getShade(300),
               fontWeight: FontWeight.w500,
             ),
           ),
@@ -413,6 +469,7 @@ class OnboardingPage {
   final String subtitle;
   final String description;
   final List<String> features;
+  final List<String> highlights;
 
   OnboardingPage({
     required this.icon,
@@ -420,6 +477,7 @@ class OnboardingPage {
     required this.subtitle,
     required this.description,
     required this.features,
+    this.highlights = const [],
   });
 }
 
