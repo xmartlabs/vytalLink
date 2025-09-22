@@ -1,5 +1,13 @@
 // Mobile menu toggle
 document.addEventListener('DOMContentLoaded', function() {
+    // Embedded mode: hide navbar when ?embed=1
+    try {
+        const params = new URLSearchParams(window.location.search);
+        if (params.get('embed') === '1') {
+            document.body.classList.add('embedded');
+        }
+    } catch (_) {}
+
     const hamburger = document.querySelector('.hamburger');
     const navMenu = document.querySelector('.nav-menu');
     
@@ -157,7 +165,7 @@ function updateHealthMetrics() {
         sleep.textContent = `${(baseSleep + sleepVariation).toFixed(1)}h`;
     }
     
-    // Update connection codes occasionally
+    // Update connection credentials (Word + PIN) occasionally
     if (Math.random() < 0.1) { // 10% chance
         const codeValue = document.querySelector('.code-value');
         const codes = ['HEALTH7', 'VITAL12', 'SYNC89', 'DATA45', 'LINK33'];

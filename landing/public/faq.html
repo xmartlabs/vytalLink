@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, viewport-fit=cover">
+    <title>FAQ - vytalLink</title>
+    <meta name="description" content="Frequently asked questions about vytalLink: what it does, how it works with ChatGPT and MCP, privacy, supported platforms, and troubleshooting.">
+    <link rel="stylesheet" href="/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <!-- Firebase Analytics (Google Analytics 4) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-KNFZRXV054"></script>
+    <script src="analytics.js"></script>
+  </head>
+  <body>
+    <!-- Navigation -->
+    <nav class="navbar">
+      <div class="nav-container">
+        <div class="nav-logo">
+          <i class="fas fa-heartbeat"></i>
+          <a href="/"><span>vytalLink</span></a>
+        </div>
+        <div class="nav-menu">
+          <a href="/#features" class="nav-link home-only desktop-only">How it Works</a>
+          <a href="/#demo" class="nav-link home-only desktop-only">Demo</a>
+          <a href="/#integrations" class="nav-link home-only desktop-only">AI Integrations</a>
+
+          <!-- Unified mobile menu -->
+          <a href="/" class="nav-link mobile-only"><i class="fas fa-house"></i> Home</a>
+          <a href="/chatgpt-setup.html" class="nav-link mobile-only"><i class="fas fa-comments"></i> ChatGPT Setup</a>
+          <a href="/claude-bundle-setup.html" class="nav-link mobile-only"><i class="fas fa-plug"></i> Claude Bundle</a>
+          <a href="/mcp-setup.html" class="nav-link mobile-only"><i class="fas fa-server"></i> MCP Advanced</a>
+          <a href="/faq.html" class="nav-link mobile-only"><i class="fas fa-circle-question"></i> FAQ</a>
+          <a href="/about.html" class="nav-link mobile-only"><i class="fas fa-circle-info"></i> About</a>
+          <a href="/privacy.html" class="nav-link mobile-only"><i class="fas fa-shield"></i> Privacy</a>
+          <a href="/terms.html" class="nav-link mobile-only"><i class="fas fa-file-contract"></i> Terms</a>
+          <a href="/contact.html" class="nav-link mobile-only"><i class="fas fa-envelope"></i> Contact</a>
+
+          <div class="nav-dropdown desktop-only">
+            <button class="nav-link nav-dropdown-toggle" type="button">
+              Setup Guides <i class="fas fa-chevron-down" aria-hidden="true"></i>
+            </button>
+            <div class="nav-dropdown-menu">
+              <a class="nav-link" href="/chatgpt-setup.html">ChatGPT Setup</a>
+              <a class="nav-link" href="/claude-bundle-setup.html">Claude Desktop Bundle</a>
+              <a class="nav-link" href="/mcp-setup.html">MCP Advanced (npm)</a>
+            </div>
+          </div>
+
+          <a href="#" class="btn btn-primary download-app-btn" onclick="openDownloadModal()">Download App</a>
+        </div>
+        <div class="hamburger"><span></span><span></span><span></span></div>
+      </div>
+    </nav>
+
+    <!-- FAQ Hero -->
+    <section class="faq-hero">
+      <div class="container">
+        <div class="hero-content">
+          <h1>Frequently Asked Questions</h1>
+          <p class="hero-subtitle">Answers about setup, privacy, supported platforms, and more</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ Content -->
+    <section class="faq">
+      <div class="container">
+        <div class="faq-list">
+          <details>
+            <summary>What does VytalLink do? <span class="arrow">›</span></summary>
+            <div class="faq-answer">
+              <p>VytalLink turns your wearable and phone‑tracked health metrics (sleep, workouts, steps, heart rate, and more) into a secure, AI‑ready stream so you can ask questions and get clear recommendations from ChatGPT or other MCP clients.</p>
+            </div>
+          </details>
+
+          <details>
+            <summary>Where do I chat? <span class="arrow">›</span></summary>
+            <div class="faq-answer">
+              <p>Chats happen in ChatGPT (web) or in a desktop MCP client like Claude Desktop. VytalLink does not include an in‑app chat UI.</p>
+            </div>
+          </details>
+
+          <details>
+            <summary>Can I use ChatGPT on mobile? <span class="arrow">›</span></summary>
+            <div class="faq-answer">
+              <p>Not yet. ChatGPT on mobile is not supported because the VytalLink app must remain open to relay data during a session.</p>
+            </div>
+          </details>
+
+          <details>
+            <summary>Do I need to keep the app open? <span class="arrow">›</span></summary>
+            <div class="faq-answer">
+              <p>Yes. While you chat, keep the VytalLink app open so it can relay the data you approved to your AI assistant. Closing the app pauses the bridge and stops new insights.</p>
+            </div>
+          </details>
+
+          <details>
+            <summary>How do I connect? What are “Word + PIN”? <span class="arrow">›</span></summary>
+            <div class="faq-answer">
+              <ul>
+                <li>Tap “Get Word + PIN” in the app to generate temporary credentials for your current session.</li>
+                <li>When ChatGPT or your MCP client asks, paste the Word and PIN to authenticate the bridge.</li>
+                <li>These credentials expire; generate new ones anytime.</li>
+              </ul>
+            </div>
+          </details>
+
+          <details>
+            <summary>Does VytalLink store my health data? <span class="arrow">›</span></summary>
+            <div class="faq-answer">
+              <p>No. Your phone is the source of truth. The relay is stateless and does not persist health data. Only the specific fields you approve per connection are streamed to your chosen AI provider.</p>
+            </div>
+          </details>
+
+          <details>
+            <summary>Who receives my data during a session? <span class="arrow">›</span></summary>
+            <div class="faq-answer">
+              <p>You choose who to share your data with during each session. Once shared, the data is subject to the recipient’s policies:</p>
+              <ul>
+                <li>ChatGPT sessions are subject to OpenAI’s policies. Note: Our GPT integration is configured to not use your data for training.</li>
+                <li>Claude Desktop sessions are subject to Anthropic’s policies.</li>
+                <li>For MCP clients (Cursor, VS Code, etc.), data flows to the provider behind that client.</li>
+              </ul>
+              <p>Review the provider’s terms before sharing. VytalLink does not sell or repurpose your health data.</p>
+            </div>
+          </details>
+
+          <details>
+            <summary>Which devices and platforms are supported? <span class="arrow">›</span></summary>
+            <div class="faq-answer">
+              <ul>
+                <li><strong>iOS:</strong> Apple Health (Apple Watch and many third‑party wearables that sync to Health).</li>
+                <li><strong>Android:</strong> Health Connect (support varies by device/app; we’re expanding coverage).</li>
+              </ul>
+              <p>If your wearable syncs to your phone’s health platform, VytalLink can make that data conversational.</p>
+            </div>
+          </details>
+
+          <details>
+            <summary>Do I need MCP to get started? <span class="arrow">›</span></summary>
+            <div class="faq-answer">
+              <p>No. The fastest path is ChatGPT (no desktop setup). MCP is available for desktop workflows and power users.</p>
+            </div>
+          </details>
+
+          <details>
+            <summary>What kind of questions can I ask? <span class="arrow">›</span></summary>
+            <div class="faq-answer">
+              <ul>
+                <li>“Analyze my sleep last month vs. the previous one. Any recommendations?”</li>
+                <li>“How did deep sleep change on strength days vs. cardio?”</li>
+                <li>“Chart my heart rate over the last month and highlight trends.”</li>
+                <li>“Are my steps up this month, and how did resting HR respond?”</li>
+              </ul>
+            </div>
+          </details>
+
+          <details>
+            <summary>Why might results vary? <span class="arrow">›</span></summary>
+            <div class="faq-answer">
+              <p>AI answers depend on the model and your prompts. Try concrete time ranges, comparisons, or goals. We recommend verifying any critical insights and consulting professionals for medical decisions.</p>
+            </div>
+          </details>
+
+          <details>
+            <summary>How do I revoke access or disconnect? <span class="arrow">›</span></summary>
+            <div class="faq-answer">
+              <p>Stop the connection in the mobile app or simply close the app to pause the bridge. Since credentials expire and the relay is stateless, access ends when the session does. You can generate new credentials at any time.</p>
+            </div>
+          </details>
+
+          <details>
+            <summary>Do I need to register to use the app? <span class="arrow">›</span></summary>
+            <div class="faq-answer">
+              <p>No. VytalLink is completely anonymous and does not store any user data. You can use the app without creating an account.</p>
+            </div>
+          </details>
+
+          <details>
+            <summary>What is MCP? <span class="arrow">›</span></summary>
+            <div class="faq-answer">
+              <p>MCP stands for Model Context Protocol. It’s a standard that allows desktop clients like Claude Desktop, Cursor, or VS Code to interact with your health data securely and efficiently. MCP clients provide advanced workflows for power users.</p>
+            </div>
+          </details>
+
+          <details>
+            <summary>Which client should I use? <span class="arrow">›</span></summary>
+            <div class="faq-answer">
+              <ul>
+                <li><strong>ChatGPT:</strong> Best for quick, conversational insights. No desktop setup required.</li>
+                <li><strong>Claude Desktop:</strong> Ideal for users who prefer Anthropic’s AI and desktop workflows.</li>
+                <li><strong>Other MCP clients:</strong> Use these for specific integrations or advanced setups.</li>
+              </ul>
+              <p>Choose the client that aligns with your workflow and preferences.</p>
+            </div>
+          </details>
+
+          <details>
+            <summary>Troubleshooting <span class="arrow">›</span></summary>
+            <div class="faq-answer">
+              <ul>
+                <li><strong>Authentication failed:</strong> generate a fresh Word + PIN and try again.</li>
+                <li><strong>No data visible:</strong> ensure the app has health permissions and stays open.</li>
+                <li><strong>MCP server not found:</strong> confirm the MCP server/package is installed or the Claude bundle is enabled; restart the client.</li>
+                <li><strong>Connection lost:</strong> check network connectivity and restart the session.</li>
+              </ul>
+            </div>
+          </details>
+
+          <details>
+            <summary>Disclaimers <span class="arrow">›</span></summary>
+            <div class="faq-answer">
+              <p>VytalLink does not provide medical advice, diagnosis, or treatment. For medical questions, consult a qualified professional.</p>
+            </div>
+          </details>
+
+          <details>
+            <summary>What is the difference between ChatGPT and MCP clients? <span class="arrow">›</span></summary>
+            <div class="faq-answer">
+              <p>ChatGPT is ideal for quick, conversational insights without any desktop setup. MCP clients, like Claude Desktop or VS Code, are designed for advanced workflows and professional use cases.</p>
+            </div>
+          </details>
+
+          <details>
+            <summary>What happens if I close the app during a session? <span class="arrow">›</span></summary>
+            <div class="faq-answer">
+              <p>If you close the app, the connection to your AI assistant is paused, and no new data will be relayed. To resume, simply reopen the app and restart the session.</p>
+            </div>
+          </details>
+
+          <details>
+            <summary>Can I use VytalLink offline? <span class="arrow">›</span></summary>
+            <div class="faq-answer">
+              <p>No, VytalLink requires an active internet connection to securely relay your health data to your AI assistant.</p>
+            </div>
+          </details>
+
+          <details>
+            <summary>What data does VytalLink access from my phone? <span class="arrow">›</span></summary>
+            <div class="faq-answer">
+              <p>VytalLink accesses only the health metrics you approve, such as sleep, workouts, steps, and heart rate. You have full control over what data is shared during each session.</p>
+            </div>
+          </details>
+
+          <details>
+            <summary>How is my privacy protected? <span class="arrow">›</span></summary>
+            <div class="faq-answer">
+              <p>Your privacy is our priority. VytalLink uses encryption to secure your data and operates as a stateless relay, meaning no data is stored. You control what is shared and can disconnect at any time.</p>
+            </div>
+          </details>
+
+          <details>
+            <summary>Why don’t I see all my data, like sleep details? <span class="arrow">›</span></summary>
+            <div class="faq-answer">
+              <ol>
+                <li>Your wearable might not sync all data to Apple Health (iOS) or Health Connect (Android). Ensure your device is properly connected and syncing.</li>
+                <li>Some wearables only share limited data. For example, they might log a sleep session but not provide detailed sleep stages (like deep or REM sleep).</li>
+              </ol>
+            </div>
+          </details>
+
+          <details>
+            <summary>Can I use VytalLink with multiple AI clients simultaneously? <span class="arrow">›</span></summary>
+            <div class="faq-answer">
+              <p>Yes, you can connect to multiple AI clients simultaneously. However, we recommend maintaining a single active connection for simplicity and to avoid potential data conflicts.</p>
+            </div>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="container">
+        <div class="footer-content">
+          <div class="footer-section">
+            <div class="footer-brand">
+              <i class="fas fa-heartbeat"></i>
+              <span>vytalLink</span>
+            </div>
+            <p>Connecting your health data with AI, securely and privately.</p>
+            <div class="download-footer">
+              <a href="https://apps.apple.com/app/vytallink" target="_blank">
+                <img src="https://developer.apple.com/assets/elements/badges/download-on-the-app-store.svg" alt="Download on App Store">
+              </a>
+              <a href="https://play.google.com/store/apps/details?id=com.vytallink" target="_blank">
+                <img src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png" alt="Get it on Google Play">
+              </a>
+            </div>
+          </div>
+          <div class="footer-section">
+            <h4>Product</h4>
+            <ul>
+              <li><a href="/#features">How it Works</a></li>
+              <li><a href="/#integrations">AI Integrations</a></li>
+              <li><a href="/#demo">Demo Video</a></li>
+            </ul>
+          </div>
+          <div class="footer-section">
+            <h4>Setup Guides</h4>
+            <ul>
+              <li><a href="/chatgpt-setup.html">ChatGPT Setup</a></li>
+              <li><a href="/claude-bundle-setup.html">Claude Desktop Bundle</a></li>
+              <li><a href="/mcp-setup.html">MCP Advanced Setup</a></li>
+            </ul>
+          </div>
+          <div class="footer-section">
+            <h4>Support</h4>
+            <ul>
+              <li><a href="/faq.html">FAQ</a></li>
+              <li><a href="/about">About vytalLink</a></li>
+              <li><a href="/privacy">Privacy Policy</a></li>
+              <li><a href="/terms">Terms of Service</a></li>
+              <li><a href="/contact">Contact Support</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <p>Made with ❤️ by <a href="https://xmartlabs.com" target="_blank" style="color: var(--primary-color); text-decoration: none;">Xmartlabs</a></p>
+          <div class="social-links">
+            <a href="https://github.com/xmartlabs/vytalLink" target="_blank"><i class="fab fa-github"></i></a>
+            <a href="https://xmartlabs.com" target="_blank"><i class="fas fa-globe"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <script src="/script.js"></script>
+    <script src="/common-modal.js"></script>
+  </body>
+  </html>
+

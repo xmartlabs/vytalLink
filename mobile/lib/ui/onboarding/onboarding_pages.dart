@@ -32,12 +32,16 @@ extension OnboardingPageTypeExtension on OnboardingPageType {
         title: context.localizations.onboarding_welcome_title,
         subtitle: context.localizations.onboarding_welcome_subtitle,
         description: context.localizations.onboarding_welcome_description,
-        features: [],
+        features: [
+          context.localizations.onboarding_welcome_feature_1,
+          context.localizations.onboarding_welcome_feature_2,
+          context.localizations.onboarding_welcome_feature_3,
+        ],
       );
 
   OnboardingPage _buildHealthMonitoringPage(BuildContext context) =>
       OnboardingPage(
-        icon: FontAwesomeIcons.chartLine,
+        icon: FontAwesomeIcons.stopwatch,
         title: context.localizations.onboarding_health_monitoring_title,
         subtitle: context.localizations.onboarding_health_monitoring_subtitle,
         description:
@@ -50,7 +54,7 @@ extension OnboardingPageTypeExtension on OnboardingPageType {
       );
 
   OnboardingPage _buildHowItWorksPage(BuildContext context) => OnboardingPage(
-        icon: FontAwesomeIcons.gears,
+        icon: FontAwesomeIcons.robot,
         title: context.localizations.onboarding_how_it_works_title,
         subtitle: context.localizations.onboarding_how_it_works_subtitle,
         description: context.localizations.onboarding_how_it_works_description,
@@ -62,7 +66,7 @@ extension OnboardingPageTypeExtension on OnboardingPageType {
       );
 
   OnboardingPage _buildAskQuestionsPage(BuildContext context) => OnboardingPage(
-        icon: FontAwesomeIcons.comments,
+        icon: FontAwesomeIcons.chartLine,
         title: context.localizations.onboarding_ask_questions_title,
         subtitle: context.localizations.onboarding_ask_questions_subtitle,
         description: context.localizations.onboarding_ask_questions_description,
@@ -75,7 +79,7 @@ extension OnboardingPageTypeExtension on OnboardingPageType {
 
   OnboardingPage _buildAiIntegrationPage(BuildContext context) =>
       OnboardingPage(
-        icon: FontAwesomeIcons.rocket,
+        icon: FontAwesomeIcons.comments,
         title: context.localizations.onboarding_ai_integration_title,
         subtitle: context.localizations.onboarding_ai_integration_subtitle,
         description:
