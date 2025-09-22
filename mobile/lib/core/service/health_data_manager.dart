@@ -57,43 +57,29 @@ class HealthDataManager {
     final DateTime startTime = request.startTime;
     final DateTime endTime = request.endTime;
 
-    final dataPoints = await _processDataPoints(request, startTime, endTime);
     final groupBy = request.groupBy;
-    if (groupBy == null) {
+    final dataPoints = await _processDataPoints(request, startTime, endTime);
+
+    if (groupBy != null && request.statistic == null) {
+      throw const HealthMcpServerException(
+        'When groupBy is specified, statisticType must also be provided',
+      );
+    }
+
+    if (groupBy == null || request.statistic == null) {
       return dataPoints;
     } else {
-      final StatisticType? statisticType = request.statistic;
-      final aggregatedData = _healthDataAggregator.aggregate(
+      final statisticType = request.statistic!;
+      return _healthDataAggregator.aggregate(
         (
           data: dataPoints,
           groupBy: groupBy,
           startTime: startTime,
           endTime: endTime,
           aggregatePerSource: _aggregatePerSource,
+          statisticType: statisticType,
         ),
       );
-
-      switch (statisticType) {
-        case StatisticType.average:
-          final context = HealthDataAggregationParameters(
-            formattedData: dataPoints,
-            aggregatedData: aggregatedData,
-            startTime: startTime,
-            endTime: endTime,
-            groupBy: groupBy,
-            statisticType: statisticType!,
-          );
-          return _buildOverallAverageResponse(context);
-        case StatisticType.sum:
-          return _buildAggregatedStatisticsResponse(
-            aggregatedData,
-            statisticType!,
-          );
-        case null:
-          throw ArgumentError(
-            'Statistic type must be provided when groupBy is specified',
-          );
-      }
     }
   }
 

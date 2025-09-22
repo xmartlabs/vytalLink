@@ -13,6 +13,7 @@ import 'package:health/health.dart';
 import 'package:mocktail/mocktail.dart';
 
 import '../helpers/mock_health_client.dart';
+import '../helpers/mock_health_data_point.dart';
 import '../test_utils.dart';
 
 /// Integration tests for the complete health data processing flow
@@ -216,13 +217,22 @@ void main() {
         expect(response.isAggregated, isTrue);
         expect(response.groupBy, equals('hour'));
         expect(response.statisticType, equals('average'));
-        expect(response.healthData.length, equals(1)); // Aggregated data points
+        expect(
+          response.healthData.length,
+          equals(2),
+        ); // Aggregated data points (hour 10 and hour 11)
 
-        // Find the aggregated data (might be combined or filtered)
-        final aggregatedData = response.healthData.first;
+        // Verify both hourly aggregations
+        expect(response.healthData[0].value, isA<double>());
+        expect(response.healthData[0].value, greaterThan(0));
+        expect(response.healthData[1].value, isA<double>());
+        expect(response.healthData[1].value, greaterThan(0));
 
-        expect(aggregatedData.value, isA<double>());
-        expect(aggregatedData.value, greaterThan(0));
+        // Verify we have data for both hours (order might vary)
+        final hours = response.healthData
+            .map((data) => data.dateFrom.substring(11, 13))
+            .toSet();
+        expect(hours, containsAll(['10', '11']));
       });
 
       test('handles permission denial gracefully', () async {

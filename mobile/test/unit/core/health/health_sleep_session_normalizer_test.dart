@@ -2,7 +2,7 @@ import 'package:flutter_template/core/health/health_sleep_session_normalizer.dar
 import 'package:flutter_test/flutter_test.dart';
 import 'package:health/health.dart';
 
-import '../../../helpers/mock_health_client.dart';
+import '../../../helpers/mock_health_data_point.dart';
 
 void main() {
   group('HealthSleepSessionNormalizer', () {
