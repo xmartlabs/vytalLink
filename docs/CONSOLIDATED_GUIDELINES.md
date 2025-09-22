@@ -74,3 +74,8 @@ This document serves as a unified reference for the key guidelines and principle
 ### Scalability
 - Designed messaging and features to support future assistants and integrations.
 - Kept implementation light-touch to allow for rapid iteration.
+
+## Related Resources
+
+### Content Creation Tools
+- **[AI Text Rewriter](AI_TEXT_REWRITER.md)**: Comprehensive guide for humanizing AI-generated content and creating authentic copy for apps and landing pages.
