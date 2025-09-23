@@ -2,6 +2,8 @@ import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_template/core/common/config.dart';
 import 'package:flutter_template/ui/extensions/context_extensions.dart';
+import 'package:flutter_template/ui/widgets/bold_tag_text.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class HomeValuePropHeader extends StatelessWidget {
   const HomeValuePropHeader({super.key});
@@ -10,70 +12,72 @@ class HomeValuePropHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = context.theme;
     final localizations = context.localizations;
+    final colorScheme = theme.colorScheme;
 
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(12),
-      child: Stack(
+    return Container(
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [
+            colorScheme.primary.withValues(alpha: 0.08),
+            colorScheme.secondary.withValues(alpha: 0.06),
+          ],
+        ),
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(
+          color: colorScheme.primary.withValues(alpha: 0.15),
+          width: 1,
+        ),
+        boxShadow: [
+          BoxShadow(
+            color: colorScheme.shadow.withValues(alpha: 0.04),
+            blurRadius: 8,
+            offset: const Offset(0, 2),
+          ),
+        ],
+      ),
+      padding: const EdgeInsets.all(24),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          VytalLinkCard(
-            padding: const EdgeInsets.all(24),
-            backgroundColor: theme.colorScheme.primary.withValues(alpha: 0.05),
-            border: Border.all(
-              color: theme.colorScheme.primary.withValues(alpha: 0.2),
-              width: 1.5,
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  localizations.home_value_prop_title,
-                  style: theme.textTheme.headlineSmall?.copyWith(
-                    fontWeight: FontWeight.w700,
-                    color: theme.colorScheme.onSurface,
-                    height: 1.1,
-                  ),
-                ),
-                const SizedBox(height: 8),
-                Text(
-                  localizations.home_value_prop_subtitle,
-                  style: theme.textTheme.bodyMedium?.copyWith(
-                    color: theme.colorScheme.onSurfaceVariant,
-                    height: 1.4,
-                  ),
-                ),
-                const SizedBox(height: 16),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    _ValuePropLine(
-                      icon: Icons.desktop_windows_rounded,
-                      text: localizations.home_value_prop_point_1,
-                    ),
-                    const SizedBox(height: 8),
-                    _ValuePropLine(
-                      icon: Icons.key_rounded,
-                      text: localizations.home_value_prop_point_2,
-                    ),
-                    if (Config.requireForegroundSession) ...[
-                      const SizedBox(height: 8),
-                      _ValuePropLine(
-                        icon: Icons.watch_later_outlined,
-                        text: localizations.home_value_prop_point_3,
-                      ),
-                    ],
-                  ],
-                ),
-              ],
+          Text(
+            localizations.home_value_prop_title,
+            style: theme.textTheme.headlineSmall?.copyWith(
+              fontWeight: FontWeight.w700,
+              color: colorScheme.onSurface,
+              height: 1.2,
             ),
           ),
-          Positioned(
-            left: 0,
-            top: 6,
-            bottom: 6,
-            child: Container(
-              width: 3,
-              color: theme.colorScheme.primary,
+          const SizedBox(height: 12),
+          Text(
+            localizations.home_value_prop_subtitle,
+            style: theme.textTheme.bodyMedium?.copyWith(
+              color: colorScheme.onSurfaceVariant,
+              height: 1.5,
             ),
+          ),
+          const SizedBox(height: 20),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              _ValuePropLine(
+                icon: FontAwesomeIcons.desktop,
+                text: localizations.home_value_prop_point_1,
+              ),
+              const SizedBox(height: 12),
+              _ValuePropLine(
+                icon: FontAwesomeIcons.key,
+                text: localizations.home_value_prop_point_2,
+              ),
+              if (Config.requireForegroundSession) ...[
+                const SizedBox(height: 12),
+                _ValuePropLine(
+                  icon: FontAwesomeIcons.clock,
+                  text: localizations.home_value_prop_point_3,
+                ),
+              ],
+            ],
           ),
         ],
       ),
@@ -93,30 +97,39 @@ class _ValuePropLine extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = context.theme;
+    final colorScheme = theme.colorScheme;
 
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Container(
-          width: 28,
-          height: 28,
+          width: 36,
+          height: 36,
           decoration: BoxDecoration(
-            color: theme.colorScheme.primary.withValues(alpha: 0.12),
-            borderRadius: BorderRadius.circular(8),
+            gradient: LinearGradient(
+              colors: [
+                colorScheme.primary.withValues(alpha: 0.15),
+                colorScheme.secondary.withValues(alpha: 0.12),
+              ],
+            ),
+            borderRadius: BorderRadius.circular(10),
+            border: Border.all(
+              color: colorScheme.primary.withValues(alpha: 0.2),
+            ),
           ),
           child: Icon(
             icon,
-            size: 16,
-            color: theme.colorScheme.primary,
+            size: 18,
+            color: colorScheme.primary,
           ),
         ),
-        const SizedBox(width: 12),
+        const SizedBox(width: 14),
         Expanded(
-          child: Text(
-            text,
-            style: theme.textTheme.bodyMedium?.copyWith(
-              fontWeight: FontWeight.w600,
-              color: theme.colorScheme.onSurface,
+          child: BoldTagText(
+            text: text,
+            baseStyle: theme.textTheme.bodyMedium?.copyWith(
+              fontWeight: FontWeight.w500,
+              color: colorScheme.onSurface,
               height: 1.4,
             ),
           ),

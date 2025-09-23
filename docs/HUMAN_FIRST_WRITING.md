@@ -90,6 +90,12 @@ Write as if you're explaining the product to a friend who's genuinely curious ab
 - **Show, don't tell:** Use specific examples instead of generic claims
 - **Address real concerns:** Acknowledge user pain points directly
 
+### Typography and Dashes
+- **Never use double hyphens (`--`) as a dash.** Use an em dash (—) with no surrounding spaces when it improves flow, or prefer a period, colon, or parentheses if clearer.
+  - Do: “Connection Active—keep the app open while you chat.”
+  - Don’t: "Connection Active -- keep the app open while you chat."
+  - Keep usage sparing; short sentences often read better than dash-heavy lines.
+
 ## Usage in vytalLink
 
 When creating new copy for vytalLink:

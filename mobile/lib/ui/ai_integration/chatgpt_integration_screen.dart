@@ -44,7 +44,9 @@ class ChatGptIntegrationScreen extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 ChatGptIntegrationHeroSection(),
-                SizedBox(height: 32),
+                SizedBox(height: 12),
+                ChatGptDesktopNoticeSection(),
+                SizedBox(height: 24),
                 WhatIsChatGptSection(),
                 SizedBox(height: 24),
                 HowToSetupSection(),

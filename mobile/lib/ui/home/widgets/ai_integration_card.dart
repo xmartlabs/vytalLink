@@ -10,23 +10,9 @@ class AiIntegrationCard extends StatelessWidget {
   const AiIntegrationCard({super.key});
 
   @override
-  Widget build(BuildContext context) => Container(
+  Widget build(BuildContext context) => VytalLinkCard(
         margin: const EdgeInsets.only(bottom: 24),
         padding: const EdgeInsets.all(24),
-        decoration: BoxDecoration(
-          color: context.theme.colorScheme.surfaceContainer,
-          borderRadius: BorderRadius.circular(16),
-          border: Border.all(
-            color: context.theme.colorScheme.outline.withValues(alpha: 0.2),
-          ),
-          boxShadow: [
-            BoxShadow(
-              color: context.theme.colorScheme.shadow.withValues(alpha: 0.05),
-              blurRadius: 8,
-              offset: const Offset(0, 2),
-            ),
-          ],
-        ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
