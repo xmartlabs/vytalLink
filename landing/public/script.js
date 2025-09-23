@@ -191,7 +191,7 @@ document.addEventListener('DOMContentLoaded', function() {
             btn.addEventListener('click', function(e) {
                 if (!btn.href) {
                     e.preventDefault();
-                    alert('App coming soon to App Store and Google Play!');
+                    alert('The app is coming soon to App Store and Google Play!');
                 }
             });
         }
