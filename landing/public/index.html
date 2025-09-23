@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, viewport-fit=cover">
-    <meta name="description" content="Connect your health data with AI using vytalLink. Download the mobile app and instantly connect to ChatGPT, Claude, and other AI tools. Secure, private, and easy to use.">
+    <meta name="description" content="Ask ChatGPT questions about your health data and get clear answers in seconds. Connect your fitness tracker to AI assistants like ChatGPT and Claude. You control what gets shared.">
     <meta name="keywords" content="health data, AI, ChatGPT, Claude, MCP, OAuth, fitness tracker, health app, vytalLink">
     <meta name="author" content="Xmartlabs">
     
@@ -11,14 +11,14 @@
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://vytallink.com/">
     <meta property="og:title" content="vytalLink - Connect Your Health Data with AI">
-    <meta property="og:description" content="Download the mobile app and instantly connect your health data to ChatGPT, Claude, and other AI tools. Secure, private, and incredibly easy to use.">
+    <meta property="og:description" content="Ask ChatGPT questions about your health data and get clear answers in seconds. Connect your fitness tracker to AI assistants like ChatGPT and Claude. You control what gets shared.">
     <meta property="og:image" content="https://vytallink.com/og-image.png">
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
     <meta property="twitter:url" content="https://vytallink.com/">
     <meta property="twitter:title" content="vytalLink - Connect Your Health Data with AI">
-    <meta property="twitter:description" content="Download the mobile app and instantly connect your health data to ChatGPT, Claude, and other AI tools. Secure, private, and incredibly easy to use.">
+    <meta property="twitter:description" content="Ask ChatGPT questions about your health data and get clear answers in seconds. Connect your fitness tracker to AI assistants like ChatGPT and Claude. You control what gets shared.">
     <meta property="twitter:image" content="https://vytallink.com/og-image.png">
     
     <title>vytalLink - Connect Your Health Data with AI</title>
@@ -48,21 +48,23 @@
                 <a href="/chatgpt-setup.html" class="nav-link mobile-only"><i class="fas fa-comments"></i> ChatGPT Setup</a>
                 <a href="/claude-bundle-setup.html" class="nav-link mobile-only"><i class="fas fa-plug"></i> Claude Bundle</a>
                 <a href="/mcp-setup.html" class="nav-link mobile-only"><i class="fas fa-server"></i> MCP Advanced</a>
+                <a href="/faq.html" class="nav-link mobile-only"><i class="fas fa-circle-question"></i> FAQ</a>
                 <a href="/about.html" class="nav-link mobile-only"><i class="fas fa-circle-info"></i> About</a>
                 <a href="/privacy.html" class="nav-link mobile-only"><i class="fas fa-shield"></i> Privacy</a>
                 <a href="/terms.html" class="nav-link mobile-only"><i class="fas fa-file-contract"></i> Terms</a>
                 <a href="/contact.html" class="nav-link mobile-only"><i class="fas fa-envelope"></i> Contact</a>
 
-                <div class="nav-dropdown desktop-only">
-                    <button class="nav-link nav-dropdown-toggle" type="button">
-                        Setup Guides <i class="fas fa-chevron-down" aria-hidden="true"></i>
-                    </button>
-                    <div class="nav-dropdown-menu">
-                        <a class="nav-link" href="/chatgpt-setup.html">ChatGPT Setup</a>
-                        <a class="nav-link" href="/claude-bundle-setup.html">Claude Desktop Bundle</a>
-                        <a class="nav-link" href="/mcp-setup.html">MCP Advanced (npm)</a>
+                    <div class="nav-dropdown desktop-only">
+                        <button class="nav-link nav-dropdown-toggle" type="button">
+                            Setup Guides <i class="fas fa-chevron-down" aria-hidden="true"></i>
+                        </button>
+                        <div class="nav-dropdown-menu">
+                            <a class="nav-link" href="/chatgpt-setup.html">ChatGPT Setup</a>
+                            <a class="nav-link" href="/claude-bundle-setup.html">Claude Desktop Bundle</a>
+                            <a class="nav-link" href="/mcp-setup.html">MCP Advanced (npm)</a>
+                            <a class="nav-link" href="/faq.html">FAQ</a>
+                        </div>
                     </div>
-                </div>
 
                 <a href="#" class="btn btn-primary download-app-btn" onclick="openDownloadModal()">Download App</a>
             </div>
@@ -75,12 +77,14 @@
         <div class="hero-container">
             <div class="hero-content">
                 <h1 class="hero-title">
-                    Connect Your Health Data with AI using
-                    <span class="gradient-text">vytalLink</span>
+                    Ask ChatGPT about your health data
                 </h1>
                 <p class="hero-description">
-                    Download the mobile app and instantly connect your health data to ChatGPT, Claude, and other AI tools. 
-                    Secure, private, and incredibly easy to use.
+                    vytalLink connects your fitness tracker to AI assistants so you can ask questions about your sleep, workouts, and steps.
+                    You control what gets shared.
+                </p>
+                <p class="hero-description" style="font-size: 0.9rem; opacity: 0.85;">
+                    You chat in ChatGPT or Claude; keep the app open while you chat.
                 </p>
                 <div class="hero-buttons">
                     <a href="https://apps.apple.com/app/vytallink" class="btn btn-primary btn-large" target="_blank">
@@ -103,7 +107,7 @@
                     </div>
                     <div class="stat">
                         <span class="stat-number">🤖</span>
-                        <span class="stat-label">AI Ready</span>
+                        <span class="stat-label">Works with AI</span>
                     </div>
                 </div>
             </div>
@@ -125,11 +129,11 @@
                             </div>
                             <div class="credentials-content">
                                 <div class="credential-row">
-                                    <span class="credential-label">Code</span>
+                                    <span class="credential-label">Word</span>
                                     <span class="credential-value">health</span>
                                 </div>
                                 <div class="credential-row">
-                                    <span class="credential-label">Password</span>
+                                    <span class="credential-label">PIN</span>
                                     <span class="credential-value">123456</span>
                                 </div>
                             </div>
@@ -158,7 +162,7 @@
     <section id="features" class="features">
         <div class="container">
             <div class="section-header">
-                <h2>How vytalLink Works</h2>
+                <h2>How it works</h2>
                 <p>Three simple steps to connect your health data with AI</p>
             </div>
             
@@ -167,10 +171,10 @@
                 <div class="step-card">
                     <div class="step-icon">
                         <span class="step-number">1</span>
-                        <h3>Download & Connect</h3>
+                        <h3>Get Word + PIN</h3>
                     </div>
                     <div class="step-info">
-                        <p>Get vytalLink from the App Store or Google Play and connect your health data. The app automatically syncs with Apple Health, Google Fit, and other health platforms on your phone.</p>
+                        <p>Open the app and tap "Get Word + PIN" to get your connection details. You choose what to share each time. Keep the app open while you chat.</p>
                         <div class="combined-features">
                             <div class="download-buttons">
                                 <a href="https://apps.apple.com/app/vytallink" target="_blank" class="download-btn">
@@ -206,12 +210,12 @@
                 <div class="step-card">
                     <div class="step-icon">
                         <span class="step-number">2</span>
-                        <h3>Connect Your AI Tool</h3>
+                        <h3>Open ChatGPT or Claude on desktop</h3>
                     </div>
                     <div class="step-info">
-                        <p>Set up vytalLink with your preferred AI assistant. Choose from ChatGPT GPTs, MCP-compatible clients, or direct API integration.</p>
+                        <p>Easiest way: search for "vytalLink" in ChatGPT's GPTs. Or use the Claude Desktop Bundle or MCP setup for Cursor/VS Code.</p>
                         <div class="connection-options">
-                            <a class="connection-item" href="/chatgpt-setup.html">
+                            <a class="connection-item full-width" href="/chatgpt-setup.html">
                                 <div class="connection-badge most-popular">Most Popular</div>
                                 <i class="fas fa-robot"></i>
                                 <span>ChatGPT GPTs</span>
@@ -220,10 +224,10 @@
                             <a class="connection-item" href="/claude-bundle-setup.html">
                                 <div class="connection-badge popular">Popular</div>
                                 <i class="fas fa-plug"></i>
-                                <span>Claude Desktop Bundle</span>
+                                <span>Claude Desktop</span>
                                 <small>One-click desktop install</small>
                             </a>
-                            <a class="connection-item full-width" href="/mcp-setup.html">
+                            <a class="connection-item" href="/mcp-setup.html">
                                 <div class="connection-badge advanced">Advanced</div>
                                 <i class="fas fa-server"></i>
                                 <span>MCP Advanced</span>
@@ -236,10 +240,10 @@
                 <div class="step-card">
                     <div class="step-icon">
                         <span class="step-number">3</span>
-                        <h3>Ask Your Questions</h3>
+                        <h3>Paste Word + PIN and start asking</h3>
                     </div>
                     <div class="step-info">
-                        <p>Use natural language to query your health data. Ask about trends, patterns, correlations, and get personalized insights.</p>
+                        <p>When your AI asks for credentials, paste your Word + PIN from the app. Then ask questions about your health trends and get clear answers.</p>
                         <div class="example-questions">
                             <div class="question-bubble">How has my sleep quality changed this month?</div>
                             <div class="question-bubble">Show me my heart rate during workouts</div>
@@ -255,43 +259,43 @@
                     <div class="feature-icon">
                         <i class="fas fa-shield-alt"></i>
                     </div>
-                    <h3>100% Secure & Private</h3>
-                    <p>We never store your health data. Everything stays on your device and is only shared when you explicitly choose to.</p>
+                    <h3>Your Data Stays Private</h3>
+                    <p>We don't store your health data anywhere. It stays on your phone and only gets shared when you ask questions.</p>
                 </div>
                 <div class="feature-card">
                     <div class="feature-icon">
                         <i class="fas fa-mobile-alt"></i>
                     </div>
-                    <h3>Incredibly Easy to Use</h3>
-                    <p>Download, connect, and start chatting with AI about your health in under 2 minutes. No technical knowledge required.</p>
+                    <h3>Super Easy to Use</h3>
+                    <p>Download, connect, and start asking questions about your health in under 2 minutes. No tech skills needed.</p>
                 </div>
                 <div class="feature-card">
                     <div class="feature-icon">
                         <i class="fas fa-robot"></i>
                     </div>
-                    <h3>Works with Any AI</h3>
-                    <p>Compatible with ChatGPT, Claude, and any AI assistant that supports health data integration.</p>
+                    <h3>Works with Popular AIs</h3>
+                    <p>Use it with ChatGPT, Claude, and other AI assistants that can read health data.</p>
                 </div>
                 <div class="feature-card">
                     <div class="feature-icon">
                         <i class="fas fa-sync-alt"></i>
                     </div>
-                    <h3>Real-time Sync</h3>
-                    <p>Your health data updates automatically from your phone's health app and connected devices.</p>
+                    <h3>Always Up to Date</h3>
+                    <p>Your health data syncs automatically from your phone's health app and fitness tracker.</p>
                 </div>
                 <div class="feature-card">
                     <div class="feature-icon">
                         <i class="fas fa-heart"></i>
                     </div>
-                    <h3>Comprehensive Health Data</h3>
-                    <p>Heart rate, steps, sleep, workouts, and more. Get insights about all aspects of your health.</p>
+                    <h3>All Your Health Data</h3>
+                    <p>Heart rate, steps, sleep, workouts, and more. Ask questions about any part of your health.</p>
                 </div>
                 <div class="feature-card">
                     <div class="feature-icon">
                         <i class="fas fa-code"></i>
                     </div>
-                    <h3>Developer Friendly</h3>
-                    <p>OAuth 2.0, REST API, WebSocket support, and MCP integration for developers building health apps.</p>
+                    <h3>Built for Developers</h3>
+                    <p>OAuth 2.0, REST API, WebSocket support, and MCP integration if you're building health apps.</p>
                 </div>
             </div>
         </div>
@@ -302,8 +306,8 @@
         <div class="container">
             <div class="demo-content">
                 <div class="demo-text">
-                    <h2>See It In Action</h2>
-                    <p>Watch how easy it is to connect your health data with AI assistants using vytalLink.</p>
+                    <h2>See How It Works</h2>
+                    <p>Watch how simple it is to connect your health data with AI assistants.</p>
                     
                     <div class="demo-features">
                         <div class="demo-feature">
@@ -353,8 +357,8 @@
     <section id="integrations" class="integrations-section">
         <div class="container">
             <div class="section-header">
-                <h2>Connect with Your Favorite AI</h2>
-                <p>vytalLink works seamlessly with the most popular AI assistants</p>
+                <h2>Pick Your AI Assistant</h2>
+                <p>vytalLink works with the AI tools you already use</p>
             </div>
             
             <div class="integrations-grid">
@@ -364,10 +368,10 @@
                         <h3>ChatGPT</h3>
                         <span class="integration-badge">Most Popular</span>
                     </div>
-                    <p>Ask ChatGPT about your health data, get personalized insights, and track your wellness goals.</p>
+                    <p>Ask ChatGPT questions about your health data and get clear answers about your wellness trends.</p>
                         <div class="integration-steps">
                             <span>1. Download the vytalLink mobile app</span>
-                            <span>2. Get connection codes</span>
+                            <span>2. Get Word + PIN</span>
                             <span>3. Configure ChatGPT GPT</span>
                         </div>
                     <a href="/chatgpt-setup.html" class="btn btn-primary">
@@ -382,7 +386,7 @@
                         <h3>Claude Desktop Bundle</h3>
                         <span class="integration-badge">Popular</span>
                     </div>
-                    <p>Install the vytalLink MCP server inside Claude Desktop with a double-clickable bundle. No terminal commands required.</p>
+                    <p>Install vytalLink in Claude Desktop with a simple double-click. No command line needed.</p>
                         <div class="integration-steps">
                             <span>1. Download the vytalLink mobile app</span>
                             <span>2. Install the Claude Desktop bundle</span>
@@ -400,7 +404,7 @@
                         <h3>MCP Advanced (npm)</h3>
                         <span class="integration-badge">Advanced</span>
                     </div>
-                    <p>Prefer the manual workflow or need support for Cursor, VS Code, or custom MCP clients? Use the npm-based setup.</p>
+                    <p>Want to use Cursor, VS Code, or other MCP clients? Use the npm setup for more flexibility.</p>
                         <div class="integration-steps">
                             <span>1. Install the npm package</span>
                             <span>2. Configure your MCP client</span>
@@ -453,6 +457,7 @@
                 <div class="footer-section">
                     <h4>Support</h4>
                     <ul>
+                        <li><a href="/faq.html">FAQ</a></li>
                         <li><a href="/about.html">About vytalLink</a></li>
                         <li><a href="/privacy.html">Privacy Policy</a></li>
                         <li><a href="/terms.html">Terms of Service</a></li>

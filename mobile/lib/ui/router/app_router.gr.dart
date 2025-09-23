@@ -27,6 +27,12 @@ abstract class _$AppRouter extends RootStackRouter {
         child: const ChatGptIntegrationScreen(),
       );
     },
+    FaqRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const FaqScreen(),
+      );
+    },
     HomeRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
@@ -45,10 +51,27 @@ abstract class _$AppRouter extends RootStackRouter {
         child: const OnboardingScreen(),
       );
     },
+    SectionRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const SectionRouter(),
+      );
+    },
     UnauthenticatedSectionRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
         child: const UnauthenticatedSectionRouter(),
+      );
+    },
+    WebRouteRoute.name: (routeData) {
+      final args = routeData.argsAs<WebRouteRouteArgs>();
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: WebPageScreen(
+          url: args.url,
+          key: args.key,
+          title: args.title,
+        ),
       );
     },
   };
@@ -78,6 +101,20 @@ class ChatGptIntegrationRoute extends PageRouteInfo<void> {
         );
 
   static const String name = 'ChatGptIntegrationRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [FaqScreen]
+class FaqRoute extends PageRouteInfo<void> {
+  const FaqRoute({List<PageRouteInfo>? children})
+      : super(
+          FaqRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'FaqRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
 }
@@ -125,6 +162,20 @@ class OnboardingRoute extends PageRouteInfo<void> {
 }
 
 /// generated route for
+/// [SectionRouter]
+class SectionRoute extends PageRouteInfo<void> {
+  const SectionRoute({List<PageRouteInfo>? children})
+      : super(
+          SectionRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'SectionRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
 /// [UnauthenticatedSectionRouter]
 class UnauthenticatedSectionRoute extends PageRouteInfo<void> {
   const UnauthenticatedSectionRoute({List<PageRouteInfo>? children})
@@ -136,4 +187,47 @@ class UnauthenticatedSectionRoute extends PageRouteInfo<void> {
   static const String name = 'UnauthenticatedSectionRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [WebPageScreen]
+class WebRouteRoute extends PageRouteInfo<WebRouteRouteArgs> {
+  WebRouteRoute({
+    required String url,
+    Key? key,
+    String? title,
+    List<PageRouteInfo>? children,
+  }) : super(
+          WebRouteRoute.name,
+          args: WebRouteRouteArgs(
+            url: url,
+            key: key,
+            title: title,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'WebRouteRoute';
+
+  static const PageInfo<WebRouteRouteArgs> page =
+      PageInfo<WebRouteRouteArgs>(name);
+}
+
+class WebRouteRouteArgs {
+  const WebRouteRouteArgs({
+    required this.url,
+    this.key,
+    this.title,
+  });
+
+  final String url;
+
+  final Key? key;
+
+  final String? title;
+
+  @override
+  String toString() {
+    return 'WebRouteRouteArgs{url: $url, key: $key, title: $title}';
+  }
 }

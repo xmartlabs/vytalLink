@@ -1,7 +1,6 @@
 import 'package:design_system/design_system.dart';
-import 'package:design_system/extensions/color_extensions.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_template/l10n/app_localizations.dart';
+import 'package:flutter_template/ui/extensions/context_extensions.dart';
 
 class HealthPermissionsDialog extends StatelessWidget {
   final VoidCallback onAccept;
@@ -14,52 +13,15 @@ class HealthPermissionsDialog extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) => AlertDialog(
-        title: Text(
-          AppLocalizations.of(context)!.health_permissions_dialog_title,
-          style: context.theme.textTheme.headlineSmall?.copyWith(
-            fontWeight: FontWeight.w600,
-            fontSize: 20,
-          ),
-        ),
-        content: Text(
-          AppLocalizations.of(context)!.health_permissions_dialog_message,
-          style: context.theme.textTheme.bodyMedium,
-        ),
-        actionsAlignment: MainAxisAlignment.spaceAround,
-        actions: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              Expanded(
-                child: TextButton(
-                  onPressed: onCancel,
-                  child: Text(
-                    AppLocalizations.of(context)!
-                        .health_permissions_dialog_cancel,
-                    style: context.theme.customTextStyles.buttonMedium.copyWith(
-                      color:
-                          context.theme.customColors.textColor!.getShade(300),
-                    ),
-                  ),
-                ),
-              ),
-              Expanded(
-                child: FilledButton(
-                  onPressed: onAccept,
-                  child: Text(
-                    AppLocalizations.of(context)!
-                        .health_permissions_dialog_accept,
-                    style: context.theme.customTextStyles.buttonMedium.copyWith(
-                      color:
-                          context.theme.customColors.textColor!.getShade(100),
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ],
+  Widget build(BuildContext context) => AppDialog(
+        title: context.localizations.health_permissions_dialog_title,
+        content: context.localizations.health_permissions_dialog_message,
+        cancelButtonText:
+            context.localizations.health_permissions_dialog_cancel,
+        actionButtonText:
+            context.localizations.health_permissions_dialog_accept,
+        onCancelPressed: onCancel,
+        onActionPressed: onAccept,
       );
 
   static Future<bool?> show(BuildContext context) => showDialog<bool>(

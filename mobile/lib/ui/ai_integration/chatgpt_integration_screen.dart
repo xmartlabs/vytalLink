@@ -3,6 +3,7 @@ import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_template/ui/ai_integration/widgets/chatgpt_integration_sections.dart';
 import 'package:flutter_template/ui/extensions/context_extensions.dart';
+import 'package:flutter_template/ui/router/app_router.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 @RoutePage()
@@ -13,41 +14,28 @@ class ChatGptIntegrationScreen extends StatelessWidget {
   Widget build(BuildContext context) => Scaffold(
         backgroundColor: context.theme.colorScheme.surface,
         appBar: AppBar(
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back),
+            color: context.theme.colorScheme.onSurface,
+            onPressed: () => context.router.maybePop(),
+          ),
           title: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Container(
-                width: 32,
-                height: 32,
-                decoration: BoxDecoration(
-                  color: context.theme.colorScheme.primary
-                      .withAlpha((0.1 * 255).toInt()),
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: Center(
-                  child: Icon(
-                    FontAwesomeIcons.comments,
-                    color: context.theme.colorScheme.primary,
-                    size: 16,
-                  ),
-                ),
+              Icon(
+                FontAwesomeIcons.comments,
+                color: context.theme.colorScheme.onSurface,
+                size: 18,
               ),
               const SizedBox(width: 8),
-              Text(
-                context.localizations.chatgpt_integration_title,
-                style: TextStyle(
-                  color: context.theme.colorScheme.onSurface,
-                  fontWeight: FontWeight.w600,
-                  fontSize: 18,
-                ),
-              ),
+              Text(context.localizations.chatgpt_integration_title),
             ],
           ),
           centerTitle: true,
           backgroundColor: context.theme.colorScheme.surface,
-          elevation: 1,
+          elevation: 2,
           shadowColor:
-              context.theme.colorScheme.shadow.withAlpha((0.1 * 255).toInt()),
+              context.theme.colorScheme.primary.withValues(alpha: 0.08),
         ),
         body: const SafeArea(
           child: SingleChildScrollView(
@@ -69,4 +57,6 @@ class ChatGptIntegrationScreen extends StatelessWidget {
           ),
         ),
       );
+
+  void _openFaq(BuildContext context) => context.router.push(const FaqRoute());
 }

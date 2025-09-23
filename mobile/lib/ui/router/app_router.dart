@@ -1,7 +1,10 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_template/core/service/shared_preference_service.dart';
 import 'package:flutter_template/ui/ai_integration/chatgpt_integration_screen.dart';
 import 'package:flutter_template/ui/ai_integration/mcp_integration_screen.dart';
+import 'package:flutter_template/ui/faq/faq_screen.dart';
+import 'package:flutter_template/ui/web/web_page_screen.dart';
 import 'package:flutter_template/ui/home/home_screen.dart';
 import 'package:flutter_template/ui/onboarding/onboarding_screen.dart';
 import 'package:flutter_template/ui/router/onboarding_guard.dart';
@@ -27,16 +30,15 @@ class AppRouter extends _$AppRouter {
             path: '/',
             initial: true,
             guards: [OnboardingGuard(sharedPreferenceService)],
-            transitionsBuilder: TransitionsBuilders.zoomIn,
             children: [
-              AutoRoute(
+              CustomRoute(
                 initial: true,
                 page: HomeRoute.page,
+                transitionsBuilder: TransitionsBuilders.zoomIn,
               ),
-              AutoRoute(
-                page: ChatGptIntegrationRoute.page,
-              ),
+              AutoRoute(page: ChatGptIntegrationRoute.page),
               AutoRoute(page: McpIntegrationRoute.page),
+              AutoRoute(page: FaqRoute.page),
             ],
           ),
         ];

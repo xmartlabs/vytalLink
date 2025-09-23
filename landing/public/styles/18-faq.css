@@ -1,0 +1,80 @@
+/* FAQ Page Styles */
+.faq-hero {
+  padding: 80px 0 40px;
+  background: linear-gradient(180deg, rgba(245,248,255,0.6) 0%, rgba(255,255,255,1) 100%);
+}
+
+.faq-hero .hero-content {
+  text-align: center;
+}
+
+.faq-hero h1 {
+  font-size: 40px;
+  margin-bottom: 12px;
+}
+
+.faq-hero .hero-subtitle {
+  color: var(--text-muted);
+  font-size: 18px;
+}
+
+.faq {
+  padding: 32px 0 80px;
+}
+
+.faq .faq-list {
+  max-width: 860px;
+  margin: 0 auto;
+}
+
+.faq details {
+  background: #fff;
+  border: 1px solid rgba(0,0,0,0.06);
+  border-radius: 12px;
+  padding: 18px 20px;
+  margin-bottom: 12px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.04);
+}
+
+.faq summary {
+  cursor: pointer;
+  font-weight: 600;
+  color: var(--text-strong);
+  list-style: none;
+}
+
+.faq summary::-webkit-details-marker {
+  display: none;
+}
+
+.faq summary .arrow {
+  float: right;
+  transition: transform 0.2s ease;
+  color: var(--text-muted);
+}
+
+.faq details[open] summary .arrow {
+  transform: rotate(90deg);
+}
+
+.faq .faq-answer {
+  margin-top: 12px;
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+
+.faq .faq-answer ul {
+  padding-left: 20px;
+  margin: 8px 0;
+}
+
+.faq .faq-answer li {
+  margin: 4px 0;
+}
+
+@media (max-width: 768px) {
+  .faq-hero h1 {
+    font-size: 32px;
+  }
+}
+

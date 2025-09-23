@@ -14,6 +14,7 @@ class UnauthenticatedSectionRouter extends SectionRouter {
   const UnauthenticatedSectionRouter({super.key});
 }
 
+@RoutePage()
 class SectionRouter extends StatelessWidget {
   const SectionRouter({super.key});
 
