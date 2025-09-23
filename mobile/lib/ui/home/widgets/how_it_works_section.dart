@@ -3,6 +3,7 @@ import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_template/core/common/config.dart';
 import 'package:flutter_template/ui/extensions/context_extensions.dart';
+import 'package:flutter_template/ui/widgets/bold_tag_text.dart';
 import 'package:flutter_template/ui/router/app_router.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -185,9 +186,9 @@ class _ChecklistItem extends StatelessWidget {
           ),
           const SizedBox(width: 12),
           Expanded(
-            child: Text(
-              text,
-              style: theme.textTheme.bodyMedium?.copyWith(
+            child: BoldTagText(
+              text: text,
+              baseStyle: theme.textTheme.bodyMedium?.copyWith(
                 color: theme.colorScheme.onSurface,
                 height: 1.4,
               ),

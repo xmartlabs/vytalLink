@@ -2,6 +2,7 @@ import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_template/core/common/config.dart';
 import 'package:flutter_template/ui/extensions/context_extensions.dart';
+import 'package:flutter_template/ui/widgets/bold_tag_text.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class HomeValuePropHeader extends StatelessWidget {
@@ -124,9 +125,9 @@ class _ValuePropLine extends StatelessWidget {
         ),
         const SizedBox(width: 14),
         Expanded(
-          child: Text(
-            text,
-            style: theme.textTheme.bodyMedium?.copyWith(
+          child: BoldTagText(
+            text: text,
+            baseStyle: theme.textTheme.bodyMedium?.copyWith(
               fontWeight: FontWeight.w500,
               color: colorScheme.onSurface,
               height: 1.4,

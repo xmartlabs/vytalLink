@@ -44,6 +44,8 @@ class McpIntegrationScreen extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 McpHeroCardSection(),
+                SizedBox(height: 12),
+                McpDesktopNoticeSection(),
                 SizedBox(height: 24),
                 ClaudeBundleSection(),
                 SizedBox(height: 24),

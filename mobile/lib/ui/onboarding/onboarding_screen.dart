@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_template/ui/extensions/context_extensions.dart';
+import 'package:flutter_template/ui/widgets/bold_tag_text.dart';
 import 'package:flutter_template/ui/onboarding/onboarding_cubit.dart';
 import 'package:flutter_template/ui/onboarding/onboarding_pages.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -362,44 +363,11 @@ class _HighlightedDescription extends StatelessWidget {
       height: 1.4,
       fontSize: isSmall ? 13.sp : null,
     );
-    final boldStyle = baseStyle?.copyWith(
-      color: context.theme.customColors.textColor!.getShade(600),
-      fontWeight: FontWeight.w700,
-    );
-
-    final spans = _buildBoldTagSpans(text, baseStyle!, boldStyle!);
-
-    return RichText(
+    return BoldTagText(
+      text: text,
+      baseStyle: baseStyle,
       textAlign: TextAlign.center,
-      text: TextSpan(children: spans, style: baseStyle),
     );
-  }
-
-  List<TextSpan> _buildBoldTagSpans(
-    String source,
-    TextStyle base,
-    TextStyle bold,
-  ) {
-    final spans = <TextSpan>[];
-    int index = 0;
-    while (index < source.length) {
-      final start = source.indexOf('<b>', index);
-      if (start == -1) {
-        spans.add(TextSpan(text: source.substring(index), style: base));
-        break;
-      }
-      if (start > index) {
-        spans.add(TextSpan(text: source.substring(index, start), style: base));
-      }
-      final end = source.indexOf('</b>', start + 3);
-      if (end == -1) {
-        spans.add(TextSpan(text: source.substring(start), style: base));
-        break;
-      }
-      spans.add(TextSpan(text: source.substring(start + 3, end), style: bold));
-      index = end + 4;
-    }
-    return spans;
   }
 }
 

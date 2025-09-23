@@ -76,6 +76,10 @@ class AppLocalizationsEn extends AppLocalizations {
       'Plain English explanations, no confusing charts';
 
   @override
+  String get chatgpt_helper_chat_runs_on_desktop =>
+      '<b>All chats happen on your computer in ChatGPT.</b> This app is just the bridge and only shares what you approve.';
+
+  @override
   String get chatgpt_integration_hero_subtitle =>
       'ChatGPT already knows how to talk about health data. Our custom GPT makes it even easier to get answers about your sleep, workouts, and trends.';
 
@@ -461,22 +465,23 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get home_value_prop_point_1 =>
-      'Analyze your metrics in ChatGPT, Claude, or your MCP client';
+      'Analyze your metrics <b>on your computer</b> in ChatGPT, Claude, or your MCP client';
 
   @override
   String get home_value_prop_point_2 =>
-      'Generate a Word + PIN from this phone whenever you need it';
+      '<b>Generate a Word + PIN</b> from this phone whenever you need it';
 
   @override
   String get home_value_prop_point_3 =>
-      'Keep this app open while you chat so insights stay live';
+      '<b>Keep this app open</b> while you chat so insights stay live';
 
   @override
   String get home_value_prop_subtitle =>
-      'Ask ChatGPT or Claude questions about your health data without giving up your privacy—this app just keeps the connection alive.';
+      'Ask ChatGPT or Claude questions about your health data without giving up your privacy. This app just keeps the connection alive.';
 
   @override
-  String get home_value_prop_title => 'Ask your AI about your health data';
+  String get home_value_prop_title =>
+      'Chat with your wearable data from your desktop';
 
   @override
   String get how_it_works_step1_description =>
@@ -487,14 +492,14 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get how_it_works_step2_description =>
-      'Open ChatGPT or Claude on the web or desktop';
+      'Open ChatGPT or Claude on your computer and paste your Word + PIN';
 
   @override
   String get how_it_works_step2_title => 'Open your AI assistant';
 
   @override
   String get how_it_works_step3_description =>
-      'Paste your Word + PIN and keep this app open for live insights';
+      'Start asking about your data. Keep this app open for live insights';
 
   @override
   String get how_it_works_step3_title => 'Ask about your data';
@@ -576,6 +581,10 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get mcp_feature_4 => 'Live data updates while you chat';
+
+  @override
+  String get mcp_helper_chat_runs_on_desktop =>
+      '<b>All chats happen on your computer</b> via your MCP client (Claude Desktop, Cursor, VS Code). This app is just the bridge and only shares what you approve.';
 
   @override
   String get mcp_integration_hero_subtitle =>
