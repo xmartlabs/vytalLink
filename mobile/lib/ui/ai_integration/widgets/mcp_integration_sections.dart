@@ -396,7 +396,6 @@ class McpDesktopNoticeSection extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // Title first: Keep app open
                   Text(
                     context.localizations.home_note_keep_open,
                     style: context.theme.textTheme.titleSmall?.copyWith(
@@ -405,7 +404,6 @@ class McpDesktopNoticeSection extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 6),
-                  // Description: chats happen on desktop (with <b> emphasis)
                   BoldTagText(
                     text: context.localizations.mcp_helper_chat_runs_on_desktop,
                     baseStyle: context.theme.textTheme.bodySmall?.copyWith(

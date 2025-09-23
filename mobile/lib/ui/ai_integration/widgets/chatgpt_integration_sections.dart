@@ -185,7 +185,6 @@ class ChatGptDesktopNoticeSection extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // Title first: Keep app open
                   Text(
                     context.localizations.home_note_keep_open,
                     style: context.theme.textTheme.titleSmall?.copyWith(
@@ -194,7 +193,6 @@ class ChatGptDesktopNoticeSection extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 6),
-                  // Description: chats happen on desktop (with <b> emphasis)
                   BoldTagText(
                     text: context
                         .localizations.chatgpt_helper_chat_runs_on_desktop,
