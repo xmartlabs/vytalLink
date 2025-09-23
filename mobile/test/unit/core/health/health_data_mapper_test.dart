@@ -4,7 +4,8 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:health/health.dart';
 import 'package:mocktail/mocktail.dart';
 
-import '../../../helpers/mock_health_client.dart';
+import '../../../helpers/mock_health_data_point.dart';
+import '../../../helpers/mock_health_value.dart';
 
 class MockNumericHealthValue extends Mock implements NumericHealthValue {}
 

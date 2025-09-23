@@ -1,5 +1,6 @@
 import 'package:flutter_template/core/health/health_data_aggregator.dart';
 import 'package:flutter_template/core/model/health_data_point.dart';
+import 'package:flutter_template/core/model/statistic_types.dart';
 import 'package:flutter_template/core/model/time_group_by.dart';
 import 'package:flutter_test/flutter_test.dart';
 import '../../../helpers/test_data_factory.dart';
@@ -21,6 +22,7 @@ void main() {
           startTime: DateTime(2024, 1, 1),
           endTime: DateTime(2024, 1, 2),
           aggregatePerSource: false,
+          statisticType: StatisticType.sum,
         );
 
         final result = aggregator.aggregate(request);
@@ -62,6 +64,7 @@ void main() {
           startTime: startTime,
           endTime: endTime,
           aggregatePerSource: false,
+          statisticType: StatisticType.sum,
         );
 
         final result = aggregator.aggregate(request);
@@ -116,6 +119,7 @@ void main() {
           startTime: startTime,
           endTime: endTime,
           aggregatePerSource: false,
+          statisticType: StatisticType.sum,
         );
 
         final result = aggregator.aggregate(request);
@@ -162,6 +166,7 @@ void main() {
           startTime: startTime,
           endTime: endTime,
           aggregatePerSource: true,
+          statisticType: StatisticType.sum,
         );
 
         final result = aggregator.aggregate(request);
@@ -206,6 +211,7 @@ void main() {
           startTime: startTime,
           endTime: endTime,
           aggregatePerSource: false,
+          statisticType: StatisticType.sum,
         );
 
         final result = aggregator.aggregate(request);
@@ -242,6 +248,7 @@ void main() {
           startTime: startTime,
           endTime: endTime,
           aggregatePerSource: false,
+          statisticType: StatisticType.sum,
         );
 
         final result = aggregator.aggregate(request);
@@ -288,6 +295,7 @@ void main() {
           startTime: startTime,
           endTime: endTime,
           aggregatePerSource: false,
+          statisticType: StatisticType.sum,
         );
 
         final result = aggregator.aggregate(request);
@@ -336,6 +344,7 @@ void main() {
           startTime: startTime,
           endTime: endTime,
           aggregatePerSource: false,
+          statisticType: StatisticType.sum,
         );
 
         final result = aggregator.aggregate(request);
@@ -377,6 +386,7 @@ void main() {
           startTime: startTime,
           endTime: endTime,
           aggregatePerSource: false,
+          statisticType: StatisticType.sum,
         );
 
         final result = aggregator.aggregate(request);
@@ -426,6 +436,7 @@ void main() {
           startTime: startTime,
           endTime: endTime,
           aggregatePerSource: false,
+          statisticType: StatisticType.average,
         );
 
         final result = aggregator.aggregate(request);
@@ -446,6 +457,115 @@ void main() {
           (point) => point.dateFrom == '2024-01-01T11:00:00.000',
         );
         expect(hour11Result.value, HealthDataMatchers.hasAggregatedValue(85.0));
+      });
+
+      test('aggregates HEART_RATE data by day correctly', () {
+        final startTime = DateTime(2024, 1, 1);
+        final endTime = DateTime(2024, 1, 8); // One week
+
+        final data = [
+          // Day 1: Heart rates 70, 80, 90 -> Average = 80
+          TestDataFactory.createRawHealthDataPoint(
+            type: 'HEART_RATE',
+            value: 70.0,
+            dateFrom: DateTime(2024, 1, 1, 8),
+            dateTo: DateTime(2024, 1, 1, 8),
+            sourceId: 'source-1',
+          ),
+          TestDataFactory.createRawHealthDataPoint(
+            type: 'HEART_RATE',
+            value: 80.0,
+            dateFrom: DateTime(2024, 1, 1, 12),
+            dateTo: DateTime(2024, 1, 1, 12),
+            sourceId: 'source-1',
+          ),
+          TestDataFactory.createRawHealthDataPoint(
+            type: 'HEART_RATE',
+            value: 90.0,
+            dateFrom: DateTime(2024, 1, 1, 18),
+            dateTo: DateTime(2024, 1, 1, 18),
+            sourceId: 'source-1',
+          ),
+
+          // Day 2: Heart rates 75, 85 -> Average = 80
+          TestDataFactory.createRawHealthDataPoint(
+            type: 'HEART_RATE',
+            value: 75.0,
+            dateFrom: DateTime(2024, 1, 2, 9),
+            dateTo: DateTime(2024, 1, 2, 9),
+            sourceId: 'source-1',
+          ),
+          TestDataFactory.createRawHealthDataPoint(
+            type: 'HEART_RATE',
+            value: 85.0,
+            dateFrom: DateTime(2024, 1, 2, 15),
+            dateTo: DateTime(2024, 1, 2, 15),
+            sourceId: 'source-1',
+          ),
+
+          // Day 3: Heart rate 65 -> Average = 65
+          TestDataFactory.createRawHealthDataPoint(
+            type: 'HEART_RATE',
+            value: 65.0,
+            dateFrom: DateTime(2024, 1, 3, 14),
+            dateTo: DateTime(2024, 1, 3, 14),
+            sourceId: 'source-1',
+          ),
+
+          // Day 5: Heart rates 95, 100 -> Average = 97.5
+          // (skip day 4 to test gaps)
+          TestDataFactory.createRawHealthDataPoint(
+            type: 'HEART_RATE',
+            value: 95.0,
+            dateFrom: DateTime(2024, 1, 5, 10),
+            dateTo: DateTime(2024, 1, 5, 10),
+            sourceId: 'source-1',
+          ),
+          TestDataFactory.createRawHealthDataPoint(
+            type: 'HEART_RATE',
+            value: 100.0,
+            dateFrom: DateTime(2024, 1, 5, 16),
+            dateTo: DateTime(2024, 1, 5, 16),
+            sourceId: 'source-1',
+          ),
+        ];
+
+        final request = (
+          data: data,
+          groupBy: TimeGroupBy.day,
+          startTime: startTime,
+          endTime: endTime,
+          aggregatePerSource: false,
+          statisticType: StatisticType.average,
+        );
+
+        final result = aggregator.aggregate(request);
+
+        expect(result.length, equals(4)); // Only days with data
+
+        // Day 1: Average of 70, 80, 90 = 80.0
+        final day1Result = result.firstWhere(
+          (point) => point.dateFrom == '2024-01-01T00:00:00.000',
+        );
+        expect(day1Result.value, HealthDataMatchers.hasAggregatedValue(80.0));
+
+        // Day 2: Average of 75, 85 = 80.0
+        final day2Result = result.firstWhere(
+          (point) => point.dateFrom == '2024-01-02T00:00:00.000',
+        );
+        expect(day2Result.value, HealthDataMatchers.hasAggregatedValue(80.0));
+
+        // Day 3: Average of 65 = 65.0
+        final day3Result = result.firstWhere(
+          (point) => point.dateFrom == '2024-01-03T00:00:00.000',
+        );
+        expect(day3Result.value, HealthDataMatchers.hasAggregatedValue(65.0));
+
+        // Day 5: Average of 95, 100 = 97.5
+        final day5Result = result.firstWhere(
+          (point) => point.dateFrom == '2024-01-05T00:00:00.000',
+        );
+        expect(day5Result.value, HealthDataMatchers.hasAggregatedValue(97.5));
       });
     });
 
@@ -479,6 +599,7 @@ void main() {
           startTime: startTime,
           endTime: endTime,
           aggregatePerSource: false,
+          statisticType: StatisticType.sum,
         );
 
         final result = aggregator.aggregate(request);
@@ -517,6 +638,7 @@ void main() {
           startTime: startTime,
           endTime: endTime,
           aggregatePerSource: false,
+          statisticType: StatisticType.sum,
         );
 
         final result = aggregator.aggregate(request);
@@ -571,6 +693,7 @@ void main() {
           startTime: startTime,
           endTime: endTime,
           aggregatePerSource: false,
+          statisticType: StatisticType.sum,
         );
 
         final result = aggregator.aggregate(request);
@@ -610,6 +733,7 @@ void main() {
           startTime: startTime,
           endTime: endTime,
           aggregatePerSource: false,
+          statisticType: StatisticType.sum,
         );
 
         final result = aggregator.aggregate(request);
@@ -655,6 +779,7 @@ void main() {
           startTime: startTime,
           endTime: endTime,
           aggregatePerSource: false,
+          statisticType: StatisticType.sum,
         );
 
         final result = aggregator.aggregate(request);

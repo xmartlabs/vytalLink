@@ -5,6 +5,7 @@ import 'package:flutter_template/core/model/health_data_response.dart';
 import 'package:flutter_template/core/model/statistic_types.dart';
 import 'package:flutter_template/core/model/time_group_by.dart';
 import 'package:flutter_template/model/vytal_health_data_category.dart';
+import 'package:health/health.dart';
 
 /// Factory for creating test data objects
 class TestDataFactory {
@@ -132,7 +133,9 @@ class TestDataFactory {
         AppHealthDataPoint.raw(
           type: type,
           value: value,
-          unit: type == 'STEPS' ? 'COUNT' : 'UNKNOWN',
+          unit: type == HealthDataType.STEPS.name
+              ? HealthDataUnit.COUNT.name
+              : HealthDataUnit.UNKNOWN_UNIT.name,
           dateFrom: pointStart.toIso8601String(),
           dateTo: pointEnd.toIso8601String(),
           sourceId: sourceId ?? 'test-source-$i',
@@ -149,25 +152,25 @@ class TestDataFactory {
 
     return [
       AppHealthDataPoint.raw(
-        type: 'STEPS',
+        type: HealthDataType.STEPS.name,
         value: 500,
-        unit: 'COUNT',
+        unit: HealthDataUnit.COUNT.name,
         dateFrom: baseTime.toIso8601String(),
         dateTo: baseTime.add(const Duration(hours: 2)).toIso8601String(),
         sourceId: 'source-1',
       ),
       AppHealthDataPoint.raw(
-        type: 'STEPS',
+        type: HealthDataType.STEPS.name,
         value: 300,
-        unit: 'COUNT',
+        unit: HealthDataUnit.COUNT.name,
         dateFrom: baseTime.add(const Duration(hours: 1)).toIso8601String(),
         dateTo: baseTime.add(const Duration(hours: 3)).toIso8601String(),
         sourceId: 'source-2',
       ),
       AppHealthDataPoint.raw(
-        type: 'STEPS',
+        type: HealthDataType.STEPS.name,
         value: 200,
-        unit: 'COUNT',
+        unit: HealthDataUnit.COUNT.name,
         dateFrom: baseTime
             .add(const Duration(hours: 2, minutes: 30))
             .toIso8601String(),
