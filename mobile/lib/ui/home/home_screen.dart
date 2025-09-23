@@ -149,31 +149,7 @@ class _HomeContentScreenState extends State<_HomeContentScreen>
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  ...ValuePropDesignOption.values.map(
-                    (designOption) => Column(
-                      children: [
-                        HomeValuePropHeader(
-                          designOption: designOption,
-                        ),
-                        const SizedBox(height: 16),
-                        AnimatedServerCard(
-                          status: state.status,
-                          errorMessage: state.errorMessage,
-                          pulseAnimation: _pulseAnimation,
-                          onStartPressed: () =>
-                              _checkPermissionsAndStartServer(),
-                          connectionWord: state.connectionWord,
-                          connectionPin: state.connectionCode,
-                        ),
-                        const SizedBox(height: 16),
-                        HowItWorksSection(
-                          onViewGuide: () =>
-                              context.navigateTo(const ChatGptIntegrationRoute()),
-                        ),
-                        const SizedBox(height: 80),
-                      ],
-                    ),
-                  ),
+                  const HomeValuePropHeader(),
                   const SizedBox(height: 16),
                   AnimatedServerCard(
                     status: state.status,
