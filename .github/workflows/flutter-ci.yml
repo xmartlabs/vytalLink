@@ -43,24 +43,24 @@ jobs:
         run: |
           dart pub global activate arb_utils 0.8.3
       - name: Get dependencies
-        uses: maierj/fastlane-action@v3.0.0
+        uses: maierj/fastlane-action@v3.1.0
         with:
           lane: 'fetch_dependencies'
           subdirectory: ${{ env.MOBILE_DIR }}
       - name: 'Run lints'
-        uses: maierj/fastlane-action@v3.0.0
+        uses: maierj/fastlane-action@v3.1.0
         with:
           lane: 'lints'
           subdirectory: ${{ env.MOBILE_DIR }}
       - name: 'Check generated code'
-        uses: maierj/fastlane-action@v3.0.0
+        uses: maierj/fastlane-action@v3.1.0
         with:
           lane: 'ensure_no_change_in_generated_code'
           subdirectory: ${{ env.MOBILE_DIR }}
       - name: 'Build android app'
         env:
           APP_ENV: 'dev'
-        uses: maierj/fastlane-action@v3.0.0
+        uses: maierj/fastlane-action@v3.1.0
         with:
           lane: 'android build_dev_debug_apk'
           subdirectory: ${{ env.ANDROID_APP_DIR }}
