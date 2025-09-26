@@ -23,6 +23,7 @@ Each folder contains its own README with the detailed setup. This document only 
 
 - Repository guidelines: [`AGENTS.md`](AGENTS.md).
 - Coding standards: [`docs/CODE_STANDARDS.md`](docs/CODE_STANDARDS.md).
+- Consolidated guidelines: [`docs/CONSOLIDATED_GUIDELINES.md`](docs/CONSOLIDATED_GUIDELINES.md).
 - Add any new repository-wide guides under [`docs/`](docs/).
 
 ## Contributing

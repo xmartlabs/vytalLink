@@ -89,6 +89,11 @@
     gap: 2rem;
 }
 
+/* Make a card span full width on the first row when needed */
+.integrations-grid .span-columns {
+    grid-column: 1 / -1;
+}
+
 .integration-card {
     background: var(--white);
     padding: 2rem;

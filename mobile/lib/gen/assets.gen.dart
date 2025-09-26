@@ -9,4 +9,9 @@
 
 class Assets {
   Assets._();
+
+  static const String faq = 'assets/faq.md';
+
+  /// List of all assets
+  static List<String> get values => [faq];
 }

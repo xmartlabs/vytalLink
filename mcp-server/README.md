@@ -16,63 +16,112 @@ This server enables you to interact with vytalLink's functionality through any M
 - ❤️ Track heart rate and vital signs
 - 📈 Analyze health trends over time
 
-## Supported MCP Clients
-
-This server works with any MCP-compatible client, including:
-
-- **Claude Desktop** - AI assistant with health data context
-- **VS Code** - Integrate health data into your development workflow
-- **Custom MCP clients** - Build your own applications using the MCP protocol
-
 ## Installation
 
-### For Claude Desktop
+Install the server globally via npm:
 
-1. Install the server globally:
 ```bash
 npm install -g @xmartlabs/vytallink-mcp-server
 ```
 
-2. Add to your Claude Desktop configuration (`claude_desktop_config.json`):
+## Usage
+
+MCP clients launch the server automatically. Point your client at `npx @xmartlabs/vytallink-mcp-server` (or the globally installed binary) and provide any required environment variables.
+
+### Configuration
+
+The server accepts the following environment variables:
+
+- `VYTALLINK_BASE_URL` - Base URL for the vytalLink API (defaults to production)
+
+For manual smoke testing you can still run:
+```bash
+VYTALLINK_BASE_URL=https://api.vytallink.com npx @xmartlabs/vytallink-mcp-server
+```
+
+### MCP Client Configuration
+
+#### Claude Desktop
+
+**Option A: One-click bundle (Recommended)**
+
+1. Download the latest `vytallink-mcp-server.mcpb` bundle from the releases page
+2. Double-click the file or drag it into Claude Desktop Settings > Extensions
+3. Review the permissions and click **Install**
+
+**Option B: Manual npm configuration**
+
+Add to your Claude Desktop configuration (`claude_desktop_config.json`):
+
 ```json
 {
   "mcpServers": {
     "vytalLink": {
       "command": "npx",
       "args": ["@xmartlabs/vytallink-mcp-server"],
+      "env": {
+        "VYTALLINK_BASE_URL": "https://vytallink.local.xmartlabs.com"
+      }
     }
   }
 }
 ```
 
-3. Restart Claude Desktop
+#### Other MCP Clients
 
-### For VS Code
+This server implements the standard MCP protocol and works with any compatible client. Refer to your client's documentation for configuration details.
 
-1. Install a compatible MCP extension
-2. Configure the server in your MCP settings
-3. Use the same npx command: `@xmartlabs/vytallink-mcp-server`
+## Authentication
+
+Authentication is handled through the vytalLink mobile app. You'll need to:
+
+1. Install the vytalLink mobile app
+2. Complete the onboarding process
+3. Use the authentication tools provided by this MCP server
+
+The server provides OAuth and direct login capabilities through the vytalLink platform.
 
 ## Available Tools
 
-Once connected, you'll have access to tools for:
+The server dynamically loads tools from the vytalLink backend, ensuring you always have access to the latest functionality. Tools may include:
 
-- Retrieving health metrics (heart rate, steps, calories, etc.)
-- Accessing workout and exercise data
-- Monitoring sleep sessions
-- Getting user profile information
-- Managing OAuth authentication
+- Health data retrieval
+- Workout analysis
+- Sleep tracking
+- Vital signs monitoring
+- Authentication management
 
 ## Requirements
 
-- Node.js 16+ 
-- vytalLink mobile app (for initial authentication)
+- Node.js 16.0.0 or higher
+- vytalLink mobile app for authentication
+- Internet connection for API access
 
-# MCP Server
+## MCP Server
 
 The MCP server connects to our backend to handle requests and business logic. All authentication is exclusively managed through our mobile applications.
 
 For more information, visit [vytallink.xmartlabs.com](https://vytallink.xmartlabs.com/).
+
+## Development
+
+### Building Claude Desktop Bundle
+
+To build the Claude Desktop bundle:
+
+```bash
+npm run mcpb:package
+```
+
+This creates a `dist/vytallink-mcp-server.mcpb` bundle that can be installed in Claude Desktop.
+
+### Available Scripts
+
+- `npm start` - Run the MCP server directly
+- `npm run install-global` - Install server globally via npm
+- `npm run uninstall-global` - Uninstall server globally via npm
+- `npm run mcpb:package` - Build Claude Desktop bundle
+- `npm run mcpb:update-icon` - Process and optimize icon
 
 ## Support
 

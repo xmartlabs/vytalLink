@@ -6,10 +6,12 @@ import 'package:flutter_template/core/service/once_service.dart';
 import 'package:flutter_template/ui/extensions/context_extensions.dart';
 import 'package:flutter_template/ui/home/home_cubit.dart';
 import 'package:flutter_template/ui/home/widgets/ai_integration_card.dart';
-import 'package:flutter_template/ui/home/widgets/animated_credentials_card.dart';
 import 'package:flutter_template/ui/home/widgets/animated_server_card.dart';
+import 'package:flutter_template/ui/home/widgets/home_value_prop_header.dart';
 import 'package:flutter_template/ui/home/widgets/how_it_works_section.dart';
+import 'package:flutter_template/ui/router/app_router.dart';
 import 'package:flutter_template/ui/section/error_handler/global_event_handler_cubit.dart';
+import 'package:flutter_template/ui/widgets/home_overflow_menu.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 @RoutePage()
@@ -39,57 +41,29 @@ class _HomeContentScreenState extends State<_HomeContentScreen>
 
   Future<bool?> _showHealthConnectRequiredAlert() => showDialog<bool>(
         context: context,
-        builder: (context) => AlertDialog(
-          title: Text(
-            context.localizations.health_connect_required_alert_title,
-            style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                  fontSize: 22,
-                  fontWeight: FontWeight.bold,
-                ),
-          ),
-          content: Text(
-            context.localizations.health_connect_required_alert_message,
-          ),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.of(context).pop(false),
-              child: Text(
-                context.localizations.health_connect_required_alert_cancel,
-              ),
-            ),
-            TextButton(
-              onPressed: () => Navigator.of(context).pop(true),
-              child: Text(
-                context.localizations.health_connect_required_alert_install,
-              ),
-            ),
-          ],
+        builder: (dialogContext) => AppDialog(
+          title: context.localizations.health_connect_required_alert_title,
+          content: context.localizations.health_connect_required_alert_message,
+          cancelButtonText:
+              context.localizations.health_connect_required_alert_cancel,
+          actionButtonText:
+              context.localizations.health_connect_required_alert_install,
+          onCancelPressed: () => dialogContext.router.maybePop(false),
+          onActionPressed: () => dialogContext.router.maybePop(true),
         ),
       );
 
   Future<bool?> _showHealthPermissionsAlert() => showDialog<bool>(
         context: context,
-        builder: (context) => AlertDialog(
-          title: Text(
-            context.localizations.health_permissions_alert_title,
-            style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                  fontSize: 22,
-                  fontWeight: FontWeight.bold,
-                ),
-          ),
-          content: Text(context.localizations.health_permissions_alert_message),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.of(context).pop(false),
-              child:
-                  Text(context.localizations.health_permissions_alert_cancel),
-            ),
-            TextButton(
-              onPressed: () => Navigator.of(context).pop(true),
-              child:
-                  Text(context.localizations.health_permissions_alert_accept),
-            ),
-          ],
+        builder: (dialogContext) => AppDialog(
+          title: context.localizations.health_permissions_alert_title,
+          content: context.localizations.health_permissions_alert_message,
+          cancelButtonText:
+              context.localizations.health_permissions_alert_cancel,
+          actionButtonText:
+              context.localizations.health_permissions_alert_accept,
+          onCancelPressed: () => dialogContext.router.maybePop(false),
+          onActionPressed: () => dialogContext.router.maybePop(true),
         ),
       );
 
@@ -119,7 +93,24 @@ class _HomeContentScreenState extends State<_HomeContentScreen>
   }
 
   @override
-  Widget build(BuildContext context) => BlocBuilder<HomeCubit, HomeState>(
+  Widget build(BuildContext context) => BlocConsumer<HomeCubit, HomeState>(
+        listenWhen: (previous, current) =>
+            previous.connectionWord != current.connectionWord,
+        listener: (context, state) {
+          if (state.connectionWord.isNotEmpty) {
+            ScaffoldMessenger.of(context)
+              ..hideCurrentSnackBar()
+              ..showSnackBar(
+                SnackBar(
+                  content: Text(
+                    context.localizations.home_toast_credentials_ready,
+                  ),
+                  behavior: SnackBarBehavior.floating,
+                  backgroundColor: context.theme.customColors.success,
+                ),
+              );
+          }
+        },
         builder: (context, state) => Scaffold(
           backgroundColor: context.theme.colorScheme.surface,
           appBar: AppBar(
@@ -145,26 +136,36 @@ class _HomeContentScreenState extends State<_HomeContentScreen>
             centerTitle: true,
             backgroundColor: context.theme.colorScheme.surface,
             elevation: 2,
-            shadowColor: context.theme.colorScheme.primary
-                .withAlpha((0.1 * 255).toInt()),
+            shadowColor:
+                context.theme.colorScheme.primary.withValues(alpha: 0.1),
+            actions: const [
+              HomeOverflowMenu(),
+              SizedBox(width: 4),
+            ],
           ),
           body: SafeArea(
             child: SingleChildScrollView(
               padding: const EdgeInsets.all(24),
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  AnimatedCredentialCard(
-                    connectionWord: state.connectionWord,
-                    connectionCode: state.connectionCode,
-                  ),
+                  const HomeValuePropHeader(),
+                  const SizedBox(height: 16),
                   AnimatedServerCard(
                     status: state.status,
                     errorMessage: state.errorMessage,
                     pulseAnimation: _pulseAnimation,
                     onStartPressed: () => _checkPermissionsAndStartServer(),
+                    connectionWord: state.connectionWord,
+                    connectionPin: state.connectionCode,
                   ),
+                  const SizedBox(height: 16),
+                  HowItWorksSection(
+                    onViewGuide: () =>
+                        context.navigateTo(const ChatGptIntegrationRoute()),
+                  ),
+                  const SizedBox(height: 16),
                   const AiIntegrationCard(),
-                  const HowItWorksSection(),
                   const SizedBox(height: 24),
                 ],
               ),

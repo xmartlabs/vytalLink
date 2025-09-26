@@ -1,24 +1,24 @@
 # VytalLink Mobile App – Flutter + MCP
 
-This Flutter app runs entirely on your device (Android or iOS), reads health metrics from Apple HealthKit or Google Health Connect, and exposes them through a local MCP HTTP server so any compatible client (Claude, Cursor, local LLMs, etc.) can query structured data.
+This Flutter app runs on your phone (Android or iOS), reads your health data from Apple HealthKit or Google Health Connect, and shares it with AI tools like Claude, Cursor, and ChatGPT when you ask questions.
 
-## What you get
+## What's inside
 
-- `health` — Cross-platform health data access (HealthKit / Health Connect).
-- Embedded `mcp_server` — Registers the `get_health_data` tool over HTTP.
-- `flutter_bloc` + `freezed` — State and models for the main screen.
-- `auto_route` — Simple navigation.
-- `network_info_plus` + `wakelock_plus` — Show the device IP and keep the device awake while serving.
-- Localization via `intl`.
-- Local `design_system/` package — UI components plus the `design_system_gallery/` demo app.
+- `health` — Reads health data from HealthKit (iOS) or Health Connect (Android)
+- Embedded `mcp_server` — Shares your health data with AI tools via HTTP
+- `flutter_bloc` + `freezed` — Manages app state and data models
+- `auto_route` — Handles navigation between screens
+- `network_info_plus` + `wakelock_plus` — Shows your device IP and keeps the screen awake
+- Localization via `intl` — Multi-language support
+- Local `design_system/` package — Custom UI components and demo app
 
-## MCP server flow
+## How the MCP server works
 
-The heart of the server lives in `lib/core/source/mcp_server.dart` (`HealthMcpServerService`). It starts an HTTP MCP endpoint and registers one tool:
+The main server code is in `lib/core/source/mcp_server.dart` (`HealthMcpServerService`). It starts an HTTP server and provides one tool:
 
 - **Name**: `get_health_data`
 - **Input**: `{ type: string, start: ISO8601 string, end: ISO8601 string }`
-- **Behavior**: validates permissions, reads data via the `health` package, returns JSON.
+- **What it does**: Checks permissions, reads your health data, and returns it as JSON.
 
 Example payload:
 - `type`: `STEPS`
@@ -42,15 +42,12 @@ Example payload:
    fvm flutter run
    ```
 
-4. **Start the MCP server**
-   - On the Home screen tap **Start**. The app shows the IP, port, and endpoint (e.g. `http://<ip>:<port>/<endpoint>`).
+4. **Start the server**
+   - On the Home screen tap **Get Word + PIN**. The app shows your connection details.
 
-5. **Connect from a client (example: Cursor)**
-   - Add an MCP HTTP provider with that URL, e.g. `http://192.168.1.10:8080/mcp`.
-   - Call `get_health_data` with parameters like:
-     - `type`: `STEPS`
-     - `start`: `2025-01-01T00:00:00Z`
-     - `end`: `2025-01-02T00:00:00Z`
+5. **Connect from your AI tool (example: Cursor)**
+   - Add the MCP server URL shown in the app, e.g. `http://192.168.1.10:8080/mcp`
+   - Ask questions about your health data - the AI will call `get_health_data` automatically
 
 ### Cursor MCP config example
 
@@ -66,26 +63,26 @@ Example payload:
 }
 ```
 
-## How it is wired
+## How it's connected
 
-`HomeCubit` (`lib/ui/home/home_cubit.dart`) builds the configuration (host/IP, port, endpoint), runs `start()`/`stop()` on the MCP service, and exposes state to the UI. Contract summary:
+`HomeCubit` (`lib/ui/home/home_cubit.dart`) handles the server setup (IP, port, endpoint), starts and stops the MCP service, and updates the UI. The API works like this:
 
 - **Input**: `{ type, start, end }`
 - **Output**: `{ ok: boolean, data?: any, error?: { message, code? } }`
 
-## Navigation
+## App navigation
 
-`auto_route` defines a Home screen that shows server status, IP/endpoint, and Start/Stop controls.
+`auto_route` sets up the Home screen where you can see server status, connection details, and start/stop controls.
 
-## Permissions
+## Health data permissions
 
-- **iOS (HealthKit)**: the first read prompts for permissions. Accept the requested types.
+- **iOS (HealthKit)**: The app will ask for health permissions when you first use it. Say yes to the data types you want to share.
 - **Android (Health Connect)**:
-  - Install the Health Connect app.
-  - Link your data sources (Fitbit, Google Fit, etc.).
-  - Grant read permissions when prompted by this app.
-  - Ensure the sources are syncing data into Health Connect.
-- **General**: network and health scopes are declared in the manifests, but the user still needs to approve them at runtime.
+  - Install the Health Connect app from Google Play
+  - Connect your fitness apps (Fitbit, Google Fit, etc.)
+  - Allow this app to read your health data when prompted
+  - Make sure your fitness apps are syncing to Health Connect
+- **Both platforms**: The app declares what permissions it needs, but you still control what gets approved.
 
 ## Firebase configuration
 
@@ -98,16 +95,16 @@ Example payload:
    ./scripts/build_binaries.sh
    ```
 
-## Where things live
+## File structure
 
-- `lib/core/source/mcp_server.dart` — MCP service and tool definition.
-- `lib/ui/home/` — Screen that controls the server.
-- `android/app/src/main/AndroidManifest.xml` — Permissions (ACCESS_NETWORK_STATE, Health Connect, etc.).
-- `secrets/` — Secrets synced outside of version control.
-- `environments/` — Versioned environment templates (e.g., `default.env`).
-- `design_system/` — UI library plus the `design_system_gallery/` demo.
-- `scripts/` — Setup and CI tasks (including the `install/` helpers).
-- `fastlane/` — Mobile delivery pipelines.
+- `lib/core/source/mcp_server.dart` — The MCP server that shares your health data
+- `lib/ui/home/` — Main screen where you control the server
+- `android/app/src/main/AndroidManifest.xml` — App permissions for Android
+- `secrets/` — Private config files (not in version control)
+- `environments/` — Environment setup templates
+- `design_system/` — Custom UI components and demo app
+- `scripts/` — Build and setup scripts
+- `fastlane/` — App store deployment tools
 
 Made with ❤️ by Xmartlabs.
 

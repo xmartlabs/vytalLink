@@ -21,8 +21,7 @@ class SectionCard extends StatelessWidget {
           color: context.theme.colorScheme.surfaceContainer,
           borderRadius: BorderRadius.circular(12),
           border: Border.all(
-            color: context.theme.colorScheme.outline
-                .withAlpha((0.2 * 255).toInt()),
+            color: context.theme.colorScheme.outline.withValues(alpha: 0.2),
           ),
         ),
         child: Column(
@@ -35,7 +34,7 @@ class SectionCard extends StatelessWidget {
                   height: 40,
                   decoration: BoxDecoration(
                     color: context.theme.colorScheme.primary
-                        .withAlpha((0.1 * 255).toInt()),
+                        .withValues(alpha: 0.1),
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: Center(

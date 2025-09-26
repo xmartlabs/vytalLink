@@ -1,36 +1,18 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:design_system/design_system.dart';
+import 'package:design_system/extensions/color_extensions.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_template/l10n/app_localizations.dart';
+import 'package:flutter_template/ui/extensions/context_extensions.dart';
 import 'package:flutter_template/ui/router/app_router.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-
-const String chatGptHeroTag = "chatgpt-hero";
-const String mcpHeroTag = "mcp-hero";
 
 class AiIntegrationCard extends StatelessWidget {
   const AiIntegrationCard({super.key});
 
   @override
-  Widget build(BuildContext context) => Container(
-        margin: const EdgeInsets.only(top: 24, bottom: 24),
+  Widget build(BuildContext context) => VytalLinkCard(
+        margin: const EdgeInsets.only(bottom: 24),
         padding: const EdgeInsets.all(24),
-        decoration: BoxDecoration(
-          color: context.theme.colorScheme.surfaceContainer,
-          borderRadius: BorderRadius.circular(16),
-          border: Border.all(
-            color: context.theme.colorScheme.outline
-                .withAlpha((0.2 * 255).toInt()),
-          ),
-          boxShadow: [
-            BoxShadow(
-              color: context.theme.colorScheme.shadow
-                  .withAlpha((0.05 * 255).toInt()),
-              blurRadius: 8,
-              offset: const Offset(0, 2),
-            ),
-          ],
-        ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -41,7 +23,7 @@ class AiIntegrationCard extends StatelessWidget {
                   height: 40,
                   decoration: BoxDecoration(
                     color: context.theme.colorScheme.primary
-                        .withAlpha((0.1 * 255).toInt()),
+                        .withValues(alpha: 0.1),
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: Center(
@@ -61,14 +43,14 @@ class AiIntegrationCard extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        AppLocalizations.of(context)!.ai_integration_title,
+                        context.localizations.ai_integration_title,
                         style: context.theme.textTheme.titleMedium?.copyWith(
                           fontWeight: FontWeight.w600,
                           color: context.theme.colorScheme.onSurface,
                         ),
                       ),
                       Text(
-                        AppLocalizations.of(context)!.ai_integration_subtitle,
+                        context.localizations.ai_integration_subtitle,
                         style: context.theme.textTheme.bodySmall?.copyWith(
                           color: context.theme.colorScheme.onSurfaceVariant,
                         ),
@@ -84,11 +66,10 @@ class AiIntegrationCard extends StatelessWidget {
                 Expanded(
                   child: _IntegrationOption(
                     icon: FontAwesomeIcons.comments,
-                    title: AppLocalizations.of(context)!.ai_integration_chatgpt,
-                    subtitle: AppLocalizations.of(context)!
-                        .ai_integration_chatgpt_subtitle,
-                    color: const Color(0xFF10A37F),
-                    heroTag: chatGptHeroTag,
+                    title: context.localizations.ai_integration_chatgpt,
+                    subtitle:
+                        context.localizations.ai_integration_chatgpt_subtitle,
+                    color: context.theme.colorScheme.secondary.getShade(500),
                     onTap: () =>
                         context.router.push(const ChatGptIntegrationRoute()),
                   ),
@@ -97,11 +78,9 @@ class AiIntegrationCard extends StatelessWidget {
                 Expanded(
                   child: _IntegrationOption(
                     icon: FontAwesomeIcons.server,
-                    title: AppLocalizations.of(context)!.ai_integration_mcp,
-                    subtitle: AppLocalizations.of(context)!
-                        .ai_integration_mcp_subtitle,
-                    color: const Color(0xFF6366F1),
-                    heroTag: mcpHeroTag,
+                    title: context.localizations.ai_integration_mcp,
+                    subtitle: context.localizations.ai_integration_mcp_subtitle,
+                    color: context.theme.colorScheme.primary.getShade(500),
                     onTap: () =>
                         context.router.push(const McpIntegrationRoute()),
                   ),
@@ -118,7 +97,6 @@ class _IntegrationOption extends StatelessWidget {
   final String title;
   final String subtitle;
   final Color color;
-  final String heroTag;
   final VoidCallback onTap;
 
   const _IntegrationOption({
@@ -126,7 +104,6 @@ class _IntegrationOption extends StatelessWidget {
     required this.title,
     required this.subtitle,
     required this.color,
-    required this.heroTag,
     required this.onTap,
     super.key,
   });
@@ -138,29 +115,26 @@ class _IntegrationOption extends StatelessWidget {
         child: Container(
           padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
-            color: color.withAlpha((0.05 * 255).toInt()),
+            color: color.withValues(alpha: 0.05),
             borderRadius: BorderRadius.circular(12),
             border: Border.all(
-              color: color.withAlpha((0.2 * 255).toInt()),
+              color: color.withValues(alpha: 0.2),
             ),
           ),
           child: Column(
             children: [
-              Hero(
-                tag: heroTag,
-                child: Container(
-                  width: 52,
-                  height: 52,
-                  decoration: BoxDecoration(
-                    color: color.withAlpha((0.1 * 255).toInt()),
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: Center(
-                    child: Icon(
-                      icon,
-                      color: color,
-                      size: 22,
-                    ),
+              Container(
+                width: 52,
+                height: 52,
+                decoration: BoxDecoration(
+                  color: color.withValues(alpha: 0.1),
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Center(
+                  child: Icon(
+                    icon,
+                    color: color,
+                    size: 22,
                   ),
                 ),
               ),

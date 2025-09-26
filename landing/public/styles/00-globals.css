@@ -39,6 +39,13 @@ body {
     padding-top: 120px; /* Increased space for fixed navbar */
 }
 
+/* Embedded mode: hide navbar inside in-app webviews and remove top padding */
+.embedded .navbar { display: none !important; }
+.embedded body, body.embedded {
+    padding-top: 0 !important;
+}
+.embedded .footer { display: none !important; }
+
 /* Remove padding for pages with custom hero sections that handle spacing */
 body.home-page {
     padding-top: 0;

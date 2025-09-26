@@ -1,11 +1,12 @@
 import 'package:design_system/design_system.dart';
+import 'package:design_system/extensions/color_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_template/core/common/config.dart';
 import 'package:flutter_template/ui/ai_integration/widgets/expandable_section.dart';
 import 'package:flutter_template/ui/ai_integration/widgets/setup_step.dart';
 import 'package:flutter_template/ui/extensions/context_extensions.dart';
 import 'package:flutter_template/ui/helpers/url_launcher_helper.dart';
-import 'package:flutter_template/ui/home/widgets/ai_integration_card.dart';
+import 'package:flutter_template/ui/widgets/bold_tag_text.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class WhatIsChatGptSection extends StatelessWidget {
@@ -109,10 +110,8 @@ class ChatGptIntegrationHeroSection extends StatelessWidget {
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
             colors: [
-              context.theme.colorScheme.secondary
-                  .withAlpha((0.05 * 255).toInt()),
-              context.theme.colorScheme.secondary
-                  .withAlpha((0.15 * 255).toInt()),
+              context.theme.colorScheme.secondary.withValues(alpha: 0.05),
+              context.theme.colorScheme.secondary.withValues(alpha: 0.15),
             ],
           ),
           borderRadius: BorderRadius.circular(16),
@@ -123,21 +122,18 @@ class ChatGptIntegrationHeroSection extends StatelessWidget {
         ),
         child: Column(
           children: [
-            Hero(
-              tag: chatGptHeroTag,
-              child: Container(
-                width: 80,
-                height: 80,
-                decoration: BoxDecoration(
-                  color: const Color(0xFF10A37F),
-                  borderRadius: BorderRadius.circular(16),
-                ),
-                child: const Center(
-                  child: Icon(
-                    FontAwesomeIcons.comments,
-                    color: Colors.white,
-                    size: 36,
-                  ),
+            Container(
+              width: 80,
+              height: 80,
+              decoration: BoxDecoration(
+                color: context.theme.colorScheme.secondary,
+                borderRadius: BorderRadius.circular(16),
+              ),
+              child: Center(
+                child: Icon(
+                  FontAwesomeIcons.comments,
+                  color: context.theme.customColors.textColor!.getShade(100),
+                  size: 36,
                 ),
               ),
             ),
@@ -163,32 +159,88 @@ class ChatGptIntegrationHeroSection extends StatelessWidget {
       );
 }
 
+class ChatGptDesktopNoticeSection extends StatelessWidget {
+  const ChatGptDesktopNoticeSection({super.key});
+
+  @override
+  Widget build(BuildContext context) => Container(
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          color: context.theme.colorScheme.primary.withValues(alpha: 0.08),
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(
+            color: context.theme.colorScheme.primary.withValues(alpha: 0.2),
+          ),
+        ),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Icon(
+              Icons.info_outline_rounded,
+              size: 18,
+              color: context.theme.colorScheme.primary,
+            ),
+            const SizedBox(width: 12),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    context.localizations.home_note_keep_open,
+                    style: context.theme.textTheme.titleSmall?.copyWith(
+                      color: context.theme.colorScheme.onSurface,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                  const SizedBox(height: 6),
+                  BoldTagText(
+                    text: context
+                        .localizations.chatgpt_helper_chat_runs_on_desktop,
+                    baseStyle: context.theme.textTheme.bodySmall?.copyWith(
+                      color: context.theme.colorScheme.onSurfaceVariant,
+                      height: 1.4,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      );
+}
+
 class ChatGptUseButtonSection extends StatelessWidget {
   const ChatGptUseButtonSection({super.key});
 
   @override
-  Widget build(BuildContext context) => SizedBox(
-        width: double.infinity,
-        child: ElevatedButton.icon(
-          onPressed: () => UrlLauncherHelper.launch(Config.gptIntegrationUrl),
-          icon: const Icon(FontAwesomeIcons.comments, size: 20),
-          label: Text(
-            context.localizations.chatgpt_start_button,
-            style: const TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.w600,
-            ),
-          ),
-          style: ElevatedButton.styleFrom(
-            backgroundColor: context.theme.colorScheme.primary,
-            foregroundColor: Colors.white,
-            padding: const EdgeInsets.symmetric(vertical: 18),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(12),
-            ),
+  Widget build(BuildContext context) {
+    if (Config.requireForegroundSession) {
+      return const SizedBox.shrink();
+    }
+
+    return SizedBox(
+      width: double.infinity,
+      child: ElevatedButton.icon(
+        onPressed: () => UrlLauncherHelper.launch(Config.gptIntegrationUrl),
+        icon: const Icon(FontAwesomeIcons.comments, size: 20),
+        label: Text(
+          context.localizations.chatgpt_start_button,
+          style: const TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.w600,
           ),
         ),
-      );
+        style: ElevatedButton.styleFrom(
+          backgroundColor: context.theme.colorScheme.primary,
+          foregroundColor: Colors.white,
+          padding: const EdgeInsets.symmetric(vertical: 18),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
+        ),
+      ),
+    );
+  }
 }
 
 class _ExampleQuestionsList extends StatelessWidget {

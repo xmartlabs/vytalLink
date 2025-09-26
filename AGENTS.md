@@ -16,7 +16,7 @@
 - `cd mcp-server && npm install && npm start` starts the standalone server or `npm run install-global` to expose the CLI.
 
 ## Coding Style & Naming Conventions
-- Follow `docs/CODE_STANDARDS.md`: two-space indent, `dart format`, clean `flutter analyze`.
+- Follow `docs/CODE_STANDARDS.md`: two-space indent, `fvm dart format`, clean `fvm flutter analyze`.
 - Use English identifiers (`lowerCamelCase` members, `UpperCamelCase` types) and `package:` imports under `lib/`.
 - Localize UI strings via `lib/l10n/intl_en.arb`, regenerate with `flutter gen-l10n`, avoid hardcoded copy.
 - Use the shared `Logger`, prefer `const`/`final`, and rely on design system colors.

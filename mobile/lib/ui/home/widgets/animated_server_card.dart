@@ -1,22 +1,28 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:design_system/design_system.dart';
 import 'package:design_system/extensions/color_extensions.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_template/l10n/app_localizations.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_template/ui/extensions/context_extensions.dart';
 import 'package:flutter_template/ui/home/home_cubit.dart';
 import 'package:flutter_template/ui/home/widgets/server_action_button_widget.dart';
+import 'package:flutter_template/ui/router/app_router.dart';
 
 class AnimatedServerCard extends StatelessWidget {
   final McpServerStatus status;
   final String errorMessage;
   final Animation<double> pulseAnimation;
   final VoidCallback? onStartPressed;
+  final String connectionWord;
+  final String connectionPin;
 
   const AnimatedServerCard({
     required this.pulseAnimation,
     required this.status,
     required this.errorMessage,
     this.onStartPressed,
+    this.connectionWord = '',
+    this.connectionPin = '',
     super.key,
   });
 
@@ -34,13 +40,13 @@ class AnimatedServerCard extends StatelessWidget {
                     padding: const EdgeInsets.all(12),
                     decoration: BoxDecoration(
                       color: _getServerIconColor(context, status)
-                          .withAlpha((0.1 * 255).toInt()),
+                          .withValues(alpha: 0.1),
                       borderRadius: BorderRadius.circular(12),
                       boxShadow: status == McpServerStatus.running
                           ? [
                               BoxShadow(
                                 color: _getServerIconColor(context, status)
-                                    .withAlpha((0.3 * 255).toInt()),
+                                    .withValues(alpha: 0.3),
                                 offset: const Offset(0, 0),
                                 blurRadius: 10 * pulseAnimation.value,
                                 spreadRadius: 1,
@@ -100,11 +106,11 @@ class AnimatedServerCard extends StatelessWidget {
                         const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                     decoration: BoxDecoration(
                       color: context.theme.customColors.success!
-                          .withAlpha((0.1 * 255).toInt()),
+                          .withValues(alpha: 0.1),
                       borderRadius: BorderRadius.circular(8),
                       border: Border.all(
                         color: context.theme.customColors.success!
-                            .withAlpha((0.3 * 255).toInt()),
+                            .withValues(alpha: 0.3),
                         width: 1,
                       ),
                     ),
@@ -121,7 +127,7 @@ class AnimatedServerCard extends StatelessWidget {
                         ),
                         const SizedBox(width: 6),
                         Text(
-                          AppLocalizations.of(context)!.home_online_status,
+                          context.localizations.home_online_status,
                           style: TextStyle(
                             fontSize: 10,
                             fontWeight: FontWeight.w600,
@@ -135,27 +141,128 @@ class AnimatedServerCard extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 20),
+            if (status == McpServerStatus.running)
+              Container(
+                width: double.infinity,
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 12,
+                ),
+                decoration: BoxDecoration(
+                  color: context.theme.customColors.warning!
+                      .withValues(alpha: 0.12),
+                  borderRadius: BorderRadius.circular(12),
+                  border: Border.all(
+                    color: context.theme.customColors.warning!
+                        .withValues(alpha: 0.3),
+                  ),
+                ),
+                child: Row(
+                  children: [
+                    Icon(
+                      Icons.warning_amber_rounded,
+                      size: 18,
+                      color: context.theme.customColors.warning,
+                    ),
+                    const SizedBox(width: 12),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            context.localizations.home_banner_bridge_active,
+                            style: TextStyle(
+                              color: context.theme.customColors.textColor!
+                                  .getShade(400),
+                              fontWeight: FontWeight.normal,
+                              height: 1.3,
+                            ),
+                          ),
+                          const SizedBox(height: 2),
+                          Text(
+                            context.localizations.home_note_keep_open,
+                            style: TextStyle(
+                              color: context.theme.customColors.textColor!
+                                  .getShade(400),
+                              fontWeight: FontWeight.w700,
+                              height: 1.3,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            if (status == McpServerStatus.running) const SizedBox(height: 16),
+            AnimatedCrossFade(
+              duration: const Duration(milliseconds: 200),
+              crossFadeState: status == McpServerStatus.running &&
+                      connectionWord.isNotEmpty &&
+                      connectionPin.isNotEmpty
+                  ? CrossFadeState.showSecond
+                  : CrossFadeState.showFirst,
+              firstChild: const SizedBox.shrink(),
+              secondChild: Column(
+                key: const ValueKey('credentials-container'),
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  _InlineCredentials(
+                    word: connectionWord,
+                    pin: connectionPin,
+                    onCopy: (value) => _copyToClipboard(context, value),
+                  ),
+                  const SizedBox(height: 16),
+                ],
+              ),
+            ),
             ServerActionButtonWidget(
               errorMessage: errorMessage,
               status: status,
               onStartPressed: onStartPressed,
+              onChatGptPressed: () => context.router.popAndPush(
+                const AuthenticatedSectionRoute(
+                  children: [ChatGptIntegrationRoute()],
+                ),
+              ),
+              onClaudePressed: () => context.router.popAndPush(
+                const AuthenticatedSectionRoute(
+                  children: [McpIntegrationRoute()],
+                ),
+              ),
             ),
           ],
         ),
       );
 
+  void _copyToClipboard(BuildContext context, String value) {
+    Clipboard.setData(ClipboardData(text: value));
+    ScaffoldMessenger.of(context)
+      ..hideCurrentSnackBar()
+      ..showSnackBar(
+        SnackBar(
+          content: Text(
+            context.localizations.home_toast_copy_success,
+          ),
+          behavior: SnackBarBehavior.floating,
+          backgroundColor: context.theme.customColors.success,
+          duration: const Duration(seconds: 2),
+        ),
+      );
+  }
+
   String _getServerStatusTitle(BuildContext context, McpServerStatus status) {
     switch (status) {
       case McpServerStatus.idle:
-        return AppLocalizations.of(context)!.home_status_offline;
+        return context.localizations.home_status_offline;
       case McpServerStatus.starting:
-        return AppLocalizations.of(context)!.home_status_starting;
+        return context.localizations.home_status_starting;
       case McpServerStatus.running:
-        return AppLocalizations.of(context)!.home_status_running;
+        return context.localizations.home_status_running;
       case McpServerStatus.stopping:
-        return AppLocalizations.of(context)!.home_status_stopping;
+        return context.localizations.home_status_stopping;
       case McpServerStatus.error:
-        return AppLocalizations.of(context)!.home_status_error;
+        return context.localizations.home_status_error;
     }
   }
 
@@ -205,5 +312,97 @@ class AnimatedServerCard extends StatelessWidget {
       case McpServerStatus.error:
         return context.localizations.home_description_error;
     }
+  }
+}
+
+class _InlineCredentials extends StatelessWidget {
+  final String word;
+  final String pin;
+  final ValueChanged<String> onCopy;
+
+  const _InlineCredentials({
+    required this.word,
+    required this.pin,
+    required this.onCopy,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = context.theme;
+    final localizations = context.localizations;
+
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: theme.colorScheme.surfaceContainerLow,
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(
+          color: theme.colorScheme.outlineVariant.withValues(alpha: 0.4),
+        ),
+      ),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Expanded(
+            child: _CredentialColumn(
+              label: localizations.credentials_word_label,
+              value: word,
+            ),
+          ),
+          const SizedBox(width: 16),
+          Expanded(
+            child: _CredentialColumn(
+              label: localizations.credentials_pin_label,
+              value: pin,
+            ),
+          ),
+          IconButton(
+            onPressed: () => onCopy('$word | $pin'),
+            icon: Icon(
+              Icons.copy_rounded,
+              color: theme.colorScheme.primary,
+            ),
+            tooltip: localizations.home_toast_copy_success,
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _CredentialColumn extends StatelessWidget {
+  final String label;
+  final String value;
+
+  const _CredentialColumn({
+    required this.label,
+    required this.value,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = context.theme;
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          label.toUpperCase(),
+          style: theme.textTheme.labelSmall?.copyWith(
+            letterSpacing: 1.1,
+            color: theme.colorScheme.onSurfaceVariant,
+          ),
+        ),
+        const SizedBox(height: 4),
+        Text(
+          value,
+          style: theme.textTheme.titleMedium?.copyWith(
+            fontFamily: 'monospace',
+            fontWeight: FontWeight.w700,
+            color: theme.colorScheme.onSurface,
+          ),
+        ),
+      ],
+    );
   }
 }
