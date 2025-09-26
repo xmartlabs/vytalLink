@@ -47,6 +47,7 @@
     gap: 1rem;
     flex-wrap: wrap;
 }
+.cta-buttons .brand-mark { width: 20px; height: 20px; }
 
 .video-placeholder {
     background: var(--text-dark);
@@ -123,6 +124,7 @@
     font-size: 2rem;
     color: var(--primary-color);
 }
+.integration-header .brand-mark { width: 32px; height: 32px; }
 
 .integration-header h3 {
     flex: 1;

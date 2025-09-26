@@ -1,3 +1,5 @@
+import 'dart:math' as math;
+
 import 'package:auto_route/auto_route.dart';
 import 'package:design_system/design_system.dart';
 import 'package:design_system/extensions/color_extensions.dart';
@@ -254,8 +256,17 @@ class _OnboardingPageWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final bool isSmallScreen = _isSmallScreen(context);
     final colorScheme = context.theme.colorScheme;
+    final bodyText = _composeBodyText();
+    final double horizontalPadding = 35.w;
+    final double availableWidth =
+        MediaQuery.of(context).size.width - horizontalPadding * 2;
+    final double contentMaxWidth = math.min(availableWidth, 320.w);
+    final TextStyle baseTitleStyle = context.theme.textTheme.headlineMedium ??
+        const TextStyle(fontSize: 24, fontWeight: FontWeight.bold);
+    final double titleFontSize = (baseTitleStyle.fontSize ?? 24) + 2;
+
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 24.w),
+      padding: EdgeInsets.symmetric(horizontal: horizontalPadding),
       child: Column(
         children: [
           SizedBox(height: isSmallScreen ? 20.h : 32.h),
@@ -271,70 +282,70 @@ class _OnboardingPageWidget extends StatelessWidget {
                     color: colorScheme.primary.withValues(alpha: 0.1),
                     borderRadius: BorderRadius.circular(logoSize / 2),
                   ),
-                  child: Icon(
-                    page.icon,
-                    size: isSmallScreen ? 40.sp : 44.sp,
-                    color: colorScheme.primary,
-                  ),
+                  child: page.iconWidget ??
+                      Icon(
+                        page.icon,
+                        size: isSmallScreen ? 40.sp : 44.sp,
+                        color: colorScheme.primary,
+                      ),
                 );
               },
             ),
           ),
           SizedBox(height: isSmallScreen ? 14.h : 20.h),
-          FadeTransition(
-            opacity: fadeAnimation,
-            child: Text(
-              page.title,
-              style: context.theme.textTheme.headlineMedium?.copyWith(
-                color: context.theme.customColors.textColor!.getShade(500),
-                fontWeight: FontWeight.bold,
+          Align(
+            alignment: Alignment.center,
+            child: ConstrainedBox(
+              constraints: BoxConstraints(maxWidth: contentMaxWidth),
+              child: FadeTransition(
+                opacity: fadeAnimation,
+                child: Text(
+                  page.title,
+                  style: baseTitleStyle.copyWith(
+                    color: context.theme.customColors.textColor!.getShade(500),
+                    fontWeight: FontWeight.bold,
+                    fontSize: titleFontSize,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
               ),
-              textAlign: TextAlign.center,
             ),
           ),
-          SizedBox(height: isSmallScreen ? 4.h : 6.h),
-          FadeTransition(
-            opacity: fadeAnimation,
-            child: Text(
-              page.subtitle,
-              style: context.theme.textTheme.bodyLarge?.copyWith(
-                color: colorScheme.primary,
-                fontWeight: FontWeight.w500,
+          if (bodyText.isNotEmpty) ...[
+            SizedBox(height: isSmallScreen ? 16.h : 20.h),
+            Align(
+              alignment: Alignment.center,
+              child: ConstrainedBox(
+                constraints: BoxConstraints(maxWidth: contentMaxWidth),
+                child: FadeTransition(
+                  opacity: fadeAnimation,
+                  child: _HighlightedDescription(text: bodyText),
+                ),
               ),
-              textAlign: TextAlign.center,
             ),
-          ),
-          SizedBox(height: isSmallScreen ? 10.h : 16.h),
-          Container(
-            padding: EdgeInsets.symmetric(
-              horizontal: 16.w,
-              vertical: isSmallScreen ? 10.h : 12.h,
-            ),
-            decoration: BoxDecoration(
-              color: colorScheme.primary.withValues(alpha: 0.03),
-              border: Border.all(
-                color: colorScheme.primary.withValues(alpha: 0.12),
-                width: 1,
-              ),
-              borderRadius: BorderRadius.circular(12.r),
-            ),
-            child: _HighlightedDescription(text: page.description),
-          ),
-          SizedBox(height: isSmallScreen ? 12.h : 20.h),
+            SizedBox(height: isSmallScreen ? 18.h : 26.h),
+          ] else
+            SizedBox(height: isSmallScreen ? 16.h : 24.h),
           if (page.features.isNotEmpty)
             Flexible(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  for (int i = 0; i < page.features.length; i++) ...[
-                    _FeatureItem(
-                      text: page.features[i],
-                      isQuestion: page.features[i].startsWith('"'),
-                    ),
-                    if (i < page.features.length - 1)
-                      SizedBox(height: isSmallScreen ? 6.h : 10.h),
-                  ],
-                ],
+              child: Align(
+                alignment: Alignment.topCenter,
+                child: ConstrainedBox(
+                  constraints: BoxConstraints(maxWidth: contentMaxWidth),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      for (int i = 0; i < page.features.length; i++) ...[
+                        _FeatureItem(
+                          text: page.features[i],
+                          isQuestion: page.features[i].startsWith('"'),
+                        ),
+                        if (i < page.features.length - 1)
+                          SizedBox(height: isSmallScreen ? 4.h : 8.h),
+                      ],
+                    ],
+                  ),
+                ),
               ),
             ),
           SizedBox(height: isSmallScreen ? 10.h : 16.h),
@@ -346,6 +357,19 @@ class _OnboardingPageWidget extends StatelessWidget {
   bool _isSmallScreen(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
     return screenHeight < _kSmallScreenHeightThreshold;
+  }
+
+  String _composeBodyText() {
+    final parts = <String>[];
+    final subtitle = page.subtitle.trim();
+    final description = page.description.trim();
+    if (subtitle.isNotEmpty) {
+      parts.add(subtitle);
+    }
+    if (description.isNotEmpty) {
+      parts.add(description);
+    }
+    return parts.join('\n\n');
   }
 }
 
@@ -388,7 +412,10 @@ class _FeatureItem extends StatelessWidget {
     if (isQuestion) {
       return Container(
         width: double.infinity,
-        padding: EdgeInsets.all(isSmallScreen ? 12.w : 14.w),
+        padding: EdgeInsets.symmetric(
+          horizontal: isSmallScreen ? 12.w : 16.w,
+          vertical: isSmallScreen ? 8.h : 10.h,
+        ),
         decoration: BoxDecoration(
           color: context.theme.colorScheme.primary.withValues(alpha: 0.05),
           borderRadius: BorderRadius.circular(12.r),
@@ -402,9 +429,10 @@ class _FeatureItem extends StatelessWidget {
           style: context.theme.textTheme.bodyMedium?.copyWith(
             color: context.theme.customColors.textColor!.getShade(400),
             fontStyle: FontStyle.italic,
-            fontSize: isSmallScreen ? 12.sp : 13.sp,
+            fontSize: isSmallScreen ? 11.5.sp : 12.5.sp,
+            height: 1.3,
           ),
-          textAlign: TextAlign.center,
+          textAlign: TextAlign.start,
         ),
       );
     }
@@ -421,7 +449,7 @@ class _FeatureItem extends StatelessWidget {
           child: Text(
             text,
             style: context.theme.textTheme.bodyMedium?.copyWith(
-              color: context.theme.customColors.textColor!.getShade(300),
+              color: context.theme.customColors.textColor!.getShade(400),
               fontWeight: FontWeight.w500,
             ),
           ),
@@ -438,6 +466,7 @@ class OnboardingPage {
   final String description;
   final List<String> features;
   final List<String> highlights;
+  final Widget? iconWidget;
 
   OnboardingPage({
     required this.icon,
@@ -446,6 +475,7 @@ class OnboardingPage {
     required this.description,
     required this.features,
     this.highlights = const [],
+    this.iconWidget,
   });
 }
 

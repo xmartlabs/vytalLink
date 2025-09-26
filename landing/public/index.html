@@ -22,6 +22,7 @@
     <meta property="twitter:image" content="https://vytallink.com/og-image.png">
     
     <title>vytalLink - Connect Your Health Data with AI</title>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
     <link rel="stylesheet" href="/styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
@@ -39,14 +40,14 @@
                 <a href="/"><span>vytalLink</span></a>
             </div>
             <div class="nav-menu">
-                <a href="#features" class="nav-link home-only desktop-only">How it Works</a>
+                <a href="#features" class="nav-link home-only desktop-only">How to Use</a>
                 <a href="#demo" class="nav-link home-only desktop-only">Demo</a>
                 <a href="#integrations" class="nav-link home-only desktop-only">AI Integrations</a>
 
                 <!-- Unified mobile menu -->
                 <a href="/" class="nav-link mobile-only"><i class="fas fa-house"></i> Home</a>
-                <a href="/chatgpt-setup.html" class="nav-link mobile-only"><i class="fas fa-comments"></i> ChatGPT Setup</a>
-                <a href="/claude-bundle-setup.html" class="nav-link mobile-only"><i class="fas fa-plug"></i> Claude Bundle</a>
+                <a href="/chatgpt-setup.html" class="nav-link mobile-only"><span class="brand-mark brand-mark--chatgpt" aria-hidden="true"></span> ChatGPT Setup</a>
+                <a href="/claude-bundle-setup.html" class="nav-link mobile-only"><span class="brand-mark brand-mark--claude" aria-hidden="true"></span> Claude Bundle</a>
                 <a href="/mcp-setup.html" class="nav-link mobile-only"><i class="fas fa-server"></i> MCP Advanced</a>
                 <a href="/faq.html" class="nav-link mobile-only"><i class="fas fa-circle-question"></i> FAQ</a>
                 <a href="/about.html" class="nav-link mobile-only"><i class="fas fa-circle-info"></i> About</a>
@@ -77,14 +78,14 @@
         <div class="hero-container">
             <div class="hero-content">
                 <h1 class="hero-title">
-                    Ask ChatGPT about your health data
+                    Let <span class="gradient-text">ChatGPT</span> turn your wearable health stats into clear next steps
                 </h1>
                 <p class="hero-description">
-                    vytalLink connects your fitness tracker to AI assistants so you can ask questions about your sleep, workouts, and steps.
+                    <strong>vytalLink</strong> connects your fitness tracker to AI assistants so you can ask questions about your sleep, workouts, and steps.
                     You control what gets shared.
                 </p>
                 <p class="hero-description" style="font-size: 0.9rem; opacity: 0.85;">
-                    You chat in ChatGPT or Claude; keep the app open while you chat.
+                    You chat from your desktop in ChatGPT or Claude—keep the mobile app open so the link keeps streaming.
                 </p>
                 <div class="hero-buttons">
                     <a href="https://apps.apple.com/app/vytallink" class="btn btn-primary btn-large" target="_blank">
@@ -98,17 +99,21 @@
                 </div>
                 <div class="hero-stats">
                     <div class="stat">
-                        <span class="stat-number">🔒</span>
+                        <span class="stat-number"><span class="brand-mark brand-mark--watch" aria-hidden="true"></span></span>
+                        <span class="stat-label">Wearables</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number"><i class="fas fa-lock"></i></span>
                         <span class="stat-label">100% Secure</span>
                     </div>
-                    <div class="stat">
-                        <span class="stat-number">📱</span>
-                        <span class="stat-label">Mobile First</span>
-                    </div>
-                    <div class="stat">
-                        <span class="stat-number">🤖</span>
-                        <span class="stat-label">Works with AI</span>
-                    </div>
+                    <a class="stat" href="https://chatgpt.com/g/g-68c2fb58447c8191b5af624f6b33bdd6-vytallink" target="_blank" rel="noopener">
+                        <span class="stat-number"><span class="brand-mark brand-mark--chatgpt" aria-hidden="true"></span></span>
+                        <span class="stat-label">ChatGPT</span>
+                    </a>
+                    <a class="stat" href="https://claude.ai/download" target="_blank" rel="noopener">
+                        <span class="stat-number"><span class="brand-mark brand-mark--claude" aria-hidden="true"></span></span>
+                        <span class="stat-label">Claude Desktop</span>
+                    </a>
                 </div>
             </div>
             <div class="hero-visual">
@@ -162,8 +167,8 @@
     <section id="features" class="features">
         <div class="container">
             <div class="section-header">
-                <h2>How it works</h2>
-                <p>Three simple steps to connect your health data with AI</p>
+                <h2>How to use vytalLink</h2>
+                <p>Three quick steps and you’re chatting with your health data</p>
             </div>
             
             <!-- Step-by-step process -->
@@ -171,21 +176,11 @@
                 <div class="step-card">
                     <div class="step-icon">
                         <span class="step-number">1</span>
-                        <h3>Get Word + PIN</h3>
+                        <h3>Get Word + PIN in the app</h3>
                     </div>
                     <div class="step-info">
-                        <p>Open the app and tap "Get Word + PIN" to get your connection details. You choose what to share each time. Keep the app open while you chat.</p>
+                        <p>Open the app and tap "Get Word + PIN" to grab your connection codes. Need it first? <a href="#" class="download-inline-link" onclick="openDownloadModal()">Download the app from the store.</a> Keep the app open while you chat.</p>
                         <div class="combined-features">
-                            <div class="download-buttons">
-                                <a href="https://apps.apple.com/app/vytallink" target="_blank" class="download-btn">
-                                    <i class="fab fa-apple"></i>
-                                    <span>App Store</span>
-                                </a>
-                                <a href="https://play.google.com/store/apps/details?id=com.vytallink" target="_blank" class="download-btn">
-                                    <i class="fab fa-google-play"></i>
-                                    <span>Google Play</span>
-                                </a>
-                            </div>
                             <div class="health-platforms">
                                 <p class="platforms-intro">Automatically syncs with:</p>
                                 <div class="platforms-list">
@@ -198,7 +193,7 @@
                                         Google Fit
                                     </span>
                                     <span class="platform-tag">
-                                        <i class="fas fa-watch"></i>
+                                        <span class="brand-mark brand-mark--watch" aria-hidden="true"></span>
                                         Wearables
                                     </span>
                                 </div>
@@ -213,25 +208,20 @@
                         <h3>Open ChatGPT or Claude on desktop</h3>
                     </div>
                     <div class="step-info">
-                        <p>Easiest way: search for "vytalLink" in ChatGPT's GPTs. Or use the Claude Desktop Bundle or MCP setup for Cursor/VS Code.</p>
+                        <p>Fastest path: search "vytalLink" inside ChatGPT GPTs and connect. Prefer Claude or desktop workflows? Check the other guides below.</p>
                         <div class="connection-options">
                             <a class="connection-item full-width" href="/chatgpt-setup.html">
-                                <div class="connection-badge most-popular">Most Popular</div>
-                                <i class="fas fa-robot"></i>
+                                <span class="brand-mark brand-mark--chatgpt brand-mark--lg" aria-hidden="true"></span>
                                 <span>ChatGPT GPTs</span>
-                                <small>Use our custom GPT</small>
+                                <small>Fastest and most popular path</small>
                             </a>
-                            <a class="connection-item" href="/claude-bundle-setup.html">
-                                <div class="connection-badge popular">Popular</div>
-                                <i class="fas fa-plug"></i>
-                                <span>Claude Desktop</span>
-                                <small>One-click desktop install</small>
+                            <a class="connection-item icon-left" href="/claude-bundle-setup.html">
+                                <span class="brand-mark brand-mark--claude brand-mark--lg" aria-hidden="true"></span>
+                                <span class="connection-label">Claude Desktop</span>
                             </a>
-                            <a class="connection-item" href="/mcp-setup.html">
-                                <div class="connection-badge advanced">Advanced</div>
+                            <a class="connection-item icon-left" href="/mcp-setup.html">
                                 <i class="fas fa-server"></i>
-                                <span>MCP Advanced</span>
-                                <small>npm & custom MCP clients</small>
+                                <span class="connection-label">MCP Advanced</span>
                             </a>
                         </div>
                     </div>
@@ -240,20 +230,25 @@
                 <div class="step-card">
                     <div class="step-icon">
                         <span class="step-number">3</span>
-                        <h3>Paste Word + PIN and start asking</h3>
+                        <h3>Start asking for insights</h3>
                     </div>
                     <div class="step-info">
                         <p>When your AI asks for credentials, paste your Word + PIN from the app. Then ask questions about your health trends and get clear answers.</p>
                         <div class="example-questions">
-                            <div class="question-bubble">How has my sleep quality changed this month?</div>
-                            <div class="question-bubble">Show me my heart rate during workouts</div>
-                            <div class="question-bubble">What's the correlation between my steps and sleep?</div>
+                            <div class="question-chip">How has my sleep quality changed this month?</div>
+                            <div class="question-chip">Show me my heart rate during workouts.</div>
+                            <div class="question-chip">What's the correlation between my steps and sleep?</div>
                         </div>
                     </div>
                 </div>
             </div>
 
             <!-- Key Features Grid -->
+            <div class="section-subheader">
+                <h3>Why people love vytalLink</h3>
+                <p>Stay in control of your health data while getting clear, practical answers in seconds.</p>
+            </div>
+
             <div class="features-grid">
                 <div class="feature-card">
                     <div class="feature-icon">
@@ -334,7 +329,7 @@
                             Download Now
                         </a>
                         <a href="https://chatgpt.com/gpts" class="btn btn-secondary" target="_blank">
-                            <i class="fas fa-robot"></i>
+                            <span class="brand-mark brand-mark--chatgpt brand-mark--lg" aria-hidden="true"></span>
                             Try with ChatGPT
                         </a>
                     </div>
@@ -364,7 +359,7 @@
             <div class="integrations-grid">
                 <div class="integration-card featured">
                     <div class="integration-header">
-                        <i class="fas fa-robot"></i>
+                        <span class="brand-mark brand-mark--chatgpt brand-mark--xl" aria-hidden="true"></span>
                         <h3>ChatGPT</h3>
                         <span class="integration-badge">Most Popular</span>
                     </div>
@@ -382,7 +377,7 @@
                 
                 <div class="integration-card">
                     <div class="integration-header">
-                        <i class="fas fa-brain"></i>
+                        <span class="brand-mark brand-mark--claude brand-mark--xl" aria-hidden="true"></span>
                         <h3>Claude Desktop Bundle</h3>
                         <span class="integration-badge">Popular</span>
                     </div>
@@ -393,7 +388,7 @@
                             <span>3. Connect & Chat</span>
                         </div>
                     <a href="/claude-bundle-setup.html" class="btn btn-secondary">
-                        <i class="fas fa-plug"></i>
+                        <i class="fas fa-cog"></i>
                         Setup Guide
                     </a>
                 </div>
@@ -441,7 +436,7 @@
                 <div class="footer-section">
                     <h4>Product</h4>
                     <ul>
-                        <li><a href="#features">How it Works</a></li>
+                        <li><a href="#features">How to Use</a></li>
                         <li><a href="#integrations">AI Integrations</a></li>
                         <li><a href="#demo">Demo Video</a></li>
                     </ul>

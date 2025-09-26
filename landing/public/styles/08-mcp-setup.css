@@ -40,6 +40,11 @@
 .client-badge i {
     color: var(--primary-color);
 }
+.client-badge .brand-mark {
+    width: 20px;
+    height: 20px;
+    background-color: var(--primary-color);
+}
 
 .prerequisites {
     padding: 4rem 0;
@@ -127,6 +132,7 @@
     gap: 1rem;
     margin-bottom: 3rem;
 }
+.client-tabs .brand-mark { width: 18px; height: 18px; }
 
 /* Client tab content visibility */
 .client-content { display: none; }
@@ -156,6 +162,13 @@
     color: var(--white);
     border-color: transparent;
 }
+
+/* Brand icons in tabs: black (default), violet on hover, white when active */
+.client-tabs .tab-btn .brand-mark { width: 18px; height: 18px; background-color: var(--text-dark); }
+.client-tabs .tab-btn:hover .brand-mark { background-color: var(--primary-color); }
+.client-tabs .tab-btn.active .brand-mark { background-color: #ffffff; }
+
+/* Full-color images: emulate states via filters */
 
 .setup-steps {
     display: grid;

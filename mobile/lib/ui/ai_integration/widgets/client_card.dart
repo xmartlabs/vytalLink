@@ -9,6 +9,7 @@ class ClientCard extends StatelessWidget {
   final Color color;
   final VoidCallback? onTap;
   final bool showLinkIcon;
+  final Widget? leadingIcon;
 
   const ClientCard({
     required this.icon,
@@ -17,6 +18,7 @@ class ClientCard extends StatelessWidget {
     required this.color,
     this.onTap,
     this.showLinkIcon = true,
+    this.leadingIcon,
     super.key,
   });
 
@@ -42,23 +44,7 @@ class ClientCard extends StatelessWidget {
                   color: color.withValues(alpha: 0.15),
                   borderRadius: BorderRadius.circular(8),
                 ),
-                child: Center(
-                  child: icon == FontAwesomeIcons.code ||
-                          icon == FontAwesomeIcons.laptopCode
-                      ? Transform.translate(
-                          offset: const Offset(-2, 0),
-                          child: Icon(
-                            icon,
-                            color: color,
-                            size: 22,
-                          ),
-                        )
-                      : Icon(
-                          icon,
-                          color: color,
-                          size: 22,
-                        ),
-                ),
+                child: Center(child: _buildLeadingIcon()),
               ),
               const SizedBox(width: 16),
               Expanded(
@@ -91,4 +77,15 @@ class ClientCard extends StatelessWidget {
           ),
         ),
       );
+
+  Widget _buildLeadingIcon() {
+    if (leadingIcon != null) return leadingIcon!;
+
+    final isCodeIcon =
+        icon == FontAwesomeIcons.code || icon == FontAwesomeIcons.laptopCode;
+    final base = Icon(icon, color: color, size: 22);
+    return isCodeIcon
+        ? Transform.translate(offset: const Offset(-2, 0), child: base)
+        : base;
+  }
 }

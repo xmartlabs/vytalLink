@@ -6,15 +6,50 @@ import 'package:flutter_template/ui/widgets/bold_tag_text.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class HomeValuePropHeader extends StatelessWidget {
-  const HomeValuePropHeader({super.key});
+  final VoidCallback? onDismiss;
+
+  const HomeValuePropHeader({this.onDismiss, super.key});
 
   @override
   Widget build(BuildContext context) {
-    final theme = context.theme;
-    final localizations = context.localizations;
-    final colorScheme = theme.colorScheme;
+    const card = _ValuePropContainer(
+      child: _ValuePropContent(),
+    );
+    if (onDismiss == null) {
+      return card;
+    }
 
+    return Stack(
+      children: [
+        card,
+        Positioned.fill(
+          child: Align(
+            alignment: Alignment.topRight,
+            child: IconButton(
+              icon: const Icon(Icons.close_rounded, size: 18),
+              padding: const EdgeInsets.all(8),
+              constraints: const BoxConstraints(minWidth: 36, minHeight: 36),
+              splashRadius: 18,
+              tooltip: MaterialLocalizations.of(context).closeButtonTooltip,
+              onPressed: onDismiss,
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class _ValuePropContainer extends StatelessWidget {
+  final Widget child;
+
+  const _ValuePropContainer({required this.child});
+
+  @override
+  Widget build(BuildContext context) {
+    final colorScheme = context.theme.colorScheme;
     return Container(
+      padding: const EdgeInsets.all(24),
       decoration: BoxDecoration(
         gradient: LinearGradient(
           begin: Alignment.topLeft,
@@ -37,50 +72,84 @@ class HomeValuePropHeader extends StatelessWidget {
           ),
         ],
       ),
-      padding: const EdgeInsets.all(24),
-      child: Column(
+      child: child,
+    );
+  }
+}
+
+class _ValuePropContent extends StatelessWidget {
+  const _ValuePropContent();
+
+  @override
+  Widget build(BuildContext context) => const Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            localizations.home_value_prop_title,
-            style: theme.textTheme.headlineSmall?.copyWith(
-              fontWeight: FontWeight.w700,
-              color: colorScheme.onSurface,
-              height: 1.2,
-            ),
+          _ValuePropHeaderSection(),
+          SizedBox(height: 20),
+          _ValuePropPoints(),
+        ],
+      );
+}
+
+class _ValuePropHeaderSection extends StatelessWidget {
+  const _ValuePropHeaderSection();
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = context.theme;
+    final colorScheme = theme.colorScheme;
+    final localizations = context.localizations;
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          localizations.home_value_prop_title,
+          style: theme.textTheme.headlineSmall?.copyWith(
+            fontWeight: FontWeight.w700,
+            color: colorScheme.onSurface,
+            height: 1.2,
           ),
+        ),
+        const SizedBox(height: 12),
+        Text(
+          localizations.home_value_prop_subtitle,
+          style: theme.textTheme.bodyMedium?.copyWith(
+            color: colorScheme.onSurfaceVariant,
+            height: 1.5,
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class _ValuePropPoints extends StatelessWidget {
+  const _ValuePropPoints();
+
+  @override
+  Widget build(BuildContext context) {
+    final localizations = context.localizations;
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        _ValuePropLine(
+          icon: FontAwesomeIcons.desktop,
+          text: localizations.home_value_prop_point_1,
+        ),
+        const SizedBox(height: 12),
+        _ValuePropLine(
+          icon: FontAwesomeIcons.key,
+          text: localizations.home_value_prop_point_2,
+        ),
+        if (Config.requireForegroundSession) ...[
           const SizedBox(height: 12),
-          Text(
-            localizations.home_value_prop_subtitle,
-            style: theme.textTheme.bodyMedium?.copyWith(
-              color: colorScheme.onSurfaceVariant,
-              height: 1.5,
-            ),
-          ),
-          const SizedBox(height: 20),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              _ValuePropLine(
-                icon: FontAwesomeIcons.desktop,
-                text: localizations.home_value_prop_point_1,
-              ),
-              const SizedBox(height: 12),
-              _ValuePropLine(
-                icon: FontAwesomeIcons.key,
-                text: localizations.home_value_prop_point_2,
-              ),
-              if (Config.requireForegroundSession) ...[
-                const SizedBox(height: 12),
-                _ValuePropLine(
-                  icon: FontAwesomeIcons.clock,
-                  text: localizations.home_value_prop_point_3,
-                ),
-              ],
-            ],
+          _ValuePropLine(
+            icon: FontAwesomeIcons.clock,
+            text: localizations.home_value_prop_point_3,
           ),
         ],
-      ),
+      ],
     );
   }
 }

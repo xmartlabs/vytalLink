@@ -79,6 +79,7 @@ This document outlines the coding standards and best practices for the vytalLink
 - Provide a `Key` for stateful widgets and list items that need stable identity.
 - Avoid wrapping widgets with unnecessary `Container` instances; rely on `Padding`, `SizedBox`, or decoration widgets as appropriate.
 - Sort widget constructor arguments so `child`/`children` come last to match Flutter conventions.
+- Prefer dedicated `Widget` classes over private helper methods that return widgets (e.g., avoid `_buildTitle()` returning a widget). Stateless widgets are cheaper to diff and keep rebuild semantics predictable.
 
 ### Asynchronous Code
 - Avoid `async` methods that return `void`; use `Future<void>` unless implementing callbacks.

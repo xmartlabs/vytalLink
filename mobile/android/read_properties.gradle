@@ -1,4 +1,4 @@
-final def PROPERTY_FILE = file(rootProject.file('secrets/keys.properties'))
+final def PROPERTY_FILE = file(rootProject.file('../secrets/keys.properties'))
 final def PROPERTIES = new Properties()
 if (PROPERTY_FILE.exists()) {
     PROPERTY_FILE.withInputStream { PROPERTIES.load(it) }

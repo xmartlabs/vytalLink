@@ -36,8 +36,12 @@ class _HomeContentScreenState extends State<_HomeContentScreen>
     with TickerProviderStateMixin {
   static const _showHealthPermissionsAlertKey = 'showHealthPermissionsAlert';
 
+  final ScrollController _scrollController = ScrollController();
+  final GlobalKey _serverCardKey = GlobalKey();
+
   late AnimationController _pulseController;
   late Animation<double> _pulseAnimation;
+  bool _showValuePropHeader = true;
 
   Future<bool?> _showHealthConnectRequiredAlert() => showDialog<bool>(
         context: context,
@@ -89,6 +93,7 @@ class _HomeContentScreenState extends State<_HomeContentScreen>
   @override
   void dispose() {
     _pulseController.dispose();
+    _scrollController.dispose();
     super.dispose();
   }
 
@@ -98,6 +103,7 @@ class _HomeContentScreenState extends State<_HomeContentScreen>
             previous.connectionWord != current.connectionWord,
         listener: (context, state) {
           if (state.connectionWord.isNotEmpty) {
+            _scrollToServerCard();
             ScaffoldMessenger.of(context)
               ..hideCurrentSnackBar()
               ..showSnackBar(
@@ -145,13 +151,31 @@ class _HomeContentScreenState extends State<_HomeContentScreen>
           ),
           body: SafeArea(
             child: SingleChildScrollView(
+              controller: _scrollController,
               padding: const EdgeInsets.all(24),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  const HomeValuePropHeader(),
-                  const SizedBox(height: 16),
+                  AnimatedSwitcher(
+                    duration: const Duration(milliseconds: 250),
+                    transitionBuilder: (child, animation) => FadeTransition(
+                      opacity: animation,
+                      child: SizeTransition(
+                        sizeFactor: animation,
+                        axisAlignment: -1,
+                        child: child,
+                      ),
+                    ),
+                    child: _showValuePropHeader
+                        ? HomeValuePropHeader(
+                            key: const ValueKey('home-hero'),
+                            onDismiss: _dismissValuePropHeader,
+                          )
+                        : const SizedBox.shrink(),
+                  ),
+                  SizedBox(height: _showValuePropHeader ? 16 : 4),
                   AnimatedServerCard(
+                    key: _serverCardKey,
                     status: state.status,
                     errorMessage: state.errorMessage,
                     pulseAnimation: _pulseAnimation,
@@ -197,5 +221,25 @@ class _HomeContentScreenState extends State<_HomeContentScreen>
     if (startServer) {
       await OnceService.markDone(_showHealthPermissionsAlertKey);
     }
+  }
+
+  void _dismissValuePropHeader() {
+    setState(() {
+      _showValuePropHeader = false;
+    });
+  }
+
+  void _scrollToServerCard() {
+    if (!_showValuePropHeader) return;
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final context = _serverCardKey.currentContext;
+      if (context == null) return;
+      Scrollable.ensureVisible(
+        context,
+        duration: const Duration(milliseconds: 400),
+        curve: Curves.easeInOut,
+        alignment: 0,
+      );
+    });
   }
 }

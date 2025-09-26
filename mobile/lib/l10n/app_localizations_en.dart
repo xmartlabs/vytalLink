@@ -334,14 +334,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get health_permissions_dialog_title => 'Health Data Access Required';
 
   @override
-  String get home_banner_bridge_active =>
-      'Connection Active — keep the app open while you chat.';
+  String get home_banner_bridge_active => 'Connection active';
 
   @override
-  String get home_button_chatgpt => 'Chat with ChatGPT';
-
-  @override
-  String get home_button_claude => 'Chat with Claude';
+  String get home_button_start_chat => 'Start chatting';
 
   @override
   String get home_button_start_server => 'Get Word + PIN';
@@ -378,7 +374,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get home_description_running =>
-      'Open ChatGPT or Claude on your computer and paste your Word + PIN.';
+      'Open ChatGPT or Claude on desktop and paste your Word + PIN.';
 
   @override
   String get home_description_starting =>
@@ -389,24 +385,17 @@ class AppLocalizationsEn extends AppLocalizations {
       'Shutting down server and closing connections...';
 
   @override
-  String get home_dialog_chatgpt_body =>
-      'You\'re all set! Open ChatGPT on your computer, find the vytalLink GPT, paste your Word + PIN, and start asking questions.';
-
-  @override
-  String get home_dialog_chatgpt_title => 'Chat with ChatGPT';
-
-  @override
   String get home_dialog_chatgpt_view_guide => 'View ChatGPT instructions';
 
   @override
-  String get home_dialog_claude_body =>
-      'You\'re all set! Download the Claude Desktop bundle (or set up the npm server if you\'re technical), paste your Word + PIN, and start asking questions.';
-
-  @override
-  String get home_dialog_claude_title => 'Chat with Claude';
-
-  @override
   String get home_dialog_claude_view_guide => 'View Claude instructions';
+
+  @override
+  String get home_dialog_start_chat_body =>
+      'Bridge ready. On desktop, open ChatGPT, go to your GPTs, search for vytalLink, paste your Word + PIN, and start asking. Prefer Claude? Open Claude Desktop or any MCP client, drop in the same Word + PIN, and keep chatting.';
+
+  @override
+  String get home_dialog_start_chat_title => 'Bridge ready';
 
   @override
   String home_endpoint_label(String endpoint) {
@@ -419,7 +408,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get home_helper_keep_open_reason =>
-      'Close the app and your AI can\'t get new data.';
+      'Close or minimize the app and your AI can\'t get new data.';
 
   @override
   String get home_link_faq => 'FAQ';
@@ -428,7 +417,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get home_link_where_do_i_chat => 'ChatGPT setup guide';
 
   @override
-  String get home_note_keep_open => 'Keep the app open while you chat.';
+  String get home_note_keep_open =>
+      'Keep the app open while you chat on desktop.';
 
   @override
   String get home_online_status => 'ONLINE';
@@ -442,7 +432,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get home_status_error => 'Connection Error';
 
   @override
-  String get home_status_offline => 'Ready to Connect';
+  String get home_status_offline => 'Grab your Word + PIN to get started';
 
   @override
   String get home_status_running => 'Bridge Active';
@@ -655,45 +645,44 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get onboarding_ai_integration_description =>
-      'Tap \'Get Word + PIN\' to get your connection details. In <b>ChatGPT</b>, search for \'vytalLink\' and start chatting; or use the <b>Claude</b> bundle. <b>Keep the app open</b> while you chat. You control what gets shared and can disconnect anytime.';
+      'Tap <b>Get Word + PIN</b> before you start, open ChatGPT or Claude on desktop, paste the codes, keep the app running, and stay in control of what’s shared.';
 
   @override
   String get onboarding_ai_integration_feature_1 =>
-      'Tap \'Get Word + PIN\' → Word + PIN';
+      'Word + PIN is unique every session';
 
   @override
   String get onboarding_ai_integration_feature_2 =>
-      'Open ChatGPT or your MCP client';
+      'ChatGPT, Claude, or any MCP client is ready';
 
   @override
   String get onboarding_ai_integration_feature_3 =>
-      'Keep the app open; you control sharing';
+      'Keep the app open to share, close it to stop';
 
   @override
-  String get onboarding_ai_integration_subtitle =>
-      'Next step: open your AI assistant';
+  String get onboarding_ai_integration_subtitle => '';
 
   @override
   String get onboarding_ai_integration_title => 'Start Chatting Now';
 
   @override
   String get onboarding_ask_questions_description =>
-      'Get clear answers about your health data: compare sleep and workouts, track steps and heart rate. Try asking:';
+      'Ask about your habits, surface the patterns, and turn them into next steps. Try questions like these.';
 
   @override
   String get onboarding_ask_questions_feature_1 =>
-      'Analyze my sleep last month vs. the previous one. Any recommendations?';
+      '\"How did my sleep change last month compared with the one before?\"';
 
   @override
   String get onboarding_ask_questions_feature_2 =>
-      'Chart my heart rate over the last month and highlight trends.';
+      '\"Chart my heart rate for the past month and call out any trends.\"';
 
   @override
   String get onboarding_ask_questions_feature_3 =>
-      'How did deep sleep change on strength days vs. cardio?';
+      '\"What happened to deep sleep on strength days versus cardio days?\"';
 
   @override
-  String get onboarding_ask_questions_subtitle => 'Compare what matters';
+  String get onboarding_ask_questions_subtitle => '';
 
   @override
   String get onboarding_ask_questions_title => 'Ask About Your Trends';
@@ -703,46 +692,45 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get onboarding_health_monitoring_description =>
-      'Your watch or fitness tracker syncs to your phone. VytalLink reads that data - sleep, workouts, steps, heart rate - and shares it with your AI assistant when you ask.';
+      'When your watch, ring, or tracker syncs to your phone, vytalLink pulls that data (sleep, workouts, steps, heart rate) into your chat whenever you ask.';
 
   @override
   String get onboarding_health_monitoring_feature_1 =>
-      'Works with mainstream wearables';
+      'Works with the wearables you already use';
 
   @override
   String get onboarding_health_monitoring_feature_2 =>
-      'Sleep, workouts, steps, heart rate';
+      'Sleep, workouts, steps, and heart rate arrive together';
 
   @override
   String get onboarding_health_monitoring_feature_3 =>
-      'Advanced vitals when available';
+      'Advanced vitals flow through when your device supports them';
 
   @override
-  String get onboarding_health_monitoring_subtitle =>
-      'Watches, rings, and trackers that sync to your phone';
+  String get onboarding_health_monitoring_subtitle => '';
 
   @override
-  String get onboarding_health_monitoring_title => 'From Your Wearables';
+  String get onboarding_health_monitoring_title =>
+      'Your Wearable Data, Ready for Chat';
 
   @override
   String get onboarding_how_it_works_description =>
-      'Tap \'Get Word + PIN\' to get your connection details and choose what to share. You chat in your AI assistant (not in this app). <b>Keep the app open</b> while you chat.';
+      'Open vytalLink, tap <b>Get Word + PIN</b>, paste those codes when your AI asks, and keep the app open while you chat. Close it whenever you want to stop sharing.';
 
   @override
   String get onboarding_how_it_works_feature_1 =>
-      'Start in ChatGPT (zero setup)';
+      'Fast start in ChatGPT with zero setup';
 
   @override
   String get onboarding_how_it_works_feature_2 =>
-      'Claude Desktop Bundle (MCPB)';
+      'Claude Desktop bundle handles your desktop';
 
   @override
   String get onboarding_how_it_works_feature_3 =>
-      'MCP setup (for developers) works with Claude, Cursor, VS Code';
+      'MCP setup covers Claude, Cursor, and VS Code';
 
   @override
-  String get onboarding_how_it_works_subtitle =>
-      'Start in ChatGPT; desktop via Claude Bundle or MCP';
+  String get onboarding_how_it_works_subtitle => '';
 
   @override
   String get onboarding_how_it_works_title => 'Connect Once, Chat Anywhere';
@@ -758,22 +746,21 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get onboarding_welcome_description =>
-      'Connect your phone\'s health data once, then ask <b>ChatGPT</b> or <b>Claude</b> on your computer about your sleep, workouts, steps, and trends. Get clear answers in seconds.';
+      'Link your phone’s health data once and let <b>ChatGPT</b> or <b>Claude</b> answer questions about your sleep, workouts, steps, and trends. No dashboards, just clear answers.';
 
   @override
-  String get onboarding_welcome_feature_1 =>
-      'Quick answers, no confusing dashboards';
+  String get onboarding_welcome_feature_1 => 'Quick answers without dashboards';
 
   @override
   String get onboarding_welcome_feature_2 =>
       'Compare sleep, workouts, and steps in seconds';
 
   @override
-  String get onboarding_welcome_feature_3 => 'Connect in one step: Word + PIN';
+  String get onboarding_welcome_feature_3 =>
+      'Connect in one step with Word + PIN';
 
   @override
-  String get onboarding_welcome_subtitle =>
-      'Ask your AI assistant, no dashboards';
+  String get onboarding_welcome_subtitle => '';
 
   @override
   String get onboarding_welcome_title => 'Make Your Wearable Data Make Sense';

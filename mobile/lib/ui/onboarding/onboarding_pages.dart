@@ -1,4 +1,6 @@
+import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_template/gen/assets.gen.dart';
 import 'package:flutter_template/ui/extensions/context_extensions.dart';
 import 'package:flutter_template/ui/onboarding/onboarding_screen.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -42,6 +44,18 @@ extension OnboardingPageTypeExtension on OnboardingPageType {
   OnboardingPage _buildHealthMonitoringPage(BuildContext context) =>
       OnboardingPage(
         icon: FontAwesomeIcons.stopwatch,
+        iconWidget: Padding(
+          padding:
+              EdgeInsets.all(MediaQuery.of(context).size.width < 400 ? 20 : 30),
+          child: Assets.icons.watchVariant.svg(
+            width: 32,
+            height: 32,
+            colorFilter: ColorFilter.mode(
+              context.theme.colorScheme.primary,
+              BlendMode.srcIn,
+            ),
+          ),
+        ),
         title: context.localizations.onboarding_health_monitoring_title,
         subtitle: context.localizations.onboarding_health_monitoring_subtitle,
         description:

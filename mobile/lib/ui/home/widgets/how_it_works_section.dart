@@ -6,6 +6,7 @@ import 'package:flutter_template/ui/extensions/context_extensions.dart';
 import 'package:flutter_template/ui/widgets/bold_tag_text.dart';
 import 'package:flutter_template/ui/router/app_router.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:flutter_template/gen/assets.gen.dart';
 
 class HowItWorksSection extends StatelessWidget {
   final VoidCallback onViewGuide;
@@ -51,6 +52,14 @@ class HowItWorksSection extends StatelessWidget {
           const SizedBox(height: 12),
           _ChecklistItem(
             icon: FontAwesomeIcons.comments,
+            leading: Assets.icons.chatgpt.svg(
+              width: 14,
+              height: 14,
+              colorFilter: ColorFilter.mode(
+                colorScheme.primary,
+                BlendMode.srcIn,
+              ),
+            ),
             text: localizations.home_checklist_step_2,
             theme: theme,
           ),
@@ -158,11 +167,13 @@ class _ChecklistItem extends StatelessWidget {
   final IconData icon;
   final String text;
   final ThemeData theme;
+  final Widget? leading;
 
   const _ChecklistItem({
     required this.icon,
     required this.text,
     required this.theme,
+    this.leading,
   });
 
   @override
@@ -177,11 +188,12 @@ class _ChecklistItem extends StatelessWidget {
               borderRadius: BorderRadius.circular(10),
             ),
             child: Center(
-              child: Icon(
-                icon,
-                size: 14,
-                color: theme.colorScheme.primary,
-              ),
+              child: leading ??
+                  Icon(
+                    icon,
+                    size: 14,
+                    color: theme.colorScheme.primary,
+                  ),
             ),
           ),
           const SizedBox(width: 12),
