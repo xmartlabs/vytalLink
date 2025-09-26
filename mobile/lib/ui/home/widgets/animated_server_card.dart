@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_template/ui/extensions/context_extensions.dart';
 import 'package:flutter_template/ui/home/home_cubit.dart';
+import 'package:flutter_template/ui/home/widgets/keep_app_open_notice.dart';
 import 'package:flutter_template/ui/home/widgets/server_action_button_widget.dart';
 import 'package:flutter_template/ui/router/app_router.dart';
 
@@ -81,7 +82,7 @@ class AnimatedServerCard extends StatelessWidget {
                       Text(
                         _getServerStatusTitle(context, status),
                         style: TextStyle(
-                          fontSize: 18,
+                          fontSize: 20,
                           fontWeight: FontWeight.w700,
                           color: context.theme.customColors.textColor!
                               .getShade(400),
@@ -141,59 +142,7 @@ class AnimatedServerCard extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 20),
-            if (status == McpServerStatus.running)
-              Container(
-                width: double.infinity,
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 16,
-                  vertical: 12,
-                ),
-                decoration: BoxDecoration(
-                  color: context.theme.customColors.warning!
-                      .withValues(alpha: 0.12),
-                  borderRadius: BorderRadius.circular(12),
-                  border: Border.all(
-                    color: context.theme.customColors.warning!
-                        .withValues(alpha: 0.3),
-                  ),
-                ),
-                child: Row(
-                  children: [
-                    Icon(
-                      Icons.warning_amber_rounded,
-                      size: 18,
-                      color: context.theme.customColors.warning,
-                    ),
-                    const SizedBox(width: 12),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            context.localizations.home_banner_bridge_active,
-                            style: TextStyle(
-                              color: context.theme.customColors.textColor!
-                                  .getShade(400),
-                              fontWeight: FontWeight.normal,
-                              height: 1.3,
-                            ),
-                          ),
-                          const SizedBox(height: 2),
-                          Text(
-                            context.localizations.home_note_keep_open,
-                            style: TextStyle(
-                              color: context.theme.customColors.textColor!
-                                  .getShade(400),
-                              fontWeight: FontWeight.w700,
-                              height: 1.3,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
+            if (status == McpServerStatus.running) const KeepAppOpenNotice(),
             if (status == McpServerStatus.running) const SizedBox(height: 16),
             AnimatedCrossFade(
               duration: const Duration(milliseconds: 200),

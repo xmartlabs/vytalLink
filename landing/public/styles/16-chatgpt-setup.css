@@ -11,10 +11,8 @@
     box-shadow: var(--shadow-lg);
 }
 
-.chatgpt-hero-icon i {
-    font-size: 3rem;
-    color: var(--white);
-}
+.chatgpt-hero-icon i { display: none; }
+.chatgpt-hero-icon .brand-mark { width: 48px; height: 48px; background-color: #ffffff; }
 
 .hero-badge {
     display: inline-flex;

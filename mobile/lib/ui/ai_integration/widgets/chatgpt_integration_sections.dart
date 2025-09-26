@@ -1,5 +1,4 @@
 import 'package:design_system/design_system.dart';
-import 'package:design_system/extensions/color_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_template/core/common/config.dart';
 import 'package:flutter_template/ui/ai_integration/widgets/expandable_section.dart';
@@ -8,6 +7,8 @@ import 'package:flutter_template/ui/extensions/context_extensions.dart';
 import 'package:flutter_template/ui/helpers/url_launcher_helper.dart';
 import 'package:flutter_template/ui/widgets/bold_tag_text.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:flutter_template/gen/assets.gen.dart';
+import 'package:design_system/extensions/color_extensions.dart';
 
 class WhatIsChatGptSection extends StatelessWidget {
   const WhatIsChatGptSection({super.key});
@@ -130,10 +131,13 @@ class ChatGptIntegrationHeroSection extends StatelessWidget {
                 borderRadius: BorderRadius.circular(16),
               ),
               child: Center(
-                child: Icon(
-                  FontAwesomeIcons.comments,
-                  color: context.theme.customColors.textColor!.getShade(100),
-                  size: 36,
+                child: Assets.icons.chatgpt.svg(
+                  width: 36,
+                  height: 36,
+                  colorFilter: ColorFilter.mode(
+                    context.theme.customColors.textColor!.getShade(100),
+                    BlendMode.srcIn,
+                  ),
                 ),
               ),
             ),
@@ -222,7 +226,11 @@ class ChatGptUseButtonSection extends StatelessWidget {
       width: double.infinity,
       child: ElevatedButton.icon(
         onPressed: () => UrlLauncherHelper.launch(Config.gptIntegrationUrl),
-        icon: const Icon(FontAwesomeIcons.comments, size: 20),
+        icon: Assets.icons.chatgpt.svg(
+          width: 20,
+          height: 20,
+          colorFilter: const ColorFilter.mode(Colors.white, BlendMode.srcIn),
+        ),
         label: Text(
           context.localizations.chatgpt_start_button,
           style: const TextStyle(

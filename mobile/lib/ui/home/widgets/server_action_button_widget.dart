@@ -1,9 +1,10 @@
 import 'package:design_system/design_system.dart';
-import 'package:design_system/extensions/color_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_template/gen/assets.gen.dart';
 import 'package:flutter_template/ui/extensions/context_extensions.dart';
 import 'package:flutter_template/ui/home/home_cubit.dart';
+import 'package:flutter_template/ui/home/widgets/keep_app_open_notice.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class ServerActionButtonWidget extends StatelessWidget {
@@ -183,21 +184,9 @@ class _RunningButtons extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           ElevatedButton.icon(
-            onPressed: () {
-              if (onChatGptPressed == null) return;
-              _showChatDialog(
-                context,
-                (
-                  title: context.localizations.home_dialog_chatgpt_title,
-                  message: context.localizations.home_dialog_chatgpt_body,
-                  actionLabel:
-                      context.localizations.home_dialog_chatgpt_view_guide,
-                  onAction: () => onChatGptPressed?.call(),
-                ),
-              );
-            },
-            icon: const Icon(FontAwesomeIcons.comments, size: 16),
-            label: Text(context.localizations.home_button_chatgpt),
+            onPressed: () => _showStartChatDialog(context),
+            icon: const Icon(FontAwesomeIcons.commentDots, size: 16),
+            label: Text(context.localizations.home_button_start_chat),
             style: ElevatedButton.styleFrom(
               backgroundColor: context.theme.colorScheme.primary,
               foregroundColor: Colors.white,
@@ -211,110 +200,114 @@ class _RunningButtons extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 12),
-          OutlinedButton.icon(
-            onPressed: () {
-              if (onClaudePressed == null) return;
-              _showChatDialog(
-                context,
-                (
-                  title: context.localizations.home_dialog_claude_title,
-                  message: context.localizations.home_dialog_claude_body,
-                  actionLabel:
-                      context.localizations.home_dialog_claude_view_guide,
-                  onAction: () => onClaudePressed?.call(),
-                ),
-              );
-            },
-            icon: const Icon(FontAwesomeIcons.cloud, size: 16),
-            label: Text(context.localizations.home_button_claude),
-            style: OutlinedButton.styleFrom(
-              foregroundColor: context.theme.customColors.info,
-              side: BorderSide(
-                color: context.theme.customColors.info!,
-                width: 1.5,
-              ),
-              padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(16),
-              ),
-            ),
-          ),
-          const SizedBox(height: 12),
           const _StopButton(),
         ],
       );
 
-  void _showChatDialog(BuildContext context, _ActionDialogSpec spec) {
+  void _showStartChatDialog(BuildContext context) {
     showDialog<void>(
       context: context,
       builder: (dialogContext) => AppDialog(
-        title: spec.title,
-        content: spec.message,
-        contentWidget: _buildKeepOpenNotice(context),
-        cancelButtonText: context.localizations.error_button_ok,
-        actionButtonText: spec.actionLabel,
-        onActionPressed: () {
-          Navigator.of(dialogContext).pop();
-          Future.microtask(spec.onAction);
-        },
+        title: context.localizations.home_dialog_start_chat_title,
+        content: context.localizations.home_dialog_start_chat_body,
+        contentWidget: _buildDialogContent(dialogContext),
+        showCloseIcon: true,
+        onClosePressed: () => Navigator.of(dialogContext).pop(),
       ),
     );
   }
 
-  Widget _buildKeepOpenNotice(BuildContext context) {
-    final theme = context.theme;
-    return Container(
-      width: double.infinity,
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
-      decoration: BoxDecoration(
-        color: theme.customColors.warning!.withValues(alpha: 0.12),
-        borderRadius: BorderRadius.circular(10),
-        border: Border.all(
-          color: theme.customColors.warning!.withValues(alpha: 0.3),
-        ),
-      ),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
+  Widget _buildDialogContent(BuildContext dialogContext) => Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Icon(
-            Icons.warning_amber_rounded,
-            color: theme.customColors.warning,
-            size: 18,
-          ),
-          const SizedBox(width: 8),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  context.localizations.home_note_keep_open,
-                  style: theme.textTheme.bodyMedium?.copyWith(
-                    fontWeight: FontWeight.w700,
-                    color: theme.customColors.textColor!.getShade(400),
-                  ),
-                ),
-                const SizedBox(height: 2),
-                Text(
-                  context.localizations.home_helper_keep_open_reason,
-                  style: theme.textTheme.bodySmall?.copyWith(
-                    color: theme.customColors.textColor!.getShade(300),
-                  ),
-                ),
-              ],
+          const KeepAppOpenNotice(),
+          const SizedBox(height: 20),
+          _buildChatGptButton(dialogContext),
+          const SizedBox(height: 14),
+          _buildClaudeButton(dialogContext),
+        ],
+      );
+
+  void _handleInstructionTap(
+    BuildContext dialogContext,
+    VoidCallback? action,
+  ) {
+    Navigator.of(dialogContext).pop();
+    if (action == null) return;
+    Future.microtask(action);
+  }
+
+  TextStyle? _dialogButtonTextStyle(BuildContext context) =>
+      context.theme.textTheme.labelLarge?.copyWith(
+        fontWeight: FontWeight.w600,
+        fontSize: 14,
+      );
+
+  Widget _buildChatGptButton(BuildContext dialogContext) => SizedBox(
+        width: double.infinity,
+        child: ElevatedButton.icon(
+          onPressed: onChatGptPressed != null
+              ? () => _handleInstructionTap(dialogContext, onChatGptPressed)
+              : null,
+          icon: Assets.icons.chatgpt.svg(
+            width: 16,
+            height: 16,
+            colorFilter: const ColorFilter.mode(
+              Colors.white,
+              BlendMode.srcIn,
             ),
           ),
-        ],
-      ),
-    );
-  }
-}
+          label: Text(
+            dialogContext.localizations.home_dialog_chatgpt_view_guide,
+          ),
+          style: ElevatedButton.styleFrom(
+            backgroundColor: dialogContext.theme.colorScheme.primary,
+            foregroundColor: Colors.white,
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(16),
+            ),
+            elevation: 4,
+            shadowColor:
+                dialogContext.theme.colorScheme.primary.withValues(alpha: 0.3),
+            textStyle: _dialogButtonTextStyle(dialogContext),
+          ),
+        ),
+      );
 
-typedef _ActionDialogSpec = ({
-  String title,
-  String message,
-  String actionLabel,
-  VoidCallback onAction,
-});
+  Widget _buildClaudeButton(BuildContext dialogContext) => SizedBox(
+        width: double.infinity,
+        child: OutlinedButton.icon(
+          onPressed: onClaudePressed != null
+              ? () => _handleInstructionTap(dialogContext, onClaudePressed)
+              : null,
+          icon: Assets.icons.claude.svg(
+            width: 16,
+            height: 16,
+            colorFilter: ColorFilter.mode(
+              dialogContext.theme.customColors.info!,
+              BlendMode.srcIn,
+            ),
+          ),
+          label: Text(
+            dialogContext.localizations.home_dialog_claude_view_guide,
+          ),
+          style: OutlinedButton.styleFrom(
+            foregroundColor: dialogContext.theme.customColors.info,
+            side: BorderSide(
+              color: dialogContext.theme.customColors.info!,
+              width: 1.5,
+            ),
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(16),
+            ),
+            textStyle: _dialogButtonTextStyle(dialogContext),
+          ),
+        ),
+      );
+}
 
 class _StartButton extends StatelessWidget {
   final VoidCallback? onPressed;
@@ -354,20 +347,23 @@ class _StopButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) => SizedBox(
         width: double.infinity,
-        child: ElevatedButton.icon(
+        child: OutlinedButton.icon(
           onPressed: () => context.read<HomeCubit>().stopMCPServer(),
           icon: const Icon(FontAwesomeIcons.stop, size: 16),
           label: Text(context.localizations.home_button_stop_server),
-          style: ElevatedButton.styleFrom(
-            backgroundColor: context.theme.customColors.danger,
-            foregroundColor: Colors.white,
-            padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
+          style: OutlinedButton.styleFrom(
+            foregroundColor: context.theme.customColors.danger,
+            side: BorderSide(
+              color: context.theme.customColors.danger!,
+              width: 1.5,
+            ),
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(16),
             ),
-            elevation: 4,
-            shadowColor:
-                context.theme.customColors.danger!.withValues(alpha: 0.3),
+            textStyle: context.theme.textTheme.labelLarge?.copyWith(
+              fontWeight: FontWeight.w600,
+            ),
           ),
         ),
       );

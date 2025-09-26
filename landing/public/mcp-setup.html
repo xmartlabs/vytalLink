@@ -8,6 +8,7 @@
     <meta name="author" content="Xmartlabs">
     
     <title>MCP Setup Guide - vytalLink</title>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
     <link rel="stylesheet" href="/styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
@@ -32,8 +33,8 @@
 
                 <!-- Unified mobile menu -->
                 <a href="/" class="nav-link mobile-only"><i class="fas fa-house"></i> Home</a>
-                <a href="/chatgpt-setup.html" class="nav-link mobile-only"><i class="fas fa-comments"></i> ChatGPT Setup</a>
-                <a href="/claude-bundle-setup.html" class="nav-link mobile-only"><i class="fas fa-plug"></i> Claude Bundle</a>
+                <a href="/chatgpt-setup.html" class="nav-link mobile-only"><span class="brand-mark brand-mark--chatgpt" aria-hidden="true"></span> ChatGPT Setup</a>
+                <a href="/claude-bundle-setup.html" class="nav-link mobile-only"><span class="brand-mark brand-mark--claude" aria-hidden="true"></span> Claude Bundle</a>
                 <a href="/mcp-setup.html" class="nav-link mobile-only"><i class="fas fa-server"></i> MCP Advanced</a>
                 <a href="/faq.html" class="nav-link mobile-only"><i class="fas fa-circle-question"></i> FAQ</a>
                 <a href="/about.html" class="nav-link mobile-only"><i class="fas fa-circle-info"></i> About</a>
@@ -68,15 +69,15 @@
                 <p>Connect vytalLink to any MCP client in a few minutes</p>
                 <div class="supported-clients">
                     <div class="client-badge">
-                        <i class="fas fa-brain"></i>
+                        <span class="brand-mark brand-mark--claude" aria-hidden="true"></span>
                         <span>Claude Desktop</span>
                     </div>
                     <div class="client-badge">
-                        <i class="fas fa-code"></i>
+                        <span class="brand-mark brand-mark--cursor" aria-hidden="true"></span>
                         <span>Cursor</span>
                     </div>
                     <div class="client-badge">
-                        <i class="fas fa-laptop-code"></i>
+                        <span class="brand-mark brand-mark--vscode" aria-hidden="true"></span>
                         <span>VS Code</span>
                     </div>
                     <div class="client-badge">
@@ -134,7 +135,7 @@
                     <p>Any MCP-compatible client like Claude Desktop, Cursor, or VS Code with MCP support.</p>
                     <div class="prereq-links">
                         <a href="https://claude.ai/download" target="_blank">
-                            <i class="fas fa-brain"></i> Claude Desktop
+                            <span class="brand-mark brand-mark--claude" aria-hidden="true"></span> Claude Desktop
                         </a>
                     </div>
                 </div>
@@ -153,15 +154,15 @@
             <!-- Client Tabs -->
             <div class="client-tabs">
                 <button class="tab-btn active" data-client="claude">
-                    <i class="fas fa-brain"></i>
+                    <span class="brand-mark brand-mark--claude" aria-hidden="true"></span>
                     Claude Desktop
                 </button>
                 <button class="tab-btn" data-client="cursor">
-                    <i class="fas fa-code"></i>
+                    <span class="brand-mark brand-mark--cursor" aria-hidden="true"></span>
                     Cursor
                 </button>
                 <button class="tab-btn" data-client="vscode">
-                    <i class="fas fa-laptop-code"></i>
+                    <span class="brand-mark brand-mark--vscode" aria-hidden="true"></span>
                     VS Code
                 </button>
                 <button class="tab-btn" data-client="other">

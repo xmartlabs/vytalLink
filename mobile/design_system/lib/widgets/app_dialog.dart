@@ -11,6 +11,8 @@ class AppDialog extends StatelessWidget {
   final VoidCallback? onActionPressed;
   final String? cancelButtonText;
   final VoidCallback? onCancelPressed;
+  final bool showCloseIcon;
+  final VoidCallback? onClosePressed;
 
   const AppDialog({
     required this.title,
@@ -20,6 +22,8 @@ class AppDialog extends StatelessWidget {
     this.actionButtonText,
     this.onActionPressed,
     this.onCancelPressed,
+    this.showCloseIcon = false,
+    this.onClosePressed,
     super.key,
   });
 
@@ -37,9 +41,42 @@ class AppDialog extends StatelessWidget {
       titlePadding: const EdgeInsets.fromLTRB(24, 24, 24, 8),
       contentPadding: const EdgeInsets.fromLTRB(24, 0, 24, 20),
       actionsPadding: const EdgeInsets.fromLTRB(24, 0, 24, 20),
-      title: Text(title, style: titleStyle),
+      title: _buildTitle(context, titleStyle),
       content: _buildContent(contentStyle),
       actions: actions != null ? <Widget>[actions] : null,
+    );
+  }
+
+  Widget _buildTitle(BuildContext context, TextStyle titleStyle) {
+    if (!showCloseIcon) {
+      return Text(title, style: titleStyle);
+    }
+
+    final Color iconColor =
+        context.theme.customColors.textColor?.getShade(200) ??
+            context.theme.colorScheme.onSurfaceVariant;
+
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Expanded(
+          child: Text(
+            title,
+            style: titleStyle,
+          ),
+        ),
+        IconButton(
+          onPressed: onClosePressed ?? () => Navigator.of(context).pop(),
+          icon: Icon(
+            Icons.close_rounded,
+            color: iconColor,
+            size: 20,
+          ),
+          padding: EdgeInsets.zero,
+          splashRadius: 20,
+          constraints: const BoxConstraints.tightFor(width: 32, height: 32),
+        ),
+      ],
     );
   }
 
@@ -74,14 +111,12 @@ class AppDialog extends StatelessWidget {
         children: <Widget>[
           _PrimaryButton(
             label: actionButtonText!,
-            onPressed:
-                onActionPressed ?? () => Navigator.of(context).pop(),
+            onPressed: onActionPressed ?? () => Navigator.of(context).pop(),
           ),
           const SizedBox(height: 12),
           _CancelButton(
             label: cancelButtonText!,
-            onPressed:
-                onCancelPressed ?? () => Navigator.of(context).pop(),
+            onPressed: onCancelPressed ?? () => Navigator.of(context).pop(),
           ),
         ],
       );
@@ -98,8 +133,7 @@ class AppDialog extends StatelessWidget {
       width: double.infinity,
       child: _PrimaryButton(
         label: actionButtonText!,
-        onPressed:
-            onActionPressed ?? () => Navigator.of(context).pop(),
+        onPressed: onActionPressed ?? () => Navigator.of(context).pop(),
       ),
     );
   }
@@ -124,8 +158,8 @@ class _CancelButton extends StatelessWidget {
             label,
             textAlign: TextAlign.center,
             style: context.theme.customTextStyles.buttonMedium.copyWith(
-                  color: context.theme.customColors.textColor!.getShade(300),
-                ),
+              color: context.theme.customColors.textColor!.getShade(300),
+            ),
           ),
         ),
       );
@@ -150,8 +184,8 @@ class _PrimaryButton extends StatelessWidget {
             label,
             textAlign: TextAlign.center,
             style: context.theme.customTextStyles.buttonMedium.copyWith(
-                  color: context.theme.customColors.textColor!.getShade(100),
-                ),
+              color: context.theme.customColors.textColor!.getShade(100),
+            ),
           ),
         ),
       );
