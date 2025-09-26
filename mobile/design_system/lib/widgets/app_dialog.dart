@@ -34,52 +34,32 @@ class AppDialog extends StatelessWidget {
         theme.textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.w600) ??
             const TextStyle(fontWeight: FontWeight.w600, fontSize: 20);
     final TextStyle? contentStyle = theme.textTheme.bodyMedium;
-
-    final Widget? actions = _buildActions(context);
-
-    return AlertDialog(
-      titlePadding: const EdgeInsets.fromLTRB(24, 24, 24, 8),
-      contentPadding: const EdgeInsets.fromLTRB(24, 0, 24, 20),
-      actionsPadding: const EdgeInsets.fromLTRB(24, 0, 24, 20),
-      title: showCloseIcon
-          ? _DialogTitle(
-              title: title,
-              titleStyle: titleStyle,
-              onClosePressed: onClosePressed,
-            )
-          : Text(title, style: titleStyle),
-      content: _buildContent(contentStyle),
-      actions: actions != null ? <Widget>[actions] : null,
-    );
-  }
-
-  Widget? _buildContent(TextStyle? contentStyle) {
-    if (content == null && contentWidget == null) return null;
-    if (content != null && contentWidget == null) {
-      return Text(content!, style: contentStyle);
+    final Widget? contentSection;
+    if (content == null && contentWidget == null) {
+      contentSection = null;
+    } else if (content != null && contentWidget == null) {
+      contentSection = Text(content!, style: contentStyle);
+    } else if (content == null && contentWidget != null) {
+      contentSection = contentWidget;
+    } else {
+      contentSection = Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(content!, style: contentStyle),
+          const SizedBox(height: 12),
+          contentWidget!,
+        ],
+      );
     }
-    if (content == null && contentWidget != null) return contentWidget;
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(content!, style: contentStyle),
-        const SizedBox(height: 12),
-        contentWidget!,
-      ],
-    );
-  }
 
-  Widget? _buildActions(BuildContext context) {
+    final Widget? actionsSection;
     final bool hasCancel = cancelButtonText != null;
     final bool hasAction = actionButtonText != null;
-
     if (!hasCancel && !hasAction) {
-      return null;
-    }
-
-    if (hasCancel && hasAction) {
-      return Column(
+      actionsSection = null;
+    } else if (hasCancel && hasAction) {
+      actionsSection = Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
           _PrimaryButton(
@@ -93,21 +73,34 @@ class AppDialog extends StatelessWidget {
           ),
         ],
       );
-    }
-
-    if (hasCancel) {
-      return _CancelButton(
+    } else if (hasCancel) {
+      actionsSection = _CancelButton(
         label: cancelButtonText!,
         onPressed: onCancelPressed ?? () => Navigator.of(context).pop(),
       );
+    } else {
+      actionsSection = SizedBox(
+        width: double.infinity,
+        child: _PrimaryButton(
+          label: actionButtonText!,
+          onPressed: onActionPressed ?? () => Navigator.of(context).pop(),
+        ),
+      );
     }
 
-    return SizedBox(
-      width: double.infinity,
-      child: _PrimaryButton(
-        label: actionButtonText!,
-        onPressed: onActionPressed ?? () => Navigator.of(context).pop(),
-      ),
+    return AlertDialog(
+      titlePadding: const EdgeInsets.fromLTRB(24, 24, 24, 8),
+      contentPadding: const EdgeInsets.fromLTRB(24, 0, 24, 20),
+      actionsPadding: const EdgeInsets.fromLTRB(24, 0, 24, 20),
+      title: showCloseIcon
+          ? _DialogTitle(
+              title: title,
+              titleStyle: titleStyle,
+              onClosePressed: onClosePressed,
+            )
+          : Text(title, style: titleStyle),
+      content: contentSection,
+      actions: actionsSection != null ? <Widget>[actionsSection] : null,
     );
   }
 }
