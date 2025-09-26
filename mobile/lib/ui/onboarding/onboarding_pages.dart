@@ -45,7 +45,8 @@ extension OnboardingPageTypeExtension on OnboardingPageType {
       OnboardingPage(
         icon: FontAwesomeIcons.stopwatch,
         iconWidget: Padding(
-          padding: const EdgeInsets.all(30),
+          padding:
+              EdgeInsets.all(MediaQuery.of(context).size.width < 400 ? 20 : 30),
           child: Assets.icons.watchVariant.svg(
             width: 32,
             height: 32,

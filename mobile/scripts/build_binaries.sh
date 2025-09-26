@@ -66,14 +66,53 @@ select_export_method() {
 
 build_ios() {
   echo "🍎 Building for iOS with export method: $EXPORT_METHOD..."
-  fvm flutter build ipa --export-method=$EXPORT_METHOD --flavor=$ENV --dart-define=ENV=$ENV
-  echo "📂 iOS build generated at: build/ios/ipa"
+  if fvm flutter build ipa --export-method=$EXPORT_METHOD --flavor=$ENV --dart-define=ENV=$ENV; then
+    echo "📂 iOS build generated at: build/ios/ipa"
+  else
+    echo "❌ iOS build failed."
+    exit 1
+  fi
 }
 
 build_android() {
-  echo "🤖 Building for Android..."
-  fvm flutter build apk --flavor=$ENV --dart-define=ENV=$ENV
-  echo "📂 Android build generated at: build/app/outputs/flutter-apk/app-$ENV-release.apk"
+  local artifact=${ANDROID_ARTIFACT:-apk}
+  echo "🤖 Building for Android ($artifact)..."
+
+  if [ "$artifact" == "apk" ]; then
+    if fvm flutter build apk --flavor=$ENV --dart-define=ENV=$ENV; then
+      echo "📂 Android APK generated at: build/app/outputs/flutter-apk/app-$ENV-release.apk"
+    else
+      echo "❌ Android APK build failed."
+      exit 1
+    fi
+  else
+    if fvm flutter build appbundle --flavor=$ENV --dart-define=ENV=$ENV; then
+      echo "📂 Android App Bundle generated at: build/app/outputs/bundle/$ENV/app-$ENV-release.aab"
+    else
+      echo "❌ Android App Bundle build failed."
+      exit 1
+    fi
+  fi
+}
+
+select_android_artifact() {
+  echo "📦 Select Android artifact:"
+  echo "1) 📱 APK"
+  echo "2) 🧳 App Bundle (.aab)"
+  read -p "Enter your choice (1 or 2): " artifact_choice
+
+  case $artifact_choice in
+    1)
+      ANDROID_ARTIFACT="apk"
+      ;;
+    2)
+      ANDROID_ARTIFACT="appbundle"
+      ;;
+    *)
+      echo "❌ Invalid choice. Exiting."
+      exit 1
+      ;;
+  esac
 }
 
 select_environment
@@ -83,10 +122,12 @@ if [ "$PLATFORM" == "ios" ]; then
   select_export_method
   build_ios
 elif [ "$PLATFORM" == "android" ]; then
+  select_android_artifact
   build_android
 elif [ "$PLATFORM" == "both" ]; then
   select_export_method
   build_ios
+  select_android_artifact
   build_android
 fi
 

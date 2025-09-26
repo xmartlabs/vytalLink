@@ -41,42 +41,15 @@ class AppDialog extends StatelessWidget {
       titlePadding: const EdgeInsets.fromLTRB(24, 24, 24, 8),
       contentPadding: const EdgeInsets.fromLTRB(24, 0, 24, 20),
       actionsPadding: const EdgeInsets.fromLTRB(24, 0, 24, 20),
-      title: _buildTitle(context, titleStyle),
+      title: showCloseIcon
+          ? _DialogTitle(
+              title: title,
+              titleStyle: titleStyle,
+              onClosePressed: onClosePressed,
+            )
+          : Text(title, style: titleStyle),
       content: _buildContent(contentStyle),
       actions: actions != null ? <Widget>[actions] : null,
-    );
-  }
-
-  Widget _buildTitle(BuildContext context, TextStyle titleStyle) {
-    if (!showCloseIcon) {
-      return Text(title, style: titleStyle);
-    }
-
-    final Color iconColor =
-        context.theme.customColors.textColor?.getShade(200) ??
-            context.theme.colorScheme.onSurfaceVariant;
-
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Expanded(
-          child: Text(
-            title,
-            style: titleStyle,
-          ),
-        ),
-        IconButton(
-          onPressed: onClosePressed ?? () => Navigator.of(context).pop(),
-          icon: Icon(
-            Icons.close_rounded,
-            color: iconColor,
-            size: 20,
-          ),
-          padding: EdgeInsets.zero,
-          splashRadius: 20,
-          constraints: const BoxConstraints.tightFor(width: 32, height: 32),
-        ),
-      ],
     );
   }
 
@@ -135,6 +108,48 @@ class AppDialog extends StatelessWidget {
         label: actionButtonText!,
         onPressed: onActionPressed ?? () => Navigator.of(context).pop(),
       ),
+    );
+  }
+}
+
+class _DialogTitle extends StatelessWidget {
+  final String title;
+  final TextStyle titleStyle;
+  final VoidCallback? onClosePressed;
+
+  const _DialogTitle({
+    required this.title,
+    required this.titleStyle,
+    this.onClosePressed,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final Color iconColor =
+        context.theme.customColors.textColor?.getShade(200) ??
+            context.theme.colorScheme.onSurfaceVariant;
+
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Expanded(
+          child: Text(
+            title,
+            style: titleStyle,
+          ),
+        ),
+        IconButton(
+          onPressed: onClosePressed ?? () => Navigator.of(context).pop(),
+          icon: Icon(
+            Icons.close_rounded,
+            color: iconColor,
+            size: 20,
+          ),
+          padding: EdgeInsets.zero,
+          splashRadius: 20,
+          constraints: const BoxConstraints.tightFor(width: 32, height: 32),
+        ),
+      ],
     );
   }
 }

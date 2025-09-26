@@ -183,20 +183,28 @@ class _RunningButtons extends StatelessWidget {
   Widget build(BuildContext context) => Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          ElevatedButton.icon(
-            onPressed: () => _showStartChatDialog(context),
-            icon: const Icon(FontAwesomeIcons.commentDots, size: 16),
-            label: Text(context.localizations.home_button_start_chat),
-            style: ElevatedButton.styleFrom(
-              backgroundColor: context.theme.colorScheme.primary,
-              foregroundColor: Colors.white,
-              padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(16),
+          SizedBox(
+            width: double.infinity,
+            child: ElevatedButton.icon(
+              onPressed: () => _showStartChatDialog(context),
+              icon: const Icon(FontAwesomeIcons.commentDots, size: 16),
+              label: Text(context.localizations.home_button_start_chat),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: context.theme.colorScheme.primary,
+                foregroundColor: Colors.white,
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(16),
+                ),
+                elevation: 4,
+                shadowColor:
+                    context.theme.colorScheme.primary.withValues(alpha: 0.3),
+                textStyle: context.theme.textTheme.labelLarge?.copyWith(
+                  fontWeight: FontWeight.w600,
+                  fontSize: 14,
+                ),
               ),
-              elevation: 4,
-              shadowColor:
-                  context.theme.colorScheme.primary.withValues(alpha: 0.3),
             ),
           ),
           const SizedBox(height: 12),
@@ -210,24 +218,16 @@ class _RunningButtons extends StatelessWidget {
       builder: (dialogContext) => AppDialog(
         title: context.localizations.home_dialog_start_chat_title,
         content: context.localizations.home_dialog_start_chat_body,
-        contentWidget: _buildDialogContent(dialogContext),
+        contentWidget: _StartChatDialogContent(
+          onChatGptPressed: onChatGptPressed,
+          onClaudePressed: onClaudePressed,
+          onInstructionTap: _handleInstructionTap,
+        ),
         showCloseIcon: true,
         onClosePressed: () => Navigator.of(dialogContext).pop(),
       ),
     );
   }
-
-  Widget _buildDialogContent(BuildContext dialogContext) => Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          const KeepAppOpenNotice(),
-          const SizedBox(height: 20),
-          _buildChatGptButton(dialogContext),
-          const SizedBox(height: 14),
-          _buildClaudeButton(dialogContext),
-        ],
-      );
 
   void _handleInstructionTap(
     BuildContext dialogContext,
@@ -237,19 +237,67 @@ class _RunningButtons extends StatelessWidget {
     if (action == null) return;
     Future.microtask(action);
   }
+}
+
+class _StartChatDialogContent extends StatelessWidget {
+  final VoidCallback? onChatGptPressed;
+  final VoidCallback? onClaudePressed;
+  final void Function(BuildContext context, VoidCallback? action)
+      onInstructionTap;
+
+  const _StartChatDialogContent({
+    required this.onChatGptPressed,
+    required this.onClaudePressed,
+    required this.onInstructionTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final textStyle = _dialogButtonTextStyle(context);
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        const KeepAppOpenNotice(),
+        const SizedBox(height: 20),
+        _ChatGptInstructionButton(
+          onPressed: onChatGptPressed != null
+              ? () => onInstructionTap(context, onChatGptPressed)
+              : null,
+          textStyle: textStyle,
+        ),
+        const SizedBox(height: 14),
+        _ClaudeInstructionButton(
+          onPressed: onClaudePressed != null
+              ? () => onInstructionTap(context, onClaudePressed)
+              : null,
+          textStyle: textStyle,
+        ),
+      ],
+    );
+  }
 
   TextStyle? _dialogButtonTextStyle(BuildContext context) =>
       context.theme.textTheme.labelLarge?.copyWith(
         fontWeight: FontWeight.w600,
         fontSize: 14,
       );
+}
 
-  Widget _buildChatGptButton(BuildContext dialogContext) => SizedBox(
+class _ChatGptInstructionButton extends StatelessWidget {
+  final VoidCallback? onPressed;
+  final TextStyle? textStyle;
+
+  const _ChatGptInstructionButton({
+    required this.onPressed,
+    required this.textStyle,
+  });
+
+  @override
+  Widget build(BuildContext context) => SizedBox(
         width: double.infinity,
         child: ElevatedButton.icon(
-          onPressed: onChatGptPressed != null
-              ? () => _handleInstructionTap(dialogContext, onChatGptPressed)
-              : null,
+          onPressed: onPressed,
           icon: Assets.icons.chatgpt.svg(
             width: 16,
             height: 16,
@@ -259,10 +307,10 @@ class _RunningButtons extends StatelessWidget {
             ),
           ),
           label: Text(
-            dialogContext.localizations.home_dialog_chatgpt_view_guide,
+            context.localizations.home_dialog_chatgpt_view_guide,
           ),
           style: ElevatedButton.styleFrom(
-            backgroundColor: dialogContext.theme.colorScheme.primary,
+            backgroundColor: context.theme.colorScheme.primary,
             foregroundColor: Colors.white,
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
             shape: RoundedRectangleBorder(
@@ -270,40 +318,49 @@ class _RunningButtons extends StatelessWidget {
             ),
             elevation: 4,
             shadowColor:
-                dialogContext.theme.colorScheme.primary.withValues(alpha: 0.3),
-            textStyle: _dialogButtonTextStyle(dialogContext),
+                context.theme.colorScheme.primary.withValues(alpha: 0.3),
+            textStyle: textStyle,
           ),
         ),
       );
+}
 
-  Widget _buildClaudeButton(BuildContext dialogContext) => SizedBox(
+class _ClaudeInstructionButton extends StatelessWidget {
+  final VoidCallback? onPressed;
+  final TextStyle? textStyle;
+
+  const _ClaudeInstructionButton({
+    required this.onPressed,
+    required this.textStyle,
+  });
+
+  @override
+  Widget build(BuildContext context) => SizedBox(
         width: double.infinity,
         child: OutlinedButton.icon(
-          onPressed: onClaudePressed != null
-              ? () => _handleInstructionTap(dialogContext, onClaudePressed)
-              : null,
+          onPressed: onPressed,
           icon: Assets.icons.claude.svg(
             width: 16,
             height: 16,
             colorFilter: ColorFilter.mode(
-              dialogContext.theme.customColors.info!,
+              context.theme.customColors.info!,
               BlendMode.srcIn,
             ),
           ),
           label: Text(
-            dialogContext.localizations.home_dialog_claude_view_guide,
+            context.localizations.home_dialog_claude_view_guide,
           ),
           style: OutlinedButton.styleFrom(
-            foregroundColor: dialogContext.theme.customColors.info,
+            foregroundColor: context.theme.customColors.info,
             side: BorderSide(
-              color: dialogContext.theme.customColors.info!,
+              color: context.theme.customColors.info!,
               width: 1.5,
             ),
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(16),
             ),
-            textStyle: _dialogButtonTextStyle(dialogContext),
+            textStyle: textStyle,
           ),
         ),
       );
@@ -334,6 +391,10 @@ class _StartButton extends StatelessWidget {
             elevation: 4,
             shadowColor:
                 context.theme.colorScheme.primary.withValues(alpha: 0.3),
+            textStyle: context.theme.textTheme.labelLarge?.copyWith(
+              fontWeight: FontWeight.w600,
+              fontSize: 14,
+            ),
           ),
         ),
       );
@@ -363,6 +424,7 @@ class _StopButton extends StatelessWidget {
             ),
             textStyle: context.theme.textTheme.labelLarge?.copyWith(
               fontWeight: FontWeight.w600,
+              fontSize: 14,
             ),
           ),
         ),

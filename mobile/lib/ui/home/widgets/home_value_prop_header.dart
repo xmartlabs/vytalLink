@@ -10,18 +10,47 @@ class HomeValuePropHeader extends StatelessWidget {
 
   const HomeValuePropHeader({this.onDismiss, super.key});
 
-  Widget _buildCard(BuildContext context) {
-    final theme = context.theme;
-    final colorScheme = theme.colorScheme;
+  @override
+  Widget build(BuildContext context) {
+    const card = _ValuePropContainer(
+      child: _ValuePropContent(),
+    );
+    if (onDismiss == null) {
+      return card;
+    }
 
-    return Container(
-      decoration: _cardDecoration(colorScheme),
-      padding: const EdgeInsets.all(24),
-      child: _buildBody(context),
+    return Stack(
+      children: [
+        card,
+        Positioned.fill(
+          child: Align(
+            alignment: Alignment.topRight,
+            child: IconButton(
+              icon: const Icon(Icons.close_rounded, size: 18),
+              padding: const EdgeInsets.all(8),
+              constraints: const BoxConstraints(minWidth: 36, minHeight: 36),
+              splashRadius: 18,
+              tooltip: MaterialLocalizations.of(context).closeButtonTooltip,
+              onPressed: onDismiss,
+            ),
+          ),
+        ),
+      ],
     );
   }
+}
 
-  BoxDecoration _cardDecoration(ColorScheme colorScheme) => BoxDecoration(
+class _ValuePropContainer extends StatelessWidget {
+  final Widget child;
+
+  const _ValuePropContainer({required this.child});
+
+  @override
+  Widget build(BuildContext context) {
+    final colorScheme = context.theme.colorScheme;
+    return Container(
+      padding: const EdgeInsets.all(24),
+      decoration: BoxDecoration(
         gradient: LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
@@ -42,18 +71,31 @@ class HomeValuePropHeader extends StatelessWidget {
             offset: const Offset(0, 2),
           ),
         ],
-      );
+      ),
+      child: child,
+    );
+  }
+}
 
-  Widget _buildBody(BuildContext context) => Column(
+class _ValuePropContent extends StatelessWidget {
+  const _ValuePropContent();
+
+  @override
+  Widget build(BuildContext context) => const Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _buildHeaderSection(context),
-          const SizedBox(height: 20),
-          _buildValuePoints(context),
+          _ValuePropHeaderSection(),
+          SizedBox(height: 20),
+          _ValuePropPoints(),
         ],
       );
+}
 
-  Widget _buildHeaderSection(BuildContext context) {
+class _ValuePropHeaderSection extends StatelessWidget {
+  const _ValuePropHeaderSection();
+
+  @override
+  Widget build(BuildContext context) {
     final theme = context.theme;
     final colorScheme = theme.colorScheme;
     final localizations = context.localizations;
@@ -80,8 +122,13 @@ class HomeValuePropHeader extends StatelessWidget {
       ],
     );
   }
+}
 
-  Widget _buildValuePoints(BuildContext context) {
+class _ValuePropPoints extends StatelessWidget {
+  const _ValuePropPoints();
+
+  @override
+  Widget build(BuildContext context) {
     final localizations = context.localizations;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -102,33 +149,6 @@ class HomeValuePropHeader extends StatelessWidget {
             text: localizations.home_value_prop_point_3,
           ),
         ],
-      ],
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final card = _buildCard(context);
-    if (onDismiss == null) {
-      return card;
-    }
-
-    return Stack(
-      children: [
-        card,
-        Positioned.fill(
-          child: Align(
-            alignment: Alignment.topRight,
-            child: IconButton(
-              icon: const Icon(Icons.close_rounded, size: 18),
-              padding: const EdgeInsets.all(8),
-              constraints: const BoxConstraints(minWidth: 36, minHeight: 36),
-              splashRadius: 18,
-              tooltip: MaterialLocalizations.of(context).closeButtonTooltip,
-              onPressed: onDismiss,
-            ),
-          ),
-        ),
       ],
     );
   }
