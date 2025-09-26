@@ -8,7 +8,7 @@ This is the public landing page for vytalLink.
 
 ## Local development
 
-To preview locally:
+To preview changes locally:
 
 ```bash
 firebase serve --only hosting --port 5000
@@ -16,17 +16,17 @@ firebase serve --only hosting --port 5000
 
 Then open [http://localhost:5000](http://localhost:5000) in your browser.
 
-## Styles structure
+## How styles work
 
-The landing styles are now modularized:
+The landing page styles are split into modules:
 
-- Entry point: `public/styles.css` (imports only; order matters)
-- Partials live in `public/styles/` and are grouped by section, e.g. `01-nav.css`, `04-hero.css`, `07-demo-integrations.css`, etc.
-- Edit the partials, not `public/styles.css`. Keep imports order if adding new files.
+- Main file: `public/styles.css` (imports only; order matters)
+- Individual files in `public/styles/` grouped by section, e.g. `01-nav.css`, `04-hero.css`, `07-demo-integrations.css`, etc.
+- Edit the individual files, not `public/styles.css`. Keep import order when adding new files.
 
-### Build a single CSS file (optional)
+### Build one CSS file (optional)
 
-To concatenate all partials into a single `public/styles.css` (no `@import`s):
+To combine all CSS files into a single `public/styles.css` (no `@import`s):
 
 ```bash
 scripts/build-css.sh
@@ -41,10 +41,10 @@ scripts/build-css.sh
 - The “Setup Guides” dropdown is desktop-only. On mobile, these links appear as plain items in the unified list.
 - Mobile menu behavior is handled in `public/script.js` (hamburger toggles an overlay and adds `body.menu-open` to disable background scroll).
 
-### Mobile menu UX
+### Mobile menu design
 
-- Full‑screen overlay, scrolleable content, and sticky “Download App” button at the bottom (respects iOS safe‑area).
-- To adjust spacing or items, edit the `<div class="nav-menu">` blocks and the mobile styles in `public/styles/01-nav.css`.
+- Full-screen overlay with scrollable content and sticky "Download App" button at the bottom (works with iOS safe area).
+- To change spacing or menu items, edit the `<div class="nav-menu">` blocks and mobile styles in `public/styles/01-nav.css`.
 
 ## Deploy
 

@@ -1,6 +1,7 @@
 import 'package:dartx/dartx.dart';
 import 'package:flutter_template/core/model/health_data_point.dart';
 import 'package:flutter_template/core/model/health_data_temporal_behavior.dart';
+import 'package:flutter_template/core/model/statistic_types.dart';
 import 'package:flutter_template/core/model/time_group_by.dart';
 import 'package:flutter_template/model/health_data_unit.dart'
     hide HealthDataUnit;
@@ -12,6 +13,7 @@ typedef _SegmentAggregationContext = ({
   DateTime segmentStart,
   DateTime segmentEnd,
   bool aggregatePerSource,
+  StatisticType statisticType,
 });
 
 typedef HealthAggregationRequest = ({
@@ -20,6 +22,7 @@ typedef HealthAggregationRequest = ({
   DateTime startTime,
   DateTime endTime,
   bool aggregatePerSource,
+  StatisticType statisticType,
 });
 
 class HealthDataAggregator {
@@ -51,6 +54,7 @@ class HealthDataAggregator {
           segmentStart: segmentStart,
           segmentEnd: segmentEnd,
           aggregatePerSource: request.aggregatePerSource,
+          statisticType: request.statisticType,
         ),
         temporalBehavior,
       );
@@ -97,7 +101,11 @@ class HealthDataAggregator {
           pointDate.isBefore(context.segmentEnd);
     }).toList();
 
-    return _aggregateValues(filteredData, context.aggregatePerSource);
+    return _aggregateValues(
+      filteredData,
+      context.aggregatePerSource,
+      context.statisticType,
+    );
   }
 
   Map<_AggregationKey, double> _aggregateCumulativeData(
@@ -138,6 +146,11 @@ class HealthDataAggregator {
           }
         }
       }
+
+      if (context.statisticType == StatisticType.average &&
+          entry.value.isNotEmpty) {
+        totalValue[key] = (totalValue[key] ?? 0.0) / entry.value.length;
+      }
     }
 
     return totalValue;
@@ -161,6 +174,8 @@ class HealthDataAggregator {
 
     for (final entry in dataByKey.entries) {
       final key = entry.key;
+      int dataPointCount = 0;
+
       for (final point in entry.value) {
         final pointStart = DateTime.parse(point.dateFrom);
         final pointEnd = DateTime.parse(point.dateTo);
@@ -177,8 +192,14 @@ class HealthDataAggregator {
                   sessionDuration.inMilliseconds / 2) {
             final pointValue = double.tryParse(point.value.toString()) ?? 0.0;
             totalValue[key] = (totalValue[key] ?? 0.0) + pointValue;
+            dataPointCount++;
           }
         }
+      }
+
+      if (context.statisticType == StatisticType.average &&
+          dataPointCount > 0) {
+        totalValue[key] = (totalValue[key] ?? 0.0) / dataPointCount;
       }
     }
 
@@ -203,6 +224,8 @@ class HealthDataAggregator {
 
     for (final entry in dataByKey.entries) {
       final key = entry.key;
+      int dataPointCount = 0;
+
       for (final point in entry.value) {
         final pointStart = DateTime.parse(point.dateFrom);
         final pointEnd = DateTime.parse(point.dateTo);
@@ -213,7 +236,13 @@ class HealthDataAggregator {
           final sessionDuration = pointEnd.difference(pointStart);
           totalDuration[key] = (totalDuration[key] ?? 0.0) +
               sessionDuration.inMinutes.toDouble();
+          dataPointCount++;
         }
+      }
+
+      if (context.statisticType == StatisticType.average &&
+          dataPointCount > 0) {
+        totalDuration[key] = (totalDuration[key] ?? 0.0) / dataPointCount;
       }
     }
 
@@ -223,6 +252,7 @@ class HealthDataAggregator {
   Map<_AggregationKey, double> _aggregateValues(
     List<AppHealthDataPoint> dataPoints,
     bool aggregatePerSource,
+    StatisticType statisticType,
   ) {
     if (dataPoints.isEmpty) return {};
 
@@ -253,7 +283,7 @@ class HealthDataAggregator {
         }
       }
 
-      if (!_isCumulativeDataType(key.type) && typeDataPoints.isNotEmpty) {
+      if (statisticType == StatisticType.average) {
         result[key] = total / typeDataPoints.length;
       } else {
         result[key] = total;
@@ -261,25 +291,6 @@ class HealthDataAggregator {
     }
 
     return result;
-  }
-
-  bool _isCumulativeDataType(HealthDataType dataType) {
-    const cumulativeTypes = {
-      HealthDataType.STEPS,
-      HealthDataType.DISTANCE_DELTA,
-      HealthDataType.ACTIVE_ENERGY_BURNED,
-      HealthDataType.BASAL_ENERGY_BURNED,
-      HealthDataType.WORKOUT,
-      HealthDataType.WATER,
-      HealthDataType.SLEEP_SESSION,
-      HealthDataType.SLEEP_ASLEEP,
-      HealthDataType.SLEEP_AWAKE,
-      HealthDataType.SLEEP_DEEP,
-      HealthDataType.SLEEP_LIGHT,
-      HealthDataType.SLEEP_REM,
-    };
-
-    return cumulativeTypes.contains(dataType);
   }
 
   List<DateTime> _generateTimeSegments(

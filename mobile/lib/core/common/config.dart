@@ -24,8 +24,21 @@ interface class Config {
   static late String gptIntegrationUrl;
   static late String appDirectoryPath;
   static late String landingUrl;
+  static bool requireForegroundSession = true;
+
+  static String get claudeBundleSetupUri =>
+      '$landingUrl/claude-bundle-setup.html';
 
   static String get setupMcpDocumentationUri => '$landingUrl/mcp-setup.html';
+
+  static String get supportPrivacyUri => '$landingUrl/privacy?embed=1';
+
+  static String get supportTermsUri => '$landingUrl/terms?embed=1';
+
+  static String get supportContactUri => '$landingUrl/contact?embed=1';
+
+  static String get aboutUri => '$landingUrl/about?embed=1';
+
   static String mcpServerName = 'health-data-server';
   static String mcpServerVersion = '1.0.0';
   static String mcpHostFallback = '0.0.0.0';
@@ -49,6 +62,12 @@ interface class Config {
     gptIntegrationUrl =
         _EnvConfig.getEnvVariable(_EnvConfig.ENV_GPT_INTEGRATION_KEY)!;
     landingUrl = _EnvConfig.getEnvVariable(_EnvConfig.ENV_LANDING_URL_KEY)!;
+    final requireForegroundValue =
+        _EnvConfig.getEnvVariable(_EnvConfig.ENV_REQUIRE_FOREGROUND_SESSION);
+    if (requireForegroundValue != null) {
+      requireForegroundSession =
+          requireForegroundValue.toLowerCase().trim() != 'false';
+    }
   }
 }
 
@@ -56,11 +75,14 @@ abstract class _EnvConfig {
   static const ENV_WS_URL = 'WS_URL';
   static const ENV_GPT_INTEGRATION_KEY = 'GPT_URL';
   static const ENV_LANDING_URL_KEY = 'LANDING_URL';
+  static const ENV_REQUIRE_FOREGROUND_SESSION = 'REQUIRE_FOREGROUND_SESSION';
 
   static const systemEnv = {
     ENV_WS_URL: String.fromEnvironment(ENV_WS_URL),
     ENV_GPT_INTEGRATION_KEY: String.fromEnvironment(ENV_GPT_INTEGRATION_KEY),
     ENV_LANDING_URL_KEY: String.fromEnvironment(ENV_LANDING_URL_KEY),
+    ENV_REQUIRE_FOREGROUND_SESSION:
+        String.fromEnvironment(ENV_REQUIRE_FOREGROUND_SESSION),
   };
 
   static final Map<String, String> _envFileEnv = {};
