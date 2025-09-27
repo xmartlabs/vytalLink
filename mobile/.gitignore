@@ -36,3 +36,4 @@ vendor/bundle/
 .fvm/
 
 lib/generated_plugin_registrant.dart
+*.pem

@@ -44,7 +44,13 @@ class ClientCard extends StatelessWidget {
                   color: color.withValues(alpha: 0.15),
                   borderRadius: BorderRadius.circular(8),
                 ),
-                child: Center(child: _buildLeadingIcon()),
+                child: Center(
+                  child: _ClientCardLeadingIcon(
+                    leadingIcon: leadingIcon,
+                    icon: icon,
+                    color: color,
+                  ),
+                ),
               ),
               const SizedBox(width: 16),
               Expanded(
@@ -77,8 +83,21 @@ class ClientCard extends StatelessWidget {
           ),
         ),
       );
+}
 
-  Widget _buildLeadingIcon() {
+class _ClientCardLeadingIcon extends StatelessWidget {
+  final Widget? leadingIcon;
+  final IconData icon;
+  final Color color;
+
+  const _ClientCardLeadingIcon({
+    required this.leadingIcon,
+    required this.icon,
+    required this.color,
+  });
+
+  @override
+  Widget build(BuildContext context) {
     if (leadingIcon != null) return leadingIcon!;
 
     final isCodeIcon =

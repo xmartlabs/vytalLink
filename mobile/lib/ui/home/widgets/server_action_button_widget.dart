@@ -24,42 +24,48 @@ class ServerActionButtonWidget extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) => AnimatedSwitcher(
-        duration: const Duration(milliseconds: 200),
-        switchInCurve: Curves.easeOutCubic,
-        switchOutCurve: Curves.easeInCubic,
-        child: _buildStateContent(context),
-      );
-
-  Widget _buildStateContent(BuildContext context) {
+  Widget build(BuildContext context) {
+    final Widget stateView;
     switch (status) {
       case McpServerStatus.idle:
-        return _StartButton(
+        stateView = _StartButton(
           key: const ValueKey('start'),
           onPressed: onStartPressed,
         );
+        break;
       case McpServerStatus.starting:
-        return _LoadingButton(
+        stateView = _LoadingButton(
           key: const ValueKey('starting'),
           label: context.localizations.home_button_starting,
         );
+        break;
       case McpServerStatus.running:
-        return _RunningButtons(
+        stateView = _RunningButtons(
           key: const ValueKey('running'),
           onChatGptPressed: onChatGptPressed,
           onClaudePressed: onClaudePressed,
         );
+        break;
       case McpServerStatus.stopping:
-        return _LoadingButton(
+        stateView = _LoadingButton(
           key: const ValueKey('stopping'),
           label: context.localizations.home_button_stopping,
         );
+        break;
       case McpServerStatus.error:
-        return _ErrorButton(
+        stateView = _ErrorButton(
           key: const ValueKey('error'),
           errorMessage: errorMessage,
         );
+        break;
     }
+
+    return AnimatedSwitcher(
+      duration: const Duration(milliseconds: 200),
+      switchInCurve: Curves.easeOutCubic,
+      switchOutCurve: Curves.easeInCubic,
+      child: stateView,
+    );
   }
 }
 

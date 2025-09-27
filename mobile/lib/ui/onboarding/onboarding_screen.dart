@@ -40,40 +40,6 @@ class _OnboardingScreenState extends State<_OnboardingContentScreen>
   late Animation<double> _iconAnimation;
   late Animation<double> _fadeAnimation;
 
-  Widget _buildContentColumn(OnboardingState state) {
-    final pages = generateOnboardingPages(context);
-    return Column(
-      children: [
-        OnboardingHeader(onSkip: _finishOnboarding),
-        _OnboardingPageIndicator(
-          pages: pages,
-          currentPage: state.currentPage,
-        ),
-        Expanded(
-          child: PageView.builder(
-            controller: _pageController,
-            onPageChanged: (index) {
-              context.read<OnboardingCubit>().setCurrentPage(index);
-            },
-            itemCount: pages.length,
-            itemBuilder: (context, index) => _OnboardingPageWidget(
-              page: pages[index],
-              iconAnimation: _iconAnimation,
-              fadeAnimation: _fadeAnimation,
-            ),
-          ),
-        ),
-        _OnboardingNavigationSection(
-          currentPage: state.currentPage,
-          pageController: _pageController,
-          pages: pages,
-          finishOnboarding: _finishOnboarding,
-          restartAnimations: _restartAnimations,
-        ),
-      ],
-    );
-  }
-
   @override
   void initState() {
     super.initState();
