@@ -11,3 +11,12 @@ h1, h2, h3, h4 {
     background-clip: text;
 }
 
+/* Subtle brand highlight that doesn't read as a link */
+.brand-chip {
+    display: inline-block;
+    padding: 0.1rem 0.4rem;
+    background: rgba(99, 102, 241, 0.12); /* primary @ ~12% */
+    border-radius: 6px;
+    font-weight: 600;
+    color: var(--text-dark);
+}

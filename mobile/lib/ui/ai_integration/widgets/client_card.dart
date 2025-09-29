@@ -9,6 +9,7 @@ class ClientCard extends StatelessWidget {
   final Color color;
   final VoidCallback? onTap;
   final bool showLinkIcon;
+  final Widget? leadingIcon;
 
   const ClientCard({
     required this.icon,
@@ -17,6 +18,7 @@ class ClientCard extends StatelessWidget {
     required this.color,
     this.onTap,
     this.showLinkIcon = true,
+    this.leadingIcon,
     super.key,
   });
 
@@ -43,21 +45,11 @@ class ClientCard extends StatelessWidget {
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: Center(
-                  child: icon == FontAwesomeIcons.code ||
-                          icon == FontAwesomeIcons.laptopCode
-                      ? Transform.translate(
-                          offset: const Offset(-2, 0),
-                          child: Icon(
-                            icon,
-                            color: color,
-                            size: 22,
-                          ),
-                        )
-                      : Icon(
-                          icon,
-                          color: color,
-                          size: 22,
-                        ),
+                  child: _ClientCardLeadingIcon(
+                    leadingIcon: leadingIcon,
+                    icon: icon,
+                    color: color,
+                  ),
                 ),
               ),
               const SizedBox(width: 16),
@@ -91,4 +83,28 @@ class ClientCard extends StatelessWidget {
           ),
         ),
       );
+}
+
+class _ClientCardLeadingIcon extends StatelessWidget {
+  final Widget? leadingIcon;
+  final IconData icon;
+  final Color color;
+
+  const _ClientCardLeadingIcon({
+    required this.leadingIcon,
+    required this.icon,
+    required this.color,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    if (leadingIcon != null) return leadingIcon!;
+
+    final isCodeIcon =
+        icon == FontAwesomeIcons.code || icon == FontAwesomeIcons.laptopCode;
+    final base = Icon(icon, color: color, size: 22);
+    return isCodeIcon
+        ? Transform.translate(offset: const Offset(-2, 0), child: base)
+        : base;
+  }
 }

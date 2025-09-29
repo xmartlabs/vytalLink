@@ -10,6 +10,7 @@ import 'package:flutter_template/ui/extensions/context_extensions.dart';
 import 'package:flutter_template/ui/helpers/url_launcher_helper.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter_template/ui/widgets/bold_tag_text.dart';
+import 'package:flutter_template/gen/assets.gen.dart';
 
 const String _setupMcpCommand =
     'npm install -g @xmartlabs/vytallink-mcp-server';
@@ -217,6 +218,14 @@ class SupportedClientsSection extends StatelessWidget {
                   description:
                       context.localizations.mcp_claude_desktop_description,
                   color: context.theme.colorScheme.primary,
+                  leadingIcon: Assets.icons.claude.svg(
+                    width: 22,
+                    height: 22,
+                    colorFilter: ColorFilter.mode(
+                      context.theme.colorScheme.primary,
+                      BlendMode.srcIn,
+                    ),
+                  ),
                   onTap: () => UrlLauncherHelper.launch(
                     Config.claudeBundleSetupUri,
                   ),
@@ -455,10 +464,15 @@ class _DevelopmentToolsCard extends StatelessWidget {
                           color: primaryColor.withValues(alpha: 0.1),
                           borderRadius: BorderRadius.circular(8),
                         ),
-                        child: Icon(
-                          FontAwesomeIcons.terminal,
-                          color: primaryColor,
-                          size: 20,
+                        child: Center(
+                          child: Assets.icons.cursor.svg(
+                            width: 20,
+                            height: 20,
+                            colorFilter: ColorFilter.mode(
+                              primaryColor,
+                              BlendMode.srcIn,
+                            ),
+                          ),
                         ),
                       ),
                       title: Text(context.localizations.mcp_cursor_name),
@@ -482,10 +496,15 @@ class _DevelopmentToolsCard extends StatelessWidget {
                           color: primaryColor.withValues(alpha: 0.1),
                           borderRadius: BorderRadius.circular(8),
                         ),
-                        child: Icon(
-                          FontAwesomeIcons.laptopCode,
-                          color: primaryColor,
-                          size: 20,
+                        child: Center(
+                          child: Assets.icons.visualstudiocode.svg(
+                            width: 20,
+                            height: 20,
+                            colorFilter: ColorFilter.mode(
+                              primaryColor,
+                              BlendMode.srcIn,
+                            ),
+                          ),
                         ),
                       ),
                       title: Text(context.localizations.mcp_vscode_name),

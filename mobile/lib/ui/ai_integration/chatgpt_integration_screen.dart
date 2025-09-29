@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_template/ui/ai_integration/widgets/chatgpt_integration_sections.dart';
 import 'package:flutter_template/ui/extensions/context_extensions.dart';
 import 'package:flutter_template/ui/router/app_router.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:flutter_template/gen/assets.gen.dart';
 
 @RoutePage()
 class ChatGptIntegrationScreen extends StatelessWidget {
@@ -22,10 +22,13 @@ class ChatGptIntegrationScreen extends StatelessWidget {
           title: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Icon(
-                FontAwesomeIcons.comments,
-                color: context.theme.colorScheme.onSurface,
-                size: 18,
+              Assets.icons.chatgpt.svg(
+                width: 18,
+                height: 18,
+                colorFilter: ColorFilter.mode(
+                  context.theme.colorScheme.onSurface,
+                  BlendMode.srcIn,
+                ),
               ),
               const SizedBox(width: 8),
               Text(context.localizations.chatgpt_integration_title),

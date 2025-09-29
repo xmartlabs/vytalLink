@@ -1,0 +1,24 @@
+/* Claude Bundle Setup Page Styles */
+.claude-hero-icon {
+  width: 100px;
+  height: 100px;
+  background: var(--gradient);
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 2rem;
+  box-shadow: var(--shadow-lg);
+}
+
+.claude-hero-icon .brand-mark {
+  width: 48px;
+  height: 48px;
+  background-color: #ffffff; /* white glyph on gradient box */
+}
+
+.prereq-icon .brand-mark {
+  width: 28px;
+  height: 28px;
+  background-color: #ffffff; /* ensure visibility over gradient circle */
+}

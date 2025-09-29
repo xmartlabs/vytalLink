@@ -667,20 +667,14 @@ abstract class AppLocalizations {
   /// No description provided for @home_banner_bridge_active.
   ///
   /// In en, this message translates to:
-  /// **'Connection Active — keep the app open while you chat.'**
+  /// **'Connection active'**
   String get home_banner_bridge_active;
 
-  /// No description provided for @home_button_chatgpt.
+  /// No description provided for @home_button_start_chat.
   ///
   /// In en, this message translates to:
-  /// **'Chat with ChatGPT'**
-  String get home_button_chatgpt;
-
-  /// No description provided for @home_button_claude.
-  ///
-  /// In en, this message translates to:
-  /// **'Chat with Claude'**
-  String get home_button_claude;
+  /// **'Start chatting'**
+  String get home_button_start_chat;
 
   /// No description provided for @home_button_start_server.
   ///
@@ -745,7 +739,7 @@ abstract class AppLocalizations {
   /// No description provided for @home_description_running.
   ///
   /// In en, this message translates to:
-  /// **'Open ChatGPT or Claude on your computer and paste your Word + PIN.'**
+  /// **'Open ChatGPT or Claude on desktop and paste your Word + PIN.'**
   String get home_description_running;
 
   /// No description provided for @home_description_starting.
@@ -760,41 +754,29 @@ abstract class AppLocalizations {
   /// **'Shutting down server and closing connections...'**
   String get home_description_stopping;
 
-  /// No description provided for @home_dialog_chatgpt_body.
-  ///
-  /// In en, this message translates to:
-  /// **'You\'re all set! Open ChatGPT on your computer, find the vytalLink GPT, paste your Word + PIN, and start asking questions.'**
-  String get home_dialog_chatgpt_body;
-
-  /// No description provided for @home_dialog_chatgpt_title.
-  ///
-  /// In en, this message translates to:
-  /// **'Chat with ChatGPT'**
-  String get home_dialog_chatgpt_title;
-
   /// No description provided for @home_dialog_chatgpt_view_guide.
   ///
   /// In en, this message translates to:
   /// **'View ChatGPT instructions'**
   String get home_dialog_chatgpt_view_guide;
 
-  /// No description provided for @home_dialog_claude_body.
-  ///
-  /// In en, this message translates to:
-  /// **'You\'re all set! Download the Claude Desktop bundle (or set up the npm server if you\'re technical), paste your Word + PIN, and start asking questions.'**
-  String get home_dialog_claude_body;
-
-  /// No description provided for @home_dialog_claude_title.
-  ///
-  /// In en, this message translates to:
-  /// **'Chat with Claude'**
-  String get home_dialog_claude_title;
-
   /// No description provided for @home_dialog_claude_view_guide.
   ///
   /// In en, this message translates to:
   /// **'View Claude instructions'**
   String get home_dialog_claude_view_guide;
+
+  /// No description provided for @home_dialog_start_chat_body.
+  ///
+  /// In en, this message translates to:
+  /// **'Bridge ready. On desktop, open ChatGPT, go to your GPTs, search for vytalLink, paste your Word + PIN, and start asking. Prefer Claude? Open Claude Desktop or any MCP client, drop in the same Word + PIN, and keep chatting.'**
+  String get home_dialog_start_chat_body;
+
+  /// No description provided for @home_dialog_start_chat_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Bridge ready'**
+  String get home_dialog_start_chat_title;
 
   /// Shows the endpoint
   ///
@@ -811,7 +793,7 @@ abstract class AppLocalizations {
   /// No description provided for @home_helper_keep_open_reason.
   ///
   /// In en, this message translates to:
-  /// **'Close the app and your AI can\'t get new data.'**
+  /// **'Close or minimize the app and your AI can\'t get new data.'**
   String get home_helper_keep_open_reason;
 
   /// No description provided for @home_link_faq.
@@ -829,7 +811,7 @@ abstract class AppLocalizations {
   /// No description provided for @home_note_keep_open.
   ///
   /// In en, this message translates to:
-  /// **'Keep the app open while you chat.'**
+  /// **'Keep the app open while you chat on desktop.'**
   String get home_note_keep_open;
 
   /// No description provided for @home_online_status.
@@ -853,7 +835,7 @@ abstract class AppLocalizations {
   /// No description provided for @home_status_offline.
   ///
   /// In en, this message translates to:
-  /// **'Ready to Connect'**
+  /// **'Grab your Word + PIN to get started'**
   String get home_status_offline;
 
   /// No description provided for @home_status_running.
@@ -1225,31 +1207,31 @@ abstract class AppLocalizations {
   /// No description provided for @onboarding_ai_integration_description.
   ///
   /// In en, this message translates to:
-  /// **'Tap \'Get Word + PIN\' to get your connection details. In <b>ChatGPT</b>, search for \'vytalLink\' and start chatting; or use the <b>Claude</b> bundle. <b>Keep the app open</b> while you chat. You control what gets shared and can disconnect anytime.'**
+  /// **'Tap <b>Get Word + PIN</b> before you start, open ChatGPT or Claude on desktop, paste the codes, keep the app running, and stay in control of what’s shared.'**
   String get onboarding_ai_integration_description;
 
   /// No description provided for @onboarding_ai_integration_feature_1.
   ///
   /// In en, this message translates to:
-  /// **'Tap \'Get Word + PIN\' → Word + PIN'**
+  /// **'Word + PIN is unique every session'**
   String get onboarding_ai_integration_feature_1;
 
   /// No description provided for @onboarding_ai_integration_feature_2.
   ///
   /// In en, this message translates to:
-  /// **'Open ChatGPT or your MCP client'**
+  /// **'ChatGPT, Claude, or any MCP client is ready'**
   String get onboarding_ai_integration_feature_2;
 
   /// No description provided for @onboarding_ai_integration_feature_3.
   ///
   /// In en, this message translates to:
-  /// **'Keep the app open; you control sharing'**
+  /// **'Keep the app open to share, close it to stop'**
   String get onboarding_ai_integration_feature_3;
 
   /// No description provided for @onboarding_ai_integration_subtitle.
   ///
   /// In en, this message translates to:
-  /// **'Next step: open your AI assistant'**
+  /// **''**
   String get onboarding_ai_integration_subtitle;
 
   /// No description provided for @onboarding_ai_integration_title.
@@ -1261,31 +1243,31 @@ abstract class AppLocalizations {
   /// No description provided for @onboarding_ask_questions_description.
   ///
   /// In en, this message translates to:
-  /// **'Get clear answers about your health data: compare sleep and workouts, track steps and heart rate. Try asking:'**
+  /// **'Ask about your habits, surface the patterns, and turn them into next steps. Try questions like these.'**
   String get onboarding_ask_questions_description;
 
   /// No description provided for @onboarding_ask_questions_feature_1.
   ///
   /// In en, this message translates to:
-  /// **'Analyze my sleep last month vs. the previous one. Any recommendations?'**
+  /// **'\"How did my sleep change last month compared with the one before?\"'**
   String get onboarding_ask_questions_feature_1;
 
   /// No description provided for @onboarding_ask_questions_feature_2.
   ///
   /// In en, this message translates to:
-  /// **'Chart my heart rate over the last month and highlight trends.'**
+  /// **'\"Chart my heart rate for the past month and call out any trends.\"'**
   String get onboarding_ask_questions_feature_2;
 
   /// No description provided for @onboarding_ask_questions_feature_3.
   ///
   /// In en, this message translates to:
-  /// **'How did deep sleep change on strength days vs. cardio?'**
+  /// **'\"What happened to deep sleep on strength days versus cardio days?\"'**
   String get onboarding_ask_questions_feature_3;
 
   /// No description provided for @onboarding_ask_questions_subtitle.
   ///
   /// In en, this message translates to:
-  /// **'Compare what matters'**
+  /// **''**
   String get onboarding_ask_questions_subtitle;
 
   /// No description provided for @onboarding_ask_questions_title.
@@ -1303,67 +1285,67 @@ abstract class AppLocalizations {
   /// No description provided for @onboarding_health_monitoring_description.
   ///
   /// In en, this message translates to:
-  /// **'Your watch or fitness tracker syncs to your phone. VytalLink reads that data - sleep, workouts, steps, heart rate - and shares it with your AI assistant when you ask.'**
+  /// **'When your watch, ring, or tracker syncs to your phone, vytalLink pulls that data (sleep, workouts, steps, heart rate) into your chat whenever you ask.'**
   String get onboarding_health_monitoring_description;
 
   /// No description provided for @onboarding_health_monitoring_feature_1.
   ///
   /// In en, this message translates to:
-  /// **'Works with mainstream wearables'**
+  /// **'Works with the wearables you already use'**
   String get onboarding_health_monitoring_feature_1;
 
   /// No description provided for @onboarding_health_monitoring_feature_2.
   ///
   /// In en, this message translates to:
-  /// **'Sleep, workouts, steps, heart rate'**
+  /// **'Sleep, workouts, steps, and heart rate arrive together'**
   String get onboarding_health_monitoring_feature_2;
 
   /// No description provided for @onboarding_health_monitoring_feature_3.
   ///
   /// In en, this message translates to:
-  /// **'Advanced vitals when available'**
+  /// **'Advanced vitals flow through when your device supports them'**
   String get onboarding_health_monitoring_feature_3;
 
   /// No description provided for @onboarding_health_monitoring_subtitle.
   ///
   /// In en, this message translates to:
-  /// **'Watches, rings, and trackers that sync to your phone'**
+  /// **''**
   String get onboarding_health_monitoring_subtitle;
 
   /// No description provided for @onboarding_health_monitoring_title.
   ///
   /// In en, this message translates to:
-  /// **'From Your Wearables'**
+  /// **'Your Wearable Data, Ready for Chat'**
   String get onboarding_health_monitoring_title;
 
   /// No description provided for @onboarding_how_it_works_description.
   ///
   /// In en, this message translates to:
-  /// **'Tap \'Get Word + PIN\' to get your connection details and choose what to share. You chat in your AI assistant (not in this app). <b>Keep the app open</b> while you chat.'**
+  /// **'Open vytalLink, tap <b>Get Word + PIN</b>, paste those codes when your AI asks, and keep the app open while you chat. Close it whenever you want to stop sharing.'**
   String get onboarding_how_it_works_description;
 
   /// No description provided for @onboarding_how_it_works_feature_1.
   ///
   /// In en, this message translates to:
-  /// **'Start in ChatGPT (zero setup)'**
+  /// **'Fast start in ChatGPT with zero setup'**
   String get onboarding_how_it_works_feature_1;
 
   /// No description provided for @onboarding_how_it_works_feature_2.
   ///
   /// In en, this message translates to:
-  /// **'Claude Desktop Bundle (MCPB)'**
+  /// **'Claude Desktop bundle handles your desktop'**
   String get onboarding_how_it_works_feature_2;
 
   /// No description provided for @onboarding_how_it_works_feature_3.
   ///
   /// In en, this message translates to:
-  /// **'MCP setup (for developers) works with Claude, Cursor, VS Code'**
+  /// **'MCP setup covers Claude, Cursor, and VS Code'**
   String get onboarding_how_it_works_feature_3;
 
   /// No description provided for @onboarding_how_it_works_subtitle.
   ///
   /// In en, this message translates to:
-  /// **'Start in ChatGPT; desktop via Claude Bundle or MCP'**
+  /// **''**
   String get onboarding_how_it_works_subtitle;
 
   /// No description provided for @onboarding_how_it_works_title.
@@ -1393,13 +1375,13 @@ abstract class AppLocalizations {
   /// No description provided for @onboarding_welcome_description.
   ///
   /// In en, this message translates to:
-  /// **'Connect your phone\'s health data once, then ask <b>ChatGPT</b> or <b>Claude</b> on your computer about your sleep, workouts, steps, and trends. Get clear answers in seconds.'**
+  /// **'Link your phone’s health data once and let <b>ChatGPT</b> or <b>Claude</b> answer questions about your sleep, workouts, steps, and trends. No dashboards, just clear answers.'**
   String get onboarding_welcome_description;
 
   /// No description provided for @onboarding_welcome_feature_1.
   ///
   /// In en, this message translates to:
-  /// **'Quick answers, no confusing dashboards'**
+  /// **'Quick answers without dashboards'**
   String get onboarding_welcome_feature_1;
 
   /// No description provided for @onboarding_welcome_feature_2.
@@ -1411,13 +1393,13 @@ abstract class AppLocalizations {
   /// No description provided for @onboarding_welcome_feature_3.
   ///
   /// In en, this message translates to:
-  /// **'Connect in one step: Word + PIN'**
+  /// **'Connect in one step with Word + PIN'**
   String get onboarding_welcome_feature_3;
 
   /// No description provided for @onboarding_welcome_subtitle.
   ///
   /// In en, this message translates to:
-  /// **'Ask your AI assistant, no dashboards'**
+  /// **''**
   String get onboarding_welcome_subtitle;
 
   /// No description provided for @onboarding_welcome_title.

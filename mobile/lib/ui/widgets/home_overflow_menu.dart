@@ -6,6 +6,7 @@ import 'package:flutter_template/ui/extensions/context_extensions.dart';
 import 'package:flutter_template/ui/router/app_router.dart';
 import 'package:flutter_template/ui/web/web_page_screen.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:flutter_template/gen/assets.gen.dart';
 
 class HomeOverflowMenu extends StatelessWidget {
   const HomeOverflowMenu({super.key});
@@ -22,16 +23,18 @@ class HomeOverflowMenu extends StatelessWidget {
         );
 
     MenuItemButton item({
-      required IconData icon,
       required String label,
       required VoidCallback onPressed,
+      IconData? icon,
+      Widget? leading,
     }) =>
         MenuItemButton(
-          leadingIcon: Icon(
-            icon,
-            size: 18,
-            color: theme.colorScheme.onSurface,
-          ),
+          leadingIcon: leading ??
+              Icon(
+                icon,
+                size: 18,
+                color: theme.colorScheme.onSurface,
+              ),
           onPressed: onPressed,
           child: Text(label, overflow: TextOverflow.ellipsis),
         );
@@ -55,7 +58,14 @@ class HomeOverflowMenu extends StatelessWidget {
       ),
       menuChildren: [
         item(
-          icon: FontAwesomeIcons.comments,
+          leading: Assets.icons.chatgpt.svg(
+            width: 18,
+            height: 18,
+            colorFilter: ColorFilter.mode(
+              theme.colorScheme.onSurface,
+              BlendMode.srcIn,
+            ),
+          ),
           label: loc.ai_integration_chatgpt,
           onPressed: () => context.navigateTo(const ChatGptIntegrationRoute()),
         ),

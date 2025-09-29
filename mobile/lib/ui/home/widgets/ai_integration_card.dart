@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_template/ui/extensions/context_extensions.dart';
 import 'package:flutter_template/ui/router/app_router.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:flutter_template/gen/assets.gen.dart';
 
 class AiIntegrationCard extends StatelessWidget {
   const AiIntegrationCard({super.key});
@@ -70,6 +71,11 @@ class AiIntegrationCard extends StatelessWidget {
                     subtitle:
                         context.localizations.ai_integration_chatgpt_subtitle,
                     color: context.theme.colorScheme.secondary.getShade(500),
+                    leadingIconBuilder: (color) => Assets.icons.chatgpt.svg(
+                      width: 22,
+                      height: 22,
+                      colorFilter: ColorFilter.mode(color, BlendMode.srcIn),
+                    ),
                     onTap: () =>
                         context.router.push(const ChatGptIntegrationRoute()),
                   ),
@@ -98,6 +104,7 @@ class _IntegrationOption extends StatelessWidget {
   final String subtitle;
   final Color color;
   final VoidCallback onTap;
+  final Widget Function(Color color)? leadingIconBuilder;
 
   const _IntegrationOption({
     required this.icon,
@@ -105,6 +112,7 @@ class _IntegrationOption extends StatelessWidget {
     required this.subtitle,
     required this.color,
     required this.onTap,
+    this.leadingIconBuilder,
     super.key,
   });
 
@@ -131,11 +139,13 @@ class _IntegrationOption extends StatelessWidget {
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: Center(
-                  child: Icon(
-                    icon,
-                    color: color,
-                    size: 22,
-                  ),
+                  child: leadingIconBuilder != null
+                      ? leadingIconBuilder!(color)
+                      : Icon(
+                          icon,
+                          color: color,
+                          size: 22,
+                        ),
                 ),
               ),
               const SizedBox(height: 8),

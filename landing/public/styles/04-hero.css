@@ -21,6 +21,8 @@
     font-size: 3.5rem;
     margin-bottom: 1.5rem;
     line-height: 1.1;
+    /* Balance line breaks in modern browsers to avoid awkward wraps */
+    text-wrap: balance;
 }
 
 .hero-description {
@@ -45,12 +47,25 @@
     text-align: center;
 }
 
+.hero-stats a.stat {
+    text-decoration: none;
+    color: inherit;
+    transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.hero-stats a.stat:hover {
+    transform: translateY(-2px);
+    opacity: 0.9;
+}
+
 .stat-number {
     display: block;
     font-size: 1.25rem;
     font-weight: 600;
     color: var(--primary-color);
 }
+
+/* hero uses .brand-mark base from globals */
 
 .stat-label {
     display: block;
@@ -63,6 +78,20 @@
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+/* Desktop tuning: give more width to copy and slightly reduce font-size
+   so the main headline fits within ~3 lines on common desktop widths */
+@media (min-width: 1024px) {
+    .hero-container {
+        max-width: 1280px; /* a bit wider than default to help line count */
+        grid-template-columns: 1.3fr 0.7fr; /* favor text column */
+        gap: 3rem; /* slightly tighter gap to gain width */
+    }
+    .hero-title {
+        font-size: 3.25rem; /* subtle reduction to reduce wrapping */
+        line-height: 1.08;
+    }
 }
 
 .phone-mockup {
@@ -107,4 +136,3 @@
     font-size: 1.4rem;
     animation: heartbeat 2s ease-in-out infinite;
 }
-

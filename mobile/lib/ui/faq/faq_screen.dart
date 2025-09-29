@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show rootBundle;
+import 'package:flutter_template/gen/assets.gen.dart';
 import 'package:flutter_template/ui/extensions/context_extensions.dart';
 
 @RoutePage()
@@ -9,7 +10,7 @@ class FaqScreen extends StatelessWidget {
   const FaqScreen({super.key});
 
   Future<List<_FaqItem>> _loadFaq() async {
-    final md = await rootBundle.loadString('assets/faq.md');
+    final md = await rootBundle.loadString(Assets.faq);
     return _parseFaqMarkdown(md);
   }
 
