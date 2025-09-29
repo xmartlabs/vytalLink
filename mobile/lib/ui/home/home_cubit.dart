@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_template/core/common/analytics_manager.dart';
 import 'package:flutter_template/core/common/config.dart';
 import 'package:flutter_template/core/health_permission_manager.dart';
 import 'package:flutter_template/core/source/mcp_server.dart';
@@ -125,7 +126,15 @@ class HomeCubit extends Cubit<HomeState> {
       healthPermissionManager.hasAllHealthPermissions();
 
   Future<bool> requestHealthPermissions() =>
-      healthPermissionManager.requestHealthPermissions();
+      _requestHealthPermissionsWithTracking();
+
+  Future<bool> _requestHealthPermissionsWithTracking() async {
+    AnalyticsManager.logHealthPermissionsRequested();
+    final permissionsGranted =
+        await healthPermissionManager.requestHealthPermissions();
+    AnalyticsManager.logHealthPermissionsResult(granted: permissionsGranted);
+    return permissionsGranted;
+  }
 
   Future<bool> isHealthConnectInstallationRequired() async =>
       !await healthPermissionManager.isHealthConnectAvailable();
