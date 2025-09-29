@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:flutter_template/core/common/analytics_manager.dart';
 import 'package:flutter_template/core/common/config.dart';
 import 'package:flutter_template/core/common/logger.dart';
 import 'package:flutter_template/core/model/backend_message.dart';
@@ -101,6 +102,7 @@ class HealthMcpServerService {
       _isConnected = true;
 
       Logger.i('Connected to backend at ${_backendUrl.toString()}');
+      AnalyticsManager.logMcpConnectionStarted();
 
       webSocketChannel.stream.listen(
         (dynamic data) {
@@ -108,17 +110,24 @@ class HealthMcpServerService {
         },
         onError: (dynamic error) {
           Logger.e('WebSocket error: $error');
+          AnalyticsManager.logMcpConnectionError(
+            errorMessage: error.toString(),
+          );
           _onConnectionError?.call(error.toString());
           _isConnected = false;
         },
         onDone: () {
           Logger.w('WebSocket connection closed');
+          AnalyticsManager.logMcpConnectionLost();
           _onConnectionLost?.call();
           _isConnected = false;
         },
       );
     } catch (e) {
       Logger.e('Failed to connect to backend: $e');
+      AnalyticsManager.logMcpConnectionError(
+        errorMessage: e.toString(),
+      );
       _onConnectionError?.call(e.toString());
       throw HealthMcpServerException('Failed to connect to backend', e);
     }
@@ -145,6 +154,7 @@ class HealthMcpServerService {
       switch (message) {
         case HealthDataRequestMessage(:final id, :final payload):
           final request = HealthDataRequest.fromJson(payload);
+          AnalyticsManager.logHealthDataRequest(request);
           final responseData = await handleHealthDataRequest(request);
           final backendResponse = BackendResponse.healthDataResponse(
             id: id,
@@ -182,11 +192,17 @@ class HealthMcpServerService {
     try {
       final response =
           await _healthDataManager.processHealthDataRequest(request);
+      AnalyticsManager.logHealthDataResponse(response);
       return response.toJson();
     } catch (e) {
       final errorResponse = HealthDataErrorResponse(
         success: false,
         errorMessage: 'Error retrieving health data: ${e.toString()}',
+      );
+      AnalyticsManager.logHealthDataError(
+        valueType: request.valueType.name,
+        errorType: e.runtimeType.toString(),
+        errorMessage: e.toString(),
       );
       return errorResponse.toJson();
     }

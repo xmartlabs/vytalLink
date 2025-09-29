@@ -1,8 +1,6 @@
 import 'dart:developer' as developer;
 
-import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter_template/core/common/config.dart';
 import 'package:flutter_template/core/common/crash_report_tool.dart';
 import 'package:flutter_template/firebase_options.dart';
 import 'package:logger/logger.dart' as dart_log;
@@ -22,8 +20,6 @@ interface class Logger {
     await Firebase.initializeApp(
       options: await DefaultFirebaseOptions.currentPlatform,
     );
-    await FirebaseAnalytics.instance
-        .setAnalyticsCollectionEnabled(Config.firebaseCollectEventsEnabled);
     await _crashReportTool.init();
   }
 

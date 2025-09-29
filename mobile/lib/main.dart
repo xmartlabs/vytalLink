@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_template/core/common/analytics_manager.dart';
 import 'package:flutter_template/core/common/config.dart';
 import 'package:flutter_template/core/common/logger.dart';
 import 'package:flutter_template/core/di/di_provider.dart';
@@ -26,6 +27,9 @@ Future main() async {
 Future initSdks() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Logger.init();
+  await AnalyticsManager.setCollectionEnabled(
+    Config.firebaseCollectEventsEnabled,
+  );
   await Config.initialize();
   await Future.wait([
     DiProvider.init(),

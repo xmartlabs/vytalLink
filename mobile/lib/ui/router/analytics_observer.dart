@@ -1,23 +1,23 @@
+import 'dart:async';
+
 import 'package:auto_route/auto_route.dart';
-import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_template/core/common/analytics_manager.dart';
 
 class AnalyticsObserver extends AutoRouterObserver {
   @override
   void didInitTabRoute(TabPageRoute route, TabPageRoute? previousRoute) {
-    FirebaseAnalytics.instance.logScreenView(screenName: route.name);
+    AnalyticsManager.logScreenView(route.name).ignore();
   }
 
   @override
   void didChangeTabRoute(TabPageRoute route, TabPageRoute previousRoute) {
-    FirebaseAnalytics.instance.logScreenView(screenName: route.name);
+    AnalyticsManager.logScreenView(route.name).ignore();
   }
 
   @override
   void didPush(Route<dynamic> route, Route<dynamic>? previousRoute) {
     if (route.settings.name == null) return;
-    FirebaseAnalytics.instance.logScreenView(
-      screenName: route.settings.name ?? 'unknown',
-    );
+    AnalyticsManager.logScreenView(route.settings.name ?? 'unknown').ignore();
   }
 }
