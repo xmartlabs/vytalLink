@@ -4,11 +4,26 @@ import 'package:flutter/material.dart';
 import 'package:flutter_template/ui/ai_integration/widgets/chatgpt_integration_sections.dart';
 import 'package:flutter_template/ui/extensions/context_extensions.dart';
 import 'package:flutter_template/ui/router/app_router.dart';
+import 'package:flutter_template/ui/home/widgets/ai_integration_card.dart';
 import 'package:flutter_template/gen/assets.gen.dart';
 
 @RoutePage()
-class ChatGptIntegrationScreen extends StatelessWidget {
+class ChatGptIntegrationScreen extends StatefulWidget {
   const ChatGptIntegrationScreen({super.key});
+
+  @override
+  State<ChatGptIntegrationScreen> createState() =>
+      _ChatGptIntegrationScreenState();
+}
+
+class _ChatGptIntegrationScreenState extends State<ChatGptIntegrationScreen> {
+  final ScrollController _scrollController = ScrollController();
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) => Scaffold(
@@ -40,28 +55,30 @@ class ChatGptIntegrationScreen extends StatelessWidget {
           shadowColor:
               context.theme.colorScheme.primary.withValues(alpha: 0.08),
         ),
-        body: const SafeArea(
+        body: SafeArea(
           child: SingleChildScrollView(
-            padding: EdgeInsets.all(24),
+            controller: _scrollController,
+            padding: const EdgeInsets.all(24),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                ChatGptIntegrationHeroSection(),
-                SizedBox(height: 12),
-                ChatGptDesktopNoticeSection(),
-                SizedBox(height: 24),
-                WhatIsChatGptSection(),
-                SizedBox(height: 24),
-                HowToSetupSection(),
-                SizedBox(height: 24),
-                ExamplesSection(),
-                SizedBox(height: 32),
-                ChatGptUseButtonSection(),
+                const ChatGptIntegrationHeroSection(),
+                const SizedBox(height: 12),
+                const ChatGptDesktopNoticeSection(),
+                const SizedBox(height: 24),
+                const AiIntegrationCard(),
+                const SizedBox(height: 24),
+                const WhatIsChatGptSection(),
+                const SizedBox(height: 24),
+                const HowToSetupSection(),
+                const SizedBox(height: 24),
+                const ExamplesSection(),
+                const SizedBox(height: 32),
+                const ChatGptUseButtonSection(),
               ],
             ),
           ),
         ),
       );
 
-  void _openFaq(BuildContext context) => context.router.push(const FaqRoute());
 }

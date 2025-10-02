@@ -36,6 +36,11 @@
         "source": "/demo",
         "destination": "/demo.html",
         "type": 301
+      },
+      {
+        "source": "/gpt",
+        "destination": "https://chatgpt.com/g/g-68c2fb58447c8191b5af624f6b33bdd6-vytallink",
+        "type": 302
       }
     ],
     "rewrites": [

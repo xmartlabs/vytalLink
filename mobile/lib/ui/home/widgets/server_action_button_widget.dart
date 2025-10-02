@@ -1,6 +1,6 @@
-import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:design_system/design_system.dart';
 import 'package:flutter_template/gen/assets.gen.dart';
 import 'package:flutter_template/ui/extensions/context_extensions.dart';
 import 'package:flutter_template/ui/home/home_cubit.dart';
@@ -11,15 +11,15 @@ class ServerActionButtonWidget extends StatelessWidget {
   final String errorMessage;
   final McpServerStatus status;
   final VoidCallback? onStartPressed;
-  final VoidCallback? onChatGptPressed;
-  final VoidCallback? onClaudePressed;
+  final VoidCallback? onChatGptQuickAction;
+  final VoidCallback? onChatGptDesktopPressed;
 
   const ServerActionButtonWidget({
     required this.errorMessage,
     required this.status,
     this.onStartPressed,
-    this.onChatGptPressed,
-    this.onClaudePressed,
+    this.onChatGptQuickAction,
+    this.onChatGptDesktopPressed,
     super.key,
   });
 
@@ -42,8 +42,8 @@ class ServerActionButtonWidget extends StatelessWidget {
       case McpServerStatus.running:
         stateView = _RunningButtons(
           key: const ValueKey('running'),
-          onChatGptPressed: onChatGptPressed,
-          onClaudePressed: onClaudePressed,
+          onChatGptQuickAction: onChatGptQuickAction,
+          onChatGptDesktopPressed: onChatGptDesktopPressed,
         );
         break;
       case McpServerStatus.stopping:
@@ -176,12 +176,12 @@ class _LoadingButton extends StatelessWidget {
 }
 
 class _RunningButtons extends StatelessWidget {
-  final VoidCallback? onChatGptPressed;
-  final VoidCallback? onClaudePressed;
+  final VoidCallback? onChatGptQuickAction;
+  final VoidCallback? onChatGptDesktopPressed;
 
   const _RunningButtons({
-    required this.onChatGptPressed,
-    required this.onClaudePressed,
+    required this.onChatGptQuickAction,
+    required this.onChatGptDesktopPressed,
     super.key,
   });
 
@@ -225,8 +225,8 @@ class _RunningButtons extends StatelessWidget {
         title: context.localizations.home_dialog_start_chat_title,
         content: context.localizations.home_dialog_start_chat_body,
         contentWidget: _StartChatDialogContent(
-          onChatGptPressed: onChatGptPressed,
-          onClaudePressed: onClaudePressed,
+          onChatGptQuickAction: onChatGptQuickAction,
+          onChatGptDesktopPressed: onChatGptDesktopPressed,
           onInstructionTap: _handleInstructionTap,
         ),
         showCloseIcon: true,
@@ -246,57 +246,58 @@ class _RunningButtons extends StatelessWidget {
 }
 
 class _StartChatDialogContent extends StatelessWidget {
-  final VoidCallback? onChatGptPressed;
-  final VoidCallback? onClaudePressed;
+  final VoidCallback? onChatGptQuickAction;
+  final VoidCallback? onChatGptDesktopPressed;
   final void Function(BuildContext context, VoidCallback? action)
       onInstructionTap;
 
   const _StartChatDialogContent({
-    required this.onChatGptPressed,
-    required this.onClaudePressed,
+    required this.onChatGptQuickAction,
+    required this.onChatGptDesktopPressed,
     required this.onInstructionTap,
   });
 
   @override
-  Widget build(BuildContext context) {
-    final textStyle = _dialogButtonTextStyle(context);
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        const KeepAppOpenNotice(),
-        const SizedBox(height: 20),
-        _ChatGptInstructionButton(
-          onPressed: onChatGptPressed != null
-              ? () => onInstructionTap(context, onChatGptPressed)
-              : null,
-          textStyle: textStyle,
-        ),
-        const SizedBox(height: 14),
-        _ClaudeInstructionButton(
-          onPressed: onClaudePressed != null
-              ? () => onInstructionTap(context, onClaudePressed)
-              : null,
-          textStyle: textStyle,
-        ),
-      ],
-    );
-  }
-
-  TextStyle? _dialogButtonTextStyle(BuildContext context) =>
-      context.theme.textTheme.labelLarge?.copyWith(
-        fontWeight: FontWeight.w600,
-        fontSize: 14,
+  Widget build(BuildContext context) => Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          const KeepAppOpenNotice(),
+          const SizedBox(height: 16),
+          Text(
+            context.localizations.home_dialog_chatgpt_intro,
+            style: context.theme.textTheme.bodyMedium?.copyWith(
+              color: context.theme.colorScheme.onSurface,
+              height: 1.35,
+            ),
+          ),
+          const SizedBox(height: 12),
+          _DialogBullet(
+            text: context.localizations.home_dialog_chatgpt_mobile_bullet,
+          ),
+          const SizedBox(height: 6),
+          _DialogBullet(
+            text: context.localizations.home_dialog_chatgpt_desktop_bullet,
+          ),
+          const SizedBox(height: 20),
+          _ChatGptMobileButton(
+            onPressed: () =>
+                onInstructionTap(context, onChatGptQuickAction),
+          ),
+          const SizedBox(height: 14),
+          _ChatGptDesktopButton(
+            onPressed: () =>
+                onInstructionTap(context, onChatGptDesktopPressed),
+          ),
+        ],
       );
 }
 
-class _ChatGptInstructionButton extends StatelessWidget {
+class _ChatGptMobileButton extends StatelessWidget {
   final VoidCallback? onPressed;
-  final TextStyle? textStyle;
 
-  const _ChatGptInstructionButton({
+  const _ChatGptMobileButton({
     required this.onPressed,
-    required this.textStyle,
   });
 
   @override
@@ -313,31 +314,33 @@ class _ChatGptInstructionButton extends StatelessWidget {
             ),
           ),
           label: Text(
-            context.localizations.home_dialog_chatgpt_view_guide,
+            context.localizations.home_dialog_chatgpt_mobile_title,
           ),
           style: ElevatedButton.styleFrom(
             backgroundColor: context.theme.colorScheme.primary,
             foregroundColor: Colors.white,
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
+            padding:
+                const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(16),
             ),
             elevation: 4,
             shadowColor:
                 context.theme.colorScheme.primary.withValues(alpha: 0.3),
-            textStyle: textStyle,
+            textStyle: context.theme.textTheme.labelLarge?.copyWith(
+              fontWeight: FontWeight.w600,
+              fontSize: 14,
+            ),
           ),
         ),
       );
 }
 
-class _ClaudeInstructionButton extends StatelessWidget {
+class _ChatGptDesktopButton extends StatelessWidget {
   final VoidCallback? onPressed;
-  final TextStyle? textStyle;
 
-  const _ClaudeInstructionButton({
+  const _ChatGptDesktopButton({
     required this.onPressed,
-    required this.textStyle,
   });
 
   @override
@@ -345,30 +348,59 @@ class _ClaudeInstructionButton extends StatelessWidget {
         width: double.infinity,
         child: OutlinedButton.icon(
           onPressed: onPressed,
-          icon: Assets.icons.claude.svg(
-            width: 16,
-            height: 16,
-            colorFilter: ColorFilter.mode(
-              context.theme.customColors.info!,
-              BlendMode.srcIn,
-            ),
-          ),
+          icon: const Icon(Icons.desktop_windows, size: 18),
           label: Text(
-            context.localizations.home_dialog_claude_view_guide,
+            context.localizations.home_dialog_chatgpt_desktop_title,
           ),
           style: OutlinedButton.styleFrom(
-            foregroundColor: context.theme.customColors.info,
+            foregroundColor: context.theme.colorScheme.primary,
             side: BorderSide(
-              color: context.theme.customColors.info!,
+              color: context.theme.colorScheme.primary.withValues(alpha: 0.6),
               width: 1.5,
             ),
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(16),
             ),
-            textStyle: textStyle,
+            textStyle: context.theme.textTheme.labelLarge?.copyWith(
+              fontWeight: FontWeight.w600,
+              fontSize: 14,
+            ),
           ),
         ),
+      );
+}
+
+class _DialogBullet extends StatelessWidget {
+  final String text;
+
+  const _DialogBullet({
+    required this.text,
+  });
+
+  @override
+  Widget build(BuildContext context) => Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(top: 6),
+            child: Icon(
+              Icons.circle,
+              size: 6,
+              color: context.theme.colorScheme.onSurfaceVariant,
+            ),
+          ),
+          const SizedBox(width: 8),
+          Expanded(
+            child: Text(
+              text,
+              style: context.theme.textTheme.bodySmall?.copyWith(
+                color: context.theme.colorScheme.onSurfaceVariant,
+                height: 1.4,
+              ),
+            ),
+          ),
+        ],
       );
 }
 

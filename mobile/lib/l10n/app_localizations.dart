@@ -724,6 +724,102 @@ abstract class AppLocalizations {
   /// **'How it works'**
   String get home_checklist_title;
 
+  /// No description provided for @home_chatgpt_quick_actions_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Start chatting with ChatGPT'**
+  String get home_chatgpt_quick_actions_title;
+
+  /// No description provided for @home_chatgpt_quick_actions_description.
+  ///
+  /// In en, this message translates to:
+  /// **'Pick how you want to open the vytalLink GPT.'**
+  String get home_chatgpt_quick_actions_description;
+
+  /// No description provided for @home_chatgpt_quick_actions_open_in_app.
+  ///
+  /// In en, this message translates to:
+  /// **'Open in app'**
+  String get home_chatgpt_quick_actions_open_in_app;
+
+  /// No description provided for @home_chatgpt_quick_actions_open_in_browser.
+  ///
+  /// In en, this message translates to:
+  /// **'Open on web'**
+  String get home_chatgpt_quick_actions_open_in_browser;
+
+  /// No description provided for @home_chatgpt_quick_actions_in_app_unavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Keep this screen open and use the web to chat.'**
+  String get home_chatgpt_quick_actions_in_app_unavailable;
+
+  /// No description provided for @home_chatgpt_quick_actions_view_instructions.
+  ///
+  /// In en, this message translates to:
+  /// **'View desktop instructions'**
+  String get home_chatgpt_quick_actions_view_instructions;
+
+  /// No description provided for @home_ai_card_intro.
+  ///
+  /// In en, this message translates to:
+  /// **'Your Word + PIN work anywhere; choose the flow that fits how you want to chat.'**
+  String get home_ai_card_intro;
+
+  /// No description provided for @home_ai_card_guide_header.
+  ///
+  /// In en, this message translates to:
+  /// **'This guide walks you through both paths:'**
+  String get home_ai_card_guide_header;
+
+  /// No description provided for @home_ai_card_blog_gpt.
+  ///
+  /// In en, this message translates to:
+  /// **'For most people, we suggest starting with the VytalLink GPT. You don\'t have to install anything; you get an assistant ready to go right away.'**
+  String get home_ai_card_blog_gpt;
+
+  /// No description provided for @home_ai_card_blog_claude.
+  ///
+  /// In en, this message translates to:
+  /// **'If you want something a little more powerful, Claude Desktop is an excellent choice. It often generates fantastic visualizations and better explanations.'**
+  String get home_ai_card_blog_claude;
+
+  /// No description provided for @home_ai_card_desktop_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Use GPT on desktop'**
+  String get home_ai_card_desktop_title;
+
+  /// No description provided for @home_ai_card_desktop_description.
+  ///
+  /// In en, this message translates to:
+  /// **'Open ChatGPT.com, Claude Desktop, or any MCP client with your Word + PIN for more space, plugins, and richer replies.'**
+  String get home_ai_card_desktop_description;
+
+  /// No description provided for @home_ai_card_desktop_hint.
+  ///
+  /// In en, this message translates to:
+  /// **'Perfect when you need the desktop screen, Claude\'s charts, or pro MCP tooling.'**
+  String get home_ai_card_desktop_hint;
+
+  /// No description provided for @home_ai_card_mobile_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Use GPT on this phone'**
+  String get home_ai_card_mobile_title;
+
+  /// No description provided for @home_ai_card_mobile_description.
+  ///
+  /// In en, this message translates to:
+  /// **'Launch the VytalLink GPT in a Safari View Controller or Chrome Custom Tab so you stay inside the app while you chat.'**
+  String get home_ai_card_mobile_description;
+
+  /// No description provided for @home_ai_card_mobile_hint.
+  ///
+  /// In en, this message translates to:
+  /// **'Ideal for quick follow-ups when you only have your phone.'**
+  String get home_ai_card_mobile_hint;
+
   /// No description provided for @home_description_error.
   ///
   /// In en, this message translates to:
@@ -760,6 +856,48 @@ abstract class AppLocalizations {
   /// **'View ChatGPT instructions'**
   String get home_dialog_chatgpt_view_guide;
 
+  /// No description provided for @home_dialog_chatgpt_mobile_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Open GPT on this phone'**
+  String get home_dialog_chatgpt_mobile_title;
+
+  /// No description provided for @home_dialog_chatgpt_mobile_subtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Launches the VytalLink GPT in Safari View Controller or Chrome Custom Tab so you never leave the app.'**
+  String get home_dialog_chatgpt_mobile_subtitle;
+
+  /// No description provided for @home_dialog_chatgpt_desktop_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Open GPT on desktop'**
+  String get home_dialog_chatgpt_desktop_title;
+
+  /// No description provided for @home_dialog_chatgpt_desktop_subtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Open ChatGPT.com, Claude Desktop, or any MCP client for the full experience.'**
+  String get home_dialog_chatgpt_desktop_subtitle;
+
+  /// No description provided for @home_dialog_chatgpt_intro.
+  ///
+  /// In en, this message translates to:
+  /// **'vytalLink is live and your Word + PIN are ready. Paste them when the GPT asks and pick what fits you best:'**
+  String get home_dialog_chatgpt_intro;
+
+  /// No description provided for @home_dialog_chatgpt_mobile_bullet.
+  ///
+  /// In en, this message translates to:
+  /// **'Open GPT on this phone - launches an in-app Safari/Chrome tab so it\'s the quickest path when you only have your phone.'**
+  String get home_dialog_chatgpt_mobile_bullet;
+
+  /// No description provided for @home_dialog_chatgpt_desktop_bullet.
+  ///
+  /// In en, this message translates to:
+  /// **'Open GPT on desktop - head to ChatGPT.com, Claude Desktop, or any MCP client for bigger views, plugins, and Claude\'s richer visualizations.'**
+  String get home_dialog_chatgpt_desktop_bullet;
+
   /// No description provided for @home_dialog_claude_view_guide.
   ///
   /// In en, this message translates to:
@@ -769,13 +907,13 @@ abstract class AppLocalizations {
   /// No description provided for @home_dialog_start_chat_body.
   ///
   /// In en, this message translates to:
-  /// **'Bridge ready. On desktop, open ChatGPT, go to your GPTs, search for vytalLink, paste your Word + PIN, and start asking. Prefer Claude? Open Claude Desktop or any MCP client, drop in the same Word + PIN, and keep chatting.'**
+  /// **'vytalLink is live and ready to share your data. Your Word + PIN are ready; just paste them when the GPT asks.'**
   String get home_dialog_start_chat_body;
 
   /// No description provided for @home_dialog_start_chat_title.
   ///
   /// In en, this message translates to:
-  /// **'Bridge ready'**
+  /// **'Bridge ready - pick your flow'**
   String get home_dialog_start_chat_title;
 
   /// Shows the endpoint

@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_template/core/common/analytics_manager.dart';
 import 'package:flutter_template/core/common/config.dart';
+import 'package:flutter_template/core/common/logger.dart';
 import 'package:flutter_template/core/health_permission_manager.dart';
 import 'package:flutter_template/core/source/mcp_server.dart';
 import 'package:flutter_template/ui/resources.dart';
@@ -18,6 +19,7 @@ class HomeCubit extends Cubit<HomeState> {
   final GlobalEventHandler _globalEventHandler;
   late final HealthMcpServerService healthServer;
   late final HealthPermissionManager healthPermissionManager;
+  late final Future<void> _initialization;
   Timer? _connectionCheckTimer;
 
   HomeCubit(this._globalEventHandler) : super(const HomeState()) {
@@ -26,17 +28,7 @@ class HomeCubit extends Cubit<HomeState> {
   }
 
   Future<void> _initialize() async {
-    final ip = await NetworkInfo().getWifiIP();
-
-    final config = HealthMcpServerConfig(
-      serverName: Config.mcpServerName,
-      serverVersion: Config.mcpServerVersion,
-      host: ip ?? Config.mcpHostFallback,
-      port: Config.mcpPort,
-      endpoint: Config.mcpEndpoint,
-    );
-
-    healthServer = HealthMcpServerService(config: config)
+    healthServer = HealthMcpServerService()
       ..setConnectionCodeCallback(_onConnectionCodeReceived)
       ..setConnectionErrorCallback(_onConnectionError)
       ..setConnectionLostCallback(_onConnectionLost);
@@ -67,8 +59,6 @@ class HomeCubit extends Cubit<HomeState> {
       emit(
         state.copyWith(
           status: McpServerStatus.error,
-          ipAddress: "",
-          endpoint: "",
           connectionCode: "",
           connectionWord: "",
           errorMessage: Resources.localizations.connection_lost_unexpectedly,
@@ -97,13 +87,11 @@ class HomeCubit extends Cubit<HomeState> {
       () => startMCPServer(),
     );
     emit(
-      state.copyWith(
-        status: McpServerStatus.error,
-        ipAddress: "",
-        endpoint: "",
-        connectionCode: "",
-        connectionWord: "",
-        errorMessage: "",
+        state.copyWith(
+          status: McpServerStatus.error,
+          connectionCode: "",
+          connectionWord: "",
+          errorMessage: "",
       ),
     );
   }
@@ -113,8 +101,6 @@ class HomeCubit extends Cubit<HomeState> {
     emit(
       state.copyWith(
         status: McpServerStatus.error,
-        ipAddress: "",
-        endpoint: "",
         connectionCode: "",
         connectionWord: "",
         errorMessage: "",
@@ -175,8 +161,6 @@ class HomeCubit extends Cubit<HomeState> {
       emit(
         state.copyWith(
           status: McpServerStatus.running,
-          ipAddress: healthServer.config.host,
-          endpoint: healthServer.config.endpoint,
           errorMessage: "",
         ),
       );
@@ -230,8 +214,6 @@ class HomeCubit extends Cubit<HomeState> {
       emit(
         state.copyWith(
           status: McpServerStatus.running,
-          ipAddress: healthServer.config.host,
-          endpoint: healthServer.config.endpoint,
           errorMessage: "",
         ),
       );
@@ -257,8 +239,6 @@ class HomeCubit extends Cubit<HomeState> {
       emit(
         state.copyWith(
           status: McpServerStatus.idle,
-          ipAddress: "",
-          endpoint: "",
           connectionCode: "",
           connectionWord: "",
           errorMessage: "",
@@ -269,8 +249,6 @@ class HomeCubit extends Cubit<HomeState> {
       emit(
         state.copyWith(
           status: McpServerStatus.idle,
-          ipAddress: "",
-          endpoint: "",
           connectionCode: "",
           connectionWord: "",
           errorMessage: "",

@@ -1,176 +1,294 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:design_system/design_system.dart';
-import 'package:design_system/extensions/color_extensions.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_template/ui/extensions/context_extensions.dart';
-import 'package:flutter_template/ui/router/app_router.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:flutter_template/core/common/config.dart';
 import 'package:flutter_template/gen/assets.gen.dart';
+import 'package:flutter_template/ui/extensions/context_extensions.dart';
+import 'package:flutter_template/ui/helpers/url_launcher_helper.dart';
+import 'package:flutter_template/ui/router/app_router.dart';
 
 class AiIntegrationCard extends StatelessWidget {
   const AiIntegrationCard({super.key});
 
   @override
-  Widget build(BuildContext context) => VytalLinkCard(
-        margin: const EdgeInsets.only(bottom: 24),
-        padding: const EdgeInsets.all(24),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              children: [
-                Container(
-                  width: 40,
-                  height: 40,
-                  decoration: BoxDecoration(
-                    color: context.theme.colorScheme.primary
-                        .withValues(alpha: 0.1),
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: Center(
-                    child: Transform.translate(
-                      offset: const Offset(-2, -2),
-                      child: Icon(
-                        FontAwesomeIcons.robot,
-                        color: context.theme.colorScheme.primary,
-                        size: 20,
-                      ),
-                    ),
-                  ),
-                ),
-                const SizedBox(width: 12),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        context.localizations.ai_integration_title,
-                        style: context.theme.textTheme.titleMedium?.copyWith(
-                          fontWeight: FontWeight.w600,
-                          color: context.theme.colorScheme.onSurface,
-                        ),
-                      ),
-                      Text(
-                        context.localizations.ai_integration_subtitle,
-                        style: context.theme.textTheme.bodySmall?.copyWith(
-                          color: context.theme.colorScheme.onSurfaceVariant,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 20),
-            Row(
-              children: [
-                Expanded(
-                  child: _IntegrationOption(
-                    icon: FontAwesomeIcons.comments,
-                    title: context.localizations.ai_integration_chatgpt,
-                    subtitle:
-                        context.localizations.ai_integration_chatgpt_subtitle,
-                    color: context.theme.colorScheme.secondary.getShade(500),
-                    leadingIconBuilder: (color) => Assets.icons.chatgpt.svg(
-                      width: 22,
-                      height: 22,
-                      colorFilter: ColorFilter.mode(color, BlendMode.srcIn),
-                    ),
-                    onTap: () =>
-                        context.router.push(const ChatGptIntegrationRoute()),
-                  ),
-                ),
-                const SizedBox(width: 12),
-                Expanded(
-                  child: _IntegrationOption(
-                    icon: FontAwesomeIcons.server,
-                    title: context.localizations.ai_integration_mcp,
-                    subtitle: context.localizations.ai_integration_mcp_subtitle,
-                    color: context.theme.colorScheme.primary.getShade(500),
-                    onTap: () =>
-                        context.router.push(const McpIntegrationRoute()),
-                  ),
-                ),
-              ],
-            ),
-          ],
-        ),
-      );
-}
-
-class _IntegrationOption extends StatelessWidget {
-  final IconData icon;
-  final String title;
-  final String subtitle;
-  final Color color;
-  final VoidCallback onTap;
-  final Widget Function(Color color)? leadingIconBuilder;
-
-  const _IntegrationOption({
-    required this.icon,
-    required this.title,
-    required this.subtitle,
-    required this.color,
-    required this.onTap,
-    this.leadingIconBuilder,
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) => InkWell(
-        onTap: onTap,
-        borderRadius: BorderRadius.circular(12),
-        child: Container(
-          padding: const EdgeInsets.all(16),
-          decoration: BoxDecoration(
-            color: color.withValues(alpha: 0.05),
-            borderRadius: BorderRadius.circular(12),
-            border: Border.all(
-              color: color.withValues(alpha: 0.2),
+  Widget build(BuildContext context) {
+    final theme = context.theme;
+    return VytalLinkCard(
+      margin: const EdgeInsets.only(bottom: 24),
+      padding: const EdgeInsets.all(24),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            context.localizations.ai_integration_title,
+            style: theme.textTheme.headlineSmall?.copyWith(
+              fontWeight: FontWeight.w700,
+              color: theme.colorScheme.onSurface,
             ),
           ),
-          child: Column(
-            children: [
-              Container(
-                width: 52,
-                height: 52,
-                decoration: BoxDecoration(
-                  color: color.withValues(alpha: 0.1),
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: Center(
-                  child: leadingIconBuilder != null
-                      ? leadingIconBuilder!(color)
-                      : Icon(
-                          icon,
-                          color: color,
-                          size: 22,
-                        ),
+          const SizedBox(height: 12),
+          Text(
+            context.localizations.home_ai_card_intro,
+            style: theme.textTheme.bodyMedium?.copyWith(
+              color: theme.colorScheme.onSurface,
+              height: 1.4,
+            ),
+          ),
+          const SizedBox(height: 8),
+          Text(
+            context.localizations.home_ai_card_guide_header,
+            style: theme.textTheme.bodySmall?.copyWith(
+              color: theme.colorScheme.onSurfaceVariant,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+          const SizedBox(height: 12),
+          Text(
+            context.localizations.home_ai_card_blog_gpt,
+            style: theme.textTheme.bodySmall?.copyWith(
+              color: theme.colorScheme.onSurfaceVariant,
+              fontStyle: FontStyle.italic,
+              height: 1.45,
+            ),
+          ),
+          const SizedBox(height: 6),
+          Text(
+            context.localizations.home_ai_card_blog_claude,
+            style: theme.textTheme.bodySmall?.copyWith(
+              color: theme.colorScheme.onSurfaceVariant,
+              fontStyle: FontStyle.italic,
+              height: 1.45,
+            ),
+          ),
+          const SizedBox(height: 24),
+          _AiOptionSection(
+            accentColor: theme.colorScheme.primary,
+            icon: Icon(
+              Icons.desktop_windows,
+              color: theme.colorScheme.primary,
+              size: 22,
+            ),
+            title: context.localizations.home_ai_card_desktop_title,
+            description:
+                context.localizations.home_ai_card_desktop_description,
+            hint: context.localizations.home_ai_card_desktop_hint,
+            actions: [
+              SizedBox(
+                width: double.infinity,
+                child: OutlinedButton.icon(
+                  onPressed: () => context.router
+                      .push(const ChatGptIntegrationRoute()),
+                  icon: Assets.icons.chatgpt.svg(
+                    width: 18,
+                    height: 18,
+                    colorFilter: ColorFilter.mode(
+                      theme.colorScheme.primary,
+                      BlendMode.srcIn,
+                    ),
+                  ),
+                  label: Text(
+                    context.localizations.home_dialog_chatgpt_view_guide,
+                  ),
+                  style: OutlinedButton.styleFrom(
+                    foregroundColor: theme.colorScheme.primary,
+                    side: BorderSide(
+                      color: theme.colorScheme.primary
+                          .withValues(alpha: 0.6),
+                      width: 1.5,
+                    ),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 18,
+                      vertical: 12,
+                    ),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(14),
+                    ),
+                    textStyle: theme.textTheme.labelLarge?.copyWith(
+                      fontWeight: FontWeight.w600,
+                      fontSize: 14,
+                    ),
+                  ),
                 ),
               ),
-              const SizedBox(height: 8),
-              Text(
-                title,
-                style: context.theme.textTheme.titleSmall?.copyWith(
-                  fontWeight: FontWeight.w600,
-                  color: context.theme.colorScheme.onSurface,
+              SizedBox(
+                width: double.infinity,
+                child: OutlinedButton.icon(
+                  onPressed: () =>
+                      context.router.push(const McpIntegrationRoute()),
+                  icon: Assets.icons.claude.svg(
+                    width: 18,
+                    height: 18,
+                    colorFilter: ColorFilter.mode(
+                      theme.colorScheme.primary,
+                      BlendMode.srcIn,
+                    ),
+                  ),
+                  label: Text(
+                    context.localizations.home_dialog_claude_view_guide,
+                  ),
+                  style: OutlinedButton.styleFrom(
+                    foregroundColor: theme.colorScheme.primary,
+                    side: BorderSide(
+                      color: theme.colorScheme.primary
+                          .withValues(alpha: 0.4),
+                      width: 1.5,
+                    ),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 18,
+                      vertical: 12,
+                    ),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(14),
+                    ),
+                    textStyle: theme.textTheme.labelLarge?.copyWith(
+                      fontWeight: FontWeight.w600,
+                      fontSize: 14,
+                    ),
+                  ),
                 ),
-              ),
-              Text(
-                subtitle,
-                style: context.theme.textTheme.bodySmall?.copyWith(
-                  color: context.theme.colorScheme.onSurfaceVariant,
-                  fontSize: 11,
-                ),
-              ),
-              const SizedBox(height: 4),
-              Icon(
-                FontAwesomeIcons.arrowUpRightFromSquare,
-                size: 12,
-                color: color,
               ),
             ],
           ),
+          const SizedBox(height: 24),
+          _AiOptionSection(
+            accentColor: theme.colorScheme.primary,
+            icon: Assets.icons.chatgpt.svg(
+              width: 22,
+              height: 22,
+              colorFilter:
+                  ColorFilter.mode(theme.colorScheme.primary, BlendMode.srcIn),
+            ),
+            title: context.localizations.home_ai_card_mobile_title,
+            description:
+                context.localizations.home_ai_card_mobile_description,
+            hint: context.localizations.home_ai_card_mobile_hint,
+            actions: [
+              SizedBox(
+                width: double.infinity,
+                child: ElevatedButton.icon(
+                  onPressed: () => UrlLauncherHelper.launchInBrowserView(
+                    Config.gptIntegrationUrl,
+                  ),
+                  icon: Assets.icons.chatgpt.svg(
+                    width: 18,
+                    height: 18,
+                    colorFilter:
+                        const ColorFilter.mode(Colors.white, BlendMode.srcIn),
+                  ),
+                  label: Text(
+                    context.localizations.chatgpt_open_custom_gpt,
+                  ),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: theme.colorScheme.primary,
+                    foregroundColor: Colors.white,
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 20,
+                      vertical: 14,
+                    ),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                    elevation: 4,
+                    shadowColor:
+                        theme.colorScheme.primary.withValues(alpha: 0.25),
+                    textStyle: theme.textTheme.labelLarge?.copyWith(
+                      fontWeight: FontWeight.w600,
+                      fontSize: 14,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _AiOptionSection extends StatelessWidget {
+  final Color accentColor;
+  final Widget icon;
+  final String title;
+  final String description;
+  final String hint;
+  final List<Widget> actions;
+
+  const _AiOptionSection({
+    required this.accentColor,
+    required this.icon,
+    required this.title,
+    required this.description,
+    required this.hint,
+    required this.actions,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = context.theme;
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              width: 48,
+              height: 48,
+              decoration: BoxDecoration(
+                color: accentColor.withValues(alpha: 0.12),
+                borderRadius: BorderRadius.circular(14),
+              ),
+              child: Center(child: icon),
+            ),
+            const SizedBox(width: 12),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    title,
+                    style: theme.textTheme.titleSmall?.copyWith(
+                      fontWeight: FontWeight.w600,
+                      color: theme.colorScheme.onSurface,
+                    ),
+                  ),
+                  const SizedBox(height: 4),
+                  Text(
+                    description,
+                    style: theme.textTheme.bodySmall?.copyWith(
+                      color: theme.colorScheme.onSurfaceVariant,
+                      height: 1.4,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
         ),
-      );
+        const SizedBox(height: 16),
+        ..._intersperse(actions, const SizedBox(height: 8)),
+        const SizedBox(height: 10),
+        Text(
+          hint,
+          style: theme.textTheme.bodySmall?.copyWith(
+            color: theme.colorScheme.onSurfaceVariant,
+            fontStyle: FontStyle.italic,
+          ),
+        ),
+      ],
+    );
+  }
+
+  static List<Widget> _intersperse(List<Widget> items, Widget separator) {
+    if (items.isEmpty) return const [];
+    final result = <Widget>[];
+    for (var i = 0; i < items.length; i++) {
+      result.add(items[i]);
+      if (i != items.length - 1) {
+        result.add(separator);
+      }
+    }
+    return result;
+  }
 }

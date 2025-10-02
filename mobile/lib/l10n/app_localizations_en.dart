@@ -365,6 +365,65 @@ class AppLocalizationsEn extends AppLocalizations {
   String get home_checklist_title => 'How it works';
 
   @override
+  String get home_chatgpt_quick_actions_title => 'Start chatting with ChatGPT';
+
+  @override
+  String get home_chatgpt_quick_actions_description =>
+      'Pick how you want to open the vytalLink GPT.';
+
+  @override
+  String get home_chatgpt_quick_actions_open_in_app => 'Open in app';
+
+  @override
+  String get home_chatgpt_quick_actions_open_in_browser => 'Open on web';
+
+  @override
+  String get home_chatgpt_quick_actions_in_app_unavailable =>
+      'Keep this screen open and use the web to chat.';
+
+  @override
+  String get home_chatgpt_quick_actions_view_instructions =>
+      'View desktop instructions';
+
+  @override
+  String get home_ai_card_intro =>
+      'Your Word + PIN work anywhere; choose the flow that fits how you want to chat.';
+
+  @override
+  String get home_ai_card_guide_header =>
+      'This guide walks you through both paths:';
+
+  @override
+  String get home_ai_card_blog_gpt =>
+      'For most people, we suggest starting with the VytalLink GPT. You don\'t have to install anything; you get an assistant ready to go right away.';
+
+  @override
+  String get home_ai_card_blog_claude =>
+      'If you want something a little more powerful, Claude Desktop is an excellent choice. It often generates fantastic visualizations and better explanations.';
+
+  @override
+  String get home_ai_card_desktop_title => 'Use GPT on desktop';
+
+  @override
+  String get home_ai_card_desktop_description =>
+      'Open ChatGPT.com, Claude Desktop, or any MCP client with your Word + PIN for more space, plugins, and richer replies.';
+
+  @override
+  String get home_ai_card_desktop_hint =>
+      'Perfect when you need the desktop screen, Claude\'s charts, or pro MCP tooling.';
+
+  @override
+  String get home_ai_card_mobile_title => 'Use GPT on this phone';
+
+  @override
+  String get home_ai_card_mobile_description =>
+      'Launch the VytalLink GPT in a Safari View Controller or Chrome Custom Tab so you stay inside the app while you chat.';
+
+  @override
+  String get home_ai_card_mobile_hint =>
+      'Ideal for quick follow-ups when you only have your phone.';
+
+  @override
   String get home_description_error =>
       'Unable to connect to the vytalLink server. Please check your connection and try again.';
 
@@ -388,14 +447,40 @@ class AppLocalizationsEn extends AppLocalizations {
   String get home_dialog_chatgpt_view_guide => 'View ChatGPT instructions';
 
   @override
+  String get home_dialog_chatgpt_mobile_title => 'Open GPT on this phone';
+
+  @override
+  String get home_dialog_chatgpt_mobile_subtitle =>
+      'Launches the VytalLink GPT in Safari View Controller or Chrome Custom Tab so you never leave the app.';
+
+  @override
+  String get home_dialog_chatgpt_desktop_title => 'Open GPT on desktop';
+
+  @override
+  String get home_dialog_chatgpt_desktop_subtitle =>
+      'Open ChatGPT.com, Claude Desktop, or any MCP client for the full experience.';
+
+  @override
+  String get home_dialog_chatgpt_intro =>
+      'vytalLink is live and your Word + PIN are ready. Paste them when the GPT asks and pick what fits you best:';
+
+  @override
+  String get home_dialog_chatgpt_mobile_bullet =>
+      'Open GPT on this phone - launches an in-app Safari/Chrome tab so it\'s the quickest path when you only have your phone.';
+
+  @override
+  String get home_dialog_chatgpt_desktop_bullet =>
+      'Open GPT on desktop - head to ChatGPT.com, Claude Desktop, or any MCP client for bigger views, plugins, and Claude\'s richer visualizations.';
+
+  @override
   String get home_dialog_claude_view_guide => 'View Claude instructions';
 
   @override
   String get home_dialog_start_chat_body =>
-      'Bridge ready. On desktop, open ChatGPT, go to your GPTs, search for vytalLink, paste your Word + PIN, and start asking. Prefer Claude? Open Claude Desktop or any MCP client, drop in the same Word + PIN, and keep chatting.';
+      'vytalLink is live and ready to share your data. Your Word + PIN are ready; just paste them when the GPT asks.';
 
   @override
-  String get home_dialog_start_chat_title => 'Bridge ready';
+  String get home_dialog_start_chat_title => 'Bridge ready - pick your flow';
 
   @override
   String home_endpoint_label(String endpoint) {

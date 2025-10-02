@@ -38,6 +38,7 @@ class _HomeContentScreenState extends State<_HomeContentScreen>
 
   final ScrollController _scrollController = ScrollController();
   final GlobalKey _serverCardKey = GlobalKey();
+  final GlobalKey _aiGuideCardKey = GlobalKey();
 
   late AnimationController _pulseController;
   late Animation<double> _pulseAnimation;
@@ -180,6 +181,7 @@ class _HomeContentScreenState extends State<_HomeContentScreen>
                     errorMessage: state.errorMessage,
                     pulseAnimation: _pulseAnimation,
                     onStartPressed: () => _checkPermissionsAndStartServer(),
+                    onChatGptDesktop: _scrollToAiGuideCard,
                     connectionWord: state.connectionWord,
                     connectionPin: state.connectionCode,
                   ),
@@ -189,7 +191,10 @@ class _HomeContentScreenState extends State<_HomeContentScreen>
                         context.navigateTo(const ChatGptIntegrationRoute()),
                   ),
                   const SizedBox(height: 16),
-                  const AiIntegrationCard(),
+                  KeyedSubtree(
+                    key: _aiGuideCardKey,
+                    child: const AiIntegrationCard(),
+                  ),
                   const SizedBox(height: 24),
                 ],
               ),
@@ -233,6 +238,19 @@ class _HomeContentScreenState extends State<_HomeContentScreen>
     if (!_showValuePropHeader) return;
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final context = _serverCardKey.currentContext;
+      if (context == null) return;
+      Scrollable.ensureVisible(
+        context,
+        duration: const Duration(milliseconds: 400),
+        curve: Curves.easeInOut,
+        alignment: 0,
+      );
+    });
+  }
+
+  void _scrollToAiGuideCard() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final context = _aiGuideCardKey.currentContext;
       if (context == null) return;
       Scrollable.ensureVisible(
         context,

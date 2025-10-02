@@ -51,11 +51,9 @@ class HealthDataUnavailableException extends HealthMcpServerException {
 
 class HealthMcpServerService {
   HealthMcpServerService({
-    required this.config,
     HealthDataManager? healthDataManager,
   }) : _healthDataManager = healthDataManager ?? HealthDataManager();
 
-  final HealthMcpServerConfig config;
   final HealthDataManager _healthDataManager;
 
   late WebSocketChannel webSocketChannel;

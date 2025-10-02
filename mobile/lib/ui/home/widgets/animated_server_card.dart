@@ -1,19 +1,20 @@
-import 'package:auto_route/auto_route.dart';
-import 'package:design_system/design_system.dart';
-import 'package:design_system/extensions/color_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:design_system/design_system.dart';
+import 'package:design_system/extensions/color_extensions.dart';
+import 'package:flutter_template/core/common/config.dart';
 import 'package:flutter_template/ui/extensions/context_extensions.dart';
 import 'package:flutter_template/ui/home/home_cubit.dart';
 import 'package:flutter_template/ui/home/widgets/keep_app_open_notice.dart';
 import 'package:flutter_template/ui/home/widgets/server_action_button_widget.dart';
-import 'package:flutter_template/ui/router/app_router.dart';
+import 'package:flutter_template/ui/helpers/url_launcher_helper.dart';
 
 class AnimatedServerCard extends StatelessWidget {
   final McpServerStatus status;
   final String errorMessage;
   final Animation<double> pulseAnimation;
   final VoidCallback? onStartPressed;
+  final VoidCallback? onChatGptDesktop;
   final String connectionWord;
   final String connectionPin;
 
@@ -22,6 +23,7 @@ class AnimatedServerCard extends StatelessWidget {
     required this.status,
     required this.errorMessage,
     this.onStartPressed,
+    this.onChatGptDesktop,
     this.connectionWord = '',
     this.connectionPin = '',
     super.key,
@@ -169,16 +171,10 @@ class AnimatedServerCard extends StatelessWidget {
               errorMessage: errorMessage,
               status: status,
               onStartPressed: onStartPressed,
-              onChatGptPressed: () => context.router.popAndPush(
-                const AuthenticatedSectionRoute(
-                  children: [ChatGptIntegrationRoute()],
-                ),
+              onChatGptQuickAction: () => UrlLauncherHelper.launchInBrowserView(
+                Config.gptIntegrationUrl,
               ),
-              onClaudePressed: () => context.router.popAndPush(
-                const AuthenticatedSectionRoute(
-                  children: [McpIntegrationRoute()],
-                ),
-              ),
+              onChatGptDesktopPressed: onChatGptDesktop,
             ),
           ],
         ),

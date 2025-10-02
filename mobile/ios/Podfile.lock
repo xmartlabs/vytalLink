@@ -128,7 +128,7 @@ PODS:
   - GoogleUtilities/UserDefaults (8.1.0):
     - GoogleUtilities/Logger
     - GoogleUtilities/Privacy
-  - health (13.1.4):
+  - health (13.2.0):
     - Flutter
   - integration_test (0.0.1):
     - Flutter
@@ -235,7 +235,7 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/webview_flutter_wkwebview/darwin"
 
 SPEC CHECKSUMS:
-  device_info_plus: 97af1d7e84681a90d0693e63169a5d50e0839a0d
+  device_info_plus: bf2e3232933866d73fe290f2942f2156cdd10342
   Firebase: 26f6f8d460603af3df970ad505b16b15f5e2e9a1
   firebase_analytics: cad607594fc56b3743691f37000d81cde0a86237
   firebase_core: 3b9065a1037f7f2e360077d2aa5fb6ec9adb3005
@@ -255,7 +255,7 @@ SPEC CHECKSUMS:
   GoogleAppMeasurement: 09f341dfa8527d1612a09cbfe809a242c0b737af
   GoogleDataTransport: aae35b7ea0c09004c3797d53c8c41f66f219d6a7
   GoogleUtilities: 00c88b9a86066ef77f0da2fab05f65d7768ed8e1
-  health: 9cd70a5c9d9ec559a12d639a1471091c0cbb6b48
+  health: afa47eecde2e04d74ae99e485e8e4bd18bdf9d75
   integration_test: 252f60fa39af5e17c3aa9899d35d908a0721b573
   nanopb: fad817b59e0457d11a5dfbde799381cd727c1275
   network_info_plus: 6613d9d7cdeb0e6f366ed4dbe4b3c51c52d567a9
