@@ -1024,11 +1024,29 @@ abstract class AppLocalizations {
   /// **'Start the bridge first—your Word + PIN only appear when the app is connected.'**
   String get home_toast_credentials_missing;
 
+  /// No description provided for @home_snackbar_credentials_copied.
+  ///
+  /// In en, this message translates to:
+  /// **'Word + PIN copied to your clipboard.'**
+  String get home_snackbar_credentials_copied;
+
   /// Format used when copying Word and PIN to the clipboard.
   ///
   /// In en, this message translates to:
   /// **'VytalLink credential — Word: {word} | PIN: {pin}'**
   String home_clipboard_credentials_template(String word, String pin);
+
+  /// No description provided for @home_notification_credentials_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Bridge activated'**
+  String get home_notification_credentials_title;
+
+  /// Notification body shown when the app auto-connects and credentials are ready.
+  ///
+  /// In en, this message translates to:
+  /// **'Word: {word} | PIN: {pin}'**
+  String home_notification_credentials_body(String word, String pin);
 
   /// No description provided for @home_value_prop_point_1.
   ///

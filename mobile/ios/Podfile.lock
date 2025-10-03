@@ -70,11 +70,11 @@ PODS:
   - Flutter (1.0.0)
   - flutter_custom_tabs_ios (2.4.0):
     - Flutter
+  - flutter_local_notifications (0.0.1):
+    - Flutter
   - flutter_native_splash (2.4.3):
     - Flutter
   - flutter_secure_storage (6.0.0):
-    - Flutter
-  - fluttertoast (0.0.2):
     - Flutter
   - GoogleAdsOnDeviceConversion (2.3.0):
     - GoogleUtilities/Logger (~> 8.1)
@@ -171,9 +171,9 @@ DEPENDENCIES:
   - firebase_crashlytics (from `.symlinks/plugins/firebase_crashlytics/ios`)
   - Flutter (from `Flutter`)
   - flutter_custom_tabs_ios (from `.symlinks/plugins/flutter_custom_tabs_ios/ios`)
+  - flutter_local_notifications (from `.symlinks/plugins/flutter_local_notifications/ios`)
   - flutter_native_splash (from `.symlinks/plugins/flutter_native_splash/ios`)
   - flutter_secure_storage (from `.symlinks/plugins/flutter_secure_storage/ios`)
-  - fluttertoast (from `.symlinks/plugins/fluttertoast/ios`)
   - health (from `.symlinks/plugins/health/ios`)
   - integration_test (from `.symlinks/plugins/integration_test/ios`)
   - network_info_plus (from `.symlinks/plugins/network_info_plus/ios`)
@@ -217,12 +217,12 @@ EXTERNAL SOURCES:
     :path: Flutter
   flutter_custom_tabs_ios:
     :path: ".symlinks/plugins/flutter_custom_tabs_ios/ios"
+  flutter_local_notifications:
+    :path: ".symlinks/plugins/flutter_local_notifications/ios"
   flutter_native_splash:
     :path: ".symlinks/plugins/flutter_native_splash/ios"
   flutter_secure_storage:
     :path: ".symlinks/plugins/flutter_secure_storage/ios"
-  fluttertoast:
-    :path: ".symlinks/plugins/fluttertoast/ios"
   health:
     :path: ".symlinks/plugins/health/ios"
   integration_test:
@@ -260,9 +260,9 @@ SPEC CHECKSUMS:
   FirebaseSessions: f4692789e770bec66ce17d772c0e9561c4f11737
   Flutter: cabc95a1d2626b1b06e7179b784ebcf0c0cde467
   flutter_custom_tabs_ios: 89e60122b553c69a79bfd45eb8eb99d911c1a9c0
+  flutter_local_notifications: 4cde75091f6327eb8517fa068a0a5950212d2086
   flutter_native_splash: df59bb2e1421aa0282cb2e95618af4dcb0c56c29
   flutter_secure_storage: d33dac7ae2ea08509be337e775f6b59f1ff45f12
-  fluttertoast: 21eecd6935e7064cc1fcb733a4c5a428f3f24f0f
   GoogleAdsOnDeviceConversion: 9090c435cde08903e8dd1ba2c77fbec9e46d9afe
   GoogleAppMeasurement: 09f341dfa8527d1612a09cbfe809a242c0b737af
   GoogleDataTransport: aae35b7ea0c09004c3797d53c8c41f66f219d6a7

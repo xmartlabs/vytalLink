@@ -212,7 +212,23 @@
   "home_toast_credentials_ready": "Word + PIN ready - paste it into your AI assistant.",
   "home_toast_credentials_copied": "We copied your Word + PIN so you can paste them into ChatGPT.",
   "home_toast_credentials_missing": "Start the bridge first—your Word + PIN only appear when the app is connected.",
+  "home_snackbar_credentials_copied": "Word + PIN copied to your clipboard.",
   "home_clipboard_credentials_template": "VytalLink credential — Word: {word} | PIN: {pin}",
+  "home_notification_credentials_title": "Bridge activated",
+  "home_notification_credentials_body": "Word: {word} | PIN: {pin}",
+  "@home_notification_credentials_body": {
+    "description": "Notification body shown when the app auto-connects and credentials are ready.",
+    "placeholders": {
+      "word": {
+        "type": "String",
+        "example": "Aurora"
+      },
+      "pin": {
+        "type": "String",
+        "example": "1234"
+      }
+    }
+  },
   "@home_clipboard_credentials_template": {
     "description": "Format used when copying Word and PIN to the clipboard.",
     "placeholders": {

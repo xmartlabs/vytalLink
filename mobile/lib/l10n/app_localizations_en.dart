@@ -547,8 +547,20 @@ class AppLocalizationsEn extends AppLocalizations {
       'Start the bridge first—your Word + PIN only appear when the app is connected.';
 
   @override
+  String get home_snackbar_credentials_copied =>
+      'Word + PIN copied to your clipboard.';
+
+  @override
   String home_clipboard_credentials_template(String word, String pin) {
     return 'VytalLink credential — Word: $word | PIN: $pin';
+  }
+
+  @override
+  String get home_notification_credentials_title => 'Bridge activated';
+
+  @override
+  String home_notification_credentials_body(String word, String pin) {
+    return 'Word: $word | PIN: $pin';
   }
 
   @override
