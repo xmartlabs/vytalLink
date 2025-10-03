@@ -483,6 +483,39 @@ class AppLocalizationsEn extends AppLocalizations {
   String get home_dialog_start_chat_title => 'Bridge ready - pick your flow';
 
   @override
+  String get home_on_device_guidance_title => 'Before you open ChatGPT here';
+
+  @override
+  String get home_on_device_guidance_intro =>
+      'This on-device chat is <b>great for quick questions</b> when you\'re only on your phone. For deeper dives you\'ll still want a desktop, but let\'s cover a few reminders first:';
+
+  @override
+  String get home_on_device_guidance_bullet_browser =>
+      'We\'ll open ChatGPT inside this app. <b>Stick with that in-app browser</b> so the bridge keeps flowing.';
+
+  @override
+  String get home_on_device_guidance_bullet_no_external_app =>
+      '<b>Skip any prompts to open or install the ChatGPT app.</b> Sending vytalLink to the background stops the data stream.';
+
+  @override
+  String get home_on_device_guidance_bullet_keyboard =>
+      'If the chat bar sits on top of our buttons on iOS, <b>scroll up a notch</b> and the keyboard shows up again. ChatGPT is working on a fix.';
+
+  @override
+  String get home_on_device_guidance_bullet_clipboard =>
+      '<b>Your Word + PIN are already copied.</b> Paste them when ChatGPT asks and you\'re in.';
+
+  @override
+  String get home_on_device_guidance_acknowledge =>
+      'Yep, I read the reminders.';
+
+  @override
+  String get home_on_device_guidance_primary => 'Open ChatGPT here';
+
+  @override
+  String get home_on_device_guidance_secondary => 'Maybe later';
+
+  @override
   String home_endpoint_label(String endpoint) {
     return 'Endpoint: $endpoint';
   }

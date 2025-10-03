@@ -916,6 +916,60 @@ abstract class AppLocalizations {
   /// **'Bridge ready - pick your flow'**
   String get home_dialog_start_chat_title;
 
+  /// No description provided for @home_on_device_guidance_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Before you open ChatGPT here'**
+  String get home_on_device_guidance_title;
+
+  /// No description provided for @home_on_device_guidance_intro.
+  ///
+  /// In en, this message translates to:
+  /// **'This on-device chat is <b>great for quick questions</b> when you\'re only on your phone. For deeper dives you\'ll still want a desktop, but let\'s cover a few reminders first:'**
+  String get home_on_device_guidance_intro;
+
+  /// No description provided for @home_on_device_guidance_bullet_browser.
+  ///
+  /// In en, this message translates to:
+  /// **'We\'ll open ChatGPT inside this app. <b>Stick with that in-app browser</b> so the bridge keeps flowing.'**
+  String get home_on_device_guidance_bullet_browser;
+
+  /// No description provided for @home_on_device_guidance_bullet_no_external_app.
+  ///
+  /// In en, this message translates to:
+  /// **'<b>Skip any prompts to open or install the ChatGPT app.</b> Sending vytalLink to the background stops the data stream.'**
+  String get home_on_device_guidance_bullet_no_external_app;
+
+  /// No description provided for @home_on_device_guidance_bullet_keyboard.
+  ///
+  /// In en, this message translates to:
+  /// **'If the chat bar sits on top of our buttons on iOS, <b>scroll up a notch</b> and the keyboard shows up again. ChatGPT is working on a fix.'**
+  String get home_on_device_guidance_bullet_keyboard;
+
+  /// No description provided for @home_on_device_guidance_bullet_clipboard.
+  ///
+  /// In en, this message translates to:
+  /// **'<b>Your Word + PIN are already copied.</b> Paste them when ChatGPT asks and you\'re in.'**
+  String get home_on_device_guidance_bullet_clipboard;
+
+  /// No description provided for @home_on_device_guidance_acknowledge.
+  ///
+  /// In en, this message translates to:
+  /// **'Yep, I read the reminders.'**
+  String get home_on_device_guidance_acknowledge;
+
+  /// No description provided for @home_on_device_guidance_primary.
+  ///
+  /// In en, this message translates to:
+  /// **'Open ChatGPT here'**
+  String get home_on_device_guidance_primary;
+
+  /// No description provided for @home_on_device_guidance_secondary.
+  ///
+  /// In en, this message translates to:
+  /// **'Maybe later'**
+  String get home_on_device_guidance_secondary;
+
   /// Shows the endpoint
   ///
   /// In en, this message translates to:
