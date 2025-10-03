@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_template/ui/ai_integration/widgets/chatgpt_integration_sections.dart';
 import 'package:flutter_template/ui/extensions/context_extensions.dart';
 import 'package:flutter_template/ui/router/app_router.dart';
-import 'package:flutter_template/ui/home/widgets/ai_integration_card.dart';
 import 'package:flutter_template/gen/assets.gen.dart';
 
 @RoutePage()
@@ -65,8 +64,6 @@ class _ChatGptIntegrationScreenState extends State<ChatGptIntegrationScreen> {
                 const ChatGptIntegrationHeroSection(),
                 const SizedBox(height: 12),
                 const ChatGptDesktopNoticeSection(),
-                const SizedBox(height: 24),
-                const AiIntegrationCard(),
                 const SizedBox(height: 24),
                 const WhatIsChatGptSection(),
                 const SizedBox(height: 24),

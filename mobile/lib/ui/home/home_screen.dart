@@ -184,6 +184,7 @@ class _HomeContentScreenState extends State<_HomeContentScreen>
                     onChatGptDesktop: _scrollToAiGuideCard,
                     connectionWord: state.connectionWord,
                     connectionPin: state.connectionCode,
+                    onEnsureConnected: _ensureBridgeRunning,
                   ),
                   const SizedBox(height: 16),
                   HowItWorksSection(
@@ -193,7 +194,12 @@ class _HomeContentScreenState extends State<_HomeContentScreen>
                   const SizedBox(height: 16),
                   KeyedSubtree(
                     key: _aiGuideCardKey,
-                    child: const AiIntegrationCard(),
+                    child: AiIntegrationCard(
+                      status: state.status,
+                      connectionWord: state.connectionWord,
+                      connectionPin: state.connectionCode,
+                      onEnsureConnected: _ensureBridgeRunning,
+                    ),
                   ),
                   const SizedBox(height: 24),
                 ],
@@ -204,28 +210,39 @@ class _HomeContentScreenState extends State<_HomeContentScreen>
       );
 
   Future<void> _checkPermissionsAndStartServer() async {
+    await _ensureBridgeRunning();
+  }
+
+  Future<bool> _ensureBridgeRunning() async {
     final cubit = context.read<HomeCubit>();
+
+    final currentState = cubit.state;
+    if (currentState.status == McpServerStatus.running &&
+        currentState.connectionWord.isNotEmpty &&
+        currentState.connectionCode.isNotEmpty) {
+      return true;
+    }
 
     if (await cubit.isHealthConnectInstallationRequired()) {
       final shouldInstall = await _showHealthConnectRequiredAlert();
       if (shouldInstall ?? false) {
         await cubit.installHealthConnect();
       }
-      return;
+      return false;
     }
 
     final hasPermissions = await cubit.hasAllHealthPermissions();
-
     if (!hasPermissions &&
         !await OnceService.beenDone(_showHealthPermissionsAlertKey)) {
       final accepted = await _showHealthPermissionsAlert();
-      if (accepted != true) return;
+      if (accepted != true) return false;
     }
 
-    final startServer = await cubit.checkAndStartServer();
-    if (startServer) {
+    final started = await cubit.checkAndStartServer();
+    if (started) {
       await OnceService.markDone(_showHealthPermissionsAlertKey);
     }
+    return started;
   }
 
   void _dismissValuePropHeader() {

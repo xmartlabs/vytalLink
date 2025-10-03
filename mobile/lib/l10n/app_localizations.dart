@@ -811,7 +811,7 @@ abstract class AppLocalizations {
   /// No description provided for @home_ai_card_mobile_description.
   ///
   /// In en, this message translates to:
-  /// **'Launch the VytalLink GPT in a Safari View Controller or Chrome Custom Tab so you stay inside the app while you chat.'**
+  /// **'Open the VytalLink GPT right here in the app so you can start chatting in seconds.'**
   String get home_ai_card_mobile_description;
 
   /// No description provided for @home_ai_card_mobile_hint.
@@ -859,7 +859,7 @@ abstract class AppLocalizations {
   /// No description provided for @home_dialog_chatgpt_mobile_title.
   ///
   /// In en, this message translates to:
-  /// **'Open GPT on this phone'**
+  /// **'Open ChatGPT on this phone'**
   String get home_dialog_chatgpt_mobile_title;
 
   /// No description provided for @home_dialog_chatgpt_mobile_subtitle.
@@ -871,7 +871,7 @@ abstract class AppLocalizations {
   /// No description provided for @home_dialog_chatgpt_desktop_title.
   ///
   /// In en, this message translates to:
-  /// **'Open GPT on desktop'**
+  /// **'Open on desktop'**
   String get home_dialog_chatgpt_desktop_title;
 
   /// No description provided for @home_dialog_chatgpt_desktop_subtitle.
@@ -883,19 +883,19 @@ abstract class AppLocalizations {
   /// No description provided for @home_dialog_chatgpt_intro.
   ///
   /// In en, this message translates to:
-  /// **'vytalLink is live and your Word + PIN are ready. Paste them when the GPT asks and pick what fits you best:'**
+  /// **'Choose how you want to start chatting:'**
   String get home_dialog_chatgpt_intro;
 
   /// No description provided for @home_dialog_chatgpt_mobile_bullet.
   ///
   /// In en, this message translates to:
-  /// **'Open GPT on this phone - launches an in-app Safari/Chrome tab so it\'s the quickest path when you only have your phone.'**
+  /// **'<b>Open ChatGPT on this phone</b>. Fast and simple when you\'re on the go, perfect for quick chats.'**
   String get home_dialog_chatgpt_mobile_bullet;
 
   /// No description provided for @home_dialog_chatgpt_desktop_bullet.
   ///
   /// In en, this message translates to:
-  /// **'Open GPT on desktop - head to ChatGPT.com, Claude Desktop, or any MCP client for bigger views, plugins, and Claude\'s richer visualizations.'**
+  /// **'<b>Open on desktop</b>. Gives you bigger views, richer visualizations, and more integrations when you\'re at a computer.'**
   String get home_dialog_chatgpt_desktop_bullet;
 
   /// No description provided for @home_dialog_claude_view_guide.
@@ -907,7 +907,7 @@ abstract class AppLocalizations {
   /// No description provided for @home_dialog_start_chat_body.
   ///
   /// In en, this message translates to:
-  /// **'vytalLink is live and ready to share your data. Your Word + PIN are ready; just paste them when the GPT asks.'**
+  /// **'vytalLink is ready. Keep your Word + PIN handy and you\'re good to go.'**
   String get home_dialog_start_chat_body;
 
   /// No description provided for @home_dialog_start_chat_title.
@@ -1011,6 +1011,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Word + PIN ready - paste it into your AI assistant.'**
   String get home_toast_credentials_ready;
+
+  /// No description provided for @home_toast_credentials_copied.
+  ///
+  /// In en, this message translates to:
+  /// **'We copied your Word + PIN so you can paste them into ChatGPT.'**
+  String get home_toast_credentials_copied;
+
+  /// No description provided for @home_toast_credentials_missing.
+  ///
+  /// In en, this message translates to:
+  /// **'Start the bridge first—your Word + PIN only appear when the app is connected.'**
+  String get home_toast_credentials_missing;
+
+  /// Format used when copying Word and PIN to the clipboard.
+  ///
+  /// In en, this message translates to:
+  /// **'VytalLink credential — Word: {word} | PIN: {pin}'**
+  String home_clipboard_credentials_template(String word, String pin);
 
   /// No description provided for @home_value_prop_point_1.
   ///

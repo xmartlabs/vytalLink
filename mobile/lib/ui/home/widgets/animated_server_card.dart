@@ -2,12 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:design_system/design_system.dart';
 import 'package:design_system/extensions/color_extensions.dart';
-import 'package:flutter_template/core/common/config.dart';
 import 'package:flutter_template/ui/extensions/context_extensions.dart';
 import 'package:flutter_template/ui/home/home_cubit.dart';
+import 'package:flutter_template/ui/home/helpers/chatgpt_quick_action_helper.dart';
 import 'package:flutter_template/ui/home/widgets/keep_app_open_notice.dart';
 import 'package:flutter_template/ui/home/widgets/server_action_button_widget.dart';
-import 'package:flutter_template/ui/helpers/url_launcher_helper.dart';
 
 class AnimatedServerCard extends StatelessWidget {
   final McpServerStatus status;
@@ -17,6 +16,7 @@ class AnimatedServerCard extends StatelessWidget {
   final VoidCallback? onChatGptDesktop;
   final String connectionWord;
   final String connectionPin;
+  final Future<bool> Function()? onEnsureConnected;
 
   const AnimatedServerCard({
     required this.pulseAnimation,
@@ -26,6 +26,7 @@ class AnimatedServerCard extends StatelessWidget {
     this.onChatGptDesktop,
     this.connectionWord = '',
     this.connectionPin = '',
+    this.onEnsureConnected,
     super.key,
   });
 
@@ -171,8 +172,12 @@ class AnimatedServerCard extends StatelessWidget {
               errorMessage: errorMessage,
               status: status,
               onStartPressed: onStartPressed,
-              onChatGptQuickAction: () => UrlLauncherHelper.launchInBrowserView(
-                Config.gptIntegrationUrl,
+              onChatGptQuickAction: () => launchChatGptQuickAction(
+                context: context,
+                status: status,
+                connectionWord: connectionWord,
+                connectionPin: connectionPin,
+                ensureConnected: onEnsureConnected,
               ),
               onChatGptDesktopPressed: onChatGptDesktop,
             ),

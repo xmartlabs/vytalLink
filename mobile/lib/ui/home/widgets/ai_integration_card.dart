@@ -1,14 +1,25 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_template/core/common/config.dart';
 import 'package:flutter_template/gen/assets.gen.dart';
 import 'package:flutter_template/ui/extensions/context_extensions.dart';
-import 'package:flutter_template/ui/helpers/url_launcher_helper.dart';
+import 'package:flutter_template/ui/home/helpers/chatgpt_quick_action_helper.dart';
+import 'package:flutter_template/ui/home/home_cubit.dart';
 import 'package:flutter_template/ui/router/app_router.dart';
 
 class AiIntegrationCard extends StatelessWidget {
-  const AiIntegrationCard({super.key});
+  final McpServerStatus status;
+  final String connectionWord;
+  final String connectionPin;
+  final Future<bool> Function()? onEnsureConnected;
+
+  const AiIntegrationCard({
+    required this.status,
+    required this.connectionWord,
+    required this.connectionPin,
+    this.onEnsureConnected,
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -166,8 +177,12 @@ class AiIntegrationCard extends StatelessWidget {
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton.icon(
-                  onPressed: () => UrlLauncherHelper.launchInBrowserView(
-                    Config.gptIntegrationUrl,
+                  onPressed: () => launchChatGptQuickAction(
+                    context: context,
+                    status: status,
+                    connectionWord: connectionWord,
+                    connectionPin: connectionPin,
+                    ensureConnected: onEnsureConnected,
                   ),
                   icon: Assets.icons.chatgpt.svg(
                     width: 18,

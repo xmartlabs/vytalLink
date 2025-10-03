@@ -158,7 +158,7 @@
   "home_ai_card_desktop_description": "Open ChatGPT.com, Claude Desktop, or any MCP client with your Word + PIN for more space, plugins, and richer replies.",
   "home_ai_card_desktop_hint": "Perfect when you need the desktop screen, Claude's charts, or pro MCP tooling.",
   "home_ai_card_mobile_title": "Use GPT on this phone",
-  "home_ai_card_mobile_description": "Launch the VytalLink GPT in a Safari View Controller or Chrome Custom Tab so you stay inside the app while you chat.",
+  "home_ai_card_mobile_description": "Open the VytalLink GPT right here in the app so you can start chatting in seconds.",
   "home_ai_card_mobile_hint": "Ideal for quick follow-ups when you only have your phone.",
   "home_description_error": "Unable to connect to the vytalLink server. Please check your connection and try again.",
   "home_description_offline": "Connect your AI assistant to get insights from your wearable data.",
@@ -166,15 +166,15 @@
   "home_description_starting": "Initializing vytalLink server and binding to port...",
   "home_description_stopping": "Shutting down server and closing connections...",
   "home_dialog_chatgpt_view_guide": "View ChatGPT instructions",
-  "home_dialog_chatgpt_mobile_title": "Open GPT on this phone",
+  "home_dialog_chatgpt_mobile_title": "Open ChatGPT on this phone",
   "home_dialog_chatgpt_mobile_subtitle": "Launches the VytalLink GPT in Safari View Controller or Chrome Custom Tab so you never leave the app.",
-  "home_dialog_chatgpt_desktop_title": "Open GPT on desktop",
+  "home_dialog_chatgpt_desktop_title": "Open on desktop",
   "home_dialog_chatgpt_desktop_subtitle": "Open ChatGPT.com, Claude Desktop, or any MCP client for the full experience.",
-  "home_dialog_chatgpt_intro": "vytalLink is live and your Word + PIN are ready. Paste them when the GPT asks and pick what fits you best:",
-  "home_dialog_chatgpt_mobile_bullet": "Open GPT on this phone - launches an in-app Safari/Chrome tab so it's the quickest path when you only have your phone.",
-  "home_dialog_chatgpt_desktop_bullet": "Open GPT on desktop - head to ChatGPT.com, Claude Desktop, or any MCP client for bigger views, plugins, and Claude's richer visualizations.",
+  "home_dialog_chatgpt_intro": "Choose how you want to start chatting:",
+  "home_dialog_chatgpt_mobile_bullet": "<b>Open ChatGPT on this phone</b>. Fast and simple when you're on the go, perfect for quick chats.",
+  "home_dialog_chatgpt_desktop_bullet": "<b>Open on desktop</b>. Gives you bigger views, richer visualizations, and more integrations when you're at a computer.",
   "home_dialog_claude_view_guide": "View Claude instructions",
-  "home_dialog_start_chat_body": "vytalLink is live and ready to share your data. Your Word + PIN are ready; just paste them when the GPT asks.",
+  "home_dialog_start_chat_body": "vytalLink is ready. Keep your Word + PIN handy and you're good to go.",
   "home_dialog_start_chat_title": "Bridge ready - pick your flow",
   "home_endpoint_label": "Endpoint: {endpoint}",
   "@home_endpoint_label": {
@@ -210,6 +210,22 @@
   "home_title": "vytalLink",
   "home_toast_copy_success": "Copied to clipboard.",
   "home_toast_credentials_ready": "Word + PIN ready - paste it into your AI assistant.",
+  "home_toast_credentials_copied": "We copied your Word + PIN so you can paste them into ChatGPT.",
+  "home_toast_credentials_missing": "Start the bridge first—your Word + PIN only appear when the app is connected.",
+  "home_clipboard_credentials_template": "VytalLink credential — Word: {word} | PIN: {pin}",
+  "@home_clipboard_credentials_template": {
+    "description": "Format used when copying Word and PIN to the clipboard.",
+    "placeholders": {
+      "word": {
+        "type": "String",
+        "example": "Aurora"
+      },
+      "pin": {
+        "type": "String",
+        "example": "1234"
+      }
+    }
+  },
   "home_value_prop_point_1": "Analyze your metrics <b>on your computer</b> in ChatGPT, Claude, or your MCP client",
   "home_value_prop_point_2": "<b>Generate a Word + PIN</b> from this phone whenever you need it",
   "home_value_prop_point_3": "<b>Keep this app open</b> while you chat so insights stay live",

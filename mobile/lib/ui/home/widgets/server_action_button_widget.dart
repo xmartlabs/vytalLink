@@ -5,6 +5,7 @@ import 'package:flutter_template/gen/assets.gen.dart';
 import 'package:flutter_template/ui/extensions/context_extensions.dart';
 import 'package:flutter_template/ui/home/home_cubit.dart';
 import 'package:flutter_template/ui/home/widgets/keep_app_open_notice.dart';
+import 'package:flutter_template/ui/widgets/bold_tag_text.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class ServerActionButtonWidget extends StatelessWidget {
@@ -392,9 +393,9 @@ class _DialogBullet extends StatelessWidget {
           ),
           const SizedBox(width: 8),
           Expanded(
-            child: Text(
-              text,
-              style: context.theme.textTheme.bodySmall?.copyWith(
+            child: BoldTagText(
+              text: text,
+              baseStyle: context.theme.textTheme.bodyMedium?.copyWith(
                 color: context.theme.colorScheme.onSurfaceVariant,
                 height: 1.4,
               ),
