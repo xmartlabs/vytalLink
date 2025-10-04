@@ -264,7 +264,7 @@ class _StartChatDialogContent extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           const KeepAppOpenNotice(),
-          const SizedBox(height: 16),
+          const SizedBox(height: 12),
           Text(
             context.localizations.home_dialog_chatgpt_intro,
             style: context.theme.textTheme.bodyMedium?.copyWith(
@@ -272,20 +272,20 @@ class _StartChatDialogContent extends StatelessWidget {
               height: 1.35,
             ),
           ),
-          const SizedBox(height: 12),
+          const SizedBox(height: 10),
           _DialogBullet(
             text: context.localizations.home_dialog_chatgpt_mobile_bullet,
           ),
-          const SizedBox(height: 6),
+          const SizedBox(height: 4),
           _DialogBullet(
             text: context.localizations.home_dialog_chatgpt_desktop_bullet,
           ),
-          const SizedBox(height: 20),
+          const SizedBox(height: 16),
           _ChatGptMobileButton(
             onPressed: () =>
                 onInstructionTap(context, onChatGptQuickAction),
           ),
-          const SizedBox(height: 14),
+          const SizedBox(height: 10),
           _ChatGptDesktopButton(
             onPressed: () =>
                 onInstructionTap(context, onChatGptDesktopPressed),
@@ -321,7 +321,7 @@ class _ChatGptMobileButton extends StatelessWidget {
             backgroundColor: context.theme.colorScheme.primary,
             foregroundColor: Colors.white,
             padding:
-                const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
+                const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(16),
             ),
@@ -359,7 +359,7 @@ class _ChatGptDesktopButton extends StatelessWidget {
               color: context.theme.colorScheme.primary.withValues(alpha: 0.6),
               width: 1.5,
             ),
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(16),
             ),

@@ -83,33 +83,30 @@ class AiIntegrationCard extends StatelessWidget {
             description:
                 context.localizations.home_ai_card_desktop_description,
             hint: context.localizations.home_ai_card_desktop_hint,
+            badgeLabel: context.localizations.mcp_recommended_badge,
             actions: [
               SizedBox(
                 width: double.infinity,
-                child: OutlinedButton.icon(
+                child: FilledButton.icon(
                   onPressed: () => context.router
                       .push(const ChatGptIntegrationRoute()),
                   icon: Assets.icons.chatgpt.svg(
                     width: 18,
                     height: 18,
-                    colorFilter: ColorFilter.mode(
-                      theme.colorScheme.primary,
+                    colorFilter: const ColorFilter.mode(
+                      Colors.white,
                       BlendMode.srcIn,
                     ),
                   ),
                   label: Text(
                     context.localizations.home_dialog_chatgpt_view_guide,
                   ),
-                  style: OutlinedButton.styleFrom(
-                    foregroundColor: theme.colorScheme.primary,
-                    side: BorderSide(
-                      color: theme.colorScheme.primary
-                          .withValues(alpha: 0.6),
-                      width: 1.5,
-                    ),
+                  style: FilledButton.styleFrom(
+                    foregroundColor: Colors.white,
+                    backgroundColor: theme.colorScheme.primary,
                     padding: const EdgeInsets.symmetric(
                       horizontal: 18,
-                      vertical: 12,
+                      vertical: 10,
                     ),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(14),
@@ -146,7 +143,7 @@ class AiIntegrationCard extends StatelessWidget {
                     ),
                     padding: const EdgeInsets.symmetric(
                       horizontal: 18,
-                      vertical: 12,
+                      vertical: 10,
                     ),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(14),
@@ -163,11 +160,10 @@ class AiIntegrationCard extends StatelessWidget {
           const SizedBox(height: 24),
           _AiOptionSection(
             accentColor: theme.colorScheme.primary,
-            icon: Assets.icons.chatgpt.svg(
-              width: 22,
-              height: 22,
-              colorFilter:
-                  ColorFilter.mode(theme.colorScheme.primary, BlendMode.srcIn),
+            icon: Icon(
+              Icons.phone_iphone,
+              color: theme.colorScheme.primary,
+              size: 22,
             ),
             title: context.localizations.home_ai_card_mobile_title,
             description:
@@ -198,7 +194,7 @@ class AiIntegrationCard extends StatelessWidget {
                     foregroundColor: Colors.white,
                     padding: const EdgeInsets.symmetric(
                       horizontal: 20,
-                      vertical: 14,
+                      vertical: 12,
                     ),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(16),
@@ -227,6 +223,7 @@ class _AiOptionSection extends StatelessWidget {
   final String title;
   final String description;
   final String hint;
+  final String? badgeLabel;
   final List<Widget> actions;
 
   const _AiOptionSection({
@@ -235,6 +232,7 @@ class _AiOptionSection extends StatelessWidget {
     required this.title,
     required this.description,
     required this.hint,
+    this.badgeLabel,
     required this.actions,
   });
 
@@ -261,12 +259,41 @@ class _AiOptionSection extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    title,
-                    style: theme.textTheme.titleSmall?.copyWith(
-                      fontWeight: FontWeight.w600,
-                      color: theme.colorScheme.onSurface,
-                    ),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Expanded(
+                        child: Text(
+                          title,
+                          style: theme.textTheme.titleSmall?.copyWith(
+                            fontWeight: FontWeight.w600,
+                            color: theme.colorScheme.onSurface,
+                          ),
+                        ),
+                      ),
+                      if (badgeLabel != null) ...[
+                        const SizedBox(width: 8),
+                        Container(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 6,
+                            vertical: 3,
+                          ),
+                          decoration: BoxDecoration(
+                            color: accentColor.withValues(alpha: 0.14),
+                            borderRadius: BorderRadius.circular(999),
+                          ),
+                          child: Text(
+                            badgeLabel!,
+                            style: theme.textTheme.labelSmall?.copyWith(
+                              fontWeight: FontWeight.w700,
+                              color: accentColor,
+                              letterSpacing: 0.3,
+                              fontSize: 11,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ],
                   ),
                   const SizedBox(height: 4),
                   Text(

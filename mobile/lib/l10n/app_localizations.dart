@@ -211,7 +211,7 @@ abstract class AppLocalizations {
   /// No description provided for @chatgpt_helper_chat_runs_on_desktop.
   ///
   /// In en, this message translates to:
-  /// **'<b>All chats happen on your computer in ChatGPT.</b> This app is just the bridge and only shares what you approve.'**
+  /// **'<b>Chat right here or in ChatGPT on your computer.</b> This app keeps the bridge open and only shares what you approve.'**
   String get chatgpt_helper_chat_runs_on_desktop;
 
   /// No description provided for @chatgpt_integration_hero_subtitle.
@@ -709,7 +709,7 @@ abstract class AppLocalizations {
   /// No description provided for @home_checklist_step_2.
   ///
   /// In en, this message translates to:
-  /// **'Open ChatGPT (search \"vytalLink\") or Claude on desktop'**
+  /// **'Open ChatGPT (search \"vytalLink\") here or on your computer.'**
   String get home_checklist_step_2;
 
   /// No description provided for @home_checklist_step_3.
@@ -793,13 +793,13 @@ abstract class AppLocalizations {
   /// No description provided for @home_ai_card_desktop_description.
   ///
   /// In en, this message translates to:
-  /// **'Open ChatGPT.com, Claude Desktop, or any MCP client with your Word + PIN for more space, plugins, and richer replies.'**
+  /// **'Our recommended path: open ChatGPT.com, Claude Desktop, or another MCP client with your Word + PIN for the smoothest experience with more room, plugins, and pro workflows.'**
   String get home_ai_card_desktop_description;
 
   /// No description provided for @home_ai_card_desktop_hint.
   ///
   /// In en, this message translates to:
-  /// **'Perfect when you need the desktop screen, Claude\'s charts, or pro MCP tooling.'**
+  /// **'Best experience for charts, longer sessions, and pro tools.'**
   String get home_ai_card_desktop_hint;
 
   /// No description provided for @home_ai_card_mobile_title.
@@ -835,7 +835,7 @@ abstract class AppLocalizations {
   /// No description provided for @home_description_running.
   ///
   /// In en, this message translates to:
-  /// **'Open ChatGPT or Claude on desktop and paste your Word + PIN.'**
+  /// **'Open ChatGPT on this phone or your computer, then paste your Word + PIN.'**
   String get home_description_running;
 
   /// No description provided for @home_description_starting.
@@ -877,7 +877,7 @@ abstract class AppLocalizations {
   /// No description provided for @home_dialog_chatgpt_desktop_subtitle.
   ///
   /// In en, this message translates to:
-  /// **'Open ChatGPT.com, Claude Desktop, or any MCP client for the full experience.'**
+  /// **'Use ChatGPT.com, Claude Desktop, or any MCP client when you want the richest experience with more room and plugins.'**
   String get home_dialog_chatgpt_desktop_subtitle;
 
   /// No description provided for @home_dialog_chatgpt_intro.
@@ -895,7 +895,7 @@ abstract class AppLocalizations {
   /// No description provided for @home_dialog_chatgpt_desktop_bullet.
   ///
   /// In en, this message translates to:
-  /// **'<b>Open on desktop</b>. Gives you bigger views, richer visualizations, and more integrations when you\'re at a computer.'**
+  /// **'<b>Open on desktop</b>. Gives you more room, richer visuals, and the <b>smoothest experience</b> when you\'re at a computer.'**
   String get home_dialog_chatgpt_desktop_bullet;
 
   /// No description provided for @home_dialog_claude_view_guide.
@@ -925,7 +925,7 @@ abstract class AppLocalizations {
   /// No description provided for @home_on_device_guidance_intro.
   ///
   /// In en, this message translates to:
-  /// **'This on-device chat is <b>great for quick questions</b> when you\'re only on your phone. For deeper dives you\'ll still want a desktop, but let\'s cover a few reminders first:'**
+  /// **'This on-device chat is <b>great for quick questions</b> while you stay on your phone. If you want more space or plugins later, switch to your computer. Let\'s cover a few reminders first:'**
   String get home_on_device_guidance_intro;
 
   /// No description provided for @home_on_device_guidance_bullet_browser.
@@ -957,6 +957,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Yep, I read the reminders.'**
   String get home_on_device_guidance_acknowledge;
+
+  /// No description provided for @home_on_device_guidance_skip_checkbox.
+  ///
+  /// In en, this message translates to:
+  /// **'Don\'t show this screen again.'**
+  String get home_on_device_guidance_skip_checkbox;
 
   /// No description provided for @home_on_device_guidance_primary.
   ///
@@ -1003,7 +1009,7 @@ abstract class AppLocalizations {
   /// No description provided for @home_note_keep_open.
   ///
   /// In en, this message translates to:
-  /// **'Keep the app open while you chat on desktop.'**
+  /// **'Keep the app open while you chat, whether you\'re on this phone or using ChatGPT somewhere else.'**
   String get home_note_keep_open;
 
   /// No description provided for @home_online_status.
@@ -1105,7 +1111,7 @@ abstract class AppLocalizations {
   /// No description provided for @home_value_prop_point_1.
   ///
   /// In en, this message translates to:
-  /// **'Analyze your metrics <b>on your computer</b> in ChatGPT, Claude, or your MCP client'**
+  /// **'Ask your metrics <b>on any screen</b> through ChatGPT, Claude, or your MCP client'**
   String get home_value_prop_point_1;
 
   /// No description provided for @home_value_prop_point_2.
@@ -1129,7 +1135,7 @@ abstract class AppLocalizations {
   /// No description provided for @home_value_prop_title.
   ///
   /// In en, this message translates to:
-  /// **'Chat with your wearable data from your desktop'**
+  /// **'Chat with your wearable data wherever you are'**
   String get home_value_prop_title;
 
   /// No description provided for @how_it_works_step1_description.
@@ -1147,7 +1153,7 @@ abstract class AppLocalizations {
   /// No description provided for @how_it_works_step2_description.
   ///
   /// In en, this message translates to:
-  /// **'Open ChatGPT or Claude on your computer and paste your Word + PIN'**
+  /// **'Open ChatGPT here or on your computer and paste your Word + PIN'**
   String get how_it_works_step2_description;
 
   /// No description provided for @how_it_works_step2_title.
@@ -1291,7 +1297,7 @@ abstract class AppLocalizations {
   /// No description provided for @mcp_feature_2.
   ///
   /// In en, this message translates to:
-  /// **'Secure connection between your phone and desktop AI tools'**
+  /// **'Secure connection between your phone and advanced AI tools'**
   String get mcp_feature_2;
 
   /// No description provided for @mcp_feature_3.
@@ -1309,7 +1315,7 @@ abstract class AppLocalizations {
   /// No description provided for @mcp_helper_chat_runs_on_desktop.
   ///
   /// In en, this message translates to:
-  /// **'<b>All chats happen on your computer</b> via your MCP client (Claude Desktop, Cursor, VS Code). This app is just the bridge and only shares what you approve.'**
+  /// **'<b>Chats happen in your AI client</b> such as ChatGPT, Claude Desktop, Cursor, or VS Code. This app keeps the bridge open and only shares what you approve.'**
   String get mcp_helper_chat_runs_on_desktop;
 
   /// No description provided for @mcp_integration_hero_subtitle.
@@ -1435,7 +1441,7 @@ abstract class AppLocalizations {
   /// No description provided for @onboarding_ai_integration_description.
   ///
   /// In en, this message translates to:
-  /// **'Tap <b>Get Word + PIN</b> before you start, open ChatGPT or Claude on desktop, paste the codes, keep the app running, and stay in control of what’s shared.'**
+  /// **'Tap <b>Get Word + PIN</b> before you start, open ChatGPT here or on your computer, paste the codes, keep the app running, and stay in control of what’s shared.'**
   String get onboarding_ai_integration_description;
 
   /// No description provided for @onboarding_ai_integration_feature_1.
@@ -1561,7 +1567,7 @@ abstract class AppLocalizations {
   /// No description provided for @onboarding_how_it_works_feature_2.
   ///
   /// In en, this message translates to:
-  /// **'Claude Desktop bundle handles your desktop'**
+  /// **'Claude Desktop bundle handles the computer setup'**
   String get onboarding_how_it_works_feature_2;
 
   /// No description provided for @onboarding_how_it_works_feature_3.

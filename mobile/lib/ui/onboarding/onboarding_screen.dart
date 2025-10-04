@@ -235,7 +235,7 @@ class _OnboardingPageWidget extends StatelessWidget {
       padding: EdgeInsets.symmetric(horizontal: horizontalPadding),
       child: Column(
         children: [
-          SizedBox(height: isSmallScreen ? 20.h : 32.h),
+          SizedBox(height: isSmallScreen ? 16.h : 26.h),
           ScaleTransition(
             scale: iconAnimation,
             child: Builder(
@@ -258,7 +258,7 @@ class _OnboardingPageWidget extends StatelessWidget {
               },
             ),
           ),
-          SizedBox(height: isSmallScreen ? 14.h : 20.h),
+          SizedBox(height: isSmallScreen ? 12.h : 18.h),
           Align(
             alignment: Alignment.center,
             child: ConstrainedBox(
@@ -278,7 +278,7 @@ class _OnboardingPageWidget extends StatelessWidget {
             ),
           ),
           if (bodyText.isNotEmpty) ...[
-            SizedBox(height: isSmallScreen ? 16.h : 20.h),
+            SizedBox(height: isSmallScreen ? 14.h : 18.h),
             Align(
               alignment: Alignment.center,
               child: ConstrainedBox(
@@ -289,7 +289,7 @@ class _OnboardingPageWidget extends StatelessWidget {
                 ),
               ),
             ),
-            SizedBox(height: isSmallScreen ? 18.h : 26.h),
+            SizedBox(height: isSmallScreen ? 16.h : 24.h),
           ] else
             SizedBox(height: isSmallScreen ? 16.h : 24.h),
           if (page.features.isNotEmpty)
@@ -314,7 +314,7 @@ class _OnboardingPageWidget extends StatelessWidget {
                 ),
               ),
             ),
-          SizedBox(height: isSmallScreen ? 10.h : 16.h),
+          SizedBox(height: isSmallScreen ? 6.h : 16.h),
         ],
       ),
     );
