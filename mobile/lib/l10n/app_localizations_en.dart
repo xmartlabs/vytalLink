@@ -77,7 +77,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get chatgpt_helper_chat_runs_on_desktop =>
-      '<b>All chats happen on your computer in ChatGPT.</b> This app is just the bridge and only shares what you approve.';
+      '<b>Chat right here or in ChatGPT on your computer.</b> This app keeps the bridge open and only shares what you approve.';
 
   @override
   String get chatgpt_integration_hero_subtitle =>
@@ -334,6 +334,44 @@ class AppLocalizationsEn extends AppLocalizations {
   String get health_permissions_dialog_title => 'Health Data Access Required';
 
   @override
+  String get home_ai_card_blog_claude =>
+      'If you want something a little more powerful, Claude Desktop is an excellent choice. It often generates fantastic visualizations and better explanations.';
+
+  @override
+  String get home_ai_card_blog_gpt =>
+      'For most people, we suggest starting with the VytalLink GPT. You don\'t have to install anything; you get an assistant ready to go right away.';
+
+  @override
+  String get home_ai_card_desktop_description =>
+      'Our recommended path: open ChatGPT.com, Claude Desktop, or another MCP client with your Word + PIN for the smoothest experience with more room, plugins, and pro workflows.';
+
+  @override
+  String get home_ai_card_desktop_hint =>
+      'Best experience for charts, longer sessions, and pro tools.';
+
+  @override
+  String get home_ai_card_desktop_title => 'Use GPT on desktop';
+
+  @override
+  String get home_ai_card_guide_header =>
+      'This guide walks you through both paths:';
+
+  @override
+  String get home_ai_card_intro =>
+      'Your Word + PIN work anywhere; choose the flow that fits how you want to chat.';
+
+  @override
+  String get home_ai_card_mobile_description =>
+      'Open the VytalLink GPT right here in the app so you can start chatting in seconds.';
+
+  @override
+  String get home_ai_card_mobile_hint =>
+      'Ideal for quick follow-ups when you only have your phone.';
+
+  @override
+  String get home_ai_card_mobile_title => 'Use GPT on this phone';
+
+  @override
   String get home_banner_bridge_active => 'Connection active';
 
   @override
@@ -352,17 +390,43 @@ class AppLocalizationsEn extends AppLocalizations {
   String get home_button_stopping => 'Stopping...';
 
   @override
+  String get home_chatgpt_quick_actions_description =>
+      'Pick how you want to open the vytalLink GPT.';
+
+  @override
+  String get home_chatgpt_quick_actions_in_app_unavailable =>
+      'Keep this screen open and use the web to chat.';
+
+  @override
+  String get home_chatgpt_quick_actions_open_in_app => 'Open in app';
+
+  @override
+  String get home_chatgpt_quick_actions_open_in_browser => 'Open on web';
+
+  @override
+  String get home_chatgpt_quick_actions_title => 'Start chatting with ChatGPT';
+
+  @override
+  String get home_chatgpt_quick_actions_view_instructions =>
+      'View desktop instructions';
+
+  @override
   String get home_checklist_step_1 => 'Get your Word + PIN on this phone';
 
   @override
   String get home_checklist_step_2 =>
-      'Open ChatGPT (search \"vytalLink\") or Claude on desktop';
+      'Open ChatGPT (search \"vytalLink\") here or on your computer.';
 
   @override
   String get home_checklist_step_3 => 'Paste your Word + PIN and start asking';
 
   @override
   String get home_checklist_title => 'How it works';
+
+  @override
+  String home_clipboard_credentials_template(String word, String pin) {
+    return 'VytalLink credential — Word: $word | PIN: $pin';
+  }
 
   @override
   String get home_description_error =>
@@ -374,7 +438,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get home_description_running =>
-      'Open ChatGPT or Claude on desktop and paste your Word + PIN.';
+      'Open ChatGPT on this phone or your computer, then paste your Word + PIN.';
 
   @override
   String get home_description_starting =>
@@ -385,6 +449,32 @@ class AppLocalizationsEn extends AppLocalizations {
       'Shutting down server and closing connections...';
 
   @override
+  String get home_dialog_chatgpt_desktop_bullet =>
+      '<b>Open on desktop</b>. Gives you more room, richer visuals, and the <b>smoothest experience</b> when you\'re at a computer.';
+
+  @override
+  String get home_dialog_chatgpt_desktop_subtitle =>
+      'Use ChatGPT.com, Claude Desktop, or any MCP client when you want the richest experience with more room and plugins.';
+
+  @override
+  String get home_dialog_chatgpt_desktop_title => 'Open on desktop';
+
+  @override
+  String get home_dialog_chatgpt_intro =>
+      'Choose how you want to start chatting:';
+
+  @override
+  String get home_dialog_chatgpt_mobile_bullet =>
+      '<b>Open ChatGPT on this phone</b>. Fast and simple when you\'re on the go, perfect for quick chats.';
+
+  @override
+  String get home_dialog_chatgpt_mobile_subtitle =>
+      'Launches the VytalLink GPT in Safari View Controller or Chrome Custom Tab so you never leave the app.';
+
+  @override
+  String get home_dialog_chatgpt_mobile_title => 'Open ChatGPT on this phone';
+
+  @override
   String get home_dialog_chatgpt_view_guide => 'View ChatGPT instructions';
 
   @override
@@ -392,10 +482,10 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get home_dialog_start_chat_body =>
-      'Bridge ready. On desktop, open ChatGPT, go to your GPTs, search for vytalLink, paste your Word + PIN, and start asking. Prefer Claude? Open Claude Desktop or any MCP client, drop in the same Word + PIN, and keep chatting.';
+      'vytalLink is ready. Keep your Word + PIN handy and you\'re good to go.';
 
   @override
-  String get home_dialog_start_chat_title => 'Bridge ready';
+  String get home_dialog_start_chat_title => 'Bridge ready - pick your flow';
 
   @override
   String home_endpoint_label(String endpoint) {
@@ -418,7 +508,52 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get home_note_keep_open =>
-      'Keep the app open while you chat on desktop.';
+      'Keep the app open while you chat, whether you\'re on this phone or using ChatGPT somewhere else.';
+
+  @override
+  String home_notification_credentials_body(String word, String pin) {
+    return 'Word: $word | PIN: $pin';
+  }
+
+  @override
+  String get home_notification_credentials_title => 'Bridge activated';
+
+  @override
+  String get home_on_device_guidance_acknowledge =>
+      'Yep, I read the reminders.';
+
+  @override
+  String get home_on_device_guidance_bullet_browser =>
+      'We\'ll open ChatGPT inside this app. <b>Stick with that in-app browser</b> so the bridge keeps flowing.';
+
+  @override
+  String get home_on_device_guidance_bullet_clipboard =>
+      '<b>Your Word + PIN are already copied.</b> Paste them when ChatGPT asks and you\'re in.';
+
+  @override
+  String get home_on_device_guidance_bullet_keyboard =>
+      'If the chat bar sits on top of our buttons on iOS, <b>scroll up a notch</b> and the keyboard shows up again. ChatGPT is working on a fix.';
+
+  @override
+  String get home_on_device_guidance_bullet_no_external_app =>
+      '<b>Skip any prompts to open or install the ChatGPT app.</b> Sending vytalLink to the background stops the data stream.';
+
+  @override
+  String get home_on_device_guidance_intro =>
+      'This on-device chat is <b>great for quick questions</b> while you stay on your phone. If you want more space or plugins later, switch to your computer. Let\'s cover a few reminders first:';
+
+  @override
+  String get home_on_device_guidance_primary => 'Open ChatGPT here';
+
+  @override
+  String get home_on_device_guidance_secondary => 'Maybe later';
+
+  @override
+  String get home_on_device_guidance_skip_checkbox =>
+      'Don\'t show this screen again.';
+
+  @override
+  String get home_on_device_guidance_title => 'Before you open ChatGPT here';
 
   @override
   String get home_online_status => 'ONLINE';
@@ -427,6 +562,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String home_server_ip_label(String ipAddress) {
     return 'Server IP: $ipAddress';
   }
+
+  @override
+  String get home_snackbar_credentials_copied =>
+      'Word + PIN copied to your clipboard.';
 
   @override
   String get home_status_error => 'Connection Error';
@@ -450,12 +589,20 @@ class AppLocalizationsEn extends AppLocalizations {
   String get home_toast_copy_success => 'Copied to clipboard.';
 
   @override
+  String get home_toast_credentials_copied =>
+      'We copied your Word + PIN so you can paste them into ChatGPT.';
+
+  @override
+  String get home_toast_credentials_missing =>
+      'Start the bridge first—your Word + PIN only appear when the app is connected.';
+
+  @override
   String get home_toast_credentials_ready =>
       'Word + PIN ready - paste it into your AI assistant.';
 
   @override
   String get home_value_prop_point_1 =>
-      'Analyze your metrics <b>on your computer</b> in ChatGPT, Claude, or your MCP client';
+      'Ask your metrics <b>on any screen</b> through ChatGPT, Claude, or your MCP client';
 
   @override
   String get home_value_prop_point_2 =>
@@ -471,7 +618,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get home_value_prop_title =>
-      'Chat with your wearable data from your desktop';
+      'Chat with your wearable data wherever you are';
 
   @override
   String get how_it_works_step1_description =>
@@ -482,7 +629,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get how_it_works_step2_description =>
-      'Open ChatGPT or Claude on your computer and paste your Word + PIN';
+      'Open ChatGPT here or on your computer and paste your Word + PIN';
 
   @override
   String get how_it_works_step2_title => 'Open your AI assistant';
@@ -564,7 +711,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get mcp_feature_2 =>
-      'Secure connection between your phone and desktop AI tools';
+      'Secure connection between your phone and advanced AI tools';
 
   @override
   String get mcp_feature_3 => 'Works with professional AI development tools';
@@ -574,7 +721,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get mcp_helper_chat_runs_on_desktop =>
-      '<b>All chats happen on your computer</b> via your MCP client (Claude Desktop, Cursor, VS Code). This app is just the bridge and only shares what you approve.';
+      '<b>Chats happen in your AI client</b> such as ChatGPT, Claude Desktop, Cursor, or VS Code. This app keeps the bridge open and only shares what you approve.';
 
   @override
   String get mcp_integration_hero_subtitle =>
@@ -645,7 +792,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get onboarding_ai_integration_description =>
-      'Tap <b>Get Word + PIN</b> before you start, open ChatGPT or Claude on desktop, paste the codes, keep the app running, and stay in control of what’s shared.';
+      'Tap <b>Get Word + PIN</b> before you start, open ChatGPT here or on your computer, paste the codes, keep the app running, and stay in control of what’s shared.';
 
   @override
   String get onboarding_ai_integration_feature_1 =>
@@ -723,7 +870,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get onboarding_how_it_works_feature_2 =>
-      'Claude Desktop bundle handles your desktop';
+      'Claude Desktop bundle handles the computer setup';
 
   @override
   String get onboarding_how_it_works_feature_3 =>

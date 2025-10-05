@@ -52,6 +52,11 @@ jobs:
         with:
           lane: 'lints'
           subdirectory: ${{ env.MOBILE_DIR }}
+      - name: 'Run Flutter tests'
+        uses: maierj/fastlane-action@v3.1.0
+        with:
+          lane: 'tests'
+          subdirectory: ${{ env.MOBILE_DIR }}
       - name: 'Check generated code'
         uses: maierj/fastlane-action@v3.1.0
         with:

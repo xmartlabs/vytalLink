@@ -4,10 +4,10 @@ import 'package:flutter_template/core/health/health_permissions_guard.dart';
 import 'package:flutter_template/core/health/health_sleep_session_normalizer.dart';
 import 'package:flutter_template/core/model/health_data_point.dart';
 import 'package:flutter_template/core/model/health_data_request.dart';
+import 'package:flutter_template/core/model/mcp_exceptions.dart';
 import 'package:flutter_template/core/model/statistic_types.dart';
 import 'package:flutter_template/core/model/time_group_by.dart';
 import 'package:flutter_template/core/service/health_data_manager.dart';
-import 'package:flutter_template/core/source/mcp_server.dart';
 import 'package:flutter_template/model/vytal_health_data_category.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:health/health.dart';
@@ -588,7 +588,8 @@ void main() {
           final request = HealthDataRequest(
             valueType: VytalHealthDataCategory.HEART_RATE,
             startTime: DateTime(2024, 1, 1),
-            endTime: DateTime(2024, 1, 8), // One week
+            endTime: DateTime(2024, 1, 8),
+            // One week
             groupBy: TimeGroupBy.day,
             statistic: StatisticType.average,
           );

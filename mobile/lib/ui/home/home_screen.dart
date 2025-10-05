@@ -1,7 +1,10 @@
+import 'dart:async';
+
 import 'package:auto_route/auto_route.dart';
 import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_template/core/model/mcp_connection_state.dart';
 import 'package:flutter_template/core/service/once_service.dart';
 import 'package:flutter_template/ui/extensions/context_extensions.dart';
 import 'package:flutter_template/ui/home/home_cubit.dart';
@@ -38,6 +41,7 @@ class _HomeContentScreenState extends State<_HomeContentScreen>
 
   final ScrollController _scrollController = ScrollController();
   final GlobalKey _serverCardKey = GlobalKey();
+  final GlobalKey _aiGuideCardKey = GlobalKey();
 
   late AnimationController _pulseController;
   late Animation<double> _pulseAnimation;
@@ -100,9 +104,9 @@ class _HomeContentScreenState extends State<_HomeContentScreen>
   @override
   Widget build(BuildContext context) => BlocConsumer<HomeCubit, HomeState>(
         listenWhen: (previous, current) =>
-            previous.connectionWord != current.connectionWord,
+            previous.bridgeCredentials != current.bridgeCredentials,
         listener: (context, state) {
-          if (state.connectionWord.isNotEmpty) {
+          if (state.bridgeCredentials != null) {
             _scrollToServerCard();
             ScaffoldMessenger.of(context)
               ..hideCurrentSnackBar()
@@ -179,9 +183,9 @@ class _HomeContentScreenState extends State<_HomeContentScreen>
                     status: state.status,
                     errorMessage: state.errorMessage,
                     pulseAnimation: _pulseAnimation,
-                    onStartPressed: () => _checkPermissionsAndStartServer(),
-                    connectionWord: state.connectionWord,
-                    connectionPin: state.connectionCode,
+                    onChatGptDesktop: _scrollToAiGuideCard,
+                    bridgeCredentials: state.bridgeCredentials,
+                    connectCallback: startServer,
                   ),
                   const SizedBox(height: 16),
                   HowItWorksSection(
@@ -189,7 +193,14 @@ class _HomeContentScreenState extends State<_HomeContentScreen>
                         context.navigateTo(const ChatGptIntegrationRoute()),
                   ),
                   const SizedBox(height: 16),
-                  const AiIntegrationCard(),
+                  KeyedSubtree(
+                    key: _aiGuideCardKey,
+                    child: AiIntegrationCard(
+                      status: state.status,
+                      bridgeCredentials: state.bridgeCredentials,
+                      connectCallback: startServer,
+                    ),
+                  ),
                   const SizedBox(height: 24),
                 ],
               ),
@@ -198,29 +209,32 @@ class _HomeContentScreenState extends State<_HomeContentScreen>
         ),
       );
 
-  Future<void> _checkPermissionsAndStartServer() async {
+  Future<BridgeCredentials?> startServer() async {
     final cubit = context.read<HomeCubit>();
+    final currentState = cubit.state;
+    final existingCredentials = currentState.bridgeCredentials;
+    if (existingCredentials != null) return existingCredentials;
 
     if (await cubit.isHealthConnectInstallationRequired()) {
       final shouldInstall = await _showHealthConnectRequiredAlert();
       if (shouldInstall ?? false) {
         await cubit.installHealthConnect();
       }
-      return;
+      return null;
     }
 
     final hasPermissions = await cubit.hasAllHealthPermissions();
-
     if (!hasPermissions &&
         !await OnceService.beenDone(_showHealthPermissionsAlertKey)) {
       final accepted = await _showHealthPermissionsAlert();
-      if (accepted != true) return;
+      if (accepted != true) return null;
     }
 
-    final startServer = await cubit.checkAndStartServer();
-    if (startServer) {
+    final started = await cubit.checkAndStartServer();
+    if (started) {
       await OnceService.markDone(_showHealthPermissionsAlertKey);
     }
+    return cubit.state.bridgeCredentials;
   }
 
   void _dismissValuePropHeader() {
@@ -233,6 +247,19 @@ class _HomeContentScreenState extends State<_HomeContentScreen>
     if (!_showValuePropHeader) return;
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final context = _serverCardKey.currentContext;
+      if (context == null) return;
+      Scrollable.ensureVisible(
+        context,
+        duration: const Duration(milliseconds: 400),
+        curve: Curves.easeInOut,
+        alignment: 0,
+      );
+    });
+  }
+
+  void _scrollToAiGuideCard() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final context = _aiGuideCardKey.currentContext;
       if (context == null) return;
       Scrollable.ensureVisible(
         context,

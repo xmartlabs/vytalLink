@@ -4,11 +4,12 @@ import 'package:flutter_template/core/service/shared_preference_service.dart';
 import 'package:flutter_template/ui/ai_integration/chatgpt_integration_screen.dart';
 import 'package:flutter_template/ui/ai_integration/mcp_integration_screen.dart';
 import 'package:flutter_template/ui/faq/faq_screen.dart';
-import 'package:flutter_template/ui/web/web_page_screen.dart';
 import 'package:flutter_template/ui/home/home_screen.dart';
+import 'package:flutter_template/ui/home/screens/chatgpt_on_device_guidance_screen.dart';
 import 'package:flutter_template/ui/onboarding/onboarding_screen.dart';
 import 'package:flutter_template/ui/router/onboarding_guard.dart';
 import 'package:flutter_template/ui/section/section_router.dart';
+import 'package:flutter_template/ui/web/web_page_screen.dart';
 
 part 'app_router.gr.dart';
 
@@ -30,13 +31,19 @@ class AppRouter extends _$AppRouter {
             path: '/',
             initial: true,
             guards: [OnboardingGuard(sharedPreferenceService)],
+            transitionsBuilder: TransitionsBuilders.zoomIn,
             children: [
               CustomRoute(
                 initial: true,
                 page: HomeRoute.page,
-                transitionsBuilder: TransitionsBuilders.zoomIn,
               ),
               AutoRoute(page: ChatGptIntegrationRoute.page),
+              CustomRoute(
+                page: ChatGptOnDeviceGuidanceRoute.page,
+                fullscreenDialog: true,
+                transitionsBuilder: TransitionsBuilders.slideBottom,
+                durationInMilliseconds: 250,
+              ),
               AutoRoute(page: McpIntegrationRoute.page),
               AutoRoute(page: FaqRoute.page),
             ],

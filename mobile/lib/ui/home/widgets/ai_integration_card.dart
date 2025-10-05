@@ -1,176 +1,265 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:design_system/design_system.dart';
-import 'package:design_system/extensions/color_extensions.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_template/ui/extensions/context_extensions.dart';
-import 'package:flutter_template/ui/router/app_router.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:flutter_template/core/model/mcp_connection_state.dart';
 import 'package:flutter_template/gen/assets.gen.dart';
+import 'package:flutter_template/ui/extensions/context_extensions.dart';
+import 'package:flutter_template/ui/home/helpers/chatgpt_quick_action_helper.dart';
+import 'package:flutter_template/ui/home/home_cubit.dart';
+import 'package:flutter_template/ui/router/app_router.dart';
 
 class AiIntegrationCard extends StatelessWidget {
-  const AiIntegrationCard({super.key});
+  final McpServerStatus status;
+  final BridgeCredentials? bridgeCredentials;
+  final Future<BridgeCredentials?> Function()? connectCallback;
 
-  @override
-  Widget build(BuildContext context) => VytalLinkCard(
-        margin: const EdgeInsets.only(bottom: 24),
-        padding: const EdgeInsets.all(24),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              children: [
-                Container(
-                  width: 40,
-                  height: 40,
-                  decoration: BoxDecoration(
-                    color: context.theme.colorScheme.primary
-                        .withValues(alpha: 0.1),
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: Center(
-                    child: Transform.translate(
-                      offset: const Offset(-2, -2),
-                      child: Icon(
-                        FontAwesomeIcons.robot,
-                        color: context.theme.colorScheme.primary,
-                        size: 20,
-                      ),
-                    ),
-                  ),
-                ),
-                const SizedBox(width: 12),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        context.localizations.ai_integration_title,
-                        style: context.theme.textTheme.titleMedium?.copyWith(
-                          fontWeight: FontWeight.w600,
-                          color: context.theme.colorScheme.onSurface,
-                        ),
-                      ),
-                      Text(
-                        context.localizations.ai_integration_subtitle,
-                        style: context.theme.textTheme.bodySmall?.copyWith(
-                          color: context.theme.colorScheme.onSurfaceVariant,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 20),
-            Row(
-              children: [
-                Expanded(
-                  child: _IntegrationOption(
-                    icon: FontAwesomeIcons.comments,
-                    title: context.localizations.ai_integration_chatgpt,
-                    subtitle:
-                        context.localizations.ai_integration_chatgpt_subtitle,
-                    color: context.theme.colorScheme.secondary.getShade(500),
-                    leadingIconBuilder: (color) => Assets.icons.chatgpt.svg(
-                      width: 22,
-                      height: 22,
-                      colorFilter: ColorFilter.mode(color, BlendMode.srcIn),
-                    ),
-                    onTap: () =>
-                        context.router.push(const ChatGptIntegrationRoute()),
-                  ),
-                ),
-                const SizedBox(width: 12),
-                Expanded(
-                  child: _IntegrationOption(
-                    icon: FontAwesomeIcons.server,
-                    title: context.localizations.ai_integration_mcp,
-                    subtitle: context.localizations.ai_integration_mcp_subtitle,
-                    color: context.theme.colorScheme.primary.getShade(500),
-                    onTap: () =>
-                        context.router.push(const McpIntegrationRoute()),
-                  ),
-                ),
-              ],
-            ),
-          ],
-        ),
-      );
-}
-
-class _IntegrationOption extends StatelessWidget {
-  final IconData icon;
-  final String title;
-  final String subtitle;
-  final Color color;
-  final VoidCallback onTap;
-  final Widget Function(Color color)? leadingIconBuilder;
-
-  const _IntegrationOption({
-    required this.icon,
-    required this.title,
-    required this.subtitle,
-    required this.color,
-    required this.onTap,
-    this.leadingIconBuilder,
+  const AiIntegrationCard({
+    required this.status,
+    required this.bridgeCredentials,
+    this.connectCallback,
     super.key,
   });
 
   @override
-  Widget build(BuildContext context) => InkWell(
-        onTap: onTap,
-        borderRadius: BorderRadius.circular(12),
-        child: Container(
-          padding: const EdgeInsets.all(16),
-          decoration: BoxDecoration(
-            color: color.withValues(alpha: 0.05),
-            borderRadius: BorderRadius.circular(12),
-            border: Border.all(
-              color: color.withValues(alpha: 0.2),
+  Widget build(BuildContext context) {
+    final theme = context.theme;
+    final colorScheme = theme.colorScheme;
+    return VytalLinkCard(
+      margin: const EdgeInsets.only(bottom: 24),
+      padding: const EdgeInsets.all(24),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            context.localizations.ai_integration_title,
+            style: theme.textTheme.headlineSmall?.copyWith(
+              fontWeight: FontWeight.w700,
+              color: colorScheme.onSurface,
             ),
           ),
-          child: Column(
-            children: [
-              Container(
-                width: 52,
-                height: 52,
-                decoration: BoxDecoration(
-                  color: color.withValues(alpha: 0.1),
-                  borderRadius: BorderRadius.circular(12),
+          const SizedBox(height: 12),
+          Text(
+            context.localizations.home_ai_card_intro,
+            style: theme.textTheme.bodyMedium?.copyWith(
+              color: colorScheme.onSurface,
+              height: 1.4,
+            ),
+          ),
+          const SizedBox(height: 8),
+          Text(
+            context.localizations.home_ai_card_guide_header,
+            style: theme.textTheme.bodySmall?.copyWith(
+              color: colorScheme.onSurfaceVariant,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+          const SizedBox(height: 12),
+          Text(
+            context.localizations.home_ai_card_blog_gpt,
+            style: theme.textTheme.bodySmall?.copyWith(
+              color: colorScheme.onSurfaceVariant,
+              fontStyle: FontStyle.italic,
+              height: 1.45,
+            ),
+          ),
+          const SizedBox(height: 6),
+          Text(
+            context.localizations.home_ai_card_blog_claude,
+            style: theme.textTheme.bodySmall?.copyWith(
+              color: colorScheme.onSurfaceVariant,
+              fontStyle: FontStyle.italic,
+              height: 1.45,
+            ),
+          ),
+          const SizedBox(height: 24),
+          _AiOptionSection(
+            accentColor: colorScheme.primary,
+            icon: Icon(
+              Icons.desktop_windows,
+              color: colorScheme.primary,
+              size: 22,
+            ),
+            title: context.localizations.home_ai_card_desktop_title,
+            description: context.localizations.home_ai_card_desktop_description,
+            hint: context.localizations.home_ai_card_desktop_hint,
+            badgeLabel: context.localizations.mcp_recommended_badge,
+            actions: [
+              AppButton.filled(
+                label: context.localizations.home_dialog_chatgpt_view_guide,
+                icon: Assets.icons.chatgpt.svg(
+                  width: AppButtonDefaults.iconSize,
+                  height: AppButtonDefaults.iconSize,
+                  colorFilter: const ColorFilter.mode(
+                    Colors.white,
+                    BlendMode.srcIn,
+                  ),
                 ),
-                child: Center(
-                  child: leadingIconBuilder != null
-                      ? leadingIconBuilder!(color)
-                      : Icon(
-                          icon,
-                          color: color,
-                          size: 22,
-                        ),
-                ),
+                onPressed: () =>
+                    context.router.push(const ChatGptIntegrationRoute()),
               ),
-              const SizedBox(height: 8),
-              Text(
-                title,
-                style: context.theme.textTheme.titleSmall?.copyWith(
-                  fontWeight: FontWeight.w600,
-                  color: context.theme.colorScheme.onSurface,
+              AppButton.outlined(
+                label: context.localizations.home_dialog_claude_view_guide,
+                icon: Assets.icons.claude.svg(
+                  width: AppButtonDefaults.iconSize,
+                  height: AppButtonDefaults.iconSize,
+                  colorFilter: ColorFilter.mode(
+                    colorScheme.primary,
+                    BlendMode.srcIn,
+                  ),
                 ),
-              ),
-              Text(
-                subtitle,
-                style: context.theme.textTheme.bodySmall?.copyWith(
-                  color: context.theme.colorScheme.onSurfaceVariant,
-                  fontSize: 11,
-                ),
-              ),
-              const SizedBox(height: 4),
-              Icon(
-                FontAwesomeIcons.arrowUpRightFromSquare,
-                size: 12,
-                color: color,
+                onPressed: () =>
+                    context.router.push(const McpIntegrationRoute()),
               ),
             ],
           ),
+          const SizedBox(height: 24),
+          _AiOptionSection(
+            accentColor: colorScheme.primary,
+            icon: Icon(
+              Icons.phone_iphone,
+              color: colorScheme.primary,
+              size: 22,
+            ),
+            title: context.localizations.home_ai_card_mobile_title,
+            description: context.localizations.home_ai_card_mobile_description,
+            hint: context.localizations.home_ai_card_mobile_hint,
+            actions: [
+              AppButton.filled(
+                label: context.localizations.chatgpt_open_custom_gpt,
+                icon: Assets.icons.chatgpt.svg(
+                  width: AppButtonDefaults.iconSize,
+                  height: AppButtonDefaults.iconSize,
+                  colorFilter:
+                      const ColorFilter.mode(Colors.white, BlendMode.srcIn),
+                ),
+                onPressed: () => launchChatGptQuickAction(
+                  context: context,
+                  credentials: bridgeCredentials,
+                  connectCallback: connectCallback,
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _AiOptionSection extends StatelessWidget {
+  final Color accentColor;
+  final Widget icon;
+  final String title;
+  final String description;
+  final String hint;
+  final String? badgeLabel;
+  final List<Widget> actions;
+
+  const _AiOptionSection({
+    required this.accentColor,
+    required this.icon,
+    required this.title,
+    required this.description,
+    required this.hint,
+    required this.actions,
+    this.badgeLabel,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = context.theme;
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              width: 48,
+              height: 48,
+              decoration: BoxDecoration(
+                color: accentColor.withValues(alpha: 0.12),
+                borderRadius: BorderRadius.circular(14),
+              ),
+              child: Center(child: icon),
+            ),
+            const SizedBox(width: 12),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Expanded(
+                        child: Text(
+                          title,
+                          style: theme.textTheme.titleSmall?.copyWith(
+                            fontWeight: FontWeight.w600,
+                            color: theme.colorScheme.onSurface,
+                          ),
+                        ),
+                      ),
+                      if (badgeLabel != null) ...[
+                        const SizedBox(width: 8),
+                        Container(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 6,
+                            vertical: 3,
+                          ),
+                          decoration: BoxDecoration(
+                            color: accentColor.withValues(alpha: 0.14),
+                            borderRadius: BorderRadius.circular(999),
+                          ),
+                          child: Text(
+                            badgeLabel!,
+                            style: theme.textTheme.labelSmall?.copyWith(
+                              fontWeight: FontWeight.w700,
+                              color: accentColor,
+                              letterSpacing: 0.3,
+                              fontSize: 11,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ],
+                  ),
+                  const SizedBox(height: 4),
+                  Text(
+                    description,
+                    style: theme.textTheme.bodySmall?.copyWith(
+                      color: theme.colorScheme.onSurfaceVariant,
+                      height: 1.4,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
         ),
-      );
+        const SizedBox(height: 16),
+        ..._intersperse(actions, const SizedBox(height: 8)),
+        const SizedBox(height: 10),
+        Text(
+          hint,
+          style: theme.textTheme.bodySmall?.copyWith(
+            color: theme.colorScheme.onSurfaceVariant,
+            fontStyle: FontStyle.italic,
+          ),
+        ),
+      ],
+    );
+  }
+
+  static List<Widget> _intersperse(List<Widget> items, Widget separator) {
+    if (items.isEmpty) return const [];
+    final result = <Widget>[];
+    for (var i = 0; i < items.length; i++) {
+      result.add(items[i]);
+      if (i != items.length - 1) {
+        result.add(separator);
+      }
+    }
+    return result;
+  }
 }

@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter_template/core/common/analytics_manager.dart';
 import 'package:flutter_template/core/common/config.dart';
 import 'package:flutter_template/core/common/logger.dart';
@@ -8,104 +9,59 @@ import 'package:flutter_template/core/model/backend_message.dart';
 import 'package:flutter_template/core/model/backend_response.dart';
 import 'package:flutter_template/core/model/health_data_request.dart';
 import 'package:flutter_template/core/model/health_data_response.dart';
+import 'package:flutter_template/core/model/mcp_connection_state.dart';
+import 'package:flutter_template/core/model/mcp_exceptions.dart';
 import 'package:flutter_template/core/service/health_data_manager.dart';
+import 'package:rxdart/rxdart.dart';
 import 'package:web_socket_channel/io.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 
-class HealthMcpServerConfig {
-  const HealthMcpServerConfig({
-    required this.serverName,
-    required this.serverVersion,
-    required this.host,
-    required this.port,
-    required this.endpoint,
-    this.isJsonResponseEnabled = true,
-  });
-
-  final String serverName;
-  final String serverVersion;
-  final String host;
-  final int port;
-  final String endpoint;
-  final bool isJsonResponseEnabled;
-}
-
-class HealthMcpServerException implements Exception {
-  const HealthMcpServerException(this.message, [this.cause]);
-
-  final String message;
-  final dynamic cause;
-
-  @override
-  String toString() => 'HealthMcpServerException: $message'
-      '${cause != null ? ' (Cause: $cause)' : ''}';
-}
-
-class HealthPermissionException extends HealthMcpServerException {
-  const HealthPermissionException(super.message, [super.cause]);
-}
-
-class HealthDataUnavailableException extends HealthMcpServerException {
-  const HealthDataUnavailableException(super.message, [super.cause]);
-}
+export 'package:flutter_template/core/model/mcp_connection_state.dart';
 
 class HealthMcpServerService {
   HealthMcpServerService({
-    required this.config,
     HealthDataManager? healthDataManager,
   }) : _healthDataManager = healthDataManager ?? HealthDataManager();
+  final BehaviorSubject<McpConnectionState> _connectionState =
+      BehaviorSubject<McpConnectionState>.seeded(
+    const McpConnectionState.disconnected(),
+  );
 
-  final HealthMcpServerConfig config;
   final HealthDataManager _healthDataManager;
 
+  @visibleForTesting
   late WebSocketChannel webSocketChannel;
 
-  bool _isConnected = false;
+  Stream<McpConnectionState> get status => _connectionState.stream;
 
-  bool get isConnected => _isConnected;
+  McpConnectionState get currentStatus =>
+      _connectionState.valueOrNull ??
+      const McpConnectionState.disconnected(lostConnection: false);
 
-  final Uri _backendUrl = Uri.parse(Config.wsUrl);
+  bool get isConnected => currentStatus is McpConnectionStateConnected;
 
-  void Function(String code, String word, String message)?
-      _onConnectionCodeReceived;
-  void Function(String error)? _onConnectionError;
-  void Function()? _onConnectionLost;
+  bool get isConnecting => currentStatus is McpConnectionStateConnecting;
 
-  void setConnectionCodeCallback(
-    void Function(String code, String word, String message) callback,
-  ) {
-    _onConnectionCodeReceived = callback;
-  }
-
-  void setConnectionErrorCallback(
-    void Function(String error) callback,
-  ) {
-    _onConnectionError = callback;
-  }
-
-  void setConnectionLostCallback(
-    void Function() callback,
-  ) {
-    _onConnectionLost = callback;
-  }
+  bool get isDisconnected => currentStatus is McpConnectionStateDisconnected;
 
   Future<void> stop() async {
-    if (_isConnected) {
+    if (!isDisconnected) {
       await webSocketChannel.sink.close();
-      _isConnected = false;
+      _connectionState.add(
+        const McpConnectionState.disconnected(),
+      );
     }
   }
 
-  Future<void> connectToBackend() async {
+  Future<McpConnectionState> connectToBackend() async {
     try {
-      webSocketChannel = IOWebSocketChannel.connect(_backendUrl);
-      _isConnected = true;
+      _connectionState.add(const McpConnectionState.connecting());
+      webSocketChannel = IOWebSocketChannel.connect(Uri.parse(Config.wsUrl));
 
-      Logger.i('Connected to backend at ${_backendUrl.toString()}');
+      Logger.d('Connected to backend at ${Config.wsUrl}');
       AnalyticsManager.logMcpConnectionStarted();
-
       webSocketChannel.stream.listen(
-        (dynamic data) {
+        (data) {
           handleBackendMessage(data);
         },
         onError: (dynamic error) {
@@ -113,28 +69,46 @@ class HealthMcpServerService {
           AnalyticsManager.logMcpConnectionError(
             errorMessage: error.toString(),
           );
-          _onConnectionError?.call(error.toString());
-          _isConnected = false;
+          _connectionState.add(
+            McpConnectionState.disconnected(
+              errorMessage: error.toString(),
+              lostConnection: true,
+            ),
+          );
         },
         onDone: () {
           Logger.w('WebSocket connection closed');
           AnalyticsManager.logMcpConnectionLost();
-          _onConnectionLost?.call();
-          _isConnected = false;
+          _connectionState.add(
+            const McpConnectionState.disconnected(lostConnection: true),
+          );
         },
       );
-    } catch (e) {
-      Logger.e('Failed to connect to backend: $e');
+    } catch (error) {
+      Logger.e('Failed to connect to backend: $error');
       AnalyticsManager.logMcpConnectionError(
-        errorMessage: e.toString(),
+        errorMessage: error.toString(),
       );
-      _onConnectionError?.call(e.toString());
-      throw HealthMcpServerException('Failed to connect to backend', e);
+      _connectionState.add(
+        McpConnectionState.disconnected(
+          errorMessage: error.toString(),
+          lostConnection: true,
+        ),
+      );
+      throw HealthMcpServerException('Failed to connect to backend', error);
     }
+
+    return _connectionState.stream
+        .where(
+          (state) =>
+              state is McpConnectionStateConnected ||
+              state is McpConnectionStateDisconnected,
+        )
+        .first;
   }
 
   Future<void> sendToBackend(Map<String, dynamic> message) async {
-    if (!_isConnected) {
+    if (!isConnected) {
       throw Exception('Not connected to backend');
     }
 
@@ -143,7 +117,7 @@ class HealthMcpServerService {
     Logger.d('Sent message to backend: $jsonMessage');
   }
 
-  Future<void> handleBackendMessage(dynamic data) async {
+  Future<void> handleBackendMessage(String data) async {
     try {
       final Map<String, dynamic> rawMessage = jsonDecode(data);
       Logger.d('Received raw message: $rawMessage');
@@ -164,8 +138,16 @@ class HealthMcpServerService {
           break;
 
         case ConnectionCodeMessage(:final code, :final word, :final message):
-          Logger.i('Received connection code: $code');
-          _onConnectionCodeReceived?.call(code, word, message);
+          Logger.d('Received connection code: $code');
+          _connectionState.add(
+            McpConnectionState.connected(
+              credentials: (
+                connectionWord: word,
+                connectionPin: code,
+              ),
+              message: message,
+            ),
+          );
           break;
 
         case UnknownMessage():

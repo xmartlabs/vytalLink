@@ -1,29 +1,29 @@
-import 'package:auto_route/auto_route.dart';
-import 'package:design_system/design_system.dart';
-import 'package:design_system/extensions/color_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:design_system/design_system.dart';
+import 'package:design_system/extensions/color_extensions.dart';
+import 'package:flutter_template/core/model/mcp_connection_state.dart';
 import 'package:flutter_template/ui/extensions/context_extensions.dart';
 import 'package:flutter_template/ui/home/home_cubit.dart';
+import 'package:flutter_template/ui/home/helpers/chatgpt_quick_action_helper.dart';
 import 'package:flutter_template/ui/home/widgets/keep_app_open_notice.dart';
 import 'package:flutter_template/ui/home/widgets/server_action_button_widget.dart';
-import 'package:flutter_template/ui/router/app_router.dart';
 
 class AnimatedServerCard extends StatelessWidget {
   final McpServerStatus status;
-  final String errorMessage;
+  final String? errorMessage;
   final Animation<double> pulseAnimation;
-  final VoidCallback? onStartPressed;
-  final String connectionWord;
-  final String connectionPin;
+  final VoidCallback? onChatGptDesktop;
+  final BridgeCredentials? bridgeCredentials;
+  final Future<BridgeCredentials?> Function()? connectCallback;
 
   const AnimatedServerCard({
     required this.pulseAnimation,
     required this.status,
     required this.errorMessage,
-    this.onStartPressed,
-    this.connectionWord = '',
-    this.connectionPin = '',
+    this.onChatGptDesktop,
+    this.bridgeCredentials,
+    this.connectCallback,
     super.key,
   });
 
@@ -147,8 +147,9 @@ class AnimatedServerCard extends StatelessWidget {
             AnimatedCrossFade(
               duration: const Duration(milliseconds: 200),
               crossFadeState: status == McpServerStatus.running &&
-                      connectionWord.isNotEmpty &&
-                      connectionPin.isNotEmpty
+                      bridgeCredentials != null &&
+                      bridgeCredentials!.connectionWord.isNotEmpty &&
+                      bridgeCredentials!.connectionPin.isNotEmpty
                   ? CrossFadeState.showSecond
                   : CrossFadeState.showFirst,
               firstChild: const SizedBox.shrink(),
@@ -157,8 +158,8 @@ class AnimatedServerCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   _InlineCredentials(
-                    word: connectionWord,
-                    pin: connectionPin,
+                    word: bridgeCredentials?.connectionWord ?? '',
+                    pin: bridgeCredentials?.connectionPin ?? '',
                     onCopy: (value) => _copyToClipboard(context, value),
                   ),
                   const SizedBox(height: 16),
@@ -168,17 +169,13 @@ class AnimatedServerCard extends StatelessWidget {
             ServerActionButtonWidget(
               errorMessage: errorMessage,
               status: status,
-              onStartPressed: onStartPressed,
-              onChatGptPressed: () => context.router.popAndPush(
-                const AuthenticatedSectionRoute(
-                  children: [ChatGptIntegrationRoute()],
-                ),
+              onStartPressed: connectCallback,
+              onChatGptQuickAction: () => launchChatGptQuickAction(
+                context: context,
+                credentials: bridgeCredentials,
+                connectCallback: connectCallback,
               ),
-              onClaudePressed: () => context.router.popAndPush(
-                const AuthenticatedSectionRoute(
-                  children: [McpIntegrationRoute()],
-                ),
-              ),
+              onChatGptDesktopPressed: onChatGptDesktop,
             ),
           ],
         ),

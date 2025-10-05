@@ -6,10 +6,12 @@ enum McpServerStatus { idle, starting, running, stopping, error }
 class HomeState with _$HomeState {
   const factory HomeState({
     @Default(McpServerStatus.idle) McpServerStatus status,
-    @Default("") String ipAddress,
-    @Default("") String endpoint,
-    @Default("") String connectionCode,
-    @Default("") String connectionWord,
-    @Default("") String errorMessage,
+    BridgeCredentials? bridgeCredentials,
+    String? errorMessage,
   }) = _HomeState;
+}
+
+extension HomeStateCredentialsX on HomeState {
+  bool get isRunning =>
+      status == McpServerStatus.running && bridgeCredentials != null;
 }

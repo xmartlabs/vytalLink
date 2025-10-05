@@ -3,6 +3,7 @@ import 'package:flutter_template/core/health/health_data_aggregator.dart';
 import 'package:flutter_template/core/health/health_data_mapper.dart';
 import 'package:flutter_template/core/health/health_permissions_guard.dart';
 import 'package:flutter_template/core/model/health_data_request.dart';
+import 'package:flutter_template/core/model/mcp_exceptions.dart';
 import 'package:flutter_template/core/model/statistic_types.dart';
 import 'package:flutter_template/core/model/time_group_by.dart';
 import 'package:flutter_template/core/service/health_data_manager.dart';
@@ -48,16 +49,7 @@ void main() {
         healthPermissionsGuard: healthPermissionsGuard,
       );
 
-      const config = HealthMcpServerConfig(
-        serverName: 'Test Server',
-        serverVersion: '1.0.0',
-        host: '127.0.0.1',
-        port: 8080,
-        endpoint: '/test',
-      );
-
       mcpServer = HealthMcpServerService(
-        config: config,
         healthDataManager: healthDataManager,
       );
 

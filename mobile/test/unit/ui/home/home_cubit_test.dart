@@ -12,62 +12,54 @@ void main() {
       const state = HomeState();
 
       expect(state.status, equals(McpServerStatus.idle));
-      expect(state.ipAddress, isEmpty);
-      expect(state.endpoint, isEmpty);
-      expect(state.connectionCode, isEmpty);
-      expect(state.connectionWord, isEmpty);
+      expect(state.bridgeCredentials, isNull);
       expect(state.errorMessage, isEmpty);
     });
 
     test('creates instance with custom values', () {
       const state = HomeState(
         status: McpServerStatus.running,
-        ipAddress: '192.168.1.100',
-        endpoint: '/mcp',
-        connectionCode: 'ABC123',
-        connectionWord: 'elephant',
+        bridgeCredentials: (
+          connectionWord: 'elephant',
+          connectionPin: 'ABC123'
+        ),
         errorMessage: 'Test error',
       );
 
       expect(state.status, equals(McpServerStatus.running));
-      expect(state.ipAddress, equals('192.168.1.100'));
-      expect(state.endpoint, equals('/mcp'));
-      expect(state.connectionCode, equals('ABC123'));
-      expect(state.connectionWord, equals('elephant'));
+      expect(state.bridgeCredentials!.connectionPin, equals('ABC123'));
+      expect(state.bridgeCredentials!.connectionWord, equals('elephant'));
       expect(state.errorMessage, equals('Test error'));
     });
 
     test('copyWith creates new instance with updated values', () {
       const originalState = HomeState(
         status: McpServerStatus.idle,
-        ipAddress: '192.168.1.100',
       );
 
       final newState = originalState.copyWith(
         status: McpServerStatus.running,
-        connectionCode: 'XYZ789',
+        bridgeCredentials: (connectionWord: 'word', connectionPin: 'XYZ789'),
       );
 
       expect(newState.status, equals(McpServerStatus.running));
-      expect(newState.ipAddress, equals('192.168.1.100')); // Unchanged
-      expect(newState.connectionCode, equals('XYZ789'));
-      expect(newState.endpoint, isEmpty); // Default value preserved
+      expect(newState.bridgeCredentials!.connectionPin, equals('XYZ789'));
     });
 
     test('supports equality comparison', () {
       const state1 = HomeState(
         status: McpServerStatus.running,
-        connectionCode: 'ABC123',
+        bridgeCredentials: (connectionWord: 'word', connectionPin: 'ABC123'),
       );
 
       const state2 = HomeState(
         status: McpServerStatus.running,
-        connectionCode: 'ABC123',
+        bridgeCredentials: (connectionWord: 'word', connectionPin: 'ABC123'),
       );
 
       const state3 = HomeState(
         status: McpServerStatus.running,
-        connectionCode: 'XYZ789',
+        bridgeCredentials: (connectionWord: 'word', connectionPin: 'XYZ789'),
       );
 
       expect(state1, equals(state2));
@@ -110,65 +102,60 @@ void main() {
       test('onConnectionCodeReceived callback logic', () {
         const initialState = HomeState(
           status: McpServerStatus.starting,
-          ipAddress: '192.168.1.100',
         );
 
         final updatedState = initialState.copyWith(
-          connectionCode: 'ABC123',
-          connectionWord: 'elephant',
+          bridgeCredentials: (
+            connectionWord: 'elephant',
+            connectionPin: 'ABC123'
+          ),
         );
 
-        expect(updatedState.connectionCode, equals('ABC123'));
-        expect(updatedState.connectionWord, equals('elephant'));
+        expect(updatedState.bridgeCredentials!.connectionPin, equals('ABC123'));
+        expect(
+          updatedState.bridgeCredentials!.connectionWord,
+          equals('elephant'),
+        );
         expect(
           updatedState.status,
           equals(McpServerStatus.starting),
         );
-        expect(updatedState.ipAddress, equals('192.168.1.100'));
       });
 
       test('onConnectionError callback logic', () {
         const initialState = HomeState(
           status: McpServerStatus.running,
-          connectionCode: 'ABC123',
+          bridgeCredentials: (connectionWord: 'word', connectionPin: 'ABC123'),
         );
 
         final errorState = initialState.copyWith(
           status: McpServerStatus.error,
-          ipAddress: '',
-          endpoint: '',
-          connectionCode: '',
-          connectionWord: '',
+          bridgeCredentials: null,
           errorMessage: 'Connection error occurred',
         );
 
         expect(errorState.status, equals(McpServerStatus.error));
-        expect(errorState.ipAddress, isEmpty);
-        expect(errorState.endpoint, isEmpty);
-        expect(errorState.connectionCode, isEmpty);
-        expect(errorState.connectionWord, isEmpty);
+        expect(errorState.bridgeCredentials, isNull);
         expect(errorState.errorMessage, equals('Connection error occurred'));
       });
 
       test('connection lost logic', () {
         const runningState = HomeState(
           status: McpServerStatus.running,
-          ipAddress: '192.168.1.100',
-          endpoint: '/mcp',
-          connectionCode: 'ABC123',
-          connectionWord: 'elephant',
+          bridgeCredentials: (
+            connectionWord: 'elephant',
+            connectionPin: 'ABC123'
+          ),
         );
 
         final lostConnectionState = runningState.copyWith(
           status: McpServerStatus.error,
-          ipAddress: '',
-          endpoint: '',
-          connectionCode: '',
-          connectionWord: '',
+          bridgeCredentials: null,
           errorMessage: 'Connection lost unexpectedly',
         );
 
         expect(lostConnectionState.status, equals(McpServerStatus.error));
+        expect(lostConnectionState.bridgeCredentials, isNull);
         expect(lostConnectionState.errorMessage, contains('Connection lost'));
       });
     });
@@ -177,17 +164,16 @@ void main() {
       test('validates state consistency for running server', () {
         const runningState = HomeState(
           status: McpServerStatus.running,
-          ipAddress: '192.168.1.100',
-          endpoint: '/mcp',
-          connectionCode: 'ABC123',
-          connectionWord: 'elephant',
+          bridgeCredentials: (
+            connectionWord: 'elephant',
+            connectionPin: 'ABC123'
+          ),
         );
 
         expect(runningState.status, equals(McpServerStatus.running));
-        expect(runningState.ipAddress, isNotEmpty);
-        expect(runningState.endpoint, isNotEmpty);
-        expect(runningState.connectionCode, isNotEmpty);
-        expect(runningState.connectionWord, isNotEmpty);
+        expect(runningState.bridgeCredentials, isNotNull);
+        expect(runningState.bridgeCredentials!.connectionPin, isNotEmpty);
+        expect(runningState.bridgeCredentials!.connectionWord, isNotEmpty);
       });
 
       test('validates state consistency for error state', () {
@@ -204,10 +190,7 @@ void main() {
         const idleState = HomeState();
 
         expect(idleState.status, equals(McpServerStatus.idle));
-        expect(idleState.ipAddress, isEmpty);
-        expect(idleState.endpoint, isEmpty);
-        expect(idleState.connectionCode, isEmpty);
-        expect(idleState.connectionWord, isEmpty);
+        expect(idleState.bridgeCredentials, isNull);
       });
     });
 
@@ -215,41 +198,36 @@ void main() {
       test('handles very long connection codes and words', () {
         final longString = 'A' * 1000;
         final state = HomeState(
-          connectionCode: longString,
-          connectionWord: longString,
+          bridgeCredentials: (
+            connectionWord: longString,
+            connectionPin: longString
+          ),
         );
 
-        expect(state.connectionCode.length, equals(1000));
-        expect(state.connectionWord.length, equals(1000));
+        expect(state.bridgeCredentials!.connectionPin.length, equals(1000));
+        expect(state.bridgeCredentials!.connectionWord.length, equals(1000));
       });
 
       test('handles special characters in connection data', () {
         const state = HomeState(
-          connectionCode: 'CODE_WITH_SPECIAL_CHARS_!@#\$%^&*()',
-          connectionWord: 'word_with_unicode_ëñ',
-          ipAddress: '192.168.1.100:8080',
-          endpoint: '/mcp/endpoint?param=value&special=!@#',
+          bridgeCredentials: (
+            connectionWord: 'word_with_unicode_ëñ',
+            connectionPin: 'CODE_WITH_SPECIAL_CHARS_!@#\$%^&*()',
+          ),
         );
 
-        expect(state.connectionCode, contains('!@#\$%^&*()'));
-        expect(state.connectionWord, contains('ëñ'));
-        expect(state.ipAddress, contains(':'));
-        expect(state.endpoint, contains('?'));
+        expect(state.bridgeCredentials!.connectionPin, contains('!@#\$%^&*()'));
+        expect(state.bridgeCredentials!.connectionWord, contains('ëñ'));
       });
 
       test('handles null-like empty states gracefully', () {
         const emptyState = HomeState(
-          ipAddress: '',
-          endpoint: '',
-          connectionCode: '',
-          connectionWord: '',
+          bridgeCredentials: (connectionWord: '', connectionPin: ''),
           errorMessage: '',
         );
 
-        expect(emptyState.ipAddress, isEmpty);
-        expect(emptyState.endpoint, isEmpty);
-        expect(emptyState.connectionCode, isEmpty);
-        expect(emptyState.connectionWord, isEmpty);
+        expect(emptyState.bridgeCredentials!.connectionPin, isEmpty);
+        expect(emptyState.bridgeCredentials!.connectionWord, isEmpty);
         expect(emptyState.errorMessage, isEmpty);
       });
     });
@@ -267,57 +245,55 @@ void main() {
         const startingState = HomeState(status: McpServerStatus.starting);
         final runningState = startingState.copyWith(
           status: McpServerStatus.running,
-          ipAddress: '192.168.1.100',
-          endpoint: '/mcp',
-          connectionCode: 'ABC123',
-          connectionWord: 'elephant',
+          bridgeCredentials: (
+            connectionWord: 'elephant',
+            connectionPin: 'ABC123'
+          ),
         );
 
         expect(runningState.status, equals(McpServerStatus.running));
-        expect(runningState.ipAddress, equals('192.168.1.100'));
-        expect(runningState.connectionCode, equals('ABC123'));
+        expect(runningState.bridgeCredentials!.connectionPin, equals('ABC123'));
       });
 
       test('running to stopping transition', () {
         const runningState = HomeState(
           status: McpServerStatus.running,
-          ipAddress: '192.168.1.100',
-          connectionCode: 'ABC123',
+          bridgeCredentials: (
+            connectionWord: 'elephant',
+            connectionPin: 'ABC123'
+          ),
         );
         final stoppingState =
             runningState.copyWith(status: McpServerStatus.stopping);
 
         expect(stoppingState.status, equals(McpServerStatus.stopping));
-        expect(
-          stoppingState.ipAddress,
-          equals('192.168.1.100'),
-        ); // Preserved during stopping
       });
 
       test('stopping to idle transition with cleanup', () {
         const stoppingState = HomeState(
           status: McpServerStatus.stopping,
-          ipAddress: '192.168.1.100',
-          connectionCode: 'ABC123',
+          bridgeCredentials: (
+            connectionWord: 'elephant',
+            connectionPin: 'ABC123'
+          ),
         );
         final idleState = stoppingState.copyWith(
           status: McpServerStatus.idle,
-          ipAddress: '',
-          endpoint: '',
-          connectionCode: '',
-          connectionWord: '',
+          bridgeCredentials: null,
           errorMessage: '',
         );
 
         expect(idleState.status, equals(McpServerStatus.idle));
-        expect(idleState.ipAddress, isEmpty);
-        expect(idleState.connectionCode, isEmpty);
+        expect(idleState.bridgeCredentials, isNull);
       });
 
       test('any state to error transition', () {
         const runningState = HomeState(
           status: McpServerStatus.running,
-          connectionCode: 'ABC123',
+          bridgeCredentials: (
+            connectionWord: 'elephant',
+            connectionPin: 'ABC123'
+          ),
         );
         final errorState = runningState.copyWith(
           status: McpServerStatus.error,

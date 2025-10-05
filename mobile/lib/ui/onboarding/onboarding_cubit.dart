@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_template/core/di/di_provider.dart';
 import 'package:flutter_template/core/service/shared_preference_service.dart';
@@ -17,7 +18,9 @@ class OnboardingCubit extends Cubit<OnboardingState> {
     emit(state.copyWith(currentPage: page));
   }
 
-  Future<void> completeOnboarding() async {
+  Future<void> completeOnboarding({
+    required BuildContext context,
+  }) async {
     await _sharedPreferenceService.setOnboardingCompleted(true);
     await _router.replace(const AuthenticatedSectionRoute());
   }

@@ -3,3 +3,4 @@
 *.gr.dart linguist-generated=true
 pubspec.lock linguist-generated=true
 Gemfile.lock linguist-generated=true
+mobile/lib/l10n/app_localizations*.dart linguist-generated=true
