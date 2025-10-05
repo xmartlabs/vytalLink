@@ -13,7 +13,7 @@ void main() {
 
       expect(state.status, equals(McpServerStatus.idle));
       expect(state.bridgeCredentials, isNull);
-      expect(state.errorMessage, isEmpty);
+      expect(state.errorMessage, isNull);
     });
 
     test('creates instance with custom values', () {
