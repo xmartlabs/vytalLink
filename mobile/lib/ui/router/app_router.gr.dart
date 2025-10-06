@@ -27,6 +27,12 @@ abstract class _$AppRouter extends RootStackRouter {
         child: const ChatGptIntegrationScreen(),
       );
     },
+    ChatGptOnDeviceGuidanceRoute.name: (routeData) {
+      return AutoRoutePage<ChatGptOnDeviceGuidanceResult>(
+        routeData: routeData,
+        child: const ChatGptOnDeviceGuidanceScreen(),
+      );
+    },
     FaqRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
@@ -101,6 +107,20 @@ class ChatGptIntegrationRoute extends PageRouteInfo<void> {
         );
 
   static const String name = 'ChatGptIntegrationRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [ChatGptOnDeviceGuidanceScreen]
+class ChatGptOnDeviceGuidanceRoute extends PageRouteInfo<void> {
+  const ChatGptOnDeviceGuidanceRoute({List<PageRouteInfo>? children})
+      : super(
+          ChatGptOnDeviceGuidanceRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'ChatGptOnDeviceGuidanceRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
 }

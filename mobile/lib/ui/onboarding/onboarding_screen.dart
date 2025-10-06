@@ -7,9 +7,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_template/ui/extensions/context_extensions.dart';
-import 'package:flutter_template/ui/widgets/bold_tag_text.dart';
 import 'package:flutter_template/ui/onboarding/onboarding_cubit.dart';
 import 'package:flutter_template/ui/onboarding/onboarding_pages.dart';
+import 'package:flutter_template/ui/widgets/bold_tag_text.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 const double _kSmallScreenHeightThreshold = 700;
@@ -123,9 +123,8 @@ class _OnboardingScreenState extends State<_OnboardingContentScreen>
     );
   }
 
-  void _finishOnboarding() {
-    context.read<OnboardingCubit>().completeOnboarding();
-  }
+  void _finishOnboarding() =>
+      context.read<OnboardingCubit>().completeOnboarding();
 }
 
 class OnboardingHeader extends StatelessWidget {
@@ -235,7 +234,7 @@ class _OnboardingPageWidget extends StatelessWidget {
       padding: EdgeInsets.symmetric(horizontal: horizontalPadding),
       child: Column(
         children: [
-          SizedBox(height: isSmallScreen ? 20.h : 32.h),
+          SizedBox(height: isSmallScreen ? 16.h : 26.h),
           ScaleTransition(
             scale: iconAnimation,
             child: Builder(
@@ -258,7 +257,7 @@ class _OnboardingPageWidget extends StatelessWidget {
               },
             ),
           ),
-          SizedBox(height: isSmallScreen ? 14.h : 20.h),
+          SizedBox(height: isSmallScreen ? 12.h : 18.h),
           Align(
             alignment: Alignment.center,
             child: ConstrainedBox(
@@ -278,7 +277,7 @@ class _OnboardingPageWidget extends StatelessWidget {
             ),
           ),
           if (bodyText.isNotEmpty) ...[
-            SizedBox(height: isSmallScreen ? 16.h : 20.h),
+            SizedBox(height: isSmallScreen ? 14.h : 18.h),
             Align(
               alignment: Alignment.center,
               child: ConstrainedBox(
@@ -289,7 +288,7 @@ class _OnboardingPageWidget extends StatelessWidget {
                 ),
               ),
             ),
-            SizedBox(height: isSmallScreen ? 18.h : 26.h),
+            SizedBox(height: isSmallScreen ? 16.h : 24.h),
           ] else
             SizedBox(height: isSmallScreen ? 16.h : 24.h),
           if (page.features.isNotEmpty)
@@ -314,7 +313,7 @@ class _OnboardingPageWidget extends StatelessWidget {
                 ),
               ),
             ),
-          SizedBox(height: isSmallScreen ? 10.h : 16.h),
+          SizedBox(height: isSmallScreen ? 6.h : 16.h),
         ],
       ),
     );
@@ -484,32 +483,16 @@ class _OnboardingNavigationSection extends StatelessWidget {
                     duration: const Duration(milliseconds: 300),
                     curve: Curves.easeOutBack,
                     child: currentPage > 0
-                        ? SizedBox(
-                            height: 48.h,
-                            child: OutlinedButton(
-                              onPressed: () {
-                                restartAnimations();
-                                pageController.previousPage(
-                                  duration: const Duration(
-                                    milliseconds: 300,
-                                  ),
-                                  curve: Curves.easeInOut,
-                                );
-                              },
-                              style: OutlinedButton.styleFrom(
-                                padding: EdgeInsets.zero,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(12.r),
-                                ),
-                              ),
-                              child: Text(
-                                context.localizations.onboarding_previous,
-                                style: TextStyle(
-                                  fontSize: 16.sp,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
-                            ),
+                        ? AppButton.outlined(
+                            label: context.localizations.onboarding_previous,
+                            onPressed: () {
+                              restartAnimations();
+                              pageController.previousPage(
+                                duration: const Duration(milliseconds: 300),
+                                curve: Curves.easeInOut,
+                              );
+                            },
+                            height: AppButtonDefaults.height,
                           )
                         : const SizedBox.shrink(),
                   ),
@@ -527,8 +510,10 @@ class _OnboardingNavigationSection extends StatelessWidget {
               width: currentPage == 0
                   ? size.width - 48.w
                   : (size.width - 48.w - 16.w) * 0.5,
-              height: 48.h,
-              child: FilledButton(
+              child: AppButton.filled(
+                label: currentPage == pages.length - 1
+                    ? context.localizations.onboarding_get_started
+                    : context.localizations.onboarding_next,
                 onPressed: () {
                   if (currentPage == pages.length - 1) {
                     finishOnboarding();
@@ -540,21 +525,7 @@ class _OnboardingNavigationSection extends StatelessWidget {
                     );
                   }
                 },
-                style: FilledButton.styleFrom(
-                  padding: EdgeInsets.zero,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12.r),
-                  ),
-                ),
-                child: Text(
-                  currentPage == pages.length - 1
-                      ? context.localizations.onboarding_get_started
-                      : context.localizations.onboarding_next,
-                  style: TextStyle(
-                    fontSize: 16.sp,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
+                height: AppButtonDefaults.height,
               ),
             ),
           ],

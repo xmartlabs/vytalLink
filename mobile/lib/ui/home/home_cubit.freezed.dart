@@ -17,11 +17,9 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$HomeState {
   McpServerStatus get status => throw _privateConstructorUsedError;
-  String get ipAddress => throw _privateConstructorUsedError;
-  String get endpoint => throw _privateConstructorUsedError;
-  String get connectionCode => throw _privateConstructorUsedError;
-  String get connectionWord => throw _privateConstructorUsedError;
-  String get errorMessage => throw _privateConstructorUsedError;
+  ({String connectionPin, String connectionWord})? get bridgeCredentials =>
+      throw _privateConstructorUsedError;
+  String? get errorMessage => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $HomeStateCopyWith<HomeState> get copyWith =>
@@ -35,11 +33,8 @@ abstract class $HomeStateCopyWith<$Res> {
   @useResult
   $Res call(
       {McpServerStatus status,
-      String ipAddress,
-      String endpoint,
-      String connectionCode,
-      String connectionWord,
-      String errorMessage});
+      ({String connectionPin, String connectionWord})? bridgeCredentials,
+      String? errorMessage});
 }
 
 /// @nodoc
@@ -56,37 +51,22 @@ class _$HomeStateCopyWithImpl<$Res, $Val extends HomeState>
   @override
   $Res call({
     Object? status = null,
-    Object? ipAddress = null,
-    Object? endpoint = null,
-    Object? connectionCode = null,
-    Object? connectionWord = null,
-    Object? errorMessage = null,
+    Object? bridgeCredentials = freezed,
+    Object? errorMessage = freezed,
   }) {
     return _then(_value.copyWith(
       status: null == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
               as McpServerStatus,
-      ipAddress: null == ipAddress
-          ? _value.ipAddress
-          : ipAddress // ignore: cast_nullable_to_non_nullable
-              as String,
-      endpoint: null == endpoint
-          ? _value.endpoint
-          : endpoint // ignore: cast_nullable_to_non_nullable
-              as String,
-      connectionCode: null == connectionCode
-          ? _value.connectionCode
-          : connectionCode // ignore: cast_nullable_to_non_nullable
-              as String,
-      connectionWord: null == connectionWord
-          ? _value.connectionWord
-          : connectionWord // ignore: cast_nullable_to_non_nullable
-              as String,
-      errorMessage: null == errorMessage
+      bridgeCredentials: freezed == bridgeCredentials
+          ? _value.bridgeCredentials
+          : bridgeCredentials // ignore: cast_nullable_to_non_nullable
+              as ({String connectionPin, String connectionWord})?,
+      errorMessage: freezed == errorMessage
           ? _value.errorMessage
           : errorMessage // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
     ) as $Val);
   }
 }
@@ -101,11 +81,8 @@ abstract class _$$HomeStateImplCopyWith<$Res>
   @useResult
   $Res call(
       {McpServerStatus status,
-      String ipAddress,
-      String endpoint,
-      String connectionCode,
-      String connectionWord,
-      String errorMessage});
+      ({String connectionPin, String connectionWord})? bridgeCredentials,
+      String? errorMessage});
 }
 
 /// @nodoc
@@ -120,37 +97,22 @@ class __$$HomeStateImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? status = null,
-    Object? ipAddress = null,
-    Object? endpoint = null,
-    Object? connectionCode = null,
-    Object? connectionWord = null,
-    Object? errorMessage = null,
+    Object? bridgeCredentials = freezed,
+    Object? errorMessage = freezed,
   }) {
     return _then(_$HomeStateImpl(
       status: null == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
               as McpServerStatus,
-      ipAddress: null == ipAddress
-          ? _value.ipAddress
-          : ipAddress // ignore: cast_nullable_to_non_nullable
-              as String,
-      endpoint: null == endpoint
-          ? _value.endpoint
-          : endpoint // ignore: cast_nullable_to_non_nullable
-              as String,
-      connectionCode: null == connectionCode
-          ? _value.connectionCode
-          : connectionCode // ignore: cast_nullable_to_non_nullable
-              as String,
-      connectionWord: null == connectionWord
-          ? _value.connectionWord
-          : connectionWord // ignore: cast_nullable_to_non_nullable
-              as String,
-      errorMessage: null == errorMessage
+      bridgeCredentials: freezed == bridgeCredentials
+          ? _value.bridgeCredentials
+          : bridgeCredentials // ignore: cast_nullable_to_non_nullable
+              as ({String connectionPin, String connectionWord})?,
+      errorMessage: freezed == errorMessage
           ? _value.errorMessage
           : errorMessage // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
     ));
   }
 }
@@ -160,34 +122,20 @@ class __$$HomeStateImplCopyWithImpl<$Res>
 class _$HomeStateImpl implements _HomeState {
   const _$HomeStateImpl(
       {this.status = McpServerStatus.idle,
-      this.ipAddress = "",
-      this.endpoint = "",
-      this.connectionCode = "",
-      this.connectionWord = "",
-      this.errorMessage = ""});
+      this.bridgeCredentials,
+      this.errorMessage});
 
   @override
   @JsonKey()
   final McpServerStatus status;
   @override
-  @JsonKey()
-  final String ipAddress;
+  final ({String connectionPin, String connectionWord})? bridgeCredentials;
   @override
-  @JsonKey()
-  final String endpoint;
-  @override
-  @JsonKey()
-  final String connectionCode;
-  @override
-  @JsonKey()
-  final String connectionWord;
-  @override
-  @JsonKey()
-  final String errorMessage;
+  final String? errorMessage;
 
   @override
   String toString() {
-    return 'HomeState(status: $status, ipAddress: $ipAddress, endpoint: $endpoint, connectionCode: $connectionCode, connectionWord: $connectionWord, errorMessage: $errorMessage)';
+    return 'HomeState(status: $status, bridgeCredentials: $bridgeCredentials, errorMessage: $errorMessage)';
   }
 
   @override
@@ -196,21 +144,15 @@ class _$HomeStateImpl implements _HomeState {
         (other.runtimeType == runtimeType &&
             other is _$HomeStateImpl &&
             (identical(other.status, status) || other.status == status) &&
-            (identical(other.ipAddress, ipAddress) ||
-                other.ipAddress == ipAddress) &&
-            (identical(other.endpoint, endpoint) ||
-                other.endpoint == endpoint) &&
-            (identical(other.connectionCode, connectionCode) ||
-                other.connectionCode == connectionCode) &&
-            (identical(other.connectionWord, connectionWord) ||
-                other.connectionWord == connectionWord) &&
+            (identical(other.bridgeCredentials, bridgeCredentials) ||
+                other.bridgeCredentials == bridgeCredentials) &&
             (identical(other.errorMessage, errorMessage) ||
                 other.errorMessage == errorMessage));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, status, ipAddress, endpoint,
-      connectionCode, connectionWord, errorMessage);
+  int get hashCode =>
+      Object.hash(runtimeType, status, bridgeCredentials, errorMessage);
 
   @JsonKey(ignore: true)
   @override
@@ -222,24 +164,15 @@ class _$HomeStateImpl implements _HomeState {
 abstract class _HomeState implements HomeState {
   const factory _HomeState(
       {final McpServerStatus status,
-      final String ipAddress,
-      final String endpoint,
-      final String connectionCode,
-      final String connectionWord,
-      final String errorMessage}) = _$HomeStateImpl;
+      final ({String connectionPin, String connectionWord})? bridgeCredentials,
+      final String? errorMessage}) = _$HomeStateImpl;
 
   @override
   McpServerStatus get status;
   @override
-  String get ipAddress;
+  ({String connectionPin, String connectionWord})? get bridgeCredentials;
   @override
-  String get endpoint;
-  @override
-  String get connectionCode;
-  @override
-  String get connectionWord;
-  @override
-  String get errorMessage;
+  String? get errorMessage;
   @override
   @JsonKey(ignore: true)
   _$$HomeStateImplCopyWith<_$HomeStateImpl> get copyWith =>

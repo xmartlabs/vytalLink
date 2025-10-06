@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:flutter_template/core/source/mcp_server.dart';
+import 'package:flutter_template/core/model/mcp_exceptions.dart';
 import 'package:health/health.dart';
 
 class HealthPermissionsGuard {

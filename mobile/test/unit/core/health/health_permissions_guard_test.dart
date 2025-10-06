@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter_template/core/health/health_permissions_guard.dart';
-import 'package:flutter_template/core/source/mcp_server.dart';
+import 'package:flutter_template/core/model/mcp_exceptions.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:health/health.dart';
 import 'package:mocktail/mocktail.dart';

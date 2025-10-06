@@ -2,13 +2,11 @@ import 'dart:async';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_template/core/common/analytics_manager.dart';
-import 'package:flutter_template/core/common/config.dart';
 import 'package:flutter_template/core/health_permission_manager.dart';
 import 'package:flutter_template/core/source/mcp_server.dart';
 import 'package:flutter_template/ui/resources.dart';
 import 'package:flutter_template/ui/section/error_handler/global_event_handler_cubit.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:network_info_plus/network_info_plus.dart';
 import 'package:wakelock_plus/wakelock_plus.dart';
 
 part 'home_cubit.freezed.dart';
@@ -18,28 +16,19 @@ class HomeCubit extends Cubit<HomeState> {
   final GlobalEventHandler _globalEventHandler;
   late final HealthMcpServerService healthServer;
   late final HealthPermissionManager healthPermissionManager;
+
   Timer? _connectionCheckTimer;
+  StreamSubscription<McpConnectionState>? _connectionEventsSubscription;
 
   HomeCubit(this._globalEventHandler) : super(const HomeState()) {
     WakelockPlus.enable();
     _initialize();
   }
 
-  Future<void> _initialize() async {
-    final ip = await NetworkInfo().getWifiIP();
-
-    final config = HealthMcpServerConfig(
-      serverName: Config.mcpServerName,
-      serverVersion: Config.mcpServerVersion,
-      host: ip ?? Config.mcpHostFallback,
-      port: Config.mcpPort,
-      endpoint: Config.mcpEndpoint,
-    );
-
-    healthServer = HealthMcpServerService(config: config)
-      ..setConnectionCodeCallback(_onConnectionCodeReceived)
-      ..setConnectionErrorCallback(_onConnectionError)
-      ..setConnectionLostCallback(_onConnectionLost);
+  void _initialize() {
+    healthServer = HealthMcpServerService();
+    _connectionEventsSubscription =
+        healthServer.status.listen(_handleConnectionState);
     healthPermissionManager = HealthPermissionManager();
   }
 
@@ -47,6 +36,7 @@ class HomeCubit extends Cubit<HomeState> {
   Future<void> close() {
     WakelockPlus.disable();
     _connectionCheckTimer?.cancel();
+    _connectionEventsSubscription?.cancel();
     return super.close();
   }
 
@@ -65,23 +55,33 @@ class HomeCubit extends Cubit<HomeState> {
   void _checkConnectionStatus() {
     if (state.status == McpServerStatus.running && !healthServer.isConnected) {
       emit(
-        state.copyWith(
+        HomeState(
           status: McpServerStatus.error,
-          ipAddress: "",
-          endpoint: "",
-          connectionCode: "",
-          connectionWord: "",
           errorMessage: Resources.localizations.connection_lost_unexpectedly,
         ),
       );
     }
   }
 
-  void _onConnectionCodeReceived(String code, String word, String message) {
+  void _handleConnectionState(McpConnectionState state) => state.when(
+        connecting: _onConnecting,
+        connected: _onConnected,
+        disconnected: _onDisconnected,
+      );
+
+  void _onConnecting() {
     emit(
       state.copyWith(
-        connectionCode: code,
-        connectionWord: word,
+        status: McpServerStatus.starting,
+      ),
+    );
+  }
+
+  void _onConnected(BridgeCredentials credentials, String message) {
+    emit(
+      state.copyWith(
+        bridgeCredentials: credentials,
+        status: McpServerStatus.running,
       ),
     );
   }
@@ -99,27 +99,25 @@ class HomeCubit extends Cubit<HomeState> {
     emit(
       state.copyWith(
         status: McpServerStatus.error,
-        ipAddress: "",
-        endpoint: "",
-        connectionCode: "",
-        connectionWord: "",
+        bridgeCredentials: null,
         errorMessage: "",
       ),
     );
   }
 
-  void _onConnectionLost() {
-    _stopConnectionMonitoring();
-    emit(
-      state.copyWith(
-        status: McpServerStatus.error,
-        ipAddress: "",
-        endpoint: "",
-        connectionCode: "",
-        connectionWord: "",
-        errorMessage: "",
-      ),
-    );
+  void _onDisconnected(String? errorMessage, bool lostConnection) {
+    if (errorMessage != null && errorMessage.isNotEmpty) {
+      _onConnectionError(errorMessage);
+    } else {
+      _stopConnectionMonitoring();
+      emit(
+        state.copyWith(
+          status: McpServerStatus.idle,
+          bridgeCredentials: null,
+          errorMessage: null,
+        ),
+      );
+    }
   }
 
   Future<bool> hasAllHealthPermissions() =>
@@ -175,8 +173,6 @@ class HomeCubit extends Cubit<HomeState> {
       emit(
         state.copyWith(
           status: McpServerStatus.running,
-          ipAddress: healthServer.config.host,
-          endpoint: healthServer.config.endpoint,
           errorMessage: "",
         ),
       );
@@ -193,33 +189,36 @@ class HomeCubit extends Cubit<HomeState> {
   }
 
   Future<bool> checkAndStartServer() async {
+    if (state.isRunning) {
+      return true;
+    }
+
     final hasPermissions = await hasAllHealthPermissions();
     if (hasPermissions) {
-      await startMCPServerWithPermissions();
+      await _startMCPServerWithPermissions();
       return true;
-    } else {
-      final permissionsGranted = await requestHealthPermissions();
-      if (permissionsGranted) {
-        await startMCPServerWithPermissions();
-        return true;
-      } else {
-        return false;
-      }
     }
+
+    final permissionsGranted = await requestHealthPermissions();
+    if (!permissionsGranted) {
+      return false;
+    }
+
+    await _startMCPServerWithPermissions();
+    return true;
   }
 
-  Future<void> startMCPServerWithPermissions() async {
+  Future<McpConnectionState> _startMCPServerWithPermissions() async {
     try {
       _globalEventHandler.clearError();
       emit(
         state.copyWith(
           status: McpServerStatus.starting,
-          errorMessage: "",
+          errorMessage: null,
         ),
       );
 
       await healthServer.connectToBackend();
-
       if (!healthServer.isConnected) {
         throw CategorizedError(
           ErrorCategory.connection,
@@ -230,9 +229,7 @@ class HomeCubit extends Cubit<HomeState> {
       emit(
         state.copyWith(
           status: McpServerStatus.running,
-          ipAddress: healthServer.config.host,
-          endpoint: healthServer.config.endpoint,
-          errorMessage: "",
+          errorMessage: null,
         ),
       );
 
@@ -245,6 +242,7 @@ class HomeCubit extends Cubit<HomeState> {
         ),
       );
     }
+    return healthServer.currentStatus;
   }
 
   Future<void> stopMCPServer() async {
@@ -254,28 +252,10 @@ class HomeCubit extends Cubit<HomeState> {
       _stopConnectionMonitoring();
       await healthServer.stop();
 
-      emit(
-        state.copyWith(
-          status: McpServerStatus.idle,
-          ipAddress: "",
-          endpoint: "",
-          connectionCode: "",
-          connectionWord: "",
-          errorMessage: "",
-        ),
-      );
+      emit(const HomeState(status: McpServerStatus.idle));
     } catch (error, stackTrace) {
       _globalEventHandler.handleError(error, stackTrace);
-      emit(
-        state.copyWith(
-          status: McpServerStatus.idle,
-          ipAddress: "",
-          endpoint: "",
-          connectionCode: "",
-          connectionWord: "",
-          errorMessage: "",
-        ),
-      );
+      emit(const HomeState(status: McpServerStatus.idle));
     }
   }
 }

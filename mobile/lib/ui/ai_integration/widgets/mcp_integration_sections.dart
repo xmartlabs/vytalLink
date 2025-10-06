@@ -302,16 +302,14 @@ class ClaudeBundleSection extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 16),
-            SizedBox(
-              width: double.infinity,
-              child: FilledButton.icon(
-                onPressed: () =>
-                    UrlLauncherHelper.launch(Config.claudeBundleSetupUri),
-                icon: const Icon(FontAwesomeIcons.arrowUpRightFromSquare),
-                label: Text(
-                  context.localizations.mcp_bundle_guide_button,
-                ),
+            AppButton.filled(
+              label: context.localizations.mcp_bundle_guide_button,
+              icon: const Icon(
+                FontAwesomeIcons.arrowUpRightFromSquare,
+                size: AppButtonDefaults.iconSize,
               ),
+              onPressed: () =>
+                  UrlLauncherHelper.launch(Config.claudeBundleSetupUri),
             ),
           ],
         ),

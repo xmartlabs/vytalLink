@@ -1,14 +1,27 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_template/gen/assets.gen.dart';
 import 'package:flutter_template/ui/ai_integration/widgets/chatgpt_integration_sections.dart';
 import 'package:flutter_template/ui/extensions/context_extensions.dart';
-import 'package:flutter_template/ui/router/app_router.dart';
-import 'package:flutter_template/gen/assets.gen.dart';
 
 @RoutePage()
-class ChatGptIntegrationScreen extends StatelessWidget {
+class ChatGptIntegrationScreen extends StatefulWidget {
   const ChatGptIntegrationScreen({super.key});
+
+  @override
+  State<ChatGptIntegrationScreen> createState() =>
+      _ChatGptIntegrationScreenState();
+}
+
+class _ChatGptIntegrationScreenState extends State<ChatGptIntegrationScreen> {
+  final ScrollController _scrollController = ScrollController();
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) => Scaffold(
@@ -40,10 +53,11 @@ class ChatGptIntegrationScreen extends StatelessWidget {
           shadowColor:
               context.theme.colorScheme.primary.withValues(alpha: 0.08),
         ),
-        body: const SafeArea(
+        body: SafeArea(
           child: SingleChildScrollView(
-            padding: EdgeInsets.all(24),
-            child: Column(
+            controller: _scrollController,
+            padding: const EdgeInsets.all(24),
+            child: const Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 ChatGptIntegrationHeroSection(),
@@ -62,6 +76,4 @@ class ChatGptIntegrationScreen extends StatelessWidget {
           ),
         ),
       );
-
-  void _openFaq(BuildContext context) => context.router.push(const FaqRoute());
 }

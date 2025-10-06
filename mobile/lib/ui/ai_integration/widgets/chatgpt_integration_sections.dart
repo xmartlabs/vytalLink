@@ -222,31 +222,14 @@ class ChatGptUseButtonSection extends StatelessWidget {
       return const SizedBox.shrink();
     }
 
-    return SizedBox(
-      width: double.infinity,
-      child: ElevatedButton.icon(
-        onPressed: () => UrlLauncherHelper.launch(Config.gptIntegrationUrl),
-        icon: Assets.icons.chatgpt.svg(
-          width: 20,
-          height: 20,
-          colorFilter: const ColorFilter.mode(Colors.white, BlendMode.srcIn),
-        ),
-        label: Text(
-          context.localizations.chatgpt_start_button,
-          style: const TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.w600,
-          ),
-        ),
-        style: ElevatedButton.styleFrom(
-          backgroundColor: context.theme.colorScheme.primary,
-          foregroundColor: Colors.white,
-          padding: const EdgeInsets.symmetric(vertical: 18),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(12),
-          ),
-        ),
+    return AppButton.filled(
+      label: context.localizations.chatgpt_start_button,
+      icon: Assets.icons.chatgpt.svg(
+        width: AppButtonDefaults.iconSize,
+        height: AppButtonDefaults.iconSize,
+        colorFilter: const ColorFilter.mode(Colors.white, BlendMode.srcIn),
       ),
+      onPressed: () => UrlLauncherHelper.launch(Config.gptIntegrationUrl),
     );
   }
 }

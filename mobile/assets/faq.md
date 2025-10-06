@@ -6,10 +6,10 @@ This document consolidates common questions for users and reviewers. It’s the 
 VytalLink turns your wearable and phone‑tracked health metrics (sleep, workouts, steps, heart rate, and more) into a secure, AI‑ready stream so you can ask questions and get clear recommendations from ChatGPT or other MCP clients.
 
 ## Where do I chat?
-Chats happen in ChatGPT (web) or in a desktop MCP client like Claude Desktop. VytalLink does not include an in‑app chat UI.
+Chats happen in ChatGPT. You can use the in-app browser or hop to the web, and power users can still lean on MCP clients like Claude Desktop. VytalLink doesn't include a native chat UI yet.
 
 ## Can I use ChatGPT on mobile?
-Not yet. ChatGPT on mobile is not supported because the VytalLink app must remain open to relay data during a session.
+Yes. VytalLink opens ChatGPT in a secure in-app browser. Keep the app in the foreground so the bridge keeps streaming.
 
 ## Do I need to keep the app open?
 Yes. While you chat, keep the VytalLink app open so it can relay the data you approved to your AI assistant. Closing the app pauses the bridge and stops new insights.
@@ -35,7 +35,7 @@ Review the provider’s terms before sharing. VytalLink does not sell or repurpo
 If your wearable syncs to your phone’s health platform, VytalLink can make that data conversational.
 
 ## Do I need MCP to get started?
-No. The fastest path is ChatGPT (no desktop setup). MCP is available for desktop workflows and power users.
+No. The fastest path is ChatGPT, whether you're on your phone or a computer. MCP stays available for deeper workflows and power users.
 
 ## What kind of questions can I ask?
 Examples:
@@ -58,7 +58,7 @@ MCP stands for Model Context Protocol. It’s a standard that allows desktop cli
 
 ## Which client should I use?
 It depends on your needs:
-- **ChatGPT**: Best for quick, conversational insights. No desktop setup required.
+- **ChatGPT**: Best for quick, conversational insights on your phone or computer.
 - **Claude Desktop**: Ideal for users who prefer Anthropic’s AI and desktop workflows.
 - **Other MCP clients**: Use these for specific integrations or advanced setups.
 Choose the client that aligns with your workflow and preferences.
@@ -73,7 +73,7 @@ Choose the client that aligns with your workflow and preferences.
 VytalLink does not provide medical advice, diagnosis, or treatment. For medical questions, consult a qualified professional.
 
 ## What is the difference between ChatGPT and MCP clients?
-ChatGPT is ideal for quick, conversational insights without any desktop setup. MCP clients, like Claude Desktop or VS Code, are designed for advanced workflows and professional use cases.
+ChatGPT is ideal for quick, conversational insights on any screen. MCP clients, like Claude Desktop or VS Code, are built for advanced workflows and professional use cases.
 
 ## What happens if I close the app during a session?
 If you close the app, the connection to your AI assistant is paused, and no new data will be relayed. To resume, simply reopen the app and restart the session.
@@ -94,4 +94,3 @@ There are two common reasons:
 
 ## Can I use VytalLink with multiple AI clients simultaneously?
 Yes, you can connect to multiple AI clients simultaneously. However, we recommend maintaining a single active connection for simplicity and to avoid potential data conflicts.
-

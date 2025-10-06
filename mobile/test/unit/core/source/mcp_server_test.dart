@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter_template/core/common/config.dart';
 import 'package:flutter_template/core/model/health_data_request.dart';
+import 'package:flutter_template/core/model/mcp_exceptions.dart';
 import 'package:flutter_template/core/service/health_data_manager.dart';
 import 'package:flutter_template/core/source/mcp_server.dart';
 import 'package:flutter_template/model/vytal_health_data_category.dart';
@@ -28,21 +29,11 @@ void main() {
   group('HealthMcpServerService', () {
     late HealthMcpServerService mcpServer;
     late MockHealthDataManager mockHealthDataManager;
-    late HealthMcpServerConfig config;
     late TestWebSocketChannel testWebSocketChannel;
 
     setUp(() {
       mockHealthDataManager = MockHealthDataManager();
-      config = const HealthMcpServerConfig(
-        serverName: 'VytalLink',
-        serverVersion: '1.0.0',
-        host: '192.168.1.100',
-        port: 8080,
-        endpoint: '/mcp',
-      );
-
       mcpServer = HealthMcpServerService(
-        config: config,
         healthDataManager: mockHealthDataManager,
       );
 
@@ -53,22 +44,6 @@ void main() {
 
     tearDown(() {
       testWebSocketChannel.dispose();
-    });
-
-    group('configuration', () {
-      test('initializes with correct config', () {
-        expect(mcpServer.config.serverName, equals('VytalLink'));
-        expect(mcpServer.config.serverVersion, equals('1.0.0'));
-        expect(mcpServer.config.host, equals('192.168.1.100'));
-        expect(mcpServer.config.port, equals(8080));
-        expect(mcpServer.config.endpoint, equals('/mcp'));
-        expect(mcpServer.config.isJsonResponseEnabled, isTrue);
-      });
-
-      test('creates with default health data manager when not provided', () {
-        final server = HealthMcpServerService(config: config);
-        expect(server.config, equals(config));
-      });
     });
 
     group('connection management', () {
@@ -97,35 +72,25 @@ void main() {
       });
     });
 
-    group('callback management', () {
-      test('sets connection code callback', () {
-        var callbackExecuted = false;
-
-        mcpServer.setConnectionCodeCallback((code, word, message) {
-          callbackExecuted = true;
-        });
-
-        expect(callbackExecuted, isFalse);
+    group('connection state stream', () {
+      test('starts with disconnected state', () {
+        expect(mcpServer.currentStatus, isA<McpConnectionStateDisconnected>());
+        expect(mcpServer.isDisconnected, isTrue);
+        expect(mcpServer.isConnected, isFalse);
+        expect(mcpServer.isConnecting, isFalse);
       });
 
-      test('sets connection error callback', () {
-        var callbackExecuted = false;
-
-        mcpServer.setConnectionErrorCallback((error) {
-          callbackExecuted = true;
-        });
-
-        expect(callbackExecuted, isFalse);
+      test('provides status stream', () {
+        expect(mcpServer.status, isA<Stream<McpConnectionState>>());
       });
 
-      test('sets connection lost callback', () {
-        var callbackExecuted = false;
-
-        mcpServer.setConnectionLostCallback(() {
-          callbackExecuted = true;
-        });
-
-        expect(callbackExecuted, isFalse);
+      test('status stream emits initial disconnected state', () {
+        expectLater(
+          mcpServer.status,
+          emitsInOrder([
+            isA<McpConnectionStateDisconnected>(),
+          ]),
+        );
       });
     });
 
@@ -154,17 +119,9 @@ void main() {
       });
 
       test('handles connection code message correctly', () async {
-        var callbackExecuted = false;
-        String? receivedCode;
-        String? receivedWord;
-        String? receivedMessage;
+        final stateChanges = <McpConnectionState>[];
 
-        mcpServer.setConnectionCodeCallback((code, word, message) {
-          callbackExecuted = true;
-          receivedCode = code;
-          receivedWord = word;
-          receivedMessage = message;
-        });
+        final subscription = mcpServer.status.listen(stateChanges.add);
 
         final codeMessage =
             WebSocketTestMessageFactory.createConnectionCodeMessage(
@@ -175,10 +132,19 @@ void main() {
 
         await mcpServer.handleBackendMessage(jsonEncode(codeMessage));
 
-        expect(callbackExecuted, isTrue);
-        expect(receivedCode, equals('ABC123'));
-        expect(receivedWord, equals('elephant'));
-        expect(receivedMessage, equals('Connection established'));
+        await subscription.cancel();
+
+        // Should emit the connected state with credentials
+        expect(
+          stateChanges.any((state) => state is McpConnectionStateConnected),
+          isTrue,
+        );
+
+        final connectedState =
+            stateChanges.whereType<McpConnectionStateConnected>().first;
+        expect(connectedState.credentials.connectionPin, equals('ABC123'));
+        expect(connectedState.credentials.connectionWord, equals('elephant'));
+        expect(connectedState.message, equals('Connection established'));
       });
 
       test('handles unknown message type gracefully', () async {

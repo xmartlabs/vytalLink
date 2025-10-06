@@ -7,8 +7,8 @@ import 'package:flutter_template/core/model/aggregation_parameters.dart';
 import 'package:flutter_template/core/model/health_data_point.dart';
 import 'package:flutter_template/core/model/health_data_request.dart';
 import 'package:flutter_template/core/model/health_data_response.dart';
+import 'package:flutter_template/core/model/mcp_exceptions.dart';
 import 'package:flutter_template/core/model/statistic_types.dart';
-import 'package:flutter_template/core/source/mcp_server.dart';
 import 'package:flutter_template/model/vytal_health_data_category.dart';
 import 'package:health/health.dart';
 
