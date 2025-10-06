@@ -7,9 +7,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_template/ui/extensions/context_extensions.dart';
-import 'package:flutter_template/ui/widgets/bold_tag_text.dart';
 import 'package:flutter_template/ui/onboarding/onboarding_cubit.dart';
 import 'package:flutter_template/ui/onboarding/onboarding_pages.dart';
+import 'package:flutter_template/ui/widgets/bold_tag_text.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 const double _kSmallScreenHeightThreshold = 700;
@@ -123,9 +123,8 @@ class _OnboardingScreenState extends State<_OnboardingContentScreen>
     );
   }
 
-  void _finishOnboarding() {
-    context.read<OnboardingCubit>().completeOnboarding(context: context);
-  }
+  void _finishOnboarding() =>
+      context.read<OnboardingCubit>().completeOnboarding();
 }
 
 class OnboardingHeader extends StatelessWidget {
