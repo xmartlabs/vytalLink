@@ -5,7 +5,7 @@ error () {
 }
 
 echo ':: Sorting translation files ::'
-if ! command -v arb_utils >/dev/null 2>&1; then
+if ! fvm dart pub global list | grep -q '^arb_utils '; then
   echo "arb_utils is missing. Installing..."
   fvm flutter pub global activate arb_utils 0.8.3
 fi
