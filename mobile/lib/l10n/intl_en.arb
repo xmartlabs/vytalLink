@@ -185,7 +185,7 @@
   "home_dialog_chatgpt_intro": "Choose how you want to start chatting:",
   "home_dialog_chatgpt_mobile_bullet": "<b>Open ChatGPT on this phone</b>. Fast and simple when you're on the go, perfect for quick chats.",
   "home_dialog_chatgpt_mobile_subtitle": "Launches the VytalLink GPT in Safari View Controller or Chrome Custom Tab so you never leave the app.",
-  "home_dialog_chatgpt_mobile_title": "Open ChatGPT on this phone",
+  "home_dialog_chatgpt_mobile_title": "Open ChatGPT here",
   "home_dialog_chatgpt_view_guide": "View ChatGPT instructions",
   "home_dialog_claude_view_guide": "View Claude instructions",
   "home_dialog_start_chat_body": "vytalLink is ready. Keep your Word + PIN handy and you're good to go.",
@@ -204,7 +204,7 @@
   "home_helper_keep_open_reason": "Close or minimize the app and your AI can't get new data.",
   "home_link_faq": "FAQ",
   "home_link_where_do_i_chat": "ChatGPT setup guide",
-  "home_note_keep_open": "Keep the app open while you chat, whether you're on this phone or using ChatGPT somewhere else.",
+  "home_note_keep_open": "Keep the app open while you chat.",
   "home_notification_credentials_body": "Word: {word} | PIN: {pin}",
   "@home_notification_credentials_body": {
     "description": "Notification body shown when the app auto-connects and credentials are ready.",

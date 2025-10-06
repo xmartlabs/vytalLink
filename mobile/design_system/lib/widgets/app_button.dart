@@ -191,6 +191,9 @@ class AppButton extends StatelessWidget {
     final text = Text(
       label,
       textAlign: TextAlign.center,
+      maxLines: 1,
+      overflow: TextOverflow.ellipsis,
+      softWrap: false,
       style: Theme.of(context).textTheme.labelLarge?.copyWith(
             fontWeight: FontWeight.w600,
             fontSize: 14,

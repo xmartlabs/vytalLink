@@ -8,6 +8,7 @@
 build/
 **/build/
 **/doc/api/
+coverage/
 ios/Flutter/.last_build_id
 
 # Firebase & secrets

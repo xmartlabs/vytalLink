@@ -472,7 +472,7 @@ class AppLocalizationsEn extends AppLocalizations {
       'Launches the VytalLink GPT in Safari View Controller or Chrome Custom Tab so you never leave the app.';
 
   @override
-  String get home_dialog_chatgpt_mobile_title => 'Open ChatGPT on this phone';
+  String get home_dialog_chatgpt_mobile_title => 'Open ChatGPT here';
 
   @override
   String get home_dialog_chatgpt_view_guide => 'View ChatGPT instructions';
@@ -507,8 +507,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get home_link_where_do_i_chat => 'ChatGPT setup guide';
 
   @override
-  String get home_note_keep_open =>
-      'Keep the app open while you chat, whether you\'re on this phone or using ChatGPT somewhere else.';
+  String get home_note_keep_open => 'Keep the app open while you chat.';
 
   @override
   String home_notification_credentials_body(String word, String pin) {

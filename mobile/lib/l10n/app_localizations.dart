@@ -895,7 +895,7 @@ abstract class AppLocalizations {
   /// No description provided for @home_dialog_chatgpt_mobile_title.
   ///
   /// In en, this message translates to:
-  /// **'Open ChatGPT on this phone'**
+  /// **'Open ChatGPT here'**
   String get home_dialog_chatgpt_mobile_title;
 
   /// No description provided for @home_dialog_chatgpt_view_guide.
@@ -955,7 +955,7 @@ abstract class AppLocalizations {
   /// No description provided for @home_note_keep_open.
   ///
   /// In en, this message translates to:
-  /// **'Keep the app open while you chat, whether you\'re on this phone or using ChatGPT somewhere else.'**
+  /// **'Keep the app open while you chat.'**
   String get home_note_keep_open;
 
   /// Notification body shown when the app auto-connects and credentials are ready.
