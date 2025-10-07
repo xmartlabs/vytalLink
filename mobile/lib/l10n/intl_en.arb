@@ -286,6 +286,22 @@
   "mcp_feature_2": "Secure connection between your phone and advanced AI tools",
   "mcp_feature_3": "Works with professional AI development tools",
   "mcp_feature_4": "Live data updates while you chat",
+  "mcp_foreground_channel_description": "Keeps your phone linked to AI helpers while the app stays in the background",
+  "mcp_foreground_channel_name": "Health data bridge",
+  "mcp_foreground_notification_button_close": "Close",
+  "mcp_foreground_notification_text": "Share word “{word}” and PIN “{code}” to connect",
+  "@mcp_foreground_notification_text": {
+    "placeholders": {
+      "word": {
+        "type": "String"
+      },
+      "code": {
+        "type": "String"
+      }
+    }
+  },
+  "mcp_foreground_notification_title": "Connected to your AI",
+  "mcp_foreground_status_pending": "Waiting",
   "mcp_helper_chat_runs_on_desktop": "<b>Chats happen in your AI client</b> such as ChatGPT, Claude Desktop, Cursor, or VS Code. This app keeps the bridge open and only shares what you approve.",
   "mcp_integration_hero_subtitle": "Install the Claude Desktop bundle or connect Cursor/VS Code to analyze your health data like a pro.",
   "mcp_integration_hero_title": "Connect with Professional AI Tools",

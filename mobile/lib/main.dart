@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_foreground_task/flutter_foreground_task.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_template/core/common/analytics_manager.dart';
@@ -44,6 +45,8 @@ class MyApp extends StatelessWidget {
         designSize: const Size(360, 690),
         minTextAdapt: false,
         splitScreenMode: true,
-        builder: (_, __) => const MainScreen(),
+        builder: (_, __) => const WithForegroundTask(
+          child: MainScreen(),
+        ),
       );
 }

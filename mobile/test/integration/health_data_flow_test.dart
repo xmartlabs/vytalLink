@@ -7,7 +7,7 @@ import 'package:flutter_template/core/model/mcp_exceptions.dart';
 import 'package:flutter_template/core/model/statistic_types.dart';
 import 'package:flutter_template/core/model/time_group_by.dart';
 import 'package:flutter_template/core/service/health_data_manager.dart';
-import 'package:flutter_template/core/source/mcp_server.dart';
+import 'package:flutter_template/core/service/server/mcp_server.dart';
 import 'package:flutter_template/model/vytal_health_data_category.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:health/health.dart';

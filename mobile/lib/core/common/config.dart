@@ -24,7 +24,8 @@ interface class Config {
   static late String gptIntegrationUrl;
   static late String appDirectoryPath;
   static late String landingUrl;
-  static bool requireForegroundSession = true;
+
+  static final bool useForegroundService = !kIsWeb && Platform.isAndroid;
 
   static String get claudeBundleSetupUri =>
       '$landingUrl/claude-bundle-setup.html';
@@ -62,12 +63,6 @@ interface class Config {
     gptIntegrationUrl =
         _EnvConfig.getEnvVariable(_EnvConfig.ENV_GPT_INTEGRATION_KEY)!;
     landingUrl = _EnvConfig.getEnvVariable(_EnvConfig.ENV_LANDING_URL_KEY)!;
-    final requireForegroundValue =
-        _EnvConfig.getEnvVariable(_EnvConfig.ENV_REQUIRE_FOREGROUND_SESSION);
-    if (requireForegroundValue != null) {
-      requireForegroundSession =
-          requireForegroundValue.toLowerCase().trim() != 'false';
-    }
   }
 }
 

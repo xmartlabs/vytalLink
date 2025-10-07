@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:auto_route/auto_route.dart';
 import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
@@ -49,6 +51,13 @@ class _ChatGptOnDeviceGuidanceScreenState
 
     final spacing12 = SizedBox(height: dimens.spacing12.h);
 
+    final bulletTexts = [
+      localizations.home_on_device_guidance_bullet_browser,
+      localizations.home_on_device_guidance_bullet_no_external_app,
+      if (Platform.isIOS) localizations.home_on_device_guidance_bullet_keyboard,
+      localizations.home_on_device_guidance_bullet_clipboard,
+    ];
+
     return Scaffold(
       backgroundColor: theme.colorScheme.surface,
       appBar: AppBar(
@@ -93,33 +102,14 @@ class _ChatGptOnDeviceGuidanceScreenState
                       baseStyle: introStyle,
                     ),
                     SizedBox(height: dimens.spacing20.h),
-                    _GuidanceBullet(
-                      index: 1,
-                      text:
-                          localizations.home_on_device_guidance_bullet_browser,
-                      textStyle: bulletStyle,
-                    ),
-                    spacing12,
-                    _GuidanceBullet(
-                      index: 2,
-                      text: localizations
-                          .home_on_device_guidance_bullet_no_external_app,
-                      textStyle: bulletStyle,
-                    ),
-                    spacing12,
-                    _GuidanceBullet(
-                      index: 3,
-                      text:
-                          localizations.home_on_device_guidance_bullet_keyboard,
-                      textStyle: bulletStyle,
-                    ),
-                    spacing12,
-                    _GuidanceBullet(
-                      index: 4,
-                      text: localizations
-                          .home_on_device_guidance_bullet_clipboard,
-                      textStyle: bulletStyle,
-                    ),
+                    for (int i = 0; i < bulletTexts.length; i++) ...[
+                      _GuidanceBullet(
+                        index: i + 1,
+                        text: bulletTexts[i],
+                        textStyle: bulletStyle,
+                      ),
+                      spacing12,
+                    ],
                     SizedBox(height: dimens.spacing16.h),
                   ],
                 ),

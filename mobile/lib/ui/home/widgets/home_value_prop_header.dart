@@ -1,6 +1,5 @@
 import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_template/core/common/config.dart';
 import 'package:flutter_template/ui/extensions/context_extensions.dart';
 import 'package:flutter_template/ui/widgets/bold_tag_text.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -142,13 +141,11 @@ class _ValuePropPoints extends StatelessWidget {
           icon: FontAwesomeIcons.key,
           text: localizations.home_value_prop_point_2,
         ),
-        if (Config.requireForegroundSession) ...[
-          const SizedBox(height: 12),
-          _ValuePropLine(
-            icon: FontAwesomeIcons.clock,
-            text: localizations.home_value_prop_point_3,
-          ),
-        ],
+        const SizedBox(height: 12),
+        _ValuePropLine(
+          icon: FontAwesomeIcons.clock,
+          text: localizations.home_value_prop_point_3,
+        ),
       ],
     );
   }

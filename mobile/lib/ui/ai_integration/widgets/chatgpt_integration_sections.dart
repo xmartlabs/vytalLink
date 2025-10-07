@@ -1,14 +1,12 @@
 import 'package:design_system/design_system.dart';
+import 'package:design_system/extensions/color_extensions.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_template/core/common/config.dart';
+import 'package:flutter_template/gen/assets.gen.dart';
 import 'package:flutter_template/ui/ai_integration/widgets/expandable_section.dart';
 import 'package:flutter_template/ui/ai_integration/widgets/setup_step.dart';
 import 'package:flutter_template/ui/extensions/context_extensions.dart';
-import 'package:flutter_template/ui/helpers/url_launcher_helper.dart';
 import 'package:flutter_template/ui/widgets/bold_tag_text.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:flutter_template/gen/assets.gen.dart';
-import 'package:design_system/extensions/color_extensions.dart';
 
 class WhatIsChatGptSection extends StatelessWidget {
   const WhatIsChatGptSection({super.key});
@@ -211,27 +209,6 @@ class ChatGptDesktopNoticeSection extends StatelessWidget {
           ],
         ),
       );
-}
-
-class ChatGptUseButtonSection extends StatelessWidget {
-  const ChatGptUseButtonSection({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    if (Config.requireForegroundSession) {
-      return const SizedBox.shrink();
-    }
-
-    return AppButton.filled(
-      label: context.localizations.chatgpt_start_button,
-      icon: Assets.icons.chatgpt.svg(
-        width: AppButtonDefaults.iconSize,
-        height: AppButtonDefaults.iconSize,
-        colorFilter: const ColorFilter.mode(Colors.white, BlendMode.srcIn),
-      ),
-      onPressed: () => UrlLauncherHelper.launch(Config.gptIntegrationUrl),
-    );
-  }
 }
 
 class _ExampleQuestionsList extends StatelessWidget {

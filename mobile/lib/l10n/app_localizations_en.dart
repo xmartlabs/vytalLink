@@ -719,6 +719,27 @@ class AppLocalizationsEn extends AppLocalizations {
   String get mcp_feature_4 => 'Live data updates while you chat';
 
   @override
+  String get mcp_foreground_channel_description =>
+      'Keeps your phone linked to AI helpers while the app stays in the background';
+
+  @override
+  String get mcp_foreground_channel_name => 'Health data bridge';
+
+  @override
+  String mcp_foreground_notification_text(String word, String code) {
+    return 'Share word “$word” and PIN “$code” to connect';
+  }
+
+  @override
+  String get mcp_foreground_notification_title => 'Connected to your AI';
+
+  @override
+  String get mcp_foreground_status_pending => 'Waiting';
+
+  @override
+  String get mcp_foreground_notification_button_close => 'Close';
+
+  @override
   String get mcp_helper_chat_runs_on_desktop =>
       '<b>Chats happen in your AI client</b> such as ChatGPT, Claude Desktop, Cursor, or VS Code. This app keeps the bridge open and only shares what you approve.';
 

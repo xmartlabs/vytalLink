@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:io' show Platform;
 
 import 'package:auto_route/auto_route.dart';
 import 'package:design_system/design_system.dart';
@@ -37,8 +36,6 @@ Future<void> launchChatGptQuickAction({
 }
 
 Future<bool> _shouldProceedWithQuickAction(BuildContext context) async {
-  if (!Platform.isIOS) return true;
-
   final router = context.router;
   final SharedPreferenceService preferenceService = DiProvider.get();
   final skipGuidance =
@@ -111,7 +108,6 @@ Future<void> _copyCredentialsAndLaunch(
       duration: const Duration(milliseconds: 300),
     ),
   );
-
   await UrlLauncherHelper.launchInBrowserView(Config.gptIntegrationUrl);
 }
 

@@ -1,12 +1,11 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_template/core/common/config.dart';
-import 'package:flutter_template/ui/extensions/context_extensions.dart';
-import 'package:flutter_template/ui/widgets/bold_tag_text.dart';
-import 'package:flutter_template/ui/router/app_router.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter_template/gen/assets.gen.dart';
+import 'package:flutter_template/ui/extensions/context_extensions.dart';
+import 'package:flutter_template/ui/router/app_router.dart';
+import 'package:flutter_template/ui/widgets/bold_tag_text.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class HowItWorksSection extends StatelessWidget {
   final VoidCallback onViewGuide;
@@ -133,24 +132,22 @@ class HowItWorksSection extends StatelessWidget {
                           fontWeight: FontWeight.w600,
                         ),
                       ),
-                      if (Config.requireForegroundSession) ...[
-                        const SizedBox(height: 6),
-                        Text(
-                          localizations.home_note_keep_open,
-                          style: theme.textTheme.bodySmall?.copyWith(
-                            color: colorScheme.onSurfaceVariant,
-                            height: 1.4,
-                          ),
+                      const SizedBox(height: 6),
+                      Text(
+                        localizations.home_note_keep_open,
+                        style: theme.textTheme.bodySmall?.copyWith(
+                          color: colorScheme.onSurfaceVariant,
+                          height: 1.4,
                         ),
-                        const SizedBox(height: 2),
-                        Text(
-                          localizations.home_helper_keep_open_reason,
-                          style: theme.textTheme.bodySmall?.copyWith(
-                            color: colorScheme.onSurfaceVariant,
-                            height: 1.4,
-                          ),
+                      ),
+                      const SizedBox(height: 2),
+                      Text(
+                        localizations.home_helper_keep_open_reason,
+                        style: theme.textTheme.bodySmall?.copyWith(
+                          color: colorScheme.onSurfaceVariant,
+                          height: 1.4,
                         ),
-                      ],
+                      ),
                     ],
                   ),
                 ),

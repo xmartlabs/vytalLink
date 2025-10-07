@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_template/core/common/analytics_manager.dart';
 import 'package:flutter_template/core/health_permission_manager.dart';
-import 'package:flutter_template/core/source/mcp_server.dart';
+import 'package:flutter_template/core/service/server/mcp_server.dart';
 import 'package:flutter_template/ui/resources.dart';
 import 'package:flutter_template/ui/section/error_handler/global_event_handler_cubit.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -106,7 +106,9 @@ class HomeCubit extends Cubit<HomeState> {
   }
 
   void _onDisconnected(String? errorMessage, bool lostConnection) {
-    if (errorMessage != null && errorMessage.isNotEmpty) {
+    if (state.status != McpServerStatus.idle &&
+        errorMessage != null &&
+        errorMessage.isNotEmpty) {
       _onConnectionError(errorMessage);
     } else {
       _stopConnectionMonitoring();
@@ -247,12 +249,9 @@ class HomeCubit extends Cubit<HomeState> {
 
   Future<void> stopMCPServer() async {
     try {
-      emit(state.copyWith(status: McpServerStatus.stopping));
-
+      emit(const HomeState(status: McpServerStatus.idle));
       _stopConnectionMonitoring();
       await healthServer.stop();
-
-      emit(const HomeState(status: McpServerStatus.idle));
     } catch (error, stackTrace) {
       _globalEventHandler.handleError(error, stackTrace);
       emit(const HomeState(status: McpServerStatus.idle));
