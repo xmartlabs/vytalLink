@@ -139,7 +139,7 @@ class __$$WorkoutSummaryDataImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$WorkoutSummaryDataImpl implements _WorkoutSummaryData {
   const _$WorkoutSummaryDataImpl(
-      {required this.workoutType,
+      {this.workoutType = 'other',
       this.totalDistance = 0,
       this.totalEnergyBurned = 0,
       this.totalSteps = 0});
@@ -148,6 +148,7 @@ class _$WorkoutSummaryDataImpl implements _WorkoutSummaryData {
       _$$WorkoutSummaryDataImplFromJson(json);
 
   @override
+  @JsonKey()
   final String workoutType;
   @override
   @JsonKey()
@@ -201,7 +202,7 @@ class _$WorkoutSummaryDataImpl implements _WorkoutSummaryData {
 
 abstract class _WorkoutSummaryData implements WorkoutSummaryData {
   const factory _WorkoutSummaryData(
-      {required final String workoutType,
+      {final String workoutType,
       final double totalDistance,
       final double totalEnergyBurned,
       final double totalSteps}) = _$WorkoutSummaryDataImpl;

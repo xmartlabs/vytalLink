@@ -26,6 +26,8 @@ class MockHealthDataPoint extends Mock implements HealthDataPoint {
   final RecordingMethod recordingMethod;
   @override
   final HealthPlatformType sourcePlatform;
+  @override
+  final WorkoutSummary? workoutSummary;
 
   MockHealthDataPoint({
     required this.type,
@@ -39,6 +41,7 @@ class MockHealthDataPoint extends Mock implements HealthDataPoint {
     String? sourceDeviceId,
     RecordingMethod? recordingMethod,
     HealthPlatformType? sourcePlatform,
+    this.workoutSummary,
   })  : uuid = uuid ?? 'test-uuid-${DateTime.now().millisecondsSinceEpoch}',
         sourceId = sourceId ?? '',
         sourceName = sourceName ?? '',

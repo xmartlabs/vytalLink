@@ -9,7 +9,7 @@ part of 'workout_summary_data.dart';
 _$WorkoutSummaryDataImpl _$$WorkoutSummaryDataImplFromJson(
         Map<String, dynamic> json) =>
     _$WorkoutSummaryDataImpl(
-      workoutType: json['workout_type'] as String,
+      workoutType: json['workout_type'] as String? ?? 'other',
       totalDistance: (json['total_distance'] as num?)?.toDouble() ?? 0,
       totalEnergyBurned: (json['total_energy_burned'] as num?)?.toDouble() ?? 0,
       totalSteps: (json['total_steps'] as num?)?.toDouble() ?? 0,
