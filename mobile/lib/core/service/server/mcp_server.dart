@@ -186,6 +186,7 @@ class HealthMcpServerService {
       AnalyticsManager.logHealthDataResponse(response);
       return response.toJson();
     } catch (e) {
+      Logger.e('Error handling health data request: $e', e);
       final errorResponse = HealthDataErrorResponse(
         success: false,
         errorMessage: 'Error retrieving health data: ${e.toString()}',

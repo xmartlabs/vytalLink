@@ -20,6 +20,7 @@ class HealthMcpConnectionManager {
     this.reconnectBaseDelay = const Duration(seconds: 2),
     this.reconnectMaxDelay = const Duration(seconds: 30),
     this.maxRetries,
+    this.closeTimeout = const Duration(seconds: 5),
   });
 
   final Uri backendUrl;
@@ -27,6 +28,7 @@ class HealthMcpConnectionManager {
   final Duration reconnectBaseDelay;
   final Duration reconnectMaxDelay;
   final int? maxRetries;
+  final Duration closeTimeout;
 
   final _stateController = StreamController<McpConnectionState>.broadcast();
   final _errorController = StreamController<Object>.broadcast();
@@ -117,9 +119,17 @@ class HealthMcpConnectionManager {
     final channel = _channel;
     if (channel != null) {
       try {
-        await channel.sink.close(closeCode, reason);
-      } catch (error) {
-        Logger.w('Error while closing MCP WebSocket: $error');
+        await channel.sink.close(closeCode, reason).timeout(
+          closeTimeout,
+          onTimeout: () {
+            Logger.w(
+              'Timed out while closing MCP WebSocket channel after '
+              '${closeTimeout.inSeconds}s',
+            );
+          },
+        );
+      } catch (error, stackTrace) {
+        Logger.w('Error while closing MCP WebSocket', error, stackTrace);
       }
       _channel = null;
     }

@@ -16,7 +16,7 @@ class AppHealthDataPoint with _$AppHealthDataPoint {
 
   const factory AppHealthDataPoint.aggregated({
     required String type,
-    required double value,
+    required dynamic value,
     required String unit,
     required String dateFrom,
     required String dateTo,

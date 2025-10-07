@@ -526,6 +526,10 @@ class AppLocalizationsEn extends AppLocalizations {
       'We\'ll open ChatGPT inside this app. <b>Stick with that in-app browser</b> so the bridge keeps flowing.';
 
   @override
+  String get home_on_device_guidance_bullet_charts =>
+      '<b>Charts may not work properly on mobile.</b> For interactive visualizations, use ChatGPT on your computer instead.';
+
+  @override
   String get home_on_device_guidance_bullet_clipboard =>
       '<b>Your Word + PIN are already copied.</b> Paste them when ChatGPT asks and you\'re in.';
 
@@ -726,6 +730,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get mcp_foreground_channel_name => 'Health data bridge';
 
   @override
+  String get mcp_foreground_notification_button_close => 'Close';
+
+  @override
   String mcp_foreground_notification_text(String word, String code) {
     return 'Share word “$word” and PIN “$code” to connect';
   }
@@ -735,9 +742,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get mcp_foreground_status_pending => 'Waiting';
-
-  @override
-  String get mcp_foreground_notification_button_close => 'Close';
 
   @override
   String get mcp_helper_chat_runs_on_desktop =>

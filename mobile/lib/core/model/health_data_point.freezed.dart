@@ -40,7 +40,7 @@ mixin _$AppHealthDataPoint {
     required TResult Function(String type, dynamic value, String unit,
             String dateFrom, String dateTo, String? sourceId)
         raw,
-    required TResult Function(String type, double value, String unit,
+    required TResult Function(String type, dynamic value, String unit,
             String dateFrom, String dateTo, String? sourceId)
         aggregated,
   }) =>
@@ -50,7 +50,7 @@ mixin _$AppHealthDataPoint {
     TResult? Function(String type, dynamic value, String unit, String dateFrom,
             String dateTo, String? sourceId)?
         raw,
-    TResult? Function(String type, double value, String unit, String dateFrom,
+    TResult? Function(String type, dynamic value, String unit, String dateFrom,
             String dateTo, String? sourceId)?
         aggregated,
   }) =>
@@ -60,7 +60,7 @@ mixin _$AppHealthDataPoint {
     TResult Function(String type, dynamic value, String unit, String dateFrom,
             String dateTo, String? sourceId)?
         raw,
-    TResult Function(String type, double value, String unit, String dateFrom,
+    TResult Function(String type, dynamic value, String unit, String dateFrom,
             String dateTo, String? sourceId)?
         aggregated,
     required TResult orElse(),
@@ -99,6 +99,7 @@ abstract class $AppHealthDataPointCopyWith<$Res> {
   @useResult
   $Res call(
       {String type,
+      dynamic value,
       String unit,
       String dateFrom,
       String dateTo,
@@ -119,6 +120,7 @@ class _$AppHealthDataPointCopyWithImpl<$Res, $Val extends AppHealthDataPoint>
   @override
   $Res call({
     Object? type = null,
+    Object? value = freezed,
     Object? unit = null,
     Object? dateFrom = null,
     Object? dateTo = null,
@@ -129,6 +131,10 @@ class _$AppHealthDataPointCopyWithImpl<$Res, $Val extends AppHealthDataPoint>
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
               as String,
+      value: freezed == value
+          ? _value.value
+          : value // ignore: cast_nullable_to_non_nullable
+              as dynamic,
       unit: null == unit
           ? _value.unit
           : unit // ignore: cast_nullable_to_non_nullable
@@ -290,7 +296,7 @@ class _$SimpleHealthDataPointImpl implements SimpleHealthDataPoint {
     required TResult Function(String type, dynamic value, String unit,
             String dateFrom, String dateTo, String? sourceId)
         raw,
-    required TResult Function(String type, double value, String unit,
+    required TResult Function(String type, dynamic value, String unit,
             String dateFrom, String dateTo, String? sourceId)
         aggregated,
   }) {
@@ -303,7 +309,7 @@ class _$SimpleHealthDataPointImpl implements SimpleHealthDataPoint {
     TResult? Function(String type, dynamic value, String unit, String dateFrom,
             String dateTo, String? sourceId)?
         raw,
-    TResult? Function(String type, double value, String unit, String dateFrom,
+    TResult? Function(String type, dynamic value, String unit, String dateFrom,
             String dateTo, String? sourceId)?
         aggregated,
   }) {
@@ -316,7 +322,7 @@ class _$SimpleHealthDataPointImpl implements SimpleHealthDataPoint {
     TResult Function(String type, dynamic value, String unit, String dateFrom,
             String dateTo, String? sourceId)?
         raw,
-    TResult Function(String type, double value, String unit, String dateFrom,
+    TResult Function(String type, dynamic value, String unit, String dateFrom,
             String dateTo, String? sourceId)?
         aggregated,
     required TResult orElse(),
@@ -407,7 +413,7 @@ abstract class _$$AggregatedHealthDataPointImplCopyWith<$Res>
   @useResult
   $Res call(
       {String type,
-      double value,
+      dynamic value,
       String unit,
       String dateFrom,
       String dateTo,
@@ -428,7 +434,7 @@ class __$$AggregatedHealthDataPointImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? type = null,
-    Object? value = null,
+    Object? value = freezed,
     Object? unit = null,
     Object? dateFrom = null,
     Object? dateTo = null,
@@ -439,10 +445,10 @@ class __$$AggregatedHealthDataPointImplCopyWithImpl<$Res>
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
               as String,
-      value: null == value
+      value: freezed == value
           ? _value.value
           : value // ignore: cast_nullable_to_non_nullable
-              as double,
+              as dynamic,
       unit: null == unit
           ? _value.unit
           : unit // ignore: cast_nullable_to_non_nullable
@@ -482,7 +488,7 @@ class _$AggregatedHealthDataPointImpl implements AggregatedHealthDataPoint {
   @override
   final String type;
   @override
-  final double value;
+  final dynamic value;
   @override
   final String unit;
   @override
@@ -506,7 +512,7 @@ class _$AggregatedHealthDataPointImpl implements AggregatedHealthDataPoint {
         (other.runtimeType == runtimeType &&
             other is _$AggregatedHealthDataPointImpl &&
             (identical(other.type, type) || other.type == type) &&
-            (identical(other.value, value) || other.value == value) &&
+            const DeepCollectionEquality().equals(other.value, value) &&
             (identical(other.unit, unit) || other.unit == unit) &&
             (identical(other.dateFrom, dateFrom) ||
                 other.dateFrom == dateFrom) &&
@@ -517,8 +523,14 @@ class _$AggregatedHealthDataPointImpl implements AggregatedHealthDataPoint {
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, type, value, unit, dateFrom, dateTo, sourceId);
+  int get hashCode => Object.hash(
+      runtimeType,
+      type,
+      const DeepCollectionEquality().hash(value),
+      unit,
+      dateFrom,
+      dateTo,
+      sourceId);
 
   @JsonKey(ignore: true)
   @override
@@ -533,7 +545,7 @@ class _$AggregatedHealthDataPointImpl implements AggregatedHealthDataPoint {
     required TResult Function(String type, dynamic value, String unit,
             String dateFrom, String dateTo, String? sourceId)
         raw,
-    required TResult Function(String type, double value, String unit,
+    required TResult Function(String type, dynamic value, String unit,
             String dateFrom, String dateTo, String? sourceId)
         aggregated,
   }) {
@@ -546,7 +558,7 @@ class _$AggregatedHealthDataPointImpl implements AggregatedHealthDataPoint {
     TResult? Function(String type, dynamic value, String unit, String dateFrom,
             String dateTo, String? sourceId)?
         raw,
-    TResult? Function(String type, double value, String unit, String dateFrom,
+    TResult? Function(String type, dynamic value, String unit, String dateFrom,
             String dateTo, String? sourceId)?
         aggregated,
   }) {
@@ -559,7 +571,7 @@ class _$AggregatedHealthDataPointImpl implements AggregatedHealthDataPoint {
     TResult Function(String type, dynamic value, String unit, String dateFrom,
             String dateTo, String? sourceId)?
         raw,
-    TResult Function(String type, double value, String unit, String dateFrom,
+    TResult Function(String type, dynamic value, String unit, String dateFrom,
             String dateTo, String? sourceId)?
         aggregated,
     required TResult orElse(),
@@ -612,7 +624,7 @@ class _$AggregatedHealthDataPointImpl implements AggregatedHealthDataPoint {
 abstract class AggregatedHealthDataPoint implements AppHealthDataPoint {
   const factory AggregatedHealthDataPoint(
       {required final String type,
-      required final double value,
+      required final dynamic value,
       required final String unit,
       required final String dateFrom,
       required final String dateTo,
@@ -624,7 +636,7 @@ abstract class AggregatedHealthDataPoint implements AppHealthDataPoint {
   @override
   String get type;
   @override
-  double get value;
+  dynamic get value;
   @override
   String get unit;
   @override

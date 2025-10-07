@@ -55,6 +55,7 @@ class _ChatGptOnDeviceGuidanceScreenState
       localizations.home_on_device_guidance_bullet_browser,
       localizations.home_on_device_guidance_bullet_no_external_app,
       if (Platform.isIOS) localizations.home_on_device_guidance_bullet_keyboard,
+      localizations.home_on_device_guidance_bullet_charts,
       localizations.home_on_device_guidance_bullet_clipboard,
     ];
 

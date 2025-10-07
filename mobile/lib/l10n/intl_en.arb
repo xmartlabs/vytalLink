@@ -222,6 +222,7 @@
   "home_notification_credentials_title": "Bridge activated",
   "home_on_device_guidance_acknowledge": "Yep, I read the reminders.",
   "home_on_device_guidance_bullet_browser": "We'll open ChatGPT inside this app. <b>Stick with that in-app browser</b> so the bridge keeps flowing.",
+  "home_on_device_guidance_bullet_charts": "<b>Charts may not work properly on mobile.</b> For interactive visualizations, use ChatGPT on your computer instead.",
   "home_on_device_guidance_bullet_clipboard": "<b>Your Word + PIN are already copied.</b> Paste them when ChatGPT asks and you're in.",
   "home_on_device_guidance_bullet_keyboard": "If the chat bar sits on top of our buttons on iOS, <b>scroll up a notch</b> and the keyboard shows up again. ChatGPT is working on a fix.",
   "home_on_device_guidance_bullet_no_external_app": "<b>Skip any prompts to open or install the ChatGPT app.</b> Sending vytalLink to the background stops the data stream.",

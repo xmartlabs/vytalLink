@@ -34,7 +34,7 @@ _$AggregatedHealthDataPointImpl _$$AggregatedHealthDataPointImplFromJson(
         Map<String, dynamic> json) =>
     _$AggregatedHealthDataPointImpl(
       type: json['type'] as String,
-      value: (json['value'] as num).toDouble(),
+      value: json['value'],
       unit: json['unit'] as String,
       dateFrom: json['date_from'] as String,
       dateTo: json['date_to'] as String,
