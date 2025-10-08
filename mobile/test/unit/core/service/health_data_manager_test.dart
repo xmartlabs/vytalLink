@@ -1,3 +1,4 @@
+import 'package:flutter_template/core/common/config.dart';
 import 'package:flutter_template/core/health/health_data_aggregator.dart';
 import 'package:flutter_template/core/health/health_data_mapper.dart';
 import 'package:flutter_template/core/health/health_permissions_guard.dart';
@@ -1278,6 +1279,174 @@ void main() {
           );
         },
       );
+
+      test('returns cached response for repeated request within ttl', () async {
+        final baseTime = DateTime(2024, 1, 1, 12);
+        final currentTime = baseTime;
+        healthDataManager = HealthDataManager(
+          healthClient: mockHealthClient,
+          aggregatePerSource: true,
+          healthDataAggregator: mockAggregator,
+          healthDataMapper: mockMapper,
+          healthPermissionsGuard: mockPermissionsGuard,
+          healthSleepSessionNormalizer: mockSleepNormalizer,
+          nowProvider: () => currentTime,
+        );
+
+        final request = TestDataFactory.createHealthDataRequest(
+          startTime: DateTime(2024, 1, 1),
+          endTime: DateTime(2024, 1, 2),
+        );
+
+        final mockHealthData = [
+          TestHealthDataFactory.createStepsDataPoint(
+            dateFrom: DateTime(2024, 1, 1, 8),
+            dateTo: DateTime(2024, 1, 1, 9),
+            steps: 750,
+          ),
+        ];
+
+        when(
+          () => mockHealthClient.getHealthDataFromTypes(
+            types: any(named: 'types'),
+            startTime: any(named: 'startTime'),
+            endTime: any(named: 'endTime'),
+          ),
+        ).thenAnswer((_) async => mockHealthData);
+
+        when(() => mockMapper.map(any())).thenReturn([
+          TestDataFactory.createRawHealthDataPoint(type: 'STEPS', value: 750),
+        ]);
+
+        final firstResponse =
+            await healthDataManager.processHealthDataRequest(request);
+
+        clearInteractions(mockHealthClient);
+        clearInteractions(mockMapper);
+
+        final secondResponse =
+            await healthDataManager.processHealthDataRequest(request);
+
+        expect(identical(firstResponse, secondResponse), isTrue);
+        verifyNever(
+          () => mockHealthClient.getHealthDataFromTypes(
+            types: any(named: 'types'),
+            startTime: any(named: 'startTime'),
+            endTime: any(named: 'endTime'),
+          ),
+        );
+        verifyNever(() => mockMapper.map(any()));
+      });
+
+      test('evicts cache after ttl expires', () async {
+        final baseTime = DateTime(2024, 1, 1, 12);
+        var currentTime = baseTime;
+        var fetchCallCount = 0;
+        var mapCallCount = 0;
+
+        healthDataManager = HealthDataManager(
+          healthClient: mockHealthClient,
+          aggregatePerSource: true,
+          healthDataAggregator: mockAggregator,
+          healthDataMapper: mockMapper,
+          healthPermissionsGuard: mockPermissionsGuard,
+          healthSleepSessionNormalizer: mockSleepNormalizer,
+          nowProvider: () => currentTime,
+        );
+
+        final request = TestDataFactory.createHealthDataRequest(
+          startTime: DateTime(2024, 1, 1),
+          endTime: DateTime(2024, 1, 2),
+        );
+
+        when(
+          () => mockHealthClient.getHealthDataFromTypes(
+            types: any(named: 'types'),
+            startTime: any(named: 'startTime'),
+            endTime: any(named: 'endTime'),
+          ),
+        ).thenAnswer((_) async {
+          fetchCallCount++;
+          final steps = fetchCallCount == 1 ? 900 : 1200;
+          return [
+            TestHealthDataFactory.createStepsDataPoint(
+              dateFrom: DateTime(2024, 1, 1, 8),
+              dateTo: DateTime(2024, 1, 1, 9),
+              steps: steps,
+            ),
+          ];
+        });
+
+        when(() => mockMapper.map(any())).thenAnswer((_) {
+          mapCallCount++;
+          final value = mapCallCount == 1 ? 900 : 1200;
+          return [
+            TestDataFactory.createRawHealthDataPoint(
+              type: 'STEPS',
+              value: value,
+            ),
+          ];
+        });
+
+        final firstResponse =
+            await healthDataManager.processHealthDataRequest(request);
+        expect(firstResponse.healthData.first.value, equals(900));
+
+        currentTime = currentTime
+            .add(Config.healthDataCacheTtl)
+            .add(const Duration(minutes: 1));
+
+        final secondResponse =
+            await healthDataManager.processHealthDataRequest(request);
+
+        expect(secondResponse.healthData.first.value, equals(1200));
+        expect(fetchCallCount, equals(2));
+        expect(mapCallCount, equals(2));
+      });
+
+      test('does not cache failed request', () async {
+        final request = TestDataFactory.createHealthDataRequest(
+          startTime: DateTime(2024, 1, 1),
+          endTime: DateTime(2024, 1, 2),
+        );
+
+        var fetchCallCount = 0;
+
+        when(
+          () => mockHealthClient.getHealthDataFromTypes(
+            types: any(named: 'types'),
+            startTime: any(named: 'startTime'),
+            endTime: any(named: 'endTime'),
+          ),
+        ).thenAnswer((_) async {
+          fetchCallCount++;
+          if (fetchCallCount == 1) {
+            throw Exception('temporary failure');
+          }
+          return [
+            TestHealthDataFactory.createStepsDataPoint(
+              dateFrom: DateTime(2024, 1, 1, 8),
+              dateTo: DateTime(2024, 1, 1, 9),
+              steps: 1500,
+            ),
+          ];
+        });
+
+        when(() => mockMapper.map(any())).thenReturn([
+          TestDataFactory.createRawHealthDataPoint(type: 'STEPS', value: 1500),
+        ]);
+
+        await TestUtils.expectAsyncThrows<HealthMcpServerException>(
+          () => healthDataManager.processHealthDataRequest(request),
+        );
+
+        final response =
+            await healthDataManager.processHealthDataRequest(request);
+
+        expect(response.success, isTrue);
+        expect(response.count, equals(1));
+        expect(fetchCallCount, equals(2));
+      });
     });
   });
 }

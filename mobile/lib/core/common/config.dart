@@ -16,6 +16,7 @@ interface class Config {
   static const String cursorDownloadUrl = 'https://cursor.sh';
   static const String vscodeDownloadUrl = 'https://code.visualstudio.com';
   static const String environmentFolder = 'environments';
+  static const Duration healthDataCacheTtl = Duration(hours: 1);
 
   static const debugMode = kDebugMode;
   static const firebaseCollectEventsEnabled = !kDebugMode;
