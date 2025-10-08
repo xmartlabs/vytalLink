@@ -1,4 +1,5 @@
 import 'package:dartx/dartx.dart';
+import 'package:flutter_template/core/common/logger.dart';
 import 'package:flutter_template/core/health/health_sleep_session_normalizer.dart';
 import 'package:flutter_template/core/model/health_data_point.dart';
 import 'package:flutter_template/core/model/health_data_temporal_behavior.dart';
@@ -102,8 +103,8 @@ class HealthDataAggregator {
         if (context.data.first.type == HealthDataType.WORKOUT.name) {
           return _aggregateWorkoutDataAsJson(context);
         }
-      } catch (_) {
-        // Unknown health data type, continue with normal flow
+      } catch (e, stacktrace) {
+        Logger.w('Failed to aggregate workout data as JSON.', e, stacktrace);
       }
     }
 

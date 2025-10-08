@@ -177,12 +177,11 @@ class HealthMcpServerService {
   ) {
     Logger.d('Received connection code: ${message.code}');
     AnalyticsManager.logMcpConnectionStarted();
-    unawaited(
-      McpBackgroundService.startOrUpdate(
-        connectionCode: message.code,
-        connectionWord: message.word,
-      ),
-    );
+
+    McpBackgroundService.startOrUpdate(
+      connectionCode: message.code,
+      connectionWord: message.word,
+    ).ignore();
     _connectionState.add(
       McpConnectionState.connected(
         credentials: (
