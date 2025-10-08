@@ -191,7 +191,7 @@ document.addEventListener('DOMContentLoaded', function() {
             btn.addEventListener('click', function(e) {
                 if (!btn.href) {
                     e.preventDefault();
-                    alert('The app is coming soon to App Store and Google Play!');
+                    alert('Download the app now from App Store: https://apps.apple.com/app/id_id6752308627 or Google Play: https://play.google.com/store/apps/details?id=com.xmartlabs.vytallink');
                 }
             });
         }

@@ -18,7 +18,7 @@ function createDownloadModal() {
                 </div>
                 <div class="modal-body">
                     <div class="download-options">
-                        <a href="https://apps.apple.com/app/vytallink" target="_blank" class="download-card ios" onclick="closeDownloadModal()">
+                        <a href="https://apps.apple.com/app/id_id6752308627" target="_blank" class="download-card ios" onclick="closeDownloadModal()">
                             <div class="card-icon">
                                 <svg width="20" height="24" viewBox="0 0 20 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M16.7045 12.7631C16.7166 11.8432 16.9669 10.9413 17.4321 10.1412C17.8972 9.34108 18.5621 8.66885 19.3648 8.18702C18.8548 7.47597 18.1821 6.89081 17.4 6.478C16.6178 6.0652 15.7479 5.83613 14.8592 5.80898C12.9635 5.61471 11.1258 6.91644 10.1598 6.91644C9.17506 6.91644 7.68776 5.82827 6.08616 5.86044C5.05021 5.89311 4.04059 6.18722 3.15568 6.7141C2.27077 7.24099 1.54075 7.98268 1.03674 8.86691C-1.14648 12.5573 0.482005 17.9809 2.57338 20.964C3.61975 22.4247 4.84264 24.0564 6.44279 23.9985C8.00863 23.9351 8.59344 23.0237 10.4835 23.0237C12.3561 23.0237 12.9048 23.9985 14.5374 23.9617C16.2176 23.9351 17.2762 22.4945 18.2859 21.02C19.0377 19.9792 19.6162 18.8288 20 17.6116C19.0238 17.2085 18.1908 16.5338 17.6048 15.6716C17.0187 14.8094 16.7056 13.7979 16.7045 12.7631Z" fill="white"/>
@@ -35,7 +35,7 @@ function createDownloadModal() {
                                 </svg>
                             </div>
                         </a>
-                        <a href="https://play.google.com/store/apps/details?id=com.vytallink.app" target="_blank" class="download-card android" onclick="closeDownloadModal()">
+                        <a href="https://play.google.com/store/apps/details?id=com.xmartlabs.vytallink" target="_blank" class="download-card android" onclick="closeDownloadModal()">
                             <div class="card-icon" style="display: flex; align-items: center; justify-content: center; padding-left: 3px;">
                                 <svg width="21" height="24" viewBox="0 0 21 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M9.80482 11.4617L0.0895996 22.0059C0.0905121 22.0078 0.090512 22.0106 0.0914244 22.0125C0.389807 23.1574 1.41179 24 2.62539 24C3.11083 24 3.56616 23.8656 3.95671 23.6305L3.98773 23.6118L14.9229 17.1593L9.80482 11.4617Z" fill="#EA4335"/>
