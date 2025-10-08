@@ -17,7 +17,7 @@ interface class Config {
   static const String vscodeDownloadUrl = 'https://code.visualstudio.com';
   static const String environmentFolder = 'environments';
   static const Duration healthDataCacheTtl =
-      debugMode ? Duration(hours: 1) : Duration(seconds: 10);
+      debugMode ? Duration(hours: 1) : Duration(seconds: 5);
 
   static const debugMode = kDebugMode;
   static const firebaseCollectEventsEnabled = !kDebugMode;

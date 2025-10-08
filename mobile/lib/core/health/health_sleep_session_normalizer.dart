@@ -16,7 +16,8 @@ class HealthSleepSessionNormalizer {
   const HealthSleepSessionNormalizer();
 
   static const int _sleepHour = 21;
-  static const int _fullDayToleranceMinutes = 5;
+  static const int _fullDayToleranceMinutes =
+      5; // Tolerance for detecting full-day requests
 
   List<HealthDataPoint> normalize(
     List<HealthDataPoint> dataPoints, {
@@ -223,15 +224,17 @@ class HealthSleepSessionNormalizer {
       return (startTime: originalStartTime, endTime: originalEndTime);
     }
 
-    // For any range, we capture sleep from 21:00 of the first day to 21:00 of
-    // the last day.
-    // This creates clean 24-hour sleep windows. For example:
-    // Request: 2025-10-07T00:00:00Z to 2025-10-08T23:59:59Z
-    // Adjusted: 2025-10-07T21:00:00 to 2025-10-08T21:00:00
+    // If start time is already close to 23:59, use the same day
+    // Otherwise, use the previous day (for 00:00 start times)
+    final startDay = (originalStartTime.hour == 23 &&
+            originalStartTime.minute >= (59 - _fullDayToleranceMinutes))
+        ? originalStartTime.day
+        : originalStartTime.day - 1;
+
     final adjustedStartTime = DateTime(
       originalStartTime.year,
       originalStartTime.month,
-      originalStartTime.day,
+      startDay,
       _sleepHour,
       0,
       0,
@@ -249,18 +252,21 @@ class HealthSleepSessionNormalizer {
     return (startTime: adjustedStartTime, endTime: adjustedEndTime);
   }
 
-  /// Detects if this is a natural time range request (e.g.,
-  /// from ChatGPT asking for "today's sleep", "this week's sleep")
+  /// Detects if this is a natural time range request
+  /// (e.g., from ChatGPT asking for "today's sleep", "this week's sleep")
   /// Checks if start time is around 00:00 and end time is around 23:59,
   /// regardless of how many days span
   bool _isNaturalTimeRangeRequest(DateTime startTime, DateTime endTime) {
-    // Check if start time is close to 00:00:00
+    // Check if start time is close to 00:00:00 (within tolerance)
     final isStartOfDay =
-        startTime.hour == 0 && startTime.minute <= _fullDayToleranceMinutes;
+        (startTime.hour == 0 && startTime.minute <= _fullDayToleranceMinutes) ||
+            (startTime.hour == 23 &&
+                startTime.minute >= (59 - _fullDayToleranceMinutes));
 
-    // Check if end time is close to 23:59:59
-    final isEndOfDay =
-        endTime.hour == 23 && endTime.minute >= (59 - _fullDayToleranceMinutes);
+    // Check if end time is close to 23:59:59 or 00:00:00 (within tolerance)
+    final isEndOfDay = (endTime.hour == 23 &&
+            endTime.minute >= (59 - _fullDayToleranceMinutes)) ||
+        (endTime.hour == 0 && endTime.minute <= _fullDayToleranceMinutes);
 
     return isStartOfDay && isEndOfDay;
   }
@@ -279,6 +285,7 @@ class HealthSleepSessionNormalizer {
       final pointEnd = DateTime.parse(point.dateTo);
       final matchesSource = sourceId == null || point.sourceId == sourceId;
 
+      // Check for any overlap between sleep session and segment
       return matchesSource &&
           pointStart.isBefore(segmentEnd) &&
           pointEnd.isAfter(segmentStart);

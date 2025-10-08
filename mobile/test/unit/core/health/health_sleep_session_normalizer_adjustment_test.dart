@@ -21,7 +21,7 @@ void main() {
           originalEndTime,
         );
 
-        expect(result.startTime, equals(DateTime(2025, 10, 7, 21, 0, 0)));
+        expect(result.startTime, equals(DateTime(2025, 10, 6, 21, 0, 0)));
         expect(result.endTime, equals(DateTime(2025, 10, 7, 21, 0, 0)));
       });
 
@@ -36,7 +36,7 @@ void main() {
           originalEndTime,
         );
 
-        expect(result.startTime, equals(DateTime(2025, 10, 1, 21, 0, 0)));
+        expect(result.startTime, equals(DateTime(2025, 9, 30, 21, 0, 0)));
         expect(result.endTime, equals(DateTime(2025, 10, 7, 21, 0, 0)));
       });
 
@@ -53,7 +53,7 @@ void main() {
           originalEndTime,
         );
 
-        expect(result.startTime, equals(DateTime(2025, 10, 1, 21, 0, 0)));
+        expect(result.startTime, equals(DateTime(2025, 9, 30, 21, 0, 0)));
         expect(result.endTime, equals(DateTime(2025, 10, 31, 21, 0, 0)));
       });
 
@@ -67,7 +67,7 @@ void main() {
           originalEndTime,
         );
 
-        expect(result.startTime, equals(DateTime(2025, 10, 1, 21, 0, 0)));
+        expect(result.startTime, equals(DateTime(2025, 9, 30, 21, 0, 0)));
         expect(result.endTime, equals(DateTime(2025, 10, 7, 21, 0, 0)));
       });
 
@@ -144,7 +144,7 @@ void main() {
           originalEndTime,
         );
 
-        expect(result.startTime, equals(DateTime(2025, 9, 28, 21, 0, 0)));
+        expect(result.startTime, equals(DateTime(2025, 9, 27, 21, 0, 0)));
         expect(result.endTime, equals(DateTime(2025, 10, 5, 21, 0, 0)));
       });
     });
@@ -173,7 +173,7 @@ void main() {
         originalEndTime,
       );
 
-      expect(result.startTime, equals(DateTime(2025, 11, 1, 21, 0, 0)));
+      expect(result.startTime, equals(DateTime(2025, 10, 31, 21, 0, 0)));
       expect(result.endTime, equals(DateTime(2025, 11, 1, 21, 0, 0)));
     });
 
@@ -189,7 +189,7 @@ void main() {
         originalEndTime,
       );
 
-      expect(result.startTime, equals(DateTime(2026, 1, 1, 21, 0, 0)));
+      expect(result.startTime, equals(DateTime(2025, 12, 31, 21, 0, 0)));
       expect(result.endTime, equals(DateTime(2026, 1, 1, 21, 0, 0)));
     });
 
@@ -208,7 +208,7 @@ void main() {
       expect(result.startTime.minute, equals(0));
       expect(result.startTime.second, equals(0));
 
-      expect(result.endTime.hour, equals(21)); // 9 PM
+      expect(result.endTime.hour, equals(21)); // 12 PM (noon)
       expect(result.endTime.minute, equals(0));
       expect(result.endTime.second, equals(0));
     });
@@ -260,7 +260,7 @@ void main() {
         );
 
         // Should still be adjusted (within tolerance)
-        expect(result.startTime, equals(DateTime(2025, 10, 7, 21, 0, 0)));
+        expect(result.startTime, equals(DateTime(2025, 10, 6, 21, 0, 0)));
         expect(result.endTime, equals(DateTime(2025, 10, 7, 21, 0, 0)));
       });
 
@@ -291,14 +291,14 @@ void main() {
           originalEndTime,
         );
 
-        expect(result.startTime, equals(DateTime(2025, 10, 1, 21, 0, 0)));
+        expect(result.startTime, equals(DateTime(2025, 9, 30, 21, 0, 0)));
         expect(result.endTime, equals(DateTime(2025, 10, 21, 21, 0, 0)));
       });
 
-      test('adjusts two-day range correctly (user reported case)', () {
-        // User's specific example: 2025-10-07T00:00:00Z to 2025-10-08T23:59:59Z
+      test('recognizes 00:00 as natural start time', () {
+        // Start at exactly 00:00, end at 23:59
         final originalStartTime = DateTime(2025, 10, 7, 0, 0, 0);
-        final originalEndTime = DateTime(2025, 10, 8, 23, 59, 59);
+        final originalEndTime = DateTime(2025, 10, 7, 23, 59, 59);
 
         final result = normalizer.adjustTimeRangeForSleepData(
           VytalHealthDataCategory.SLEEP,
@@ -306,9 +306,100 @@ void main() {
           originalEndTime,
         );
 
-        // Correct behavior: captures sleep from night of Oct 7-8 only
-        expect(result.startTime, equals(DateTime(2025, 10, 7, 21, 0, 0)));
+        expect(result.startTime, equals(DateTime(2025, 10, 6, 21, 0, 0)));
+        expect(result.endTime, equals(DateTime(2025, 10, 7, 21, 0, 0)));
+      });
+
+      test('recognizes 00:01 as natural start time (within tolerance)', () {
+        // Start at 00:01 (within 5-minute tolerance), end at 23:59
+        final originalStartTime = DateTime(2025, 10, 7, 0, 1, 0);
+        final originalEndTime = DateTime(2025, 10, 7, 23, 59, 59);
+
+        final result = normalizer.adjustTimeRangeForSleepData(
+          VytalHealthDataCategory.SLEEP,
+          originalStartTime,
+          originalEndTime,
+        );
+
+        expect(result.startTime, equals(DateTime(2025, 10, 6, 21, 0, 0)));
+        expect(result.endTime, equals(DateTime(2025, 10, 7, 21, 0, 0)));
+      });
+
+      test('recognizes 23:59 as natural start time (within tolerance)', () {
+        // Start at 23:59 (within 5-minute tolerance), end at 23:59 next day
+        final originalStartTime = DateTime(2025, 10, 6, 23, 59, 0);
+        final originalEndTime = DateTime(2025, 10, 7, 23, 59, 59);
+
+        final result = normalizer.adjustTimeRangeForSleepData(
+          VytalHealthDataCategory.SLEEP,
+          originalStartTime,
+          originalEndTime,
+        );
+
+        expect(result.startTime, equals(DateTime(2025, 10, 6, 21, 0, 0)));
+        expect(result.endTime, equals(DateTime(2025, 10, 7, 21, 0, 0)));
+      });
+
+      test('recognizes 00:00 as natural end time', () {
+        // Start at 00:00, end at exactly 00:00 next day
+        final originalStartTime = DateTime(2025, 10, 7, 0, 0, 0);
+        final originalEndTime = DateTime(2025, 10, 8, 0, 0, 0);
+
+        final result = normalizer.adjustTimeRangeForSleepData(
+          VytalHealthDataCategory.SLEEP,
+          originalStartTime,
+          originalEndTime,
+        );
+
+        expect(result.startTime, equals(DateTime(2025, 10, 6, 21, 0, 0)));
         expect(result.endTime, equals(DateTime(2025, 10, 8, 21, 0, 0)));
+      });
+
+      test('recognizes 00:01 as natural end time (within tolerance)', () {
+        // Start at 00:00, end at 00:01 next day (within 5-minute tolerance)
+        final originalStartTime = DateTime(2025, 10, 7, 0, 0, 0);
+        final originalEndTime = DateTime(2025, 10, 8, 0, 1, 0);
+
+        final result = normalizer.adjustTimeRangeForSleepData(
+          VytalHealthDataCategory.SLEEP,
+          originalStartTime,
+          originalEndTime,
+        );
+
+        expect(result.startTime, equals(DateTime(2025, 10, 6, 21, 0, 0)));
+        expect(result.endTime, equals(DateTime(2025, 10, 8, 21, 0, 0)));
+      });
+
+      test('does NOT recognize 00:06 as natural time (outside tolerance)', () {
+        // Start at 00:06 (outside 5-minute tolerance), end at 23:59
+        final originalStartTime = DateTime(2025, 10, 7, 0, 6, 0);
+        final originalEndTime = DateTime(2025, 10, 7, 23, 59, 59);
+
+        final result = normalizer.adjustTimeRangeForSleepData(
+          VytalHealthDataCategory.SLEEP,
+          originalStartTime,
+          originalEndTime,
+        );
+
+        // Should NOT be adjusted since 00:06 is outside tolerance
+        expect(result.startTime, equals(originalStartTime));
+        expect(result.endTime, equals(originalEndTime));
+      });
+
+      test('does NOT recognize 23:53 as natural time (outside tolerance)', () {
+        // Start at 00:00, end at 23:53 (outside 5-minute tolerance from 23:59)
+        final originalStartTime = DateTime(2025, 10, 7, 0, 0, 0);
+        final originalEndTime = DateTime(2025, 10, 7, 23, 53, 59);
+
+        final result = normalizer.adjustTimeRangeForSleepData(
+          VytalHealthDataCategory.SLEEP,
+          originalStartTime,
+          originalEndTime,
+        );
+
+        // Should NOT be adjusted since 23:53 is outside tolerance from 23:59
+        expect(result.startTime, equals(originalStartTime));
+        expect(result.endTime, equals(originalEndTime));
       });
     });
   });
