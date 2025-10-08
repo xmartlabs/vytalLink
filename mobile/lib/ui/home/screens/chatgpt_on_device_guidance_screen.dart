@@ -103,14 +103,19 @@ class _ChatGptOnDeviceGuidanceScreenState
                       baseStyle: introStyle,
                     ),
                     SizedBox(height: dimens.spacing20.h),
-                    for (int i = 0; i < bulletTexts.length; i++) ...[
-                      _GuidanceBullet(
-                        index: i + 1,
-                        text: bulletTexts[i],
-                        textStyle: bulletStyle,
+                    ...List.generate(
+                      bulletTexts.length,
+                      (i) => Column(
+                        children: [
+                          _GuidanceBullet(
+                            index: i + 1,
+                            text: bulletTexts[i],
+                            textStyle: bulletStyle,
+                          ),
+                          if (i < bulletTexts.length - 1) spacing12,
+                        ],
                       ),
-                      spacing12,
-                    ],
+                    ),
                     SizedBox(height: dimens.spacing16.h),
                   ],
                 ),

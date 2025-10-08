@@ -196,6 +196,7 @@ class HealthMcpConnectionManager {
   void _handleIncomingData(dynamic data) {
     if (_state == McpConnectionState.connecting) {
       _updateState(McpConnectionState.connected);
+      _retryCount = 0;
       Logger.i('MCP WebSocket connected to $backendUrl');
     }
 
@@ -203,7 +204,6 @@ class HealthMcpConnectionManager {
     if (handler == null) {
       return;
     }
-    _retryCount = 0;
     unawaited(_safeHandleMessage(handler, data));
   }
 

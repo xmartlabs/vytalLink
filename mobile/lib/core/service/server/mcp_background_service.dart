@@ -180,7 +180,8 @@ class McpBackgroundService {
     }
 
     await _ensureInitialized();
-    _updateConnectionCredentials(connectionCode, connectionWord);
+    _currentCode = connectionCode;
+    _currentWord = connectionWord;
 
     final notificationText = _buildNotificationText(
       code: _currentCode,
@@ -200,14 +201,6 @@ class McpBackgroundService {
       await initialize();
     }
     initializeCommunication();
-  }
-
-  static void _updateConnectionCredentials(
-    String? connectionCode,
-    String? connectionWord,
-  ) {
-    _currentCode = connectionCode ?? _currentCode;
-    _currentWord = connectionWord ?? _currentWord;
   }
 
   static Future<void> _updateRunningService(String notificationText) async {

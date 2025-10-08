@@ -171,7 +171,7 @@ class ForegroundMcpTransport implements McpTransport {
     _eventController.add(
       McpTransportEvent.disconnected(
         lostConnection:
-            reason == McpBackgroundService.eventDisconnectedReasonUser,
+            reason != McpBackgroundService.eventDisconnectedReasonUser,
       ),
     );
   }
