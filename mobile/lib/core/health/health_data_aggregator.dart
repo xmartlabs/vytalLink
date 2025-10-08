@@ -1,4 +1,5 @@
 import 'package:dartx/dartx.dart';
+import 'package:flutter_template/core/health/health_sleep_session_normalizer.dart';
 import 'package:flutter_template/core/model/health_data_point.dart';
 import 'package:flutter_template/core/model/health_data_temporal_behavior.dart';
 import 'package:flutter_template/core/model/statistic_types.dart';
@@ -27,7 +28,12 @@ typedef HealthAggregationRequest = ({
 });
 
 class HealthDataAggregator {
-  const HealthDataAggregator();
+  const HealthDataAggregator({
+    HealthSleepSessionNormalizer? sleepSessionNormalizer,
+  }) : _sleepSessionNormalizer =
+            sleepSessionNormalizer ?? const HealthSleepSessionNormalizer();
+
+  final HealthSleepSessionNormalizer _sleepSessionNormalizer;
 
   List<AggregatedHealthDataPoint> aggregate(
     HealthAggregationRequest request,
@@ -61,13 +67,23 @@ class HealthDataAggregator {
       );
 
       for (final entry in aggregatedValue.entries) {
+        // Use actual sleep time range instead of segment boundaries
+        final dateRange = entry.key.type == HealthDataType.SLEEP_SESSION
+            ? _sleepSessionNormalizer.getDateRangeForAggregatedSleepData(
+                request.data,
+                segmentStart,
+                segmentEnd,
+                entry.key.sourceId,
+              )
+            : (start: segmentStart, end: segmentEnd);
+
         aggregatedData.add(
           AggregatedHealthDataPoint(
             type: entry.key.type.name,
             value: entry.value,
             unit: entry.key.type.unit.name,
-            dateFrom: segmentStart.toIso8601String(),
-            dateTo: segmentEnd.toIso8601String(),
+            dateFrom: dateRange.start.toIso8601String(),
+            dateTo: dateRange.end.toIso8601String(),
             sourceId: entry.key.sourceId,
           ),
         );

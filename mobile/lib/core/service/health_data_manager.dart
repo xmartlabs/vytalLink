@@ -71,8 +71,13 @@ class HealthDataManager {
   Future<List<AppHealthDataPoint>> _retrieveHealthData(
     HealthDataRequest request,
   ) async {
-    final DateTime startTime = request.startTime;
-    final DateTime endTime = request.endTime;
+    final adjustedTimes = _sleepSessionNormalizer.adjustTimeRangeForSleepData(
+      request.valueType,
+      request.startTime,
+      request.endTime,
+    );
+    final DateTime startTime = adjustedTimes.startTime;
+    final DateTime endTime = adjustedTimes.endTime;
 
     final groupBy = request.groupBy;
     final dataPoints = await _processDataPoints(request, startTime, endTime);

@@ -1,6 +1,8 @@
 import 'dart:math';
 
 import 'package:dartx/dartx.dart';
+import 'package:flutter_template/core/model/health_data_point.dart';
+import 'package:flutter_template/model/vytal_health_data_category.dart';
 import 'package:health/health.dart';
 
 enum SleepNormalizationStrategy {
@@ -8,10 +10,15 @@ enum SleepNormalizationStrategy {
   preferConsolidated,
 }
 
-/// Consolidates overlapping or near-contiguous sleep sessions originating from
-/// the same source into a single interval.
+typedef AdjustedTimeRange = ({DateTime startTime, DateTime endTime});
+
 class HealthSleepSessionNormalizer {
   const HealthSleepSessionNormalizer();
+
+  static const int _sleepStartHour = 21; // 9 PM
+  static const int _sleepEndHour = 12; // 12 PM (noon)
+  static const int _fullDayToleranceMinutes =
+      5; // Tolerance for detecting full-day requests
 
   List<HealthDataPoint> normalize(
     List<HealthDataPoint> dataPoints, {
@@ -202,5 +209,98 @@ class HealthSleepSessionNormalizer {
       ..deviceModel ??= second.deviceModel;
 
     return first;
+  }
+
+  AdjustedTimeRange adjustTimeRangeForSleepData(
+    VytalHealthDataCategory valueType,
+    DateTime originalStartTime,
+    DateTime originalEndTime,
+  ) {
+    if (valueType != VytalHealthDataCategory.SLEEP) {
+      return (startTime: originalStartTime, endTime: originalEndTime);
+    }
+
+    // Only adjust if this looks like a natural time range request (day/week/month boundaries)
+    if (!_isNaturalTimeRangeRequest(originalStartTime, originalEndTime)) {
+      return (startTime: originalStartTime, endTime: originalEndTime);
+    }
+
+    final adjustedStartTime = DateTime(
+      originalStartTime.year,
+      originalStartTime.month,
+      originalStartTime.day - 1,
+      _sleepStartHour,
+      0,
+      0,
+    );
+
+    final adjustedEndTime = DateTime(
+      originalEndTime.year,
+      originalEndTime.month,
+      originalEndTime.day,
+      _sleepEndHour,
+      0,
+      0,
+    );
+
+    return (startTime: adjustedStartTime, endTime: adjustedEndTime);
+  }
+
+  /// Detects if this is a natural time range request (e.g.,
+  /// from ChatGPT asking for "today's sleep", "this week's sleep")
+  /// Checks if start time is around 00:00 and end time is around 23:59,
+  /// regardless of how many days span
+  bool _isNaturalTimeRangeRequest(DateTime startTime, DateTime endTime) {
+    // Check if start time is close to 00:00:00
+    final isStartOfDay =
+        startTime.hour == 0 && startTime.minute <= _fullDayToleranceMinutes;
+
+    // Check if end time is close to 23:59:59
+    final isEndOfDay =
+        endTime.hour == 23 && endTime.minute >= (59 - _fullDayToleranceMinutes);
+
+    return isStartOfDay && isEndOfDay;
+  }
+
+  /// Gets the appropriate date range for aggregated sleep data
+  /// Returns actual sleep session times instead of aggregation segment
+  /// boundaries
+  ({DateTime start, DateTime end}) getDateRangeForAggregatedSleepData(
+    List<AppHealthDataPoint> allData,
+    DateTime segmentStart,
+    DateTime segmentEnd,
+    String? sourceId,
+  ) {
+    final relevantSleepData = allData.where((point) {
+      final pointStart = DateTime.parse(point.dateFrom);
+      final pointEnd = DateTime.parse(point.dateTo);
+      final matchesSource = sourceId == null || point.sourceId == sourceId;
+
+      return matchesSource &&
+          pointStart.isBefore(segmentEnd) &&
+          pointEnd.isAfter(segmentStart);
+    }).toList();
+
+    if (relevantSleepData.isEmpty) {
+      return (start: segmentStart, end: segmentEnd);
+    }
+
+    // Find the earliest start and latest end of actual sleep sessions
+    DateTime? earliestStart;
+    DateTime? latestEnd;
+
+    for (final sleepPoint in relevantSleepData) {
+      final pointStart = DateTime.parse(sleepPoint.dateFrom);
+      final pointEnd = DateTime.parse(sleepPoint.dateTo);
+
+      if (earliestStart == null || pointStart.isBefore(earliestStart)) {
+        earliestStart = pointStart;
+      }
+      if (latestEnd == null || pointEnd.isAfter(latestEnd)) {
+        latestEnd = pointEnd;
+      }
+    }
+
+    return (start: earliestStart!, end: latestEnd!);
   }
 }

@@ -11,6 +11,8 @@ const _notificationIconMetaData =
     'com.pravera.flutter_foreground_task.notification_icon';
 const _closeButtonId = 'close_button';
 
+const Duration _serviceCommandTimeout = Duration(seconds: 5);
+
 class McpBackgroundService {
   McpBackgroundService._();
 
@@ -43,6 +45,63 @@ class McpBackgroundService {
   static bool _communicationInitialized = false;
   static final StreamController<Map<String, dynamic>> _eventController =
       StreamController<Map<String, dynamic>>.broadcast();
+
+  static Future<void> ensureServiceStoppedIfStale({
+    Duration timeout = const Duration(seconds: 5),
+  }) async {
+    if (!_isForegroundServiceAvailable()) {
+      return;
+    }
+
+    try {
+      final isRunning = await FlutterForegroundTask.isRunningService;
+      if (!isRunning) {
+        return;
+      }
+
+      Logger.w(
+        'Detected stale MCP foreground service on startup; requesting stop',
+      );
+
+      try {
+        final result = await FlutterForegroundTask.stopService().timeout(
+          timeout,
+        );
+        if (result is ServiceRequestFailure) {
+          Logger.w(
+            'Foreground service stop request failed',
+            result.error,
+          );
+        }
+      } on TimeoutException catch (error, stackTrace) {
+        Logger.w(
+          'Timed out while stopping stale MCP foreground service',
+          error,
+          stackTrace,
+        );
+        return;
+      } catch (error, stackTrace) {
+        Logger.w(
+          'Error while stopping stale MCP foreground service',
+          error,
+          stackTrace,
+        );
+      }
+
+      final stillRunning = await FlutterForegroundTask.isRunningService;
+      if (stillRunning) {
+        Logger.w(
+          'Foreground service still reports as running after stop request',
+        );
+      }
+    } catch (error, stackTrace) {
+      Logger.w(
+        'Unable to verify MCP foreground service state on startup',
+        error,
+        stackTrace,
+      );
+    }
+  }
 
   static Future<void> initialize() async {
     if (!_isForegroundServiceAvailable()) {
@@ -211,13 +270,33 @@ class McpBackgroundService {
         return;
       }
 
-      final result = await FlutterForegroundTask.stopService();
+      dynamic result;
+      try {
+        result = await FlutterForegroundTask.stopService().timeout(
+          _serviceCommandTimeout,
+        );
+      } on TimeoutException catch (error, stackTrace) {
+        Logger.w(
+          'Timed out while waiting for MCP foreground service to stop',
+          error,
+          stackTrace,
+        );
+        return;
+      }
+
       if (result is ServiceRequestFailure) {
         Logger.w('Failed to stop MCP foreground service', result.error);
       } else {
         Logger.i('MCP foreground service stopped');
         _currentCode = null;
         _currentWord = null;
+      }
+
+      final stillRunning = await FlutterForegroundTask.isRunningService;
+      if (stillRunning) {
+        Logger.w(
+          'Foreground service still reports as running after stop request',
+        );
       }
     } catch (error, stackTrace) {
       Logger.w(

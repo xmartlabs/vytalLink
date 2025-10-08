@@ -30,24 +30,45 @@ class HealthMcpServerService {
           const McpConnectionState.disconnected(),
         ),
         _backendUri = backendUri ?? Uri.parse(Config.wsUrl),
-        _transport = transport ??
-            _createDefaultTransport(
-              backendUri ?? Uri.parse(Config.wsUrl),
-              useForegroundTransport ?? Config.useForegroundService,
-            ) {
+        _foregroundPreferred = useForegroundTransport ??
+            (transport == null
+                ? Config.useForegroundService
+                : transport is ForegroundMcpTransport) {
+    _attachTransport(
+      transport ??
+          _createDefaultTransport(
+            backendUri ?? Uri.parse(Config.wsUrl),
+            _foregroundPreferred,
+          ),
+    );
+  }
+
+  final BehaviorSubject<McpConnectionState> _connectionState;
+  final HealthDataManager _healthDataManager;
+  final Uri _backendUri;
+  final bool _foregroundPreferred;
+  bool _foregroundFallbackAttempted = false;
+  late McpTransport _transport;
+
+  StreamSubscription<McpTransportEvent>? _transportStatusSubscription;
+  StreamSubscription<String>? _transportMessageSubscription;
+
+  void _attachTransport(McpTransport transport) {
+    _transport = transport;
     _transportStatusSubscription =
         _transport.events.listen(_handleTransportEvent);
     _transportMessageSubscription =
         _transport.messages.listen(_handleTransportMessage);
   }
 
-  final BehaviorSubject<McpConnectionState> _connectionState;
-  final HealthDataManager _healthDataManager;
-  final Uri _backendUri;
-  final McpTransport _transport;
-
-  StreamSubscription<McpTransportEvent>? _transportStatusSubscription;
-  StreamSubscription<String>? _transportMessageSubscription;
+  Future<void> _replaceTransport(McpTransport transport) async {
+    await _transportStatusSubscription?.cancel();
+    await _transportMessageSubscription?.cancel();
+    _transportStatusSubscription = null;
+    _transportMessageSubscription = null;
+    await _transport.dispose();
+    _attachTransport(transport);
+  }
 
   Stream<McpConnectionState> get status => _connectionState.stream;
 
@@ -72,7 +93,16 @@ class HealthMcpServerService {
     try {
       await _transport.start();
     } catch (error, stackTrace) {
-      Logger.e('Failed to connect to backend: $error', stackTrace);
+      final fallbackAttempted = await _tryFallbackTransport(error, stackTrace);
+      if (fallbackAttempted) {
+        return connectToBackend();
+      }
+
+      Logger.e(
+        'Failed to connect to backend',
+        error,
+        stackTrace,
+      );
       AnalyticsManager.logMcpConnectionError(
         errorMessage: error.toString(),
       );
@@ -231,6 +261,49 @@ class HealthMcpServerService {
 
   void _handleTransportMessage(String data) {
     unawaited(handleBackendMessage(data));
+  }
+
+  Future<bool> _tryFallbackTransport(
+    Object error,
+    StackTrace stackTrace,
+  ) async {
+    if (_foregroundFallbackAttempted || !_foregroundPreferred) {
+      return false;
+    }
+
+    if (_transport is! ForegroundMcpTransport) {
+      return false;
+    }
+
+    final message = error.toString().toLowerCase();
+    final bool looksLikeTimeout =
+        error is TimeoutException || message.contains('timeout');
+
+    if (!looksLikeTimeout) {
+      return false;
+    }
+
+    _foregroundFallbackAttempted = true;
+
+    Logger.w(
+      'Foreground MCP transport did not respond; use WebSocket transport',
+      error,
+      stackTrace,
+    );
+
+    try {
+      await _replaceTransport(
+        WebSocketMcpTransport(backendUri: _backendUri),
+      );
+      return true;
+    } catch (replacementError, replacementStackTrace) {
+      Logger.w(
+        'Failed to switch to WebSocket transport after foreground failure',
+        replacementError,
+        replacementStackTrace,
+      );
+      return false;
+    }
   }
 
   static McpTransport _createDefaultTransport(
