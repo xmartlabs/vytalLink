@@ -40,7 +40,7 @@ class HealthDataAggregator {
   ) {
     if (request.data.isEmpty) return [];
 
-    final timeSegments = _generateTimeSegments(
+    final List<DateTime> timeSegments = _generateTimeSegments(
       request.startTime,
       request.endTime,
       request.groupBy,

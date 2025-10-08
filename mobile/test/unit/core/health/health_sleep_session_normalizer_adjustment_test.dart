@@ -21,8 +21,8 @@ void main() {
           originalEndTime,
         );
 
-        expect(result.startTime, equals(DateTime(2025, 10, 6, 21, 0, 0)));
-        expect(result.endTime, equals(DateTime(2025, 10, 7, 12, 0, 0)));
+        expect(result.startTime, equals(DateTime(2025, 10, 7, 21, 0, 0)));
+        expect(result.endTime, equals(DateTime(2025, 10, 7, 21, 0, 0)));
       });
 
       test('adjusts time range for weekly sleep request', () {
@@ -36,8 +36,8 @@ void main() {
           originalEndTime,
         );
 
-        expect(result.startTime, equals(DateTime(2025, 9, 30, 21, 0, 0)));
-        expect(result.endTime, equals(DateTime(2025, 10, 7, 12, 0, 0)));
+        expect(result.startTime, equals(DateTime(2025, 10, 1, 21, 0, 0)));
+        expect(result.endTime, equals(DateTime(2025, 10, 7, 21, 0, 0)));
       });
 
       test('adjusts time range for monthly sleep request', () {
@@ -53,8 +53,8 @@ void main() {
           originalEndTime,
         );
 
-        expect(result.startTime, equals(DateTime(2025, 9, 30, 21, 0, 0)));
-        expect(result.endTime, equals(DateTime(2025, 10, 31, 12, 0, 0)));
+        expect(result.startTime, equals(DateTime(2025, 10, 1, 21, 0, 0)));
+        expect(result.endTime, equals(DateTime(2025, 10, 31, 21, 0, 0)));
       });
 
       test('adjusts time range for natural range with slight variations', () {
@@ -67,8 +67,8 @@ void main() {
           originalEndTime,
         );
 
-        expect(result.startTime, equals(DateTime(2025, 9, 30, 21, 0, 0)));
-        expect(result.endTime, equals(DateTime(2025, 10, 7, 12, 0, 0)));
+        expect(result.startTime, equals(DateTime(2025, 10, 1, 21, 0, 0)));
+        expect(result.endTime, equals(DateTime(2025, 10, 7, 21, 0, 0)));
       });
 
       test('does NOT adjust time range for partial day requests', () {
@@ -144,8 +144,8 @@ void main() {
           originalEndTime,
         );
 
-        expect(result.startTime, equals(DateTime(2025, 9, 27, 21, 0, 0)));
-        expect(result.endTime, equals(DateTime(2025, 10, 5, 12, 0, 0)));
+        expect(result.startTime, equals(DateTime(2025, 9, 28, 21, 0, 0)));
+        expect(result.endTime, equals(DateTime(2025, 10, 5, 21, 0, 0)));
       });
     });
 
@@ -173,8 +173,8 @@ void main() {
         originalEndTime,
       );
 
-      expect(result.startTime, equals(DateTime(2025, 10, 31, 21, 0, 0)));
-      expect(result.endTime, equals(DateTime(2025, 11, 1, 12, 0, 0)));
+      expect(result.startTime, equals(DateTime(2025, 11, 1, 21, 0, 0)));
+      expect(result.endTime, equals(DateTime(2025, 11, 1, 21, 0, 0)));
     });
 
     test('handles sleep data adjustment across year boundaries', () {
@@ -189,8 +189,8 @@ void main() {
         originalEndTime,
       );
 
-      expect(result.startTime, equals(DateTime(2025, 12, 31, 21, 0, 0)));
-      expect(result.endTime, equals(DateTime(2026, 1, 1, 12, 0, 0)));
+      expect(result.startTime, equals(DateTime(2026, 1, 1, 21, 0, 0)));
+      expect(result.endTime, equals(DateTime(2026, 1, 1, 21, 0, 0)));
     });
 
     test('uses correct constants for sleep hours', () {
@@ -208,7 +208,7 @@ void main() {
       expect(result.startTime.minute, equals(0));
       expect(result.startTime.second, equals(0));
 
-      expect(result.endTime.hour, equals(12)); // 12 PM (noon)
+      expect(result.endTime.hour, equals(21)); // 9 PM
       expect(result.endTime.minute, equals(0));
       expect(result.endTime.second, equals(0));
     });
@@ -260,8 +260,8 @@ void main() {
         );
 
         // Should still be adjusted (within tolerance)
-        expect(result.startTime, equals(DateTime(2025, 10, 6, 21, 0, 0)));
-        expect(result.endTime, equals(DateTime(2025, 10, 7, 12, 0, 0)));
+        expect(result.startTime, equals(DateTime(2025, 10, 7, 21, 0, 0)));
+        expect(result.endTime, equals(DateTime(2025, 10, 7, 21, 0, 0)));
       });
 
       test('tolerance boundary - just outside tolerance', () {
@@ -291,8 +291,24 @@ void main() {
           originalEndTime,
         );
 
-        expect(result.startTime, equals(DateTime(2025, 9, 30, 21, 0, 0)));
-        expect(result.endTime, equals(DateTime(2025, 10, 21, 12, 0, 0)));
+        expect(result.startTime, equals(DateTime(2025, 10, 1, 21, 0, 0)));
+        expect(result.endTime, equals(DateTime(2025, 10, 21, 21, 0, 0)));
+      });
+
+      test('adjusts two-day range correctly (user reported case)', () {
+        // User's specific example: 2025-10-07T00:00:00Z to 2025-10-08T23:59:59Z
+        final originalStartTime = DateTime(2025, 10, 7, 0, 0, 0);
+        final originalEndTime = DateTime(2025, 10, 8, 23, 59, 59);
+
+        final result = normalizer.adjustTimeRangeForSleepData(
+          VytalHealthDataCategory.SLEEP,
+          originalStartTime,
+          originalEndTime,
+        );
+
+        // Correct behavior: captures sleep from night of Oct 7-8 only
+        expect(result.startTime, equals(DateTime(2025, 10, 7, 21, 0, 0)));
+        expect(result.endTime, equals(DateTime(2025, 10, 8, 21, 0, 0)));
       });
     });
   });

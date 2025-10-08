@@ -15,10 +15,8 @@ typedef AdjustedTimeRange = ({DateTime startTime, DateTime endTime});
 class HealthSleepSessionNormalizer {
   const HealthSleepSessionNormalizer();
 
-  static const int _sleepStartHour = 21; // 9 PM
-  static const int _sleepEndHour = 12; // 12 PM (noon)
-  static const int _fullDayToleranceMinutes =
-      5; // Tolerance for detecting full-day requests
+  static const int _sleepHour = 21;
+  static const int _fullDayToleranceMinutes = 5;
 
   List<HealthDataPoint> normalize(
     List<HealthDataPoint> dataPoints, {
@@ -225,11 +223,16 @@ class HealthSleepSessionNormalizer {
       return (startTime: originalStartTime, endTime: originalEndTime);
     }
 
+    // For any range, we capture sleep from 21:00 of the first day to 21:00 of
+    // the last day.
+    // This creates clean 24-hour sleep windows. For example:
+    // Request: 2025-10-07T00:00:00Z to 2025-10-08T23:59:59Z
+    // Adjusted: 2025-10-07T21:00:00 to 2025-10-08T21:00:00
     final adjustedStartTime = DateTime(
       originalStartTime.year,
       originalStartTime.month,
-      originalStartTime.day - 1,
-      _sleepStartHour,
+      originalStartTime.day,
+      _sleepHour,
       0,
       0,
     );
@@ -238,7 +241,7 @@ class HealthSleepSessionNormalizer {
       originalEndTime.year,
       originalEndTime.month,
       originalEndTime.day,
-      _sleepEndHour,
+      _sleepHour,
       0,
       0,
     );
