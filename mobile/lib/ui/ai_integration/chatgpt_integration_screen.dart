@@ -69,8 +69,6 @@ class _ChatGptIntegrationScreenState extends State<ChatGptIntegrationScreen> {
                 HowToSetupSection(),
                 SizedBox(height: 24),
                 ExamplesSection(),
-                SizedBox(height: 32),
-                ChatGptUseButtonSection(),
               ],
             ),
           ),

@@ -982,6 +982,12 @@ abstract class AppLocalizations {
   /// **'We\'ll open ChatGPT inside this app. <b>Stick with that in-app browser</b> so the bridge keeps flowing.'**
   String get home_on_device_guidance_bullet_browser;
 
+  /// No description provided for @home_on_device_guidance_bullet_charts.
+  ///
+  /// In en, this message translates to:
+  /// **'<b>Charts may not work properly on mobile.</b> For interactive visualizations, use ChatGPT on your computer instead.'**
+  String get home_on_device_guidance_bullet_charts;
+
   /// No description provided for @home_on_device_guidance_bullet_clipboard.
   ///
   /// In en, this message translates to:
@@ -1311,6 +1317,42 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Live data updates while you chat'**
   String get mcp_feature_4;
+
+  /// No description provided for @mcp_foreground_channel_description.
+  ///
+  /// In en, this message translates to:
+  /// **'Keeps your phone linked to AI helpers while the app stays in the background'**
+  String get mcp_foreground_channel_description;
+
+  /// No description provided for @mcp_foreground_channel_name.
+  ///
+  /// In en, this message translates to:
+  /// **'Health data bridge'**
+  String get mcp_foreground_channel_name;
+
+  /// No description provided for @mcp_foreground_notification_button_close.
+  ///
+  /// In en, this message translates to:
+  /// **'Close'**
+  String get mcp_foreground_notification_button_close;
+
+  /// No description provided for @mcp_foreground_notification_text.
+  ///
+  /// In en, this message translates to:
+  /// **'Share word “{word}” and PIN “{code}” to connect'**
+  String mcp_foreground_notification_text(String word, String code);
+
+  /// No description provided for @mcp_foreground_notification_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Connected to your AI'**
+  String get mcp_foreground_notification_title;
+
+  /// No description provided for @mcp_foreground_status_pending.
+  ///
+  /// In en, this message translates to:
+  /// **'Waiting'**
+  String get mcp_foreground_status_pending;
 
   /// No description provided for @mcp_helper_chat_runs_on_desktop.
   ///

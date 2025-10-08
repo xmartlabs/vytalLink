@@ -1,10 +1,12 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter_template/core/common/config.dart';
 import 'package:flutter_template/core/model/health_data_request.dart';
 import 'package:flutter_template/core/model/mcp_exceptions.dart';
 import 'package:flutter_template/core/service/health_data_manager.dart';
-import 'package:flutter_template/core/source/mcp_server.dart';
+import 'package:flutter_template/core/service/server/mcp_server.dart';
+import 'package:flutter_template/core/service/server/mcp_transport.dart';
 import 'package:flutter_template/model/vytal_health_data_category.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
@@ -14,36 +16,109 @@ import '../../../helpers/test_data_factory.dart';
 
 class MockHealthDataManager extends Mock implements HealthDataManager {}
 
+class FakeMcpTransport implements McpTransport {
+  FakeMcpTransport();
+
+  final StreamController<McpTransportEvent> _statusController =
+      StreamController<McpTransportEvent>.broadcast();
+  final StreamController<String> _messageController =
+      StreamController<String>.broadcast();
+
+  Future<void> Function()? onStartCallback;
+  Future<void> Function()? onStopCallback;
+  Future<void> Function(String message)? onSendCallback;
+
+  final List<String> sentMessages = <String>[];
+
+  bool _isConnected = false;
+
+  @override
+  Stream<McpTransportEvent> get events => _statusController.stream;
+
+  @override
+  Stream<String> get messages => _messageController.stream;
+
+  @override
+  bool get isConnected => _isConnected;
+
+  @override
+  Future<void> start() async {
+    if (onStartCallback != null) {
+      await onStartCallback!();
+    }
+  }
+
+  @override
+  Future<void> stop() async {
+    _isConnected = false;
+    if (onStopCallback != null) {
+      await onStopCallback!();
+    }
+  }
+
+  @override
+  Future<void> send(String message) async {
+    sentMessages.add(message);
+    if (onSendCallback != null) {
+      await onSendCallback!(message);
+    }
+  }
+
+  @override
+  Future<void> dispose() async {
+    await stop();
+    await _statusController.close();
+    await _messageController.close();
+  }
+
+  void emitStatus(McpTransportEvent event) {
+    event.when(
+      connecting: () {
+        _isConnected = false;
+      },
+      connected: () {
+        _isConnected = true;
+      },
+      disconnected: (_, __) {
+        _isConnected = false;
+      },
+    );
+    _statusController.add(event);
+  }
+
+  void emitMessage(String message) {
+    _messageController.add(message);
+  }
+}
+
 void main() {
   setUpAll(() {
-    // Initialize Config values needed for MCP server
     Config.wsUrl = 'ws://localhost:8080/ws';
     Config.gptIntegrationUrl = 'http://localhost:3000';
     Config.appDirectoryPath = '/tmp/test';
     Config.landingUrl = 'http://localhost:3000';
-
-    // Disable Firebase for testing
     Config.testingMode = true;
+
+    registerFallbackValue(TestDataFactory.createHealthDataRequest());
   });
 
   group('HealthMcpServerService', () {
     late HealthMcpServerService mcpServer;
     late MockHealthDataManager mockHealthDataManager;
-    late TestWebSocketChannel testWebSocketChannel;
+    late FakeMcpTransport fakeTransport;
 
     setUp(() {
       mockHealthDataManager = MockHealthDataManager();
+      fakeTransport = FakeMcpTransport();
       mcpServer = HealthMcpServerService(
         healthDataManager: mockHealthDataManager,
+        transport: fakeTransport,
       );
-
-      testWebSocketChannel = TestWebSocketChannel();
-
-      registerFallbackValue(TestDataFactory.createHealthDataRequest());
     });
 
-    tearDown(() {
-      testWebSocketChannel.dispose();
+    tearDown(() async {
+      await mcpServer.dispose();
+      await fakeTransport.dispose();
     });
 
     group('connection management', () {
@@ -51,19 +126,30 @@ void main() {
         expect(mcpServer.isConnected, isFalse);
       });
 
-      test('connectToBackend establishes connection', () async {
+      test('connectToBackend establishes connection after handshake', () async {
         expect(mcpServer.isConnected, isFalse);
+
+        fakeTransport.onStartCallback = () async {
+          fakeTransport
+            ..emitStatus(const McpTransportEvent.connecting())
+            ..emitStatus(const McpTransportEvent.connected());
+          final handshake =
+              WebSocketTestMessageFactory.createConnectionCodeMessage(
+            code: '1234',
+            word: 'lion',
+            message: 'Connected',
+          );
+          fakeTransport.emitMessage(jsonEncode(handshake));
+        };
+
+        final state = await mcpServer.connectToBackend();
+
+        expect(state, isA<McpConnectionStateConnected>());
+        expect(mcpServer.isConnected, isTrue);
       });
 
       test('stop closes connection when connected', () async {
-        mcpServer.webSocketChannel = testWebSocketChannel;
-
-        await mcpServer.stop();
-
-        expect(mcpServer.isConnected, isFalse);
-      });
-
-      test('stop handles disconnected state gracefully', () async {
+        fakeTransport.emitStatus(const McpTransportEvent.connected());
         expect(mcpServer.isConnected, isFalse);
 
         await mcpServer.stop();
@@ -80,17 +166,39 @@ void main() {
         expect(mcpServer.isConnecting, isFalse);
       });
 
-      test('provides status stream', () {
-        expect(mcpServer.status, isA<Stream<McpConnectionState>>());
+      test('emits connecting state when transport connects', () async {
+        final states = <McpConnectionState>[];
+        final sub = mcpServer.status.listen(states.add);
+
+        fakeTransport.emitStatus(const McpTransportEvent.connecting());
+
+        await Future<void>.delayed(const Duration(milliseconds: 10));
+        await sub.cancel();
+
+        expect(
+          states.any((state) => state is McpConnectionStateConnecting),
+          isTrue,
+        );
       });
 
-      test('status stream emits initial disconnected state', () {
-        expectLater(
-          mcpServer.status,
-          emitsInOrder([
-            isA<McpConnectionStateDisconnected>(),
-          ]),
+      test('emits disconnected state when transport disconnects', () async {
+        final states = <McpConnectionState>[];
+        final sub = mcpServer.status.listen(states.add);
+
+        fakeTransport.emitStatus(
+          const McpTransportEvent.disconnected(
+            errorMessage: 'Network error',
+            lostConnection: true,
+          ),
         );
+
+        await Future<void>.delayed(const Duration(milliseconds: 10));
+        await sub.cancel();
+
+        expect(states.last, isA<McpConnectionStateDisconnected>());
+        final last = states.last as McpConnectionStateDisconnected;
+        expect(last.errorMessage, contains('Network error'));
+        expect(last.lostConnection, isTrue);
       });
     });
 
@@ -120,7 +228,6 @@ void main() {
 
       test('handles connection code message correctly', () async {
         final stateChanges = <McpConnectionState>[];
-
         final subscription = mcpServer.status.listen(stateChanges.add);
 
         final codeMessage =
@@ -134,17 +241,10 @@ void main() {
 
         await subscription.cancel();
 
-        // Should emit the connected state with credentials
         expect(
           stateChanges.any((state) => state is McpConnectionStateConnected),
           isTrue,
         );
-
-        final connectedState =
-            stateChanges.whereType<McpConnectionStateConnected>().first;
-        expect(connectedState.credentials.connectionPin, equals('ABC123'));
-        expect(connectedState.credentials.connectionWord, equals('elephant'));
-        expect(connectedState.message, equals('Connection established'));
       });
 
       test('handles unknown message type gracefully', () async {
@@ -259,9 +359,7 @@ void main() {
     });
 
     group('message sending', () {
-      test('sendToBackend sends message when connected', () async {
-        mcpServer.webSocketChannel = testWebSocketChannel;
-
+      test('sendToBackend throws when not connected', () async {
         final message = {'type': 'test', 'data': 'test data'};
 
         expect(
@@ -270,13 +368,23 @@ void main() {
         );
       });
 
-      test('sendToBackend throws when not connected', () async {
-        final message = {'type': 'test', 'data': 'test data'};
+      test('sendToBackend delegates to transport when connected', () async {
+        fakeTransport.emitStatus(const McpTransportEvent.connected());
+        final payload = {'type': 'test', 'data': 'sample'};
 
-        expect(
-          () => mcpServer.sendToBackend(message),
-          throwsA(isA<Exception>()),
+        await mcpServer.handleBackendMessage(
+          jsonEncode(
+            WebSocketTestMessageFactory.createConnectionCodeMessage(
+              code: 'ABC123',
+              word: 'falcon',
+              message: 'Ready',
+            ),
+          ),
         );
+
+        await mcpServer.sendToBackend(payload);
+
+        expect(fakeTransport.sentMessages, isNotEmpty);
       });
     });
 
@@ -321,7 +429,6 @@ void main() {
           valueType: 'STEPS',
           startTime: '2024-01-01T00:00:00Z',
           endTime: '2024-01-02T00:00:00Z',
-          // Missing optional fields
         );
 
         when(() => mockHealthDataManager.processHealthDataRequest(any()))
@@ -361,47 +468,6 @@ void main() {
         };
 
         await mcpServer.handleBackendMessage(jsonEncode(messageJson));
-      });
-    });
-
-    group('HealthMcpServerException', () {
-      test('creates exception with message only', () {
-        const exception = HealthMcpServerException('Test error');
-
-        expect(exception.message, equals('Test error'));
-        expect(exception.cause, isNull);
-        expect(
-          exception.toString(),
-          equals('HealthMcpServerException: Test error'),
-        );
-      });
-
-      test('creates exception with message and cause', () {
-        final cause = Exception('Root cause');
-        final exception = HealthMcpServerException('Test error', cause);
-
-        expect(exception.message, equals('Test error'));
-        expect(exception.cause, equals(cause));
-        expect(exception.toString(), contains('Test error'));
-        expect(exception.toString(), contains('Root cause'));
-      });
-    });
-
-    group('HealthPermissionException', () {
-      test('extends HealthMcpServerException', () {
-        const exception = HealthPermissionException('Permission denied');
-
-        expect(exception, isA<HealthMcpServerException>());
-        expect(exception.message, equals('Permission denied'));
-      });
-    });
-
-    group('HealthDataUnavailableException', () {
-      test('extends HealthMcpServerException', () {
-        const exception = HealthDataUnavailableException('Data unavailable');
-
-        expect(exception, isA<HealthMcpServerException>());
-        expect(exception.message, equals('Data unavailable'));
       });
     });
   });

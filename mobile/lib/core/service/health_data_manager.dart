@@ -1,4 +1,6 @@
 import 'package:dartx/dartx.dart';
+import 'package:flutter_template/core/common/cache/cache.dart';
+import 'package:flutter_template/core/common/config.dart';
 import 'package:flutter_template/core/health/health_data_aggregator.dart';
 import 'package:flutter_template/core/health/health_data_mapper.dart';
 import 'package:flutter_template/core/health/health_permissions_guard.dart';
@@ -20,6 +22,8 @@ class HealthDataManager {
     HealthDataMapper? healthDataMapper,
     HealthPermissionsGuard? healthPermissionsGuard,
     HealthSleepSessionNormalizer? healthSleepSessionNormalizer,
+    Cache<HealthDataRequest, HealthDataResponse>? cache,
+    DateTime Function()? nowProvider,
   })  : _healthClient = healthClient ?? Health(),
         _aggregatePerSource = aggregatePerSource,
         _healthDataAggregator =
@@ -28,7 +32,13 @@ class HealthDataManager {
         _healthPermissionsGuard =
             healthPermissionsGuard ?? const HealthPermissionsGuard(),
         _sleepSessionNormalizer = healthSleepSessionNormalizer ??
-            const HealthSleepSessionNormalizer();
+            const HealthSleepSessionNormalizer(),
+        _now = nowProvider ?? DateTime.now,
+        _cache = cache ??
+            InMemoryCache<HealthDataRequest, HealthDataResponse>(
+              ttl: Config.healthDataCacheTtl,
+              nowProvider: nowProvider,
+            );
 
   final Health _healthClient;
   final bool _aggregatePerSource;
@@ -36,13 +46,20 @@ class HealthDataManager {
   final HealthDataMapper _healthDataMapper;
   final HealthPermissionsGuard _healthPermissionsGuard;
   final HealthSleepSessionNormalizer _sleepSessionNormalizer;
+  final DateTime Function() _now;
+  final Cache<HealthDataRequest, HealthDataResponse> _cache;
 
   Future<HealthDataResponse> processHealthDataRequest(
     HealthDataRequest request,
   ) async {
     try {
-      final healthData = await _retrieveHealthData(request);
-      return _createSuccessResponse(healthData, request);
+      return await _cache.fetchOrCache(
+        request,
+        (_) async {
+          final healthData = await _retrieveHealthData(request);
+          return _createSuccessResponse(healthData, request);
+        },
+      );
     } catch (e) {
       throw HealthMcpServerException(
         'Error processing health data request: ${e.toString()}',
@@ -54,8 +71,13 @@ class HealthDataManager {
   Future<List<AppHealthDataPoint>> _retrieveHealthData(
     HealthDataRequest request,
   ) async {
-    final DateTime startTime = request.startTime;
-    final DateTime endTime = request.endTime;
+    final adjustedTimes = _sleepSessionNormalizer.adjustTimeRangeForSleepData(
+      request.valueType,
+      request.startTime,
+      request.endTime,
+    );
+    final DateTime startTime = adjustedTimes.startTime;
+    final DateTime endTime = adjustedTimes.endTime;
 
     final groupBy = request.groupBy;
     final dataPoints = await _processDataPoints(request, startTime, endTime);
@@ -110,7 +132,7 @@ class HealthDataManager {
       throw ArgumentError('Start time cannot be after end time');
     }
 
-    final now = DateTime.now();
+    final now = _now();
     if (startTime.isAfter(now)) {
       throw ArgumentError('Start time cannot be in the future');
     }

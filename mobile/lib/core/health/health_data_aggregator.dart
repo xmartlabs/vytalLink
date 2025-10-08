@@ -1,8 +1,11 @@
 import 'package:dartx/dartx.dart';
+import 'package:flutter_template/core/common/logger.dart';
+import 'package:flutter_template/core/health/health_sleep_session_normalizer.dart';
 import 'package:flutter_template/core/model/health_data_point.dart';
 import 'package:flutter_template/core/model/health_data_temporal_behavior.dart';
 import 'package:flutter_template/core/model/statistic_types.dart';
 import 'package:flutter_template/core/model/time_group_by.dart';
+import 'package:flutter_template/core/model/workout_summary_data.dart';
 import 'package:flutter_template/model/health_data_unit.dart'
     hide HealthDataUnit;
 import 'package:health/health.dart';
@@ -26,14 +29,19 @@ typedef HealthAggregationRequest = ({
 });
 
 class HealthDataAggregator {
-  const HealthDataAggregator();
+  const HealthDataAggregator({
+    HealthSleepSessionNormalizer? sleepSessionNormalizer,
+  }) : _sleepSessionNormalizer =
+            sleepSessionNormalizer ?? const HealthSleepSessionNormalizer();
+
+  final HealthSleepSessionNormalizer _sleepSessionNormalizer;
 
   List<AggregatedHealthDataPoint> aggregate(
     HealthAggregationRequest request,
   ) {
     if (request.data.isEmpty) return [];
 
-    final timeSegments = _generateTimeSegments(
+    final List<DateTime> timeSegments = _generateTimeSegments(
       request.startTime,
       request.endTime,
       request.groupBy,
@@ -60,13 +68,23 @@ class HealthDataAggregator {
       );
 
       for (final entry in aggregatedValue.entries) {
+        // Use actual sleep time range instead of segment boundaries
+        final dateRange = entry.key.type == HealthDataType.SLEEP_SESSION
+            ? _sleepSessionNormalizer.getDateRangeForAggregatedSleepData(
+                request.data,
+                segmentStart,
+                segmentEnd,
+                entry.key.sourceId,
+              )
+            : (start: segmentStart, end: segmentEnd);
+
         aggregatedData.add(
           AggregatedHealthDataPoint(
             type: entry.key.type.name,
             value: entry.value,
             unit: entry.key.type.unit.name,
-            dateFrom: segmentStart.toIso8601String(),
-            dateTo: segmentEnd.toIso8601String(),
+            dateFrom: dateRange.start.toIso8601String(),
+            dateTo: dateRange.end.toIso8601String(),
             sourceId: entry.key.sourceId,
           ),
         );
@@ -76,20 +94,30 @@ class HealthDataAggregator {
     return aggregatedData;
   }
 
-  Map<_AggregationKey, double> _aggregateDataForSegment(
+  Map<_AggregationKey, dynamic> _aggregateDataForSegment(
     _SegmentAggregationContext context,
     HealthDataTemporalBehavior temporalBehavior,
-  ) =>
-      switch (temporalBehavior) {
-        HealthDataTemporalBehavior.instantaneous =>
-          _aggregateInstantaneousData(context),
-        HealthDataTemporalBehavior.cumulative =>
-          _aggregateCumulativeData(context),
-        HealthDataTemporalBehavior.sessional =>
-          _aggregateSessionalData(context),
-        HealthDataTemporalBehavior.durational =>
-          _aggregateDurationalData(context),
-      };
+  ) {
+    if (context.data.isNotEmpty) {
+      try {
+        if (context.data.first.type == HealthDataType.WORKOUT.name) {
+          return _aggregateWorkoutDataAsJson(context);
+        }
+      } catch (e, stacktrace) {
+        Logger.w('Failed to aggregate workout data as JSON.', e, stacktrace);
+      }
+    }
+
+    return switch (temporalBehavior) {
+      HealthDataTemporalBehavior.instantaneous =>
+        _aggregateInstantaneousData(context),
+      HealthDataTemporalBehavior.cumulative =>
+        _aggregateCumulativeData(context),
+      HealthDataTemporalBehavior.sessional => _aggregateSessionalData(context),
+      HealthDataTemporalBehavior.durational =>
+        _aggregateDurationalData(context),
+    };
+  }
 
   Map<_AggregationKey, double> _aggregateInstantaneousData(
     _SegmentAggregationContext context,
@@ -346,6 +374,118 @@ class HealthDataAggregator {
         return current.add(const Duration(days: 7));
       case TimeGroupBy.month:
         return DateTime(current.year, current.month + 1);
+    }
+  }
+
+  Map<_AggregationKey, dynamic> _aggregateWorkoutDataAsJson(
+    _SegmentAggregationContext context,
+  ) {
+    final result = <_AggregationKey, dynamic>{};
+
+    final dataByKey = context.data.groupBy(
+      (point) {
+        final type = HealthDataType.values
+            .firstWhere((element) => element.name == point.type);
+        return (
+          type: type,
+          sourceId: context.aggregatePerSource ? point.sourceId : null,
+        );
+      },
+    );
+
+    for (final entry in dataByKey.entries) {
+      final key = entry.key;
+      final workoutPoints = <AppHealthDataPoint>[];
+
+      for (final point in entry.value) {
+        final pointStart = DateTime.parse(point.dateFrom);
+        final pointEnd = DateTime.parse(point.dateTo);
+
+        final overlapStart = _maxDateTime(pointStart, context.segmentStart);
+        final overlapEnd = _minDateTime(pointEnd, context.segmentEnd);
+
+        if (overlapStart.isBefore(overlapEnd)) {
+          final sessionDuration = pointEnd.difference(pointStart);
+          final overlapDuration = overlapEnd.difference(overlapStart);
+
+          if (sessionDuration.inMilliseconds > 0 &&
+              overlapDuration.inMilliseconds >
+                  sessionDuration.inMilliseconds / 2) {
+            workoutPoints.add(point);
+          }
+        }
+      }
+
+      if (workoutPoints.isNotEmpty) {
+        final aggregatedWorkout = _aggregateAllWorkoutMetrics(
+          workoutPoints,
+          context.statisticType,
+        );
+        result[key] = aggregatedWorkout.toJson();
+      }
+    }
+
+    return result;
+  }
+
+  WorkoutSummaryData _aggregateAllWorkoutMetrics(
+    List<AppHealthDataPoint> workoutPoints,
+    StatisticType statisticType,
+  ) {
+    if (workoutPoints.isEmpty) {
+      return const WorkoutSummaryData(
+        workoutType: 'UNKNOWN',
+        totalDistance: 0.0,
+        totalEnergyBurned: 0.0,
+        totalSteps: 0.0,
+      );
+    }
+
+    double totalDistance = 0.0;
+    double totalEnergyBurned = 0.0;
+    double totalSteps = 0.0;
+    final workoutTypes = <String>{};
+    int validWorkouts = 0;
+
+    for (final point in workoutPoints) {
+      if (point.value is Map<String, dynamic>) {
+        final workoutSummary = WorkoutSummaryData.fromJson(
+          point.value as Map<String, dynamic>,
+        );
+
+        totalDistance += workoutSummary.totalDistance;
+        totalEnergyBurned += workoutSummary.totalEnergyBurned;
+        totalSteps += workoutSummary.totalSteps;
+        workoutTypes.add(workoutSummary.workoutType);
+        validWorkouts++;
+      }
+    }
+
+    if (validWorkouts == 0) {
+      return const WorkoutSummaryData(
+        workoutType: 'UNKNOWN',
+        totalDistance: 0.0,
+        totalEnergyBurned: 0.0,
+        totalSteps: 0.0,
+      );
+    }
+
+    final aggregatedWorkoutType = workoutTypes.distinct().join(', ');
+    switch (statisticType) {
+      case StatisticType.sum:
+        return WorkoutSummaryData(
+          workoutType: aggregatedWorkoutType,
+          totalDistance: totalDistance,
+          totalEnergyBurned: totalEnergyBurned,
+          totalSteps: totalSteps,
+        );
+      case StatisticType.average:
+        return WorkoutSummaryData(
+          workoutType: aggregatedWorkoutType,
+          totalDistance: totalDistance / validWorkouts,
+          totalEnergyBurned: totalEnergyBurned / validWorkouts,
+          totalSteps: totalSteps / validWorkouts,
+        );
     }
   }
 

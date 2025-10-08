@@ -1,12 +1,14 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_foreground_task/flutter_foreground_task.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_template/core/common/analytics_manager.dart';
 import 'package:flutter_template/core/common/config.dart';
 import 'package:flutter_template/core/common/logger.dart';
 import 'package:flutter_template/core/di/di_provider.dart';
+import 'package:flutter_template/core/service/server/mcp_background_service.dart';
 import 'package:flutter_template/ui/main/main_screen.dart';
 
 Future main() async {
@@ -31,6 +33,9 @@ Future initSdks() async {
     Config.firebaseCollectEventsEnabled,
   );
   await Config.initialize();
+  if (Config.useForegroundService) {
+    await McpBackgroundService.ensureServiceStoppedIfStale();
+  }
   await Future.wait([
     DiProvider.init(),
   ]);
@@ -44,6 +49,8 @@ class MyApp extends StatelessWidget {
         designSize: const Size(360, 690),
         minTextAdapt: false,
         splitScreenMode: true,
-        builder: (_, __) => const MainScreen(),
+        builder: (_, __) => const WithForegroundTask(
+          child: MainScreen(),
+        ),
       );
 }

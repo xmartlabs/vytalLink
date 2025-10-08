@@ -1,17 +1,22 @@
 import 'package:flutter_template/core/health/health_data_aggregator.dart';
+import 'package:flutter_template/core/health/health_sleep_session_normalizer.dart';
 import 'package:flutter_template/core/model/health_data_point.dart';
 import 'package:flutter_template/core/model/statistic_types.dart';
 import 'package:flutter_template/core/model/time_group_by.dart';
 import 'package:flutter_test/flutter_test.dart';
+
 import '../../../helpers/test_data_factory.dart';
 import '../../../test_utils.dart';
 
 void main() {
   group('HealthDataAggregator', () {
     late HealthDataAggregator aggregator;
+    late HealthSleepSessionNormalizer sleepNormalizer;
 
     setUp(() {
-      aggregator = const HealthDataAggregator();
+      sleepNormalizer = const HealthSleepSessionNormalizer();
+      aggregator =
+          HealthDataAggregator(sleepSessionNormalizer: sleepNormalizer);
     });
 
     group('aggregate', () {
@@ -229,14 +234,16 @@ void main() {
           TestDataFactory.createRawHealthDataPoint(
             type: 'STEPS',
             value: 1000,
-            dateFrom: DateTime(2024, 1, 2), // Tuesday of first week
+            dateFrom: DateTime(2024, 1, 2),
+            // Tuesday of first week
             dateTo: DateTime(2024, 1, 2, 1),
             sourceId: 'source-1',
           ),
           TestDataFactory.createRawHealthDataPoint(
             type: 'STEPS',
             value: 2000,
-            dateFrom: DateTime(2024, 1, 8), // Monday of second week
+            dateFrom: DateTime(2024, 1, 8),
+            // Monday of second week
             dateTo: DateTime(2024, 1, 8, 1),
             sourceId: 'source-1',
           ),
@@ -324,14 +331,16 @@ void main() {
         final data = [
           TestDataFactory.createRawHealthDataPoint(
             type: 'DISTANCE_DELTA',
-            value: 1000.0, // 1000m over 2 hours
+            value: 1000.0,
+            // 1000m over 2 hours
             dateFrom: DateTime(2024, 1, 1, 10),
             dateTo: DateTime(2024, 1, 1, 12),
             sourceId: 'source-1',
           ),
           TestDataFactory.createRawHealthDataPoint(
             type: 'DISTANCE_DELTA',
-            value: 500.0, // 500m over 1 hour, overlapping
+            value: 500.0,
+            // 500m over 1 hour, overlapping
             dateFrom: DateTime(2024, 1, 1, 11),
             dateTo: DateTime(2024, 1, 1, 12),
             sourceId: 'source-2',
@@ -373,7 +382,8 @@ void main() {
         final data = [
           TestDataFactory.createRawHealthDataPoint(
             type: 'DISTANCE_DELTA',
-            value: 600.0, // 600m over 3 hours (9-12), but we only query 10-12
+            value: 600.0,
+            // 600m over 3 hours (9-12), but we only query 10-12
             dateFrom: DateTime(2024, 1, 1, 9),
             dateTo: DateTime(2024, 1, 1, 12),
             sourceId: 'source-1',
@@ -578,16 +588,16 @@ void main() {
           TestDataFactory.createRawHealthDataPoint(
             type: 'SLEEP_SESSION',
             value: 'SLEEP',
-            dateFrom:
-                DateTime(2024, 1, 1, 9, 30), // 30 min before, 90 min during
+            dateFrom: DateTime(2024, 1, 1, 9, 30),
+            // 30 min before, 90 min during
             dateTo: DateTime(2024, 1, 1, 11),
             sourceId: 'source-1',
           ),
           TestDataFactory.createRawHealthDataPoint(
             type: 'SLEEP_SESSION',
             value: 'SLEEP',
-            dateFrom:
-                DateTime(2024, 1, 1, 10, 45), // 15 min overlap (not majority)
+            dateFrom: DateTime(2024, 1, 1, 10, 45),
+            // 15 min overlap (not majority)
             dateTo: DateTime(2024, 1, 1, 12, 30),
             sourceId: 'source-2',
           ),
@@ -619,15 +629,18 @@ void main() {
           TestDataFactory.createRawHealthDataPoint(
             type: 'SLEEP_ASLEEP',
             value: 'ASLEEP',
-            dateFrom: DateTime(2024, 1, 1, 8), // 2 hours before start
-            dateTo: DateTime(2024, 1, 1, 10, 30), // Ends within first hour
+            dateFrom: DateTime(2024, 1, 1, 8),
+            // 2 hours before start
+            dateTo: DateTime(2024, 1, 1, 10, 30),
+            // Ends within first hour
             sourceId: 'source-1',
           ),
           TestDataFactory.createRawHealthDataPoint(
             type: 'SLEEP_ASLEEP',
             value: 'ASLEEP',
             dateFrom: DateTime(2024, 1, 1, 10, 45),
-            dateTo: DateTime(2024, 1, 1, 11, 15), // 30 minute duration
+            dateTo: DateTime(2024, 1, 1, 11, 15),
+            // 30 minute duration
             sourceId: 'source-2',
           ),
         ];
@@ -674,7 +687,8 @@ void main() {
           TestDataFactory.createRawHealthDataPoint(
             type: 'STEPS',
             value: 1000,
-            dateFrom: DateTime(2024, 1, 1, 10), // Exactly on start boundary
+            dateFrom: DateTime(2024, 1, 1, 10),
+            // Exactly on start boundary
             dateTo: DateTime(2024, 1, 1, 10, 30),
             sourceId: 'source-1',
           ),
@@ -682,7 +696,8 @@ void main() {
             type: 'STEPS',
             value: 500,
             dateFrom: DateTime(2024, 1, 1, 11, 30),
-            dateTo: DateTime(2024, 1, 1, 12), // Exactly on end boundary
+            dateTo: DateTime(2024, 1, 1, 12),
+            // Exactly on end boundary
             sourceId: 'source-1',
           ),
         ];
@@ -753,21 +768,24 @@ void main() {
           TestDataFactory.createRawHealthDataPoint(
             type: 'STEPS',
             value: 1000,
-            dateFrom: DateTime(2024, 1, 1, 9), // Before range
+            dateFrom: DateTime(2024, 1, 1, 9),
+            // Before range
             dateTo: DateTime(2024, 1, 1, 9, 30),
             sourceId: 'source-1',
           ),
           TestDataFactory.createRawHealthDataPoint(
             type: 'STEPS',
             value: 500,
-            dateFrom: DateTime(2024, 1, 1, 10, 30), // Within range
+            dateFrom: DateTime(2024, 1, 1, 10, 30),
+            // Within range
             dateTo: DateTime(2024, 1, 1, 10, 45),
             sourceId: 'source-1',
           ),
           TestDataFactory.createRawHealthDataPoint(
             type: 'STEPS',
             value: 750,
-            dateFrom: DateTime(2024, 1, 1, 13), // After range
+            dateFrom: DateTime(2024, 1, 1, 13),
+            // After range
             dateTo: DateTime(2024, 1, 1, 13, 30),
             sourceId: 'source-1',
           ),

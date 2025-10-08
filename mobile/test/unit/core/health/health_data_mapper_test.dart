@@ -6,6 +6,7 @@ import 'package:mocktail/mocktail.dart';
 
 import '../../../helpers/mock_health_data_point.dart';
 import '../../../helpers/mock_health_value.dart';
+import '../../../helpers/mock_workout_summary.dart';
 
 class MockNumericHealthValue extends Mock implements NumericHealthValue {}
 
@@ -200,19 +201,20 @@ void main() {
     group('workout health value mapping', () {
       test('maps workout values to structured data correctly', () {
         // Arrange
-        final mockValue = MockWorkoutHealthValue();
-        when(() => mockValue.workoutActivityType)
-            .thenReturn(HealthWorkoutActivityType.RUNNING);
-        when(() => mockValue.totalEnergyBurned).thenReturn(350);
-        when(() => mockValue.totalDistance).thenReturn(5000);
+        final mockWorkoutSummary = MockWorkoutSummary();
+        when(() => mockWorkoutSummary.workoutType).thenReturn('RUNNING');
+        when(() => mockWorkoutSummary.totalEnergyBurned).thenReturn(350);
+        when(() => mockWorkoutSummary.totalDistance).thenReturn(5000);
+        when(() => mockWorkoutSummary.totalSteps).thenReturn(8500);
 
         final healthDataPoint = MockHealthDataPoint(
           type: HealthDataType.WORKOUT,
           unit: HealthDataUnit.NO_UNIT,
           dateFrom: DateTime(2024, 1, 1, 10, 0, 0),
           dateTo: DateTime(2024, 1, 1, 11, 0, 0),
-          value: mockValue,
+          value: NumericHealthValue(numericValue: 0.0),
           sourceId: 'workout-source',
+          workoutSummary: mockWorkoutSummary,
         );
 
         // Act
@@ -220,26 +222,28 @@ void main() {
 
         // Assert
         final workoutData = result.first.value as Map<String, dynamic>;
-        expect(workoutData['workoutActivityType'], equals('RUNNING'));
-        expect(workoutData['totalEnergyBurned'], equals(350));
-        expect(workoutData['totalDistance'], equals(5000));
+        expect(workoutData['workout_type'], equals('RUNNING'));
+        expect(workoutData['total_energy_burned'], equals(350.0));
+        expect(workoutData['total_distance'], equals(5000.0));
+        expect(workoutData['total_steps'], equals(8500.0));
       });
 
       test('maps workout values with null fields correctly', () {
         // Arrange
-        final mockValue = MockWorkoutHealthValue();
-        when(() => mockValue.workoutActivityType)
-            .thenReturn(HealthWorkoutActivityType.OTHER);
-        when(() => mockValue.totalEnergyBurned).thenReturn(null);
-        when(() => mockValue.totalDistance).thenReturn(null);
+        final mockWorkoutSummary = MockWorkoutSummary();
+        when(() => mockWorkoutSummary.workoutType).thenReturn('OTHER');
+        when(() => mockWorkoutSummary.totalEnergyBurned).thenReturn(0);
+        when(() => mockWorkoutSummary.totalDistance).thenReturn(0);
+        when(() => mockWorkoutSummary.totalSteps).thenReturn(0);
 
         final healthDataPoint = MockHealthDataPoint(
           type: HealthDataType.WORKOUT,
           unit: HealthDataUnit.NO_UNIT,
           dateFrom: DateTime(2024, 1, 1, 10, 0, 0),
           dateTo: DateTime(2024, 1, 1, 11, 0, 0),
-          value: mockValue,
+          value: NumericHealthValue(numericValue: 0.0),
           sourceId: 'workout-source',
+          workoutSummary: mockWorkoutSummary,
         );
 
         // Act
@@ -247,33 +251,36 @@ void main() {
 
         // Assert
         final workoutData = result.first.value as Map<String, dynamic>;
-        expect(workoutData['workoutActivityType'], equals('OTHER'));
-        expect(workoutData['totalEnergyBurned'], isNull);
-        expect(workoutData['totalDistance'], isNull);
+        expect(workoutData['workout_type'], equals('OTHER'));
+        expect(workoutData['total_energy_burned'], equals(0.0));
+        expect(workoutData['total_distance'], equals(0.0));
+        expect(workoutData['total_steps'], equals(0.0));
       });
 
       test('maps different workout activity types correctly', () {
         final testCases = [
-          HealthWorkoutActivityType.RUNNING,
-          HealthWorkoutActivityType.WALKING,
-          HealthWorkoutActivityType.SWIMMING,
-          HealthWorkoutActivityType.OTHER,
+          'RUNNING',
+          'WALKING', 
+          'SWIMMING',
+          'OTHER',
         ];
 
         for (final activityType in testCases) {
           // Arrange
-          final mockValue = MockWorkoutHealthValue();
-          when(() => mockValue.workoutActivityType).thenReturn(activityType);
-          when(() => mockValue.totalEnergyBurned).thenReturn(100);
-          when(() => mockValue.totalDistance).thenReturn(1000);
+          final mockWorkoutSummary = MockWorkoutSummary();
+          when(() => mockWorkoutSummary.workoutType).thenReturn(activityType);
+          when(() => mockWorkoutSummary.totalEnergyBurned).thenReturn(100);
+          when(() => mockWorkoutSummary.totalDistance).thenReturn(1000);
+          when(() => mockWorkoutSummary.totalSteps).thenReturn(2000);
 
           final healthDataPoint = MockHealthDataPoint(
             type: HealthDataType.WORKOUT,
             unit: HealthDataUnit.NO_UNIT,
             dateFrom: DateTime(2024, 1, 1, 10, 0, 0),
             dateTo: DateTime(2024, 1, 1, 11, 0, 0),
-            value: mockValue,
+            value: NumericHealthValue(numericValue: 0.0),
             sourceId: 'test-source',
+            workoutSummary: mockWorkoutSummary,
           );
 
           // Act
@@ -281,7 +288,7 @@ void main() {
 
           // Assert
           final workoutData = result.first.value as Map<String, dynamic>;
-          expect(workoutData['workoutActivityType'], equals(activityType.name));
+          expect(workoutData['workout_type'], equals(activityType));
         }
       });
     });

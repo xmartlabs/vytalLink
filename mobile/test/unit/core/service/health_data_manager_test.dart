@@ -1,3 +1,4 @@
+import 'package:flutter_template/core/common/config.dart';
 import 'package:flutter_template/core/health/health_data_aggregator.dart';
 import 'package:flutter_template/core/health/health_data_mapper.dart';
 import 'package:flutter_template/core/health/health_permissions_guard.dart';
@@ -76,6 +77,18 @@ void main() {
       when(() => mockSleepNormalizer.normalize(any())).thenAnswer(
         (invocation) =>
             invocation.positionalArguments[0] as List<HealthDataPoint>,
+      );
+      when(
+        () => mockSleepNormalizer.adjustTimeRangeForSleepData(
+          any(),
+          any(),
+          any(),
+        ),
+      ).thenAnswer(
+        (invocation) => (
+          startTime: invocation.positionalArguments[1] as DateTime,
+          endTime: invocation.positionalArguments[2] as DateTime,
+        ),
       );
 
       when(() => mockMapper.map(any())).thenReturn(<AppHealthDataPoint>[]);
@@ -1278,6 +1291,404 @@ void main() {
           );
         },
       );
+
+      test('returns cached response for repeated request within ttl', () async {
+        final baseTime = DateTime(2024, 1, 1, 12);
+        final currentTime = baseTime;
+        healthDataManager = HealthDataManager(
+          healthClient: mockHealthClient,
+          aggregatePerSource: true,
+          healthDataAggregator: mockAggregator,
+          healthDataMapper: mockMapper,
+          healthPermissionsGuard: mockPermissionsGuard,
+          healthSleepSessionNormalizer: mockSleepNormalizer,
+          nowProvider: () => currentTime,
+        );
+
+        final request = TestDataFactory.createHealthDataRequest(
+          startTime: DateTime(2024, 1, 1),
+          endTime: DateTime(2024, 1, 2),
+        );
+
+        final mockHealthData = [
+          TestHealthDataFactory.createStepsDataPoint(
+            dateFrom: DateTime(2024, 1, 1, 8),
+            dateTo: DateTime(2024, 1, 1, 9),
+            steps: 750,
+          ),
+        ];
+
+        when(
+          () => mockHealthClient.getHealthDataFromTypes(
+            types: any(named: 'types'),
+            startTime: any(named: 'startTime'),
+            endTime: any(named: 'endTime'),
+          ),
+        ).thenAnswer((_) async => mockHealthData);
+
+        when(() => mockMapper.map(any())).thenReturn([
+          TestDataFactory.createRawHealthDataPoint(type: 'STEPS', value: 750),
+        ]);
+
+        final firstResponse =
+            await healthDataManager.processHealthDataRequest(request);
+
+        clearInteractions(mockHealthClient);
+        clearInteractions(mockMapper);
+
+        final secondResponse =
+            await healthDataManager.processHealthDataRequest(request);
+
+        expect(identical(firstResponse, secondResponse), isTrue);
+        verifyNever(
+          () => mockHealthClient.getHealthDataFromTypes(
+            types: any(named: 'types'),
+            startTime: any(named: 'startTime'),
+            endTime: any(named: 'endTime'),
+          ),
+        );
+        verifyNever(() => mockMapper.map(any()));
+      });
+
+      test('evicts cache after ttl expires', () async {
+        final baseTime = DateTime(2024, 1, 1, 12);
+        var currentTime = baseTime;
+        var fetchCallCount = 0;
+        var mapCallCount = 0;
+
+        healthDataManager = HealthDataManager(
+          healthClient: mockHealthClient,
+          aggregatePerSource: true,
+          healthDataAggregator: mockAggregator,
+          healthDataMapper: mockMapper,
+          healthPermissionsGuard: mockPermissionsGuard,
+          healthSleepSessionNormalizer: mockSleepNormalizer,
+          nowProvider: () => currentTime,
+        );
+
+        final request = TestDataFactory.createHealthDataRequest(
+          startTime: DateTime(2024, 1, 1),
+          endTime: DateTime(2024, 1, 2),
+        );
+
+        when(
+          () => mockHealthClient.getHealthDataFromTypes(
+            types: any(named: 'types'),
+            startTime: any(named: 'startTime'),
+            endTime: any(named: 'endTime'),
+          ),
+        ).thenAnswer((_) async {
+          fetchCallCount++;
+          final steps = fetchCallCount == 1 ? 900 : 1200;
+          return [
+            TestHealthDataFactory.createStepsDataPoint(
+              dateFrom: DateTime(2024, 1, 1, 8),
+              dateTo: DateTime(2024, 1, 1, 9),
+              steps: steps,
+            ),
+          ];
+        });
+
+        when(() => mockMapper.map(any())).thenAnswer((_) {
+          mapCallCount++;
+          final value = mapCallCount == 1 ? 900 : 1200;
+          return [
+            TestDataFactory.createRawHealthDataPoint(
+              type: 'STEPS',
+              value: value,
+            ),
+          ];
+        });
+
+        final firstResponse =
+            await healthDataManager.processHealthDataRequest(request);
+        expect(firstResponse.healthData.first.value, equals(900));
+
+        currentTime = currentTime
+            .add(Config.healthDataCacheTtl)
+            .add(const Duration(minutes: 1));
+
+        final secondResponse =
+            await healthDataManager.processHealthDataRequest(request);
+
+        expect(secondResponse.healthData.first.value, equals(1200));
+        expect(fetchCallCount, equals(2));
+        expect(mapCallCount, equals(2));
+      });
+
+      test('does not cache failed request', () async {
+        final request = TestDataFactory.createHealthDataRequest(
+          startTime: DateTime(2024, 1, 1),
+          endTime: DateTime(2024, 1, 2),
+        );
+
+        var fetchCallCount = 0;
+
+        when(
+          () => mockHealthClient.getHealthDataFromTypes(
+            types: any(named: 'types'),
+            startTime: any(named: 'startTime'),
+            endTime: any(named: 'endTime'),
+          ),
+        ).thenAnswer((_) async {
+          fetchCallCount++;
+          if (fetchCallCount == 1) {
+            throw Exception('temporary failure');
+          }
+          return [
+            TestHealthDataFactory.createStepsDataPoint(
+              dateFrom: DateTime(2024, 1, 1, 8),
+              dateTo: DateTime(2024, 1, 1, 9),
+              steps: 1500,
+            ),
+          ];
+        });
+
+        when(() => mockMapper.map(any())).thenReturn([
+          TestDataFactory.createRawHealthDataPoint(type: 'STEPS', value: 1500),
+        ]);
+
+        await TestUtils.expectAsyncThrows<HealthMcpServerException>(
+          () => healthDataManager.processHealthDataRequest(request),
+        );
+
+        final response =
+            await healthDataManager.processHealthDataRequest(request);
+
+        expect(response.success, isTrue);
+        expect(response.count, equals(1));
+        expect(fetchCallCount, equals(2));
+      });
+    });
+
+    group('Sleep Time Range Adjustment', () {
+      test('adjusts time range for sleep data requests', () async {
+        final originalStartTime = DateTime(2025, 10, 7, 0, 0, 0); // Oct 7 00:00
+        final originalEndTime =
+            DateTime(2025, 10, 7, 23, 59, 59); // Oct 7 23:59
+        final request = TestDataFactory.createHealthDataRequest(
+          valueType: VytalHealthDataCategory.SLEEP,
+          startTime: originalStartTime,
+          endTime: originalEndTime,
+        );
+
+        DateTime? capturedStartTime;
+        DateTime? capturedEndTime;
+
+        // Mock the sleep normalizer to return adjusted times for sleep data
+        when(
+          () => mockSleepNormalizer.adjustTimeRangeForSleepData(
+            VytalHealthDataCategory.SLEEP,
+            originalStartTime,
+            originalEndTime,
+          ),
+        ).thenReturn(
+          (
+            startTime: DateTime(2025, 10, 6, 21, 0, 0), // Oct 6 21:00
+            endTime: DateTime(2025, 10, 7, 12, 0, 0), // Oct 7 12:00
+          ),
+        );
+
+        when(
+          () => mockHealthClient.getHealthDataFromTypes(
+            types: any(named: 'types'),
+            startTime: any(named: 'startTime'),
+            endTime: any(named: 'endTime'),
+          ),
+        ).thenAnswer((invocation) async {
+          capturedStartTime = invocation.namedArguments[#startTime] as DateTime;
+          capturedEndTime = invocation.namedArguments[#endTime] as DateTime;
+          return [
+            TestHealthDataFactory.createSleepDataPoint(
+              dateFrom: DateTime(2025, 10, 6, 23, 0, 0), // Oct 6 23:00
+              dateTo: DateTime(2025, 10, 7, 7, 0, 0), // Oct 7 07:00
+            ),
+          ];
+        });
+
+        when(() => mockMapper.map(any())).thenReturn([
+          TestDataFactory.createRawHealthDataPoint(
+            type: 'SLEEP_SESSION',
+            value: 8.0,
+          ),
+        ]);
+
+        await healthDataManager.processHealthDataRequest(request);
+
+        // Verify that the time range was adjusted
+        expect(capturedStartTime, equals(DateTime(2025, 10, 6, 21, 0, 0)));
+        expect(capturedEndTime, equals(DateTime(2025, 10, 7, 12, 0, 0)));
+      });
+
+      test('does not adjust time range for non-sleep data requests', () async {
+        final originalStartTime = DateTime(2025, 10, 7, 0, 0, 0);
+        final originalEndTime = DateTime(2025, 10, 7, 23, 59, 59);
+        final request = TestDataFactory.createHealthDataRequest(
+          valueType: VytalHealthDataCategory.STEPS,
+          startTime: originalStartTime,
+          endTime: originalEndTime,
+        );
+
+        DateTime? capturedStartTime;
+        DateTime? capturedEndTime;
+
+        // Mock the sleep normalizer to return original times for non-sleep data
+        when(
+          () => mockSleepNormalizer.adjustTimeRangeForSleepData(
+            VytalHealthDataCategory.STEPS,
+            originalStartTime,
+            originalEndTime,
+          ),
+        ).thenReturn(
+          (
+            startTime: originalStartTime,
+            endTime: originalEndTime,
+          ),
+        );
+
+        when(
+          () => mockHealthClient.getHealthDataFromTypes(
+            types: any(named: 'types'),
+            startTime: any(named: 'startTime'),
+            endTime: any(named: 'endTime'),
+          ),
+        ).thenAnswer((invocation) async {
+          capturedStartTime = invocation.namedArguments[#startTime] as DateTime;
+          capturedEndTime = invocation.namedArguments[#endTime] as DateTime;
+          return [
+            TestHealthDataFactory.createStepsDataPoint(
+              dateFrom: DateTime(2025, 10, 7, 8, 0, 0),
+              dateTo: DateTime(2025, 10, 7, 9, 0, 0),
+              steps: 1000,
+            ),
+          ];
+        });
+
+        when(() => mockMapper.map(any())).thenReturn([
+          TestDataFactory.createRawHealthDataPoint(type: 'STEPS', value: 1000),
+        ]);
+
+        await healthDataManager.processHealthDataRequest(request);
+
+        // Verify that the time range was NOT adjusted
+        expect(capturedStartTime, equals(originalStartTime));
+        expect(capturedEndTime, equals(originalEndTime));
+      });
+
+      test('handles sleep data adjustment across month boundaries', () async {
+        final originalStartTime =
+            DateTime(2024, 11, 1, 0, 0, 0); // Nov 1 2024 00:00
+        final originalEndTime =
+            DateTime(2024, 11, 1, 23, 59, 59); // Nov 1 2024 23:59
+        final request = TestDataFactory.createHealthDataRequest(
+          valueType: VytalHealthDataCategory.SLEEP,
+          startTime: originalStartTime,
+          endTime: originalEndTime,
+        );
+
+        DateTime? capturedStartTime;
+        DateTime? capturedEndTime;
+
+        // Return adjusted times across month boundary
+        when(
+          () => mockSleepNormalizer.adjustTimeRangeForSleepData(
+            VytalHealthDataCategory.SLEEP,
+            originalStartTime,
+            originalEndTime,
+          ),
+        ).thenReturn(
+          (
+            startTime: DateTime(2024, 10, 31, 21, 0, 0),
+            endTime: DateTime(2024, 11, 1, 12, 0, 0),
+          ),
+        );
+
+        when(
+          () => mockHealthClient.getHealthDataFromTypes(
+            types: any(named: 'types'),
+            startTime: any(named: 'startTime'),
+            endTime: any(named: 'endTime'),
+          ),
+        ).thenAnswer((invocation) async {
+          capturedStartTime = invocation.namedArguments[#startTime] as DateTime;
+          capturedEndTime = invocation.namedArguments[#endTime] as DateTime;
+          return [];
+        });
+
+        when(() => mockMapper.map(any())).thenReturn([]);
+
+        await healthDataManager.processHealthDataRequest(request);
+
+        // Verify adjustment across month boundary
+        expect(capturedStartTime, equals(DateTime(2024, 10, 31, 21, 0, 0)));
+        expect(capturedEndTime, equals(DateTime(2024, 11, 1, 12, 0, 0)));
+      });
+
+      test('sleep data adjustment works with aggregation', () async {
+        final originalStartTime = DateTime(2024, 10, 7, 0, 0, 0);
+        final originalEndTime = DateTime(2024, 10, 7, 23, 59, 59);
+        final request = TestDataFactory.createHealthDataRequest(
+          valueType: VytalHealthDataCategory.SLEEP,
+          startTime: originalStartTime,
+          endTime: originalEndTime,
+          groupBy: TimeGroupBy.day,
+          statistic: StatisticType.sum,
+        );
+
+        DateTime? capturedStartTime;
+        DateTime? capturedEndTime;
+
+        // Return adjusted times for sleep data with aggregation
+        when(
+          () => mockSleepNormalizer.adjustTimeRangeForSleepData(
+            VytalHealthDataCategory.SLEEP,
+            originalStartTime,
+            originalEndTime,
+          ),
+        ).thenReturn(
+          (
+            startTime: DateTime(2024, 10, 6, 21, 0, 0),
+            endTime: DateTime(2024, 10, 7, 12, 0, 0),
+          ),
+        );
+
+        when(
+          () => mockHealthClient.getHealthDataFromTypes(
+            types: any(named: 'types'),
+            startTime: any(named: 'startTime'),
+            endTime: any(named: 'endTime'),
+          ),
+        ).thenAnswer((invocation) async {
+          capturedStartTime = invocation.namedArguments[#startTime] as DateTime;
+          capturedEndTime = invocation.namedArguments[#endTime] as DateTime;
+          return [
+            TestHealthDataFactory.createSleepDataPoint(
+              dateFrom: DateTime(2024, 10, 6, 23, 0, 0),
+              dateTo: DateTime(2024, 10, 7, 7, 0, 0),
+            ),
+          ];
+        });
+
+        when(() => mockMapper.map(any())).thenReturn([
+          TestDataFactory.createRawHealthDataPoint(
+            type: 'SLEEP_SESSION',
+            value: 8.0,
+          ),
+        ]);
+
+        when(() => mockAggregator.aggregate(any())).thenReturn([
+          TestDataFactory.createAggregatedHealthDataPoint(
+            type: 'SLEEP_SESSION',
+            value: 8.0,
+          ) as AggregatedHealthDataPoint,
+        ]);
+
+        await healthDataManager.processHealthDataRequest(request);
+
+        // Verify time adjustment also works with aggregation
+        expect(capturedStartTime, equals(DateTime(2024, 10, 6, 21, 0, 0)));
+        expect(capturedEndTime, equals(DateTime(2024, 10, 7, 12, 0, 0)));
+      });
     });
   });
 }
