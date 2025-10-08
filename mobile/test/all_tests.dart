@@ -1,7 +1,7 @@
-import 'all_tests.dart' as health_data_aggregator_test;
-import 'all_tests.dart' as health_data_mapper_test;
-import 'all_tests.dart' as health_permissions_guard_test;
-import 'all_tests.dart' as health_sleep_session_normalizer_test;
+import 'unit/core/service/health_data_aggregator_test.dart' as health_data_aggregator_test;
+import 'unit/core/service/health_data_mapper_test.dart' as health_data_mapper_test;
+import 'unit/core/service/health_permissions_guard_test.dart' as health_permissions_guard_test;
+import 'unit/core/service/health_sleep_session_normalizer_test.dart' as health_sleep_session_normalizer_test;
 import 'integration/health_data_flow_test.dart' as health_data_flow_test;
 import 'unit/core/model/health_data_point_test.dart' as health_data_point_test;
 import 'unit/core/model/health_data_request_test.dart'
