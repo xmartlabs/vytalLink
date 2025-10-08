@@ -207,10 +207,14 @@
 /* Visually balance Google Play badge (second link) */
 .download-footer a:first-child img { /* App Store */
     height: 44px;
+    width: auto;
+    transition: var(--transition);
 }
 
 .download-footer a:last-child img {  /* Google Play */
     height: 64px;
+    width: auto;
+    transition: var(--transition);
 }
 
 /* Left-align CTA buttons in demo section */
