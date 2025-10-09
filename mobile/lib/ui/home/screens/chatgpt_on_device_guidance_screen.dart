@@ -299,9 +299,8 @@ class _ChatGptOnDeviceGuidanceScreenState
                         onPressed: canOpen
                             ? () {
                                 if (!_countdownRecorded) {
-                                  unawaited(
-                                    OnceService.markDone(_countdownOnceKey),
-                                  );
+                                  OnceService.markDone(_countdownOnceKey)
+                                      .ignore();
                                   setState(() {
                                     _countdownRecorded = true;
                                     _countdownRequired = false;
