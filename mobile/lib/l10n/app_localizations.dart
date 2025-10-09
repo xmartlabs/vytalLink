@@ -973,50 +973,62 @@ abstract class AppLocalizations {
   /// No description provided for @home_on_device_guidance_acknowledge.
   ///
   /// In en, this message translates to:
-  /// **'Yep, I read the reminders.'**
+  /// **'Check off each item to continue.'**
   String get home_on_device_guidance_acknowledge;
 
   /// No description provided for @home_on_device_guidance_bullet_browser.
   ///
   /// In en, this message translates to:
-  /// **'We\'ll open ChatGPT inside this app. <b>Stick with that in-app browser</b> so the bridge keeps flowing.'**
+  /// **'<b>Stay in the browser we open.</b> That\'s how your data keeps streaming in real time.'**
   String get home_on_device_guidance_bullet_browser;
 
   /// No description provided for @home_on_device_guidance_bullet_charts.
   ///
   /// In en, this message translates to:
-  /// **'<b>Charts may not work properly on mobile.</b> For interactive visualizations, use ChatGPT on your computer instead.'**
+  /// **'Charts work <b>better on desktop.</b> Stick to text questions here.'**
   String get home_on_device_guidance_bullet_charts;
 
   /// No description provided for @home_on_device_guidance_bullet_clipboard.
   ///
   /// In en, this message translates to:
-  /// **'<b>Your Word + PIN are already copied.</b> Paste them when ChatGPT asks and you\'re in.'**
+  /// **'Your Word + PIN is <b>ready to paste</b> when ChatGPT asks.'**
   String get home_on_device_guidance_bullet_clipboard;
 
   /// No description provided for @home_on_device_guidance_bullet_keyboard.
   ///
   /// In en, this message translates to:
-  /// **'If the chat bar sits on top of our buttons on iOS, <b>scroll up a notch</b> and the keyboard shows up again. ChatGPT is working on a fix.'**
+  /// **'If the keyboard covers buttons, just scroll up a bit.'**
   String get home_on_device_guidance_bullet_keyboard;
 
   /// No description provided for @home_on_device_guidance_bullet_no_external_app.
   ///
   /// In en, this message translates to:
-  /// **'<b>Skip any prompts to open or install the ChatGPT app.</b> Sending vytalLink to the background stops the data stream.'**
+  /// **'Stay in this browser. <b>Don\'t tap \'Install\', \'Open in app\', or switch apps</b>—it closes the connection. Login is fine if asked.'**
   String get home_on_device_guidance_bullet_no_external_app;
 
   /// No description provided for @home_on_device_guidance_intro.
   ///
   /// In en, this message translates to:
-  /// **'This on-device chat is <b>great for quick questions</b> while you stay on your phone. If you want more space or plugins later, switch to your computer. Let\'s cover a few reminders first:'**
+  /// **'Just a few quick reminders to make sure ChatGPT stays connected:'**
   String get home_on_device_guidance_intro;
 
   /// No description provided for @home_on_device_guidance_primary.
   ///
   /// In en, this message translates to:
-  /// **'Open ChatGPT here'**
+  /// **'Open ChatGPT in this app'**
   String get home_on_device_guidance_primary;
+
+  /// No description provided for @home_on_device_guidance_progress.
+  ///
+  /// In en, this message translates to:
+  /// **'{completedCount} of {totalCount} reminders checked'**
+  String home_on_device_guidance_progress(int completedCount, int totalCount);
+
+  /// No description provided for @home_on_device_guidance_ready.
+  ///
+  /// In en, this message translates to:
+  /// **'Perfect! Ready to open ChatGPT.'**
+  String get home_on_device_guidance_ready;
 
   /// No description provided for @home_on_device_guidance_secondary.
   ///
@@ -1027,14 +1039,56 @@ abstract class AppLocalizations {
   /// No description provided for @home_on_device_guidance_skip_checkbox.
   ///
   /// In en, this message translates to:
-  /// **'Don\'t show this screen again.'**
+  /// **'Skip this reminder screen next time.'**
   String get home_on_device_guidance_skip_checkbox;
+
+  /// No description provided for @home_on_device_guidance_step_browser_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Stay in browser'**
+  String get home_on_device_guidance_step_browser_title;
+
+  /// No description provided for @home_on_device_guidance_step_charts_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Use text, not charts'**
+  String get home_on_device_guidance_step_charts_title;
+
+  /// No description provided for @home_on_device_guidance_step_clipboard_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Paste your credentials'**
+  String get home_on_device_guidance_step_clipboard_title;
+
+  /// No description provided for @home_on_device_guidance_step_keyboard_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Scroll if needed'**
+  String get home_on_device_guidance_step_keyboard_title;
+
+  /// Timer text shown during countdown
+  ///
+  /// In en, this message translates to:
+  /// **'Please wait {seconds}s'**
+  String home_on_device_guidance_timer_text(int seconds);
 
   /// No description provided for @home_on_device_guidance_title.
   ///
   /// In en, this message translates to:
-  /// **'Before you open ChatGPT here'**
+  /// **'Quick check before you open ChatGPT'**
   String get home_on_device_guidance_title;
+
+  /// No description provided for @home_on_device_guidance_warning_body.
+  ///
+  /// In en, this message translates to:
+  /// **'It\'s <b>critical</b> that you <b>understand</b> each <b>reminder</b>. Skipping them breaks the <b>ChatGPT</b> link, so it won\'t <b>stay connected</b>.'**
+  String get home_on_device_guidance_warning_body;
+
+  /// No description provided for @home_on_device_guidance_warning_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Give these reminders a quick read'**
+  String get home_on_device_guidance_warning_title;
 
   /// No description provided for @home_online_status.
   ///
