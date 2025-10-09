@@ -1,5 +1,6 @@
 import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_template/gen/assets.gen.dart';
 import 'package:flutter_template/ui/extensions/context_extensions.dart';
 import 'package:flutter_template/ui/onboarding/onboarding_screen.dart';
@@ -45,8 +46,7 @@ extension OnboardingPageTypeExtension on OnboardingPageType {
       OnboardingPage(
         icon: FontAwesomeIcons.stopwatch,
         iconWidget: Padding(
-          padding:
-              EdgeInsets.all(MediaQuery.of(context).size.width < 400 ? 20 : 30),
+          padding: EdgeInsets.all(1.sw < 0.4 ? 20.w : 30.w),
           child: Assets.icons.watchVariant.svg(
             width: 32,
             height: 32,

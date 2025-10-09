@@ -150,7 +150,7 @@ class _HomeContentScreenState extends State<_HomeContentScreen>
                 context.theme.colorScheme.primary.withValues(alpha: 0.1),
             actions: const [
               HomeOverflowMenu(),
-              SizedBox(width: 4),
+              SizedBox(width: 2),
             ],
           ),
           body: SafeArea(

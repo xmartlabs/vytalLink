@@ -519,44 +519,80 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get home_on_device_guidance_acknowledge =>
-      'Yep, I read the reminders.';
+      'Check off each item to continue.';
 
   @override
   String get home_on_device_guidance_bullet_browser =>
-      'We\'ll open ChatGPT inside this app. <b>Stick with that in-app browser</b> so the bridge keeps flowing.';
+      '<b>Stay in the browser we open.</b> That\'s how your data keeps streaming in real time.';
 
   @override
   String get home_on_device_guidance_bullet_charts =>
-      '<b>Charts may not work properly on mobile.</b> For interactive visualizations, use ChatGPT on your computer instead.';
+      'Charts work <b>better on desktop.</b> Stick to text questions here.';
 
   @override
   String get home_on_device_guidance_bullet_clipboard =>
-      '<b>Your Word + PIN are already copied.</b> Paste them when ChatGPT asks and you\'re in.';
+      'Your Word + PIN is <b>ready to paste</b> when ChatGPT asks.';
 
   @override
   String get home_on_device_guidance_bullet_keyboard =>
-      'If the chat bar sits on top of our buttons on iOS, <b>scroll up a notch</b> and the keyboard shows up again. ChatGPT is working on a fix.';
+      'If the keyboard covers buttons, just scroll up a bit.';
 
   @override
   String get home_on_device_guidance_bullet_no_external_app =>
-      '<b>Skip any prompts to open or install the ChatGPT app.</b> Sending vytalLink to the background stops the data stream.';
+      'Stay in this browser. <b>Don\'t tap \'Install\', \'Open in app\', or switch apps</b>—it closes the connection. Login is fine if asked.';
 
   @override
   String get home_on_device_guidance_intro =>
-      'This on-device chat is <b>great for quick questions</b> while you stay on your phone. If you want more space or plugins later, switch to your computer. Let\'s cover a few reminders first:';
+      'Just a few quick reminders to make sure ChatGPT stays connected:';
 
   @override
-  String get home_on_device_guidance_primary => 'Open ChatGPT here';
+  String get home_on_device_guidance_primary => 'Open ChatGPT in this app';
+
+  @override
+  String home_on_device_guidance_progress(int completedCount, int totalCount) {
+    return '$completedCount of $totalCount reminders checked';
+  }
+
+  @override
+  String get home_on_device_guidance_ready => 'Perfect! Ready to open ChatGPT.';
 
   @override
   String get home_on_device_guidance_secondary => 'Maybe later';
 
   @override
   String get home_on_device_guidance_skip_checkbox =>
-      'Don\'t show this screen again.';
+      'Skip this reminder screen next time.';
 
   @override
-  String get home_on_device_guidance_title => 'Before you open ChatGPT here';
+  String get home_on_device_guidance_step_browser_title => 'Stay in browser';
+
+  @override
+  String get home_on_device_guidance_step_charts_title =>
+      'Use text, not charts';
+
+  @override
+  String get home_on_device_guidance_step_clipboard_title =>
+      'Paste your credentials';
+
+  @override
+  String get home_on_device_guidance_step_keyboard_title => 'Scroll if needed';
+
+  @override
+  String home_on_device_guidance_timer_text(int seconds) {
+    return 'Please wait ${seconds}s';
+  }
+
+  @override
+  String get home_on_device_guidance_title =>
+      'Quick check before you open ChatGPT';
+
+  @override
+  String get home_on_device_guidance_warning_body =>
+      'It\'s <b>critical</b> that you <b>understand</b> each <b>reminder</b>. Skipping them breaks the <b>ChatGPT</b> link, so it won\'t <b>stay connected</b>.';
+
+  @override
+  String get home_on_device_guidance_warning_title =>
+      'Give these reminders a quick read';
 
   @override
   String get home_online_status => 'ONLINE';
