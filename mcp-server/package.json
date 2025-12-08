@@ -1,6 +1,6 @@
 {
   "name": "@xmartlabs/vytallink-mcp-server",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "A Model Context Protocol (MCP) server that provides access to vytalLink health and fitness data. vytalLink is a comprehensive health platform that aggregates data from wearable devices, fitness apps, and health monitoring systems, providing unified access to your health metrics, workout data, sleep patterns, and vital signs through any MCP-compatible client. The server proxies requests to the vytalLink backend and keeps tooling definitions in sync with the mobile app. Requires the vytalLink mobile app for onboarding and authentication.",
   "type": "module",
   "main": "vytalLink_mcp_server.js",
