@@ -1,6 +1,7 @@
 import 'package:dartx/dartx.dart';
 import 'package:flutter_template/core/common/cache/cache.dart';
 import 'package:flutter_template/core/common/config.dart';
+import 'package:flutter_template/core/common/extension/date_time_extensions.dart';
 import 'package:flutter_template/core/health/health_data_aggregator.dart';
 import 'package:flutter_template/core/health/health_data_mapper.dart';
 import 'package:flutter_template/core/health/health_permissions_guard.dart';
@@ -143,14 +144,22 @@ class HealthDataManager {
     DateTime startTime,
     DateTime endTime,
   ) async {
-    final List<HealthDataPoint> result = [];
+    final result = <HealthDataPoint>[];
 
-    final healthData = await _healthClient.getHealthDataFromTypes(
-      types: valueType.platformHealthDataTypes,
-      startTime: startTime,
-      endTime: endTime,
-    );
-    result.addAll(healthData);
+    const batchDuration = Duration(days: 75);
+    var currentStart = startTime;
+
+    while (currentStart.isBefore(endTime)) {
+      final batchEnd = currentStart.add(batchDuration).min(endTime);
+
+      final healthData = await _healthClient.getHealthDataFromTypes(
+        types: valueType.platformHealthDataTypes,
+        startTime: currentStart,
+        endTime: batchEnd,
+      );
+      result.addAll(healthData);
+      currentStart = batchEnd;
+    }
 
     return result;
   }

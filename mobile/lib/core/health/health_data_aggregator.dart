@@ -1,4 +1,5 @@
 import 'package:dartx/dartx.dart';
+import 'package:flutter_template/core/common/extension/date_time_extensions.dart';
 import 'package:flutter_template/core/common/logger.dart';
 import 'package:flutter_template/core/health/health_sleep_session_normalizer.dart';
 import 'package:flutter_template/core/model/health_data_point.dart';
@@ -158,8 +159,8 @@ class HealthDataAggregator {
         final pointStart = DateTime.parse(point.dateFrom);
         final pointEnd = DateTime.parse(point.dateTo);
 
-        final overlapStart = _maxDateTime(pointStart, context.segmentStart);
-        final overlapEnd = _minDateTime(pointEnd, context.segmentEnd);
+        final overlapStart = pointStart.max(context.segmentStart);
+        final overlapEnd = pointEnd.min(context.segmentEnd);
 
         if (overlapStart.isBefore(overlapEnd)) {
           final pointDuration = pointEnd.difference(pointStart);
@@ -208,8 +209,8 @@ class HealthDataAggregator {
         final pointStart = DateTime.parse(point.dateFrom);
         final pointEnd = DateTime.parse(point.dateTo);
 
-        final overlapStart = _maxDateTime(pointStart, context.segmentStart);
-        final overlapEnd = _minDateTime(pointEnd, context.segmentEnd);
+        final overlapStart = pointStart.max(context.segmentStart);
+        final overlapEnd = pointEnd.min(context.segmentEnd);
 
         if (overlapStart.isBefore(overlapEnd)) {
           final sessionDuration = pointEnd.difference(pointStart);
@@ -401,8 +402,8 @@ class HealthDataAggregator {
         final pointStart = DateTime.parse(point.dateFrom);
         final pointEnd = DateTime.parse(point.dateTo);
 
-        final overlapStart = _maxDateTime(pointStart, context.segmentStart);
-        final overlapEnd = _minDateTime(pointEnd, context.segmentEnd);
+        final overlapStart = pointStart.max(context.segmentStart);
+        final overlapEnd = pointEnd.min(context.segmentEnd);
 
         if (overlapStart.isBefore(overlapEnd)) {
           final sessionDuration = pointEnd.difference(pointStart);
@@ -444,6 +445,7 @@ class HealthDataAggregator {
     double totalDistance = 0.0;
     double totalEnergyBurned = 0.0;
     double totalSteps = 0.0;
+    int sessionCount = 0;
     final workoutTypes = <String>{};
     int validWorkouts = 0;
 
@@ -456,6 +458,7 @@ class HealthDataAggregator {
         totalDistance += workoutSummary.totalDistance;
         totalEnergyBurned += workoutSummary.totalEnergyBurned;
         totalSteps += workoutSummary.totalSteps;
+        sessionCount += workoutSummary.sessionCount;
         workoutTypes.add(workoutSummary.workoutType);
         validWorkouts++;
       }
@@ -478,6 +481,7 @@ class HealthDataAggregator {
           totalDistance: totalDistance,
           totalEnergyBurned: totalEnergyBurned,
           totalSteps: totalSteps,
+          sessionCount: sessionCount == 0 ? validWorkouts : sessionCount,
         );
       case StatisticType.average:
         return WorkoutSummaryData(
@@ -485,11 +489,8 @@ class HealthDataAggregator {
           totalDistance: totalDistance / validWorkouts,
           totalEnergyBurned: totalEnergyBurned / validWorkouts,
           totalSteps: totalSteps / validWorkouts,
+          sessionCount: sessionCount == 0 ? validWorkouts : sessionCount,
         );
     }
   }
-
-  DateTime _maxDateTime(DateTime a, DateTime b) => a.isAfter(b) ? a : b;
-
-  DateTime _minDateTime(DateTime a, DateTime b) => a.isBefore(b) ? a : b;
 }

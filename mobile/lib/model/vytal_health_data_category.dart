@@ -23,12 +23,16 @@ enum VytalHealthDataCategory {
   DISTANCE,
 }
 
+// Exclude TOTAL_CALORIES_BURNED on iOS as it available only on Health Connect.
+final _finalDataTypes = (Platform.isIOS
+        ? dataTypeKeysIOS
+            .filter((it) => it != HealthDataType.TOTAL_CALORIES_BURNED)
+        : dataTypeKeysAndroid)
+    .toSet();
+
 extension VytalHealthDataCategoryTypes on VytalHealthDataCategory {
   List<HealthDataType> get platformHealthDataTypes => _healthDataTypes
-      .filter(
-        (dataType) => (Platform.isIOS ? dataTypeKeysIOS : dataTypeKeysAndroid)
-            .contains(dataType),
-      )
+      .filter((dataType) => _finalDataTypes.contains(dataType))
       .toList();
 
   // ignore: long-method

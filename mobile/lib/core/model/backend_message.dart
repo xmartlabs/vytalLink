@@ -20,6 +20,12 @@ sealed class BackendMessage with _$BackendMessage {
     required String message,
   }) = ConnectionCodeMessage;
 
+  @FreezedUnionValue('summary_request')
+  const factory BackendMessage.summaryRequest({
+    @JsonKey(name: 'request_id') required String id,
+    required Map<String, dynamic> payload,
+  }) = SummaryRequestMessage;
+
   @FreezedUnionValue('unknown')
   const factory BackendMessage.unknown({
     required Map<String, dynamic> data,

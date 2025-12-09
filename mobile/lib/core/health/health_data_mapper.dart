@@ -27,6 +27,7 @@ class HealthDataMapper {
         totalDistance: summary.totalDistance.toDouble(),
         totalEnergyBurned: summary.totalEnergyBurned.toDouble(),
         totalSteps: summary.totalSteps.toDouble(),
+        sessionCount: 1,
       ).toJson();
     }
 
@@ -38,6 +39,7 @@ class HealthDataMapper {
         totalDistance: value.totalDistance?.toDouble() ?? 0.0,
         totalEnergyBurned: value.totalEnergyBurned?.toDouble() ?? 0.0,
         totalSteps: value.totalSteps?.toDouble() ?? 0.0,
+        sessionCount: 1,
       ).toJson();
     } else if (value is NutritionHealthValue) {
       return {
