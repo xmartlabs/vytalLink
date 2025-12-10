@@ -29,6 +29,22 @@ typedef HealthAggregationRequest = ({
   StatisticType statisticType,
 });
 
+typedef _WorkoutAggregation = ({
+  double totalDistance,
+  double totalEnergyBurned,
+  double totalSteps,
+  int sessionCount,
+  Set<String> workoutTypes,
+  int validWorkouts,
+});
+
+const _emptyWorkoutSummary = WorkoutSummaryData(
+  workoutType: 'UNKNOWN',
+  totalDistance: 0.0,
+  totalEnergyBurned: 0.0,
+  totalSteps: 0.0,
+);
+
 class HealthDataAggregator {
   const HealthDataAggregator({
     HealthSleepSessionNormalizer? sleepSessionNormalizer,
@@ -434,14 +450,43 @@ class HealthDataAggregator {
     StatisticType statisticType,
   ) {
     if (workoutPoints.isEmpty) {
-      return const WorkoutSummaryData(
-        workoutType: 'UNKNOWN',
-        totalDistance: 0.0,
-        totalEnergyBurned: 0.0,
-        totalSteps: 0.0,
-      );
+      return _emptyWorkoutSummary;
     }
 
+    final aggregation = _collectWorkoutAggregation(workoutPoints);
+    final validWorkouts = aggregation.validWorkouts;
+
+    if (validWorkouts <= 0) {
+      return _emptyWorkoutSummary;
+    }
+
+    final aggregatedWorkoutType =
+        aggregation.workoutTypes.distinct().join(', ');
+    final sessionCount = aggregation.sessionCount == 0
+        ? validWorkouts
+        : aggregation.sessionCount;
+
+    return switch (statisticType) {
+      StatisticType.sum => WorkoutSummaryData(
+          workoutType: aggregatedWorkoutType,
+          totalDistance: aggregation.totalDistance,
+          totalEnergyBurned: aggregation.totalEnergyBurned,
+          totalSteps: aggregation.totalSteps,
+          sessionCount: sessionCount,
+        ),
+      StatisticType.average => WorkoutSummaryData(
+          workoutType: aggregatedWorkoutType,
+          totalDistance: aggregation.totalDistance / validWorkouts,
+          totalEnergyBurned: aggregation.totalEnergyBurned / validWorkouts,
+          totalSteps: aggregation.totalSteps / validWorkouts,
+          sessionCount: sessionCount,
+        ),
+    };
+  }
+
+  _WorkoutAggregation _collectWorkoutAggregation(
+    List<AppHealthDataPoint> workoutPoints,
+  ) {
     double totalDistance = 0.0;
     double totalEnergyBurned = 0.0;
     double totalSteps = 0.0;
@@ -450,47 +495,25 @@ class HealthDataAggregator {
     int validWorkouts = 0;
 
     for (final point in workoutPoints) {
-      if (point.value is Map<String, dynamic>) {
-        final workoutSummary = WorkoutSummaryData.fromJson(
-          point.value as Map<String, dynamic>,
-        );
+      final value = point.value;
+      if (value is! Map<String, dynamic>) continue;
 
-        totalDistance += workoutSummary.totalDistance;
-        totalEnergyBurned += workoutSummary.totalEnergyBurned;
-        totalSteps += workoutSummary.totalSteps;
-        sessionCount += workoutSummary.sessionCount;
-        workoutTypes.add(workoutSummary.workoutType);
-        validWorkouts++;
-      }
+      final workoutSummary = WorkoutSummaryData.fromJson(value);
+      totalDistance += workoutSummary.totalDistance;
+      totalEnergyBurned += workoutSummary.totalEnergyBurned;
+      totalSteps += workoutSummary.totalSteps;
+      sessionCount += workoutSummary.sessionCount;
+      workoutTypes.add(workoutSummary.workoutType);
+      validWorkouts++;
     }
 
-    if (validWorkouts == 0) {
-      return const WorkoutSummaryData(
-        workoutType: 'UNKNOWN',
-        totalDistance: 0.0,
-        totalEnergyBurned: 0.0,
-        totalSteps: 0.0,
-      );
-    }
-
-    final aggregatedWorkoutType = workoutTypes.distinct().join(', ');
-    switch (statisticType) {
-      case StatisticType.sum:
-        return WorkoutSummaryData(
-          workoutType: aggregatedWorkoutType,
-          totalDistance: totalDistance,
-          totalEnergyBurned: totalEnergyBurned,
-          totalSteps: totalSteps,
-          sessionCount: sessionCount == 0 ? validWorkouts : sessionCount,
-        );
-      case StatisticType.average:
-        return WorkoutSummaryData(
-          workoutType: aggregatedWorkoutType,
-          totalDistance: totalDistance / validWorkouts,
-          totalEnergyBurned: totalEnergyBurned / validWorkouts,
-          totalSteps: totalSteps / validWorkouts,
-          sessionCount: sessionCount == 0 ? validWorkouts : sessionCount,
-        );
-    }
+    return (
+      totalDistance: totalDistance,
+      totalEnergyBurned: totalEnergyBurned,
+      totalSteps: totalSteps,
+      sessionCount: sessionCount,
+      workoutTypes: workoutTypes,
+      validWorkouts: validWorkouts,
+    );
   }
 }

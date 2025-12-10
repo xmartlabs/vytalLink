@@ -14,8 +14,9 @@ Branding & Logo
 Layout (vertical 1080x1350)
 - Title: “vytalLink wrapped 2025” (translate if needed; default to this wording).
 - Hero: total steps (huge type) + subtitle with distance multiple (e.g., “5.3× MVD → Buenos Aires”).
-- Grid 2x3 cards: calories (🔥), workouts (🏃), distance (🌍), sleep (🌙), epic month (⭐), epic day (🚀).
+- Grid 2x3 cards: calories (🔥), workouts (🏃), distance (🌍), sleep (🌙), epic month (⭐), total steps (🦶). If metrics are missing, rebalance the grid to keep it clean and attractive (never invent data).
 - Highlights: 5 emoji bullets (data-driven).
+- Comparisons section (lower area): steps percentile vs global, distance/route equivalence, calories vs marathons.
 - Hashtags: “#FitnessWrapped #2025Goals” (localize only if typical).
 - Footer bar: dark overlay, “powered by vytallink” in #64748b, heartbeat icon in #6366f1, “vytalLink” in #6366f1; small modern sans-serif.
 

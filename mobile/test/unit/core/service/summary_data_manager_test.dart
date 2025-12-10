@@ -1,6 +1,5 @@
 import 'package:flutter_template/core/model/health_data_request.dart';
 import 'package:flutter_template/core/model/summary_request.dart';
-import 'package:flutter_template/core/model/summary_response.dart';
 import 'package:flutter_template/core/model/statistic_types.dart';
 import 'package:flutter_template/core/model/time_group_by.dart';
 import 'package:flutter_template/core/service/health_data_manager.dart';
@@ -125,16 +124,17 @@ void main() {
       final stepsRequest = requests
           .whereType<HealthDataRequest>()
           .firstWhere((r) => r.valueType == VytalHealthDataCategory.STEPS);
-      final sleepRequest = requests
-          .whereType<HealthDataRequest>()
-          .firstWhere((r) => r.valueType == VytalHealthDataCategory.SLEEP);
-
-      expect(stepsRequest.groupBy, TimeGroupBy.month);
-      expect(stepsRequest.statistic, StatisticType.sum);
-      // Sleep fills defaults based on preset (week for this range) and average statistic.
-      expect(sleepRequest.groupBy, TimeGroupBy.week);
-      expect(sleepRequest.statistic, StatisticType.average);
-    });
+	      final sleepRequest = requests
+	          .whereType<HealthDataRequest>()
+	          .firstWhere((r) => r.valueType == VytalHealthDataCategory.SLEEP);
+	
+	      expect(stepsRequest.groupBy, TimeGroupBy.month);
+	      expect(stepsRequest.statistic, StatisticType.sum);
+	      // Sleep fills defaults based on preset (week for this range) and average
+	      // statistic.
+	      expect(sleepRequest.groupBy, TimeGroupBy.week);
+	      expect(sleepRequest.statistic, StatisticType.average);
+	    });
 
     test('returns error when time range is invalid', () async {
       final start = DateTime(2025, 1, 2);

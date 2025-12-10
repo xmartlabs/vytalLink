@@ -6,7 +6,7 @@ import 'package:flutter_template/core/model/summary_response.dart';
 import 'package:flutter_template/core/model/time_group_by.dart';
 import 'package:flutter_template/model/vytal_health_data_category.dart';
 
-import 'health_data_manager.dart';
+import 'package:flutter_template/core/service/health_data_manager.dart';
 
 class SummaryDataManager {
   SummaryDataManager({
@@ -115,7 +115,7 @@ class SummaryDataManager {
     final duration = end.difference(start);
     final preset = _presetForDuration(duration);
 
-    final baseMetrics = metrics?.isNotEmpty == true
+    final baseMetrics = (metrics?.isNotEmpty ?? false)
         ? metrics!
         : _defaultMetricsForPreset(preset);
 
@@ -168,13 +168,12 @@ class SummaryDataManager {
   StatisticType _defaultStatisticForMetric(
     VytalHealthDataCategory category,
     _SummaryPreset preset,
-  ) {
-    return switch (category) {
-      VytalHealthDataCategory.SLEEP => StatisticType.average,
-      VytalHealthDataCategory.HEART_RATE => StatisticType.average,
-      _ => StatisticType.sum,
-    };
-  }
+  ) =>
+      switch (category) {
+        VytalHealthDataCategory.SLEEP => StatisticType.average,
+        VytalHealthDataCategory.HEART_RATE => StatisticType.average,
+        _ => StatisticType.sum,
+      };
 
   List<SummaryMetricRequest> _defaultMetricsForPreset(
     _SummaryPreset preset,
