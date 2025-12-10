@@ -12,7 +12,7 @@ Branding & Logo
 - Place the logo/pulse in the footer bar; avoid stretching; keep clear space equal to the icon height.
 
 Layout (vertical 1080x1350)
-- Title: “🏆 YOUR 2025 IN MOTION” (translate).
+- Title: “vytalLink wrapped 2025” (translate if needed; default to this wording).
 - Hero: total steps (huge type) + subtitle with distance multiple (e.g., “5.3× MVD → Buenos Aires”).
 - Grid 2x3 cards: calories (🔥), workouts (🏃), distance (🌍), sleep (🌙), epic month (⭐), epic day (🚀).
 - Highlights: 5 emoji bullets (data-driven).
