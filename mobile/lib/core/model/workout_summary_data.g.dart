@@ -13,6 +13,7 @@ _$WorkoutSummaryDataImpl _$$WorkoutSummaryDataImplFromJson(
       totalDistance: (json['total_distance'] as num?)?.toDouble() ?? 0,
       totalEnergyBurned: (json['total_energy_burned'] as num?)?.toDouble() ?? 0,
       totalSteps: (json['total_steps'] as num?)?.toDouble() ?? 0,
+      sessionCount: (json['session_count'] as num?)?.toInt() ?? 0,
     );
 
 Map<String, dynamic> _$$WorkoutSummaryDataImplToJson(
@@ -22,4 +23,5 @@ Map<String, dynamic> _$$WorkoutSummaryDataImplToJson(
       'total_distance': instance.totalDistance,
       'total_energy_burned': instance.totalEnergyBurned,
       'total_steps': instance.totalSteps,
+      'session_count': instance.sessionCount,
     };

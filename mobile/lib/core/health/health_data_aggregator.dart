@@ -1,4 +1,5 @@
 import 'package:dartx/dartx.dart';
+import 'package:flutter_template/core/common/extension/date_time_extensions.dart';
 import 'package:flutter_template/core/common/logger.dart';
 import 'package:flutter_template/core/health/health_sleep_session_normalizer.dart';
 import 'package:flutter_template/core/model/health_data_point.dart';
@@ -27,6 +28,22 @@ typedef HealthAggregationRequest = ({
   bool aggregatePerSource,
   StatisticType statisticType,
 });
+
+typedef _WorkoutAggregation = ({
+  double totalDistance,
+  double totalEnergyBurned,
+  double totalSteps,
+  int sessionCount,
+  Set<String> workoutTypes,
+  int validWorkouts,
+});
+
+const _emptyWorkoutSummary = WorkoutSummaryData(
+  workoutType: 'UNKNOWN',
+  totalDistance: 0.0,
+  totalEnergyBurned: 0.0,
+  totalSteps: 0.0,
+);
 
 class HealthDataAggregator {
   const HealthDataAggregator({
@@ -158,8 +175,8 @@ class HealthDataAggregator {
         final pointStart = DateTime.parse(point.dateFrom);
         final pointEnd = DateTime.parse(point.dateTo);
 
-        final overlapStart = _maxDateTime(pointStart, context.segmentStart);
-        final overlapEnd = _minDateTime(pointEnd, context.segmentEnd);
+        final overlapStart = pointStart.max(context.segmentStart);
+        final overlapEnd = pointEnd.min(context.segmentEnd);
 
         if (overlapStart.isBefore(overlapEnd)) {
           final pointDuration = pointEnd.difference(pointStart);
@@ -208,8 +225,8 @@ class HealthDataAggregator {
         final pointStart = DateTime.parse(point.dateFrom);
         final pointEnd = DateTime.parse(point.dateTo);
 
-        final overlapStart = _maxDateTime(pointStart, context.segmentStart);
-        final overlapEnd = _minDateTime(pointEnd, context.segmentEnd);
+        final overlapStart = pointStart.max(context.segmentStart);
+        final overlapEnd = pointEnd.min(context.segmentEnd);
 
         if (overlapStart.isBefore(overlapEnd)) {
           final sessionDuration = pointEnd.difference(pointStart);
@@ -401,8 +418,8 @@ class HealthDataAggregator {
         final pointStart = DateTime.parse(point.dateFrom);
         final pointEnd = DateTime.parse(point.dateTo);
 
-        final overlapStart = _maxDateTime(pointStart, context.segmentStart);
-        final overlapEnd = _minDateTime(pointEnd, context.segmentEnd);
+        final overlapStart = pointStart.max(context.segmentStart);
+        final overlapEnd = pointEnd.min(context.segmentEnd);
 
         if (overlapStart.isBefore(overlapEnd)) {
           final sessionDuration = pointEnd.difference(pointStart);
@@ -433,63 +450,70 @@ class HealthDataAggregator {
     StatisticType statisticType,
   ) {
     if (workoutPoints.isEmpty) {
-      return const WorkoutSummaryData(
-        workoutType: 'UNKNOWN',
-        totalDistance: 0.0,
-        totalEnergyBurned: 0.0,
-        totalSteps: 0.0,
-      );
+      return _emptyWorkoutSummary;
     }
 
+    final aggregation = _collectWorkoutAggregation(workoutPoints);
+    final validWorkouts = aggregation.validWorkouts;
+
+    if (validWorkouts <= 0) {
+      return _emptyWorkoutSummary;
+    }
+
+    final aggregatedWorkoutType =
+        aggregation.workoutTypes.distinct().join(', ');
+    final sessionCount = aggregation.sessionCount == 0
+        ? validWorkouts
+        : aggregation.sessionCount;
+
+    return switch (statisticType) {
+      StatisticType.sum => WorkoutSummaryData(
+          workoutType: aggregatedWorkoutType,
+          totalDistance: aggregation.totalDistance,
+          totalEnergyBurned: aggregation.totalEnergyBurned,
+          totalSteps: aggregation.totalSteps,
+          sessionCount: sessionCount,
+        ),
+      StatisticType.average => WorkoutSummaryData(
+          workoutType: aggregatedWorkoutType,
+          totalDistance: aggregation.totalDistance / validWorkouts,
+          totalEnergyBurned: aggregation.totalEnergyBurned / validWorkouts,
+          totalSteps: aggregation.totalSteps / validWorkouts,
+          sessionCount: sessionCount,
+        ),
+    };
+  }
+
+  _WorkoutAggregation _collectWorkoutAggregation(
+    List<AppHealthDataPoint> workoutPoints,
+  ) {
     double totalDistance = 0.0;
     double totalEnergyBurned = 0.0;
     double totalSteps = 0.0;
+    int sessionCount = 0;
     final workoutTypes = <String>{};
     int validWorkouts = 0;
 
     for (final point in workoutPoints) {
-      if (point.value is Map<String, dynamic>) {
-        final workoutSummary = WorkoutSummaryData.fromJson(
-          point.value as Map<String, dynamic>,
-        );
+      final value = point.value;
+      if (value is! Map<String, dynamic>) continue;
 
-        totalDistance += workoutSummary.totalDistance;
-        totalEnergyBurned += workoutSummary.totalEnergyBurned;
-        totalSteps += workoutSummary.totalSteps;
-        workoutTypes.add(workoutSummary.workoutType);
-        validWorkouts++;
-      }
+      final workoutSummary = WorkoutSummaryData.fromJson(value);
+      totalDistance += workoutSummary.totalDistance;
+      totalEnergyBurned += workoutSummary.totalEnergyBurned;
+      totalSteps += workoutSummary.totalSteps;
+      sessionCount += workoutSummary.sessionCount;
+      workoutTypes.add(workoutSummary.workoutType);
+      validWorkouts++;
     }
 
-    if (validWorkouts == 0) {
-      return const WorkoutSummaryData(
-        workoutType: 'UNKNOWN',
-        totalDistance: 0.0,
-        totalEnergyBurned: 0.0,
-        totalSteps: 0.0,
-      );
-    }
-
-    final aggregatedWorkoutType = workoutTypes.distinct().join(', ');
-    switch (statisticType) {
-      case StatisticType.sum:
-        return WorkoutSummaryData(
-          workoutType: aggregatedWorkoutType,
-          totalDistance: totalDistance,
-          totalEnergyBurned: totalEnergyBurned,
-          totalSteps: totalSteps,
-        );
-      case StatisticType.average:
-        return WorkoutSummaryData(
-          workoutType: aggregatedWorkoutType,
-          totalDistance: totalDistance / validWorkouts,
-          totalEnergyBurned: totalEnergyBurned / validWorkouts,
-          totalSteps: totalSteps / validWorkouts,
-        );
-    }
+    return (
+      totalDistance: totalDistance,
+      totalEnergyBurned: totalEnergyBurned,
+      totalSteps: totalSteps,
+      sessionCount: sessionCount,
+      workoutTypes: workoutTypes,
+      validWorkouts: validWorkouts,
+    );
   }
-
-  DateTime _maxDateTime(DateTime a, DateTime b) => a.isAfter(b) ? a : b;
-
-  DateTime _minDateTime(DateTime a, DateTime b) => a.isBefore(b) ? a : b;
 }

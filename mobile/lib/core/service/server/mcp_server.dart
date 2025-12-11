@@ -10,10 +10,12 @@ import 'package:flutter_template/core/model/health_data_request.dart';
 import 'package:flutter_template/core/model/health_data_response.dart';
 import 'package:flutter_template/core/model/mcp_connection_state.dart';
 import 'package:flutter_template/core/model/mcp_exceptions.dart';
+import 'package:flutter_template/core/model/summary_request.dart';
 import 'package:flutter_template/core/service/health_data_manager.dart';
 import 'package:flutter_template/core/service/server/foreground_mcp_transport.dart';
 import 'package:flutter_template/core/service/server/mcp_background_service.dart';
 import 'package:flutter_template/core/service/server/mcp_transport.dart';
+import 'package:flutter_template/core/service/summary_data_manager.dart';
 import 'package:flutter_template/core/service/server/websocket_mcp_transport.dart';
 import 'package:rxdart/rxdart.dart';
 
@@ -22,10 +24,15 @@ export 'package:flutter_template/core/model/mcp_connection_state.dart';
 class HealthMcpServerService {
   HealthMcpServerService({
     HealthDataManager? healthDataManager,
+    SummaryDataManager? summaryDataManager,
     McpTransport? transport,
     Uri? backendUri,
     bool? useForegroundTransport,
   })  : _healthDataManager = healthDataManager ?? HealthDataManager(),
+        _summaryDataManager = summaryDataManager ??
+            SummaryDataManager(
+              healthDataManager: healthDataManager,
+            ),
         _connectionState = BehaviorSubject<McpConnectionState>.seeded(
           const McpConnectionState.disconnected(),
         ),
@@ -45,6 +52,7 @@ class HealthMcpServerService {
 
   final BehaviorSubject<McpConnectionState> _connectionState;
   final HealthDataManager _healthDataManager;
+  final SummaryDataManager _summaryDataManager;
   final Uri _backendUri;
   final bool _foregroundPreferred;
   bool _foregroundFallbackAttempted = false;
@@ -147,6 +155,10 @@ class HealthMcpServerService {
           await _handleDataRequestMessage(dataRequestMessage);
           break;
 
+        case final SummaryRequestMessage summaryRequestMessage:
+          await _handleSummaryRequestMessage(summaryRequestMessage);
+          break;
+
         case final ConnectionCodeMessage codeMessage:
           _handleConnectionCredentialsMessage(codeMessage);
           break;
@@ -202,6 +214,19 @@ class HealthMcpServerService {
     final backendResponse = BackendResponse.healthDataResponse(
       id: message.id,
       data: responseData,
+    );
+    await sendToBackend(backendResponse.toJson());
+  }
+
+  Future<void> _handleSummaryRequestMessage(
+    SummaryRequestMessage message,
+  ) async {
+    final request = SummaryRequest.fromJson(message.payload);
+    final responseData =
+        await _summaryDataManager.processSummaryRequest(request);
+    final backendResponse = BackendResponse.summaryResponse(
+      id: message.id,
+      data: responseData.toJson(),
     );
     await sendToBackend(backendResponse.toJson());
   }

@@ -1,6 +1,7 @@
 enum BackendMessageType {
   healthDataRequest('health_data_request'),
   connectionCode('connection_code'),
+  summaryRequest('summary_request'),
   unknown('unknown');
 
   const BackendMessageType(this.value);
