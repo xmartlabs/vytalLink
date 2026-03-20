@@ -36,6 +36,11 @@
         "source": "/demo",
         "destination": "/demo.html",
         "type": 301
+      },
+      {
+        "source": "/developers",
+        "destination": "/developers.html",
+        "type": 301
       }
     ],
     "rewrites": [
