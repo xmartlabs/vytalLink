@@ -59,7 +59,7 @@ Available modes: `readiness`, `recovery`, `training`, `sleep`, `chat`. See [Anal
 
 | Command | What it does |
 |---------|-------------|
-| `npm run discover` | Connects to the Vytallink MCP server and lists all available tools (saves to `docs/vytallink-tools.json`) |
+| `npm run discover` | Connects to the Vytallink MCP server and lists all available tools (saves to your system temp directory, override with `VYTALLINK_DISCOVERY_OUTPUT`) |
 | `npm run agent` | Runs the CLI agent |
 | `npm run build` | Compiles TypeScript to `dist/` |
 

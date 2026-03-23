@@ -58,7 +58,7 @@ Available modes: `readiness`, `recovery`, `training`, `sleep`, `chat`. See [Anal
 
 | Command | What it does |
 |---------|-------------|
-| `python scripts/discover_tools.py` | Connects to the Vytallink MCP server and lists all available tools (saves to `docs/vytallink-tools.json`) |
+| `python scripts/discover_tools.py` | Connects to the Vytallink MCP server and lists all available tools (saves to your system temp directory, override with `VYTALLINK_DISCOVERY_OUTPUT`) |
 | `python -m src.main` | Runs the CLI agent |
 
 ---

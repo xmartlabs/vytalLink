@@ -4,6 +4,7 @@ import asyncio
 import json
 import os
 import sys
+import tempfile
 from pathlib import Path
 
 # Allow running as `python scripts/discover_tools.py` from athletic-analyst-py/
@@ -13,6 +14,14 @@ from mcp import ClientSession, StdioServerParameters
 from mcp.client.stdio import stdio_client
 
 from src.mcp_bridge import build_mcp_environment
+
+
+def build_output_path() -> Path:
+    custom_path = os.getenv("VYTALLINK_DISCOVERY_OUTPUT")
+    if custom_path and custom_path.strip():
+        return Path(custom_path).expanduser().resolve()
+
+    return Path(tempfile.gettempdir()) / "vytallink-agent-examples" / "vytallink-tools.json"
 
 
 async def main() -> None:
@@ -35,9 +44,8 @@ async def main() -> None:
                 desc = (t.description or "")[:80]
                 print(f"  - {t.name}: {desc}...")
 
-            docs_dir = Path(__file__).resolve().parent.parent.parent / "docs"
-            docs_dir.mkdir(parents=True, exist_ok=True)
-            output_path = docs_dir / "vytallink-tools.json"
+            output_path = build_output_path()
+            output_path.parent.mkdir(parents=True, exist_ok=True)
 
             tools_data = [
                 {

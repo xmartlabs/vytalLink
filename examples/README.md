@@ -59,7 +59,9 @@ cd athletic-analyst-ts && npm run discover
 cd athletic-analyst-py && python scripts/discover_tools.py
 ```
 
-The output is saved to `docs/vytallink-tools.json`.
+By default, the output is saved to your system temp directory at
+`$TMPDIR/vytallink-agent-examples/vytallink-tools.json` (or equivalent on
+your OS). You can override this with `VYTALLINK_DISCOVERY_OUTPUT`.
 
 ## Analysis modes
 
