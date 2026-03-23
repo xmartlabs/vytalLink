@@ -2,6 +2,14 @@
 
 This YAML file contains the configuration for the continuous integration (CI) workflow for Flutter projects. It defines the steps and actions to be executed whenever changes are pushed to the repository. The CI workflow ensures that the code is built, tested, and validated before merging it into the main branch.
 
+## monorepo-checks.yml
+
+This YAML file contains a lightweight CI workflow for non-Flutter parts of the monorepo. It runs on pull requests and pushes to `main`, and validates:
+
+- `mcp-server/` dependency install plus JavaScript syntax check (`node --check`).
+- `examples/athletic-analyst-ts/` dependency install and TypeScript build.
+- `examples/athletic-analyst-py/` dependency install, Python compile check, and unit tests.
+
 ## flutter-production-cd.yml
 
 This YAML file contains the configuration for the continuous deployment (CD) workflow for Flutter projects in a production environment. It defines the steps and actions to be executed when changes are merged into the main branch. The CD workflow automates the process of deploying the Flutter application to the production environment, ensuring a smooth and efficient release process.
