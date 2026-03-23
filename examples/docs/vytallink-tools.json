@@ -1,0 +1,325 @@
+[
+  {
+    "name": "get_health_metrics",
+    "description": "Get health metrics for a specific time period. Retrieves health data from connected devices including steps, heart rate, calories, sleep data, and more. Always request aggregated data (using 'group_by' and 'statistic') when a user asks for totals per day, week, or month so the response stays compact. Only omit aggregation when the user explicitly needs individual event timestamps. Access requires the vytalLink companion app (download at https://vytallink.xmartlabs.com/) to share wearable or mobile health data.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "value_type": {
+          "type": "string",
+          "description": "Type of metric to retrieve. Options: STEPS (number of steps taken), HEART_RATE (beats per minute, including resting), CALORIES (total and active calories burned), BLOOD_OXYGEN (blood oxygen saturation %), BLOOD_PRESSURE (systolic and diastolic), BODY_TEMPERATURE (body temperature), BODY_METRICS (weight, height, body fat, water, nutrition), GLUCOSE (blood glucose level), EXERCISE_TIME (minutes of exercise), RESPIRATORY_RATE (breaths per minute), WALKING_SPEED (walking speed), SLEEP (sleep phases and quality), MINDFULNESS (minutes of meditation), WORKOUT (recorded physical activities), DISTANCE (distance covered walking/running)",
+          "enum": [
+            "STEPS",
+            "HEART_RATE",
+            "CALORIES",
+            "BLOOD_OXYGEN",
+            "BLOOD_PRESSURE",
+            "BODY_TEMPERATURE",
+            "BODY_METRICS",
+            "GLUCOSE",
+            "EXERCISE_TIME",
+            "RESPIRATORY_RATE",
+            "WALKING_SPEED",
+            "SLEEP",
+            "MINDFULNESS",
+            "WORKOUT",
+            "DISTANCE"
+          ]
+        },
+        "start_time": {
+          "type": "string",
+          "description": "Start time in ISO format (e.g., 2024-01-01T00:00:00Z)",
+          "example": "2025-09-07T00:00:00Z"
+        },
+        "end_time": {
+          "type": "string",
+          "description": "End time in ISO format (e.g., 2024-01-02T00:00:00Z)",
+          "example": "2025-09-07T23:59:59Z"
+        },
+        "group_by": {
+          "type": "string",
+          "description": "Time bucketing of results. ALWAYS set this when the user wants summaries per period (e.g., per day, week, month) so the server aggregates before returning data. Valid values: HOUR, DAY, WEEK, MONTH. Omit only when the user needs raw event timestamps.",
+          "enum": [
+            "HOUR",
+            "DAY",
+            "WEEK",
+            "MONTH"
+          ]
+        },
+        "statistic": {
+          "type": "string",
+          "description": "Aggregation to apply to grouped data. REQUIRED whenever 'group_by' is provided. Use 'AVERAGE' for mean values (sleep minutes per night with an average) or 'SUM' for totals (total minutes slept). Choosing a statistic is what enables the backend to return compact summaries.",
+          "enum": [
+            "AVERAGE",
+            "SUM"
+          ]
+        }
+      },
+      "required": [
+        "value_type",
+        "start_time",
+        "end_time"
+      ],
+      "allOf": [
+        {
+          "if": {
+            "required": [
+              "group_by"
+            ]
+          },
+          "then": {
+            "required": [
+              "statistic"
+            ]
+          }
+        }
+      ]
+    },
+    "outputSchema": {
+      "type": "object",
+      "properties": {
+        "healthData": {
+          "type": "array",
+          "description": "Array of health data items",
+          "items": {
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "string",
+                "description": "Type of health data",
+                "example": "STEPS"
+              },
+              "value": {
+                "description": "Health data value — number for most metrics (steps, heart rate, sleep minutes, etc.), object for workout/nutrition types",
+                "oneOf": [
+                  {
+                    "type": "number"
+                  },
+                  {
+                    "type": "object"
+                  },
+                  {
+                    "type": "string"
+                  }
+                ]
+              },
+              "unit": {
+                "type": "string",
+                "description": "Unit of measurement",
+                "example": "COUNT"
+              },
+              "date_from": {
+                "type": "string",
+                "format": "date-time",
+                "description": "Start date of the measurement period",
+                "example": "2025-09-07T00:00:00.000Z"
+              },
+              "date_to": {
+                "type": "string",
+                "format": "date-time",
+                "description": "End date of the measurement period",
+                "example": "2025-09-07T23:59:59.000Z"
+              },
+              "source_platform": {
+                "type": "string",
+                "description": "Platform that provided the data",
+                "example": "googleHealthConnect"
+              },
+              "source_device_id": {
+                "type": "string",
+                "description": "ID of the source device"
+              },
+              "source_id": {
+                "type": "string",
+                "description": "Unique identifier from the source"
+              },
+              "source_name": {
+                "type": "string",
+                "description": "Name of the data source"
+              }
+            },
+            "required": [
+              "type",
+              "value",
+              "unit",
+              "date_from",
+              "date_to"
+            ]
+          }
+        },
+        "count": {
+          "type": "integer",
+          "description": "Number of health data items returned",
+          "example": 1
+        },
+        "success": {
+          "type": "boolean",
+          "description": "Indicates if the request was successful",
+          "example": true
+        },
+        "error_message": {
+          "type": "string",
+          "description": "Error message if success is false"
+        }
+      },
+      "required": [
+        "healthData",
+        "count",
+        "success"
+      ]
+    }
+  },
+  {
+    "name": "get_summary",
+    "description": "Request a summary from the connected device for a given time window, optionally specifying metric/grouping/statistic overrides. Metrics follow VytalLink categories and can include steps, calories, distance, workouts, sleep, etc.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "start_time": {
+          "type": "string",
+          "description": "Start time in ISO format (e.g., 2024-01-01T00:00:00Z)"
+        },
+        "end_time": {
+          "type": "string",
+          "description": "End time in ISO format (e.g., 2024-12-31T23:59:59Z)"
+        },
+        "metrics": {
+          "type": "array",
+          "description": "Optional list of metric requests; if omitted, device defaults apply.",
+          "items": {
+            "type": "object",
+            "properties": {
+              "value_type": {
+                "type": "string",
+                "enum": [
+                  "STEPS",
+                  "HEART_RATE",
+                  "CALORIES",
+                  "BLOOD_OXYGEN",
+                  "BLOOD_PRESSURE",
+                  "BODY_TEMPERATURE",
+                  "BODY_METRICS",
+                  "GLUCOSE",
+                  "EXERCISE_TIME",
+                  "RESPIRATORY_RATE",
+                  "WALKING_SPEED",
+                  "SLEEP",
+                  "MINDFULNESS",
+                  "WORKOUT",
+                  "DISTANCE"
+                ],
+                "description": "Metric category to include"
+              },
+              "group_by": {
+                "type": "string",
+                "enum": [
+                  "HOUR",
+                  "DAY",
+                  "WEEK",
+                  "MONTH"
+                ],
+                "description": "Aggregation bucket"
+              },
+              "statistic": {
+                "type": "string",
+                "enum": [
+                  "SUM",
+                  "AVERAGE"
+                ],
+                "description": "Aggregation statistic"
+              }
+            },
+            "required": [
+              "value_type"
+            ]
+          }
+        }
+      },
+      "required": [
+        "start_time",
+        "end_time"
+      ]
+    },
+    "outputSchema": {
+      "type": "object",
+      "description": "Summary payload returned by the connected device. Structure depends on the device response.",
+      "additionalProperties": true
+    }
+  },
+  {
+    "name": "direct_login",
+    "description": "Direct login. Authenticate with word and code from the mobile application to get an immediate access token. This streamlined flow bypasses the full OAuth code exchange and provides instant authentication. If the user still needs the vytalLink app, point them to https://vytallink.xmartlabs.com/ to install it and retrieve their word/code pair.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "word": {
+          "type": "string",
+          "description": "Connection word from mobile app, a keyword like 'apple', 'island', etc.",
+          "example": "island"
+        },
+        "code": {
+          "type": "string",
+          "description": "Connection code from mobile app, a 6-digit number like '828930'",
+          "example": "343786"
+        }
+      },
+      "required": [
+        "word",
+        "code"
+      ]
+    },
+    "outputSchema": {
+      "type": "object",
+      "properties": {
+        "success": {
+          "type": "boolean",
+          "description": "Indicates if authentication was successful",
+          "example": true
+        },
+        "access_token": {
+          "type": "string",
+          "description": "Bearer token for API requests"
+        },
+        "token_type": {
+          "type": "string",
+          "description": "Type of the token",
+          "example": "Bearer"
+        },
+        "expires_in": {
+          "type": "integer",
+          "description": "Token expiration time in seconds",
+          "example": 7200
+        },
+        "user_id": {
+          "type": "string",
+          "description": "Unique identifier for the authenticated user"
+        },
+        "user_name": {
+          "type": "string",
+          "description": "Display name of the authenticated user"
+        },
+        "message": {
+          "type": "string",
+          "description": "Success message"
+        },
+        "error_code": {
+          "type": "string",
+          "description": "Machine-readable authentication error code when success is false"
+        }
+      },
+      "required": [
+        "success",
+        "message"
+      ]
+    }
+  },
+  {
+    "name": "oauth_logout",
+    "description": "Logout from the current vytalLink OAuth session and invalidate the access token. This will end the authenticated session and require re-authentication to access protected endpoints.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {},
+      "required": []
+    }
+  }
+]

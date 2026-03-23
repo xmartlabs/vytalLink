@@ -1,0 +1,14 @@
+# Environment and secrets
+*.env
+
+# JavaScript artifacts
+node_modules/
+dist/
+
+# Python artifacts
+.venv/
+__pycache__/
+*.pyc
+
+# Test outputs
+tests/reports/
