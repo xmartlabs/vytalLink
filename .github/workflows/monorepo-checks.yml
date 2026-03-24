@@ -2,9 +2,17 @@ name: Monorepo Checks
 
 on:
   pull_request:
+    paths:
+      - 'mcp-server/**'
+      - 'examples/**'
+      - '.github/workflows/monorepo-checks.yml'
   push:
     branches:
       - main
+    paths:
+      - 'mcp-server/**'
+      - 'examples/**'
+      - '.github/workflows/monorepo-checks.yml'
 
 jobs:
   mcp_server_check:
