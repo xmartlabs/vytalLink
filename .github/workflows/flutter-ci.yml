@@ -1,9 +1,17 @@
 name: Flutter CI
 on:
   pull_request:
+    paths:
+      - '.fvmrc'
+      - 'mobile/**'
+      - '.github/workflows/flutter-ci.yml'
   push:
     branches:
       - main
+    paths:
+      - '.fvmrc'
+      - 'mobile/**'
+      - '.github/workflows/flutter-ci.yml'
 
 jobs:
   build:

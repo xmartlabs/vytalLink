@@ -9,6 +9,7 @@ This monorepo hosts every piece of the product experience:
 - **[mobile/](mobile/)** — Flutter application that runs on device and exposes the embedded MCP server.
 - **[landing/](landing/)** — Static marketing site deployed to Firebase Hosting.
 - **[mcp-server/](mcp-server/)** — Standalone MCP server (Node.js) intended to run outside the mobile app.
+- **[examples/](examples/)** — TypeScript and Python agent examples that consume the MCP server.
 - **[docs/](docs/)** — Shared documentation (coding standards, contribution guides, etc.).
 
 Each folder contains its own README with the detailed setup. This document only summarizes the repository layout.
@@ -17,7 +18,21 @@ Each folder contains its own README with the detailed setup. This document only 
 
 - Flutter + FVM (see `.fvmrc`).
 - Node.js with your preferred package manager (npm, pnpm) for the web/Node portions.
+- Python 3.11+ if you plan to run the Python agent example.
 - Firebase CLI if you plan to deploy the landing or use hosting commands.
+
+## Examples quick start
+
+```bash
+# Helpers for both examples
+(cd examples && ./scripts/repo.sh help)
+
+# TypeScript example
+cd examples/athletic-analyst-ts && npm run agent -- --mode readiness
+
+# Python example
+cd examples/athletic-analyst-py && python -m src.main --mode readiness
+```
 
 ## Documentation
 
