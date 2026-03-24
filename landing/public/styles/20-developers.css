@@ -1,19 +1,6 @@
 /* Developers Page Styles */
 
 /* Hero — reuses .setup-hero base from 08-mcp-setup */
-.dev-hero-badges {
-    display: flex;
-    justify-content: center;
-    gap: 0.75rem;
-    flex-wrap: wrap;
-    margin-top: 1.5rem;
-}
-
-.dev-hero-badges .client-badge {
-    font-size: 0.875rem;
-    padding: 0.5rem 1rem;
-}
-
 
 /* Overview */
 .dev-overview {
@@ -69,6 +56,23 @@
     margin-top: 2rem;
 }
 
+.dev-hero-buttons .btn-coming-soon {
+    background: #e2e8f0;
+    color: #64748b;
+    border: 2px solid #cbd5e1;
+    cursor: not-allowed;
+    pointer-events: none;
+    box-shadow: none;
+}
+
+.dev-hero-buttons .btn-coming-soon:hover {
+    background: #e2e8f0;
+    color: #64748b;
+    border-color: #cbd5e1;
+    transform: none;
+    box-shadow: none;
+}
+
 /* How It Works — reuses .setup-steps, .step, .step-number from 08 */
 .dev-how-it-works {
     padding: 5rem 0;
@@ -107,14 +111,15 @@
 }
 
 .dev-tool-card h3 {
-    font-family: 'Monaco', 'Menlo', monospace;
-    font-size: 1rem;
-    color: var(--primary-color);
+    font-family: 'Inter', sans-serif;
+    font-size: 1.05rem;
+    color: var(--primary-dark);
+    font-weight: 700;
     margin-bottom: 0.75rem;
-    background: rgba(99, 102, 241, 0.08);
-    display: inline-block;
-    padding: 0.25rem 0.75rem;
-    border-radius: 4px;
+    background: transparent;
+    display: block;
+    padding: 0;
+    border-radius: 0;
 }
 
 .dev-tool-card p {
@@ -152,6 +157,36 @@
     margin-bottom: 2rem;
 }
 
+.dev-code-example .tab-btn {
+    border-radius: 14px;
+    padding: 0.9rem 1.4rem;
+    border-color: #e2e8f0;
+    box-shadow: 0 2px 10px rgba(15, 23, 42, 0.06);
+}
+
+.dev-code-example .tab-btn:hover {
+    transform: translateY(-1px);
+}
+
+.dev-code-example .tab-btn.active {
+    box-shadow: 0 8px 20px rgba(99, 102, 241, 0.26);
+}
+
+.dev-code-note {
+    max-width: 900px;
+    margin: 0 auto 1rem;
+    text-align: center;
+    color: var(--text-light);
+    font-size: 0.95rem;
+}
+
+.dev-code-note code {
+    background: #e2e8f0;
+    color: var(--text-dark);
+    border-radius: 6px;
+    padding: 0.15rem 0.4rem;
+}
+
 .dev-code-example .code-block {
     max-width: 900px;
     margin: 0 auto;
@@ -161,12 +196,6 @@
     max-height: 500px;
     overflow-y: auto;
 }
-
-.dev-deps-install {
-    max-width: 900px;
-    margin: 1.5rem auto 0;
-}
-
 
 /* Why VytalLink section */
 .dev-why {
@@ -179,71 +208,14 @@
     margin: 0 auto;
 }
 
-/* CTA */
-.dev-cta {
-    padding: 5rem 0;
-    background: var(--gradient);
-    text-align: center;
-}
-
-.dev-cta h2 {
-    font-size: 2.5rem;
-    color: var(--white);
-    margin-bottom: 1rem;
-}
-
-.dev-cta > .container > p {
-    color: rgba(255, 255, 255, 0.9);
-    font-size: 1.15rem;
-    margin-bottom: 2rem;
-}
-
-.dev-cta .code-block {
-    max-width: 520px;
-    margin: 0 auto 2rem;
-}
-
-.dev-cta-buttons {
-    display: flex;
-    gap: 1rem;
-    justify-content: center;
-    flex-wrap: wrap;
-}
-
-.dev-cta-buttons .btn {
-    border: 2px solid var(--white);
-}
-
-.dev-cta-buttons .btn-secondary {
-    background: transparent;
-    color: var(--white);
-}
-
-.dev-cta-buttons .btn-secondary:hover {
-    background: rgba(255, 255, 255, 0.15);
-}
-
 /* Responsive */
 @media (max-width: 768px) {
     .dev-tools-grid {
         grid-template-columns: 1fr;
     }
-
-    .dev-cta h2 {
-        font-size: 2rem;
-    }
 }
 
 @media (max-width: 480px) {
-    .dev-hero-badges {
-        gap: 0.5rem;
-    }
-
-    .dev-hero-badges .client-badge {
-        font-size: 0.8rem;
-        padding: 0.4rem 0.75rem;
-    }
-
     .dev-hero-buttons {
         flex-direction: column;
         align-items: stretch;
@@ -251,10 +223,5 @@
 
     .dev-hero-buttons .btn {
         text-align: center;
-    }
-
-    .dev-cta-buttons {
-        flex-direction: column;
-        align-items: center;
     }
 }

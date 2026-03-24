@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, viewport-fit=cover">
-    <meta name="description" content="Integrate your AI agent with VytalLink MCP server to access wearable health data. One npm package — heart rate, sleep, steps, workouts, and more.">
+    <meta name="description" content="Integrate your AI agent with the VytalLink MCP server to access wearable health data with one npm package.">
     <meta name="keywords" content="MCP, Model Context Protocol, health data API, AI agent, wearable data, developer, vytalLink, npm, TypeScript">
     <meta name="author" content="Xmartlabs">
 
@@ -66,25 +66,21 @@
     <section class="setup-hero">
         <div class="container">
             <div class="setup-header">
-                <h1>Give Your AI Agent Eyes on Wearable Data</h1>
-                <p>One MCP server. Heart rate, sleep, steps, workouts, and more — from any watch or fitness app your users already have.</p>
+                <h1>Connect Your AI Agent to Wearable Data</h1>
+                <p>Use one MCP server to access heart rate, sleep, steps, workouts, and more from the devices your users already use. Connect from TypeScript, Python, or any MCP-compatible language.</p>
 
                 <div class="dev-hero-buttons">
-                    <a href="#code-examples" class="btn btn-primary">Get Started</a>
-                    <a href="https://github.com/xmartlabs/vytalLink" class="btn btn-secondary" target="_blank">
-                        <i class="fab fa-github"></i> View on GitHub
+                    <a href="https://github.com/xmartlabs/vytallink-health-kit" class="btn btn-primary" target="_blank" rel="noopener noreferrer">
+                        <i class="fab fa-github"></i> Use Health Kit Template
                     </a>
-                    <a href="https://www.npmjs.com/package/@xmartlabs/vytallink-mcp-server" class="btn btn-secondary" target="_blank">
-                        <i class="fab fa-npm"></i> npm Package
+                    <button type="button" class="btn btn-secondary btn-coming-soon" disabled aria-disabled="true">
+                        <i class="fas fa-flask"></i> Examples (Coming Soon)
+                    </button>
+                    <a href="https://vytallink.local.xmartlabs.com/docs/mcp" class="btn btn-secondary" target="_blank" rel="noopener noreferrer">
+                        <i class="fas fa-file-code"></i> MCP Swagger
                     </a>
                 </div>
 
-                <div class="dev-hero-badges">
-                    <div class="client-badge"><i class="fas fa-plug"></i><span>MCP Protocol</span></div>
-                    <div class="client-badge"><i class="fab fa-js"></i><span>TypeScript</span></div>
-                    <div class="client-badge"><i class="fab fa-python"></i><span>Python</span></div>
-                    <div class="client-badge"><i class="fas fa-code"></i><span>Any Language</span></div>
-                </div>
             </div>
         </div>
     </section>
@@ -94,12 +90,12 @@
         <div class="container">
             <div class="dev-overview-content">
                 <h2>What VytalLink Does</h2>
-                <p>VytalLink bridges the gap between wearable health data and AI agents. Your users install the mobile app, and your agent connects through a standard MCP interface to access their health metrics.</p>
+                <p>VytalLink connects wearable health data to AI agents. Users install the mobile app, and your agent connects through a standard MCP interface to read their metrics.</p>
                 <ul class="dev-overview-points">
                     <li><i class="fas fa-check-circle"></i> Reads Apple Health (iOS) and Health Connect (Android)</li>
                     <li><i class="fas fa-check-circle"></i> 15+ metric types: steps, heart rate, sleep, workouts, calories, HRV, blood oxygen, and more</li>
                     <li><i class="fas fa-check-circle"></i> Real-time streaming while the mobile app is active</li>
-                    <li><i class="fas fa-check-circle"></i> No cloud copy — data stays on the user's phone</li>
+                    <li><i class="fas fa-check-circle"></i> No cloud copy. Data stays on the user's phone</li>
                 </ul>
             </div>
         </div>
@@ -118,7 +114,7 @@
                     <div class="step-number">1</div>
                     <div class="step-content">
                         <h3>User installs the VytalLink mobile app</h3>
-                        <p>The app reads Apple Health (iOS) or Health Connect (Android) and runs a local MCP server on the device.</p>
+                        <p>The app reads Apple Health (iOS) or Health Connect (Android), then exposes those metrics through a private and secure MCP connection.</p>
                     </div>
                 </div>
 
@@ -192,7 +188,7 @@
             <div class="dev-tools-grid">
                 <div class="dev-tool-card">
                     <h3>direct_login</h3>
-                    <p>Authenticate with the user's Word + PIN. The recommended auth method — no redirects, no browser, just a tool call.</p>
+                    <p>Authenticate with the user's Word + PIN. This is the recommended auth method: no redirects, no browser steps, and a single tool call.</p>
                 </div>
                 <div class="dev-tool-card">
                     <h3>get_summary</h3>
@@ -232,7 +228,7 @@
         <div class="container">
             <div class="section-header">
                 <h2>Build an Agent in 5 Minutes</h2>
-                <p>Connect to the MCP server and start querying health data</p>
+                <p>Use these snippets as reference pseudocode and adapt them to your runtime.</p>
             </div>
 
             <div class="client-tabs">
@@ -245,6 +241,8 @@
                     Python
                 </button>
             </div>
+
+            <p class="dev-code-note">The MCP server is shown running with <code>npx</code>; no global package install is required here.</p>
 
             <div class="client-content active" id="typescript-content">
                 <div class="code-block">
@@ -267,7 +265,7 @@ const transport = new StdioClientTransport({
 // 2. Connect and discover tools
 await client.connect(transport);
 const { tools } = await client.listTools();
-console.log(`Connected — ${tools.length} tools available`);
+console.log(`Connected: ${tools.length} tools available`);
 
 // 3. Authenticate with Word + PIN
 await client.callTool({
@@ -332,17 +330,6 @@ async with stdio_client(server_params) as (read, write):
                 </div>
             </div>
 
-            <div class="dev-deps-install">
-                <div class="code-block">
-                    <div class="code-header">
-                        <span>Install dependencies</span>
-                        <button class="copy-btn" data-target="code-deps">
-                            <i class="fas fa-copy"></i>
-                        </button>
-                    </div>
-                    <pre><code id="code-deps">npm install @modelcontextprotocol/sdk @xmartlabs/vytallink-mcp-server</code></pre>
-                </div>
-            </div>
         </div>
     </section>
 
@@ -367,7 +354,7 @@ async with stdio_client(server_params) as (read, write):
                         <i class="fas fa-shield-alt"></i>
                     </div>
                     <h3>Privacy by Design</h3>
-                    <p>Health data never leaves the user's phone. Your agent reads it in real-time through a secure connection — nothing is stored in the cloud.</p>
+                    <p>Health data never leaves the user's phone. Your agent reads it in real time through a secure connection, and nothing is stored in the cloud.</p>
                 </div>
                 <div class="feature-card">
                     <div class="feature-icon">
@@ -376,33 +363,6 @@ async with stdio_client(server_params) as (read, write):
                     <h3>Ship Faster</h3>
                     <p>5 minutes from npm install to your first health data query. Standard MCP protocol means it works with any framework and any LLM provider.</p>
                 </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- 8. CTA -->
-    <section class="dev-cta">
-        <div class="container">
-            <h2>Start Building</h2>
-            <p>Install the MCP server and start querying health data in minutes.</p>
-
-            <div class="code-block">
-                <div class="code-header">
-                    <span>Terminal</span>
-                    <button class="copy-btn" data-target="cta-install">
-                        <i class="fas fa-copy"></i>
-                    </button>
-                </div>
-                <pre><code id="cta-install">npm install @xmartlabs/vytallink-mcp-server</code></pre>
-            </div>
-
-            <div class="dev-cta-buttons">
-                <a href="https://github.com/xmartlabs/athletic-analyst" class="btn btn-secondary" target="_blank">
-                    <i class="fab fa-github"></i> View Example Project
-                </a>
-                <a href="/mcp-setup.html" class="btn btn-secondary">
-                    <i class="fas fa-book"></i> Setup Guide
-                </a>
             </div>
         </div>
     </section>

@@ -85,7 +85,11 @@
     .cta-buttons {
         justify-content: center;
     }
-    
+
+    .integrations-grid {
+        grid-template-columns: 1fr;
+    }
+
     .footer-content {
         grid-template-columns: 1fr;
         text-align: center;
@@ -196,6 +200,7 @@
         flex-direction: column;
         align-items: center;
     }
+
 }
 
 /* Loading animation */

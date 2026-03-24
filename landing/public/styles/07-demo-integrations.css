@@ -86,8 +86,9 @@
 
 .integrations-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 2rem;
+    align-items: stretch;
 }
 
 /* Make a card span full width on the first row when needed */
@@ -102,6 +103,9 @@
     box-shadow: var(--shadow);
     transition: var(--transition);
     position: relative;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
 }
 
 .integration-card.featured {
@@ -172,7 +176,7 @@
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
-    margin: 1.5rem 0;
+    margin: 1.25rem 0;
     padding: 1rem;
     background: var(--secondary-color);
     border-radius: 8px;
@@ -187,6 +191,11 @@
     content: "→ ";
     color: var(--primary-color);
     font-weight: 600;
+}
+
+.integration-card .btn {
+    margin-top: auto;
+    align-self: flex-start;
 }
 
 /* Download Footer */

@@ -243,37 +243,3 @@ document.addEventListener('DOMContentLoaded', function() {
         codeContent.innerHTML = highlightedCode;
     }
 });
-
-// Add mobile menu styles (synced with CSS overlay)
-(function() {
-  const style = document.createElement('style');
-  style.textContent = `
-    @media (max-width: 1200px) {
-      .nav-menu {
-        position: fixed;
-        top: 70px;
-        left: -100%;
-        width: 100%;
-        height: calc(100vh - 70px);
-        background: rgba(255,255,255,0.98);
-        backdrop-filter: blur(6px);
-        display: flex;
-        flex-direction: column;
-        justify-content: flex-start;
-        align-items: stretch;
-        gap: 0;
-        padding: 0 0 1.5rem;
-        transition: left 0.3s ease;
-        z-index: 1001;
-        overflow-y: auto;
-        -webkit-overflow-scrolling: touch;
-      }
-      .nav-menu.active { left: 0; }
-      .nav-menu .nav-link { width: 100%; max-width: 100%; font-size: 1.1rem; padding: 1rem 1.25rem; text-align: left; border-bottom: 1px solid #e5e7eb; border-radius: 0; }
-      .hamburger.active span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
-      .hamburger.active span:nth-child(2) { opacity: 0; }
-      .hamburger.active span:nth-child(3) { transform: rotate(-45deg) translate(7px, -6px); }
-    }
-  `;
-  document.head.appendChild(style);
-})();
