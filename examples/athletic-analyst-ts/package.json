@@ -1,0 +1,21 @@
+{
+  "name": "athletic-analyst",
+  "version": "1.0.0",
+  "description": "Athletic Performance Analyst Agent — Anthropic Claude + Vytallink MCP",
+  "type": "module",
+  "scripts": {
+    "discover": "npx tsx scripts/discover-tools.ts",
+    "agent": "npx tsx src/index.ts",
+    "build": "tsc"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.39.0",
+    "@modelcontextprotocol/sdk": "^1.0.0",
+    "dotenv": "^16.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "tsx": "^4.0.0",
+    "typescript": "^5.0.0"
+  }
+}

@@ -4,6 +4,7 @@
 - `mobile/`: Flutter app + MCP server; code in `lib/`, design system in `design_system/`, env samples in `environments/`.
 - `landing/`: Firebase site with HTML/JS under `public/` and CSS partials in `public/styles/`.
 - `mcp-server/`: Node MCP server exported as `@xmartlabs/vytallink-mcp-server`; main file `vytalLink_mcp_server.js`.
+- `examples/`: TypeScript and Python CLI agent examples that consume the MCP server (`athletic-analyst-ts/`, `athletic-analyst-py/`).
 - `docs/`: Shared guides (e.g., `CODE_STANDARDS.md`) plus repo-wide references.
 
 ## Build, Test, and Development Commands
@@ -14,6 +15,9 @@
 - `cd mobile && ./scripts/clean_up.sh` cleans, refetches deps, regenerates build_runner + l10n outputs after model or copy changes.
 - `cd landing && firebase serve --only hosting --port 5000` previews updates; `./scripts/build-css.sh` bundles CSS when needed.
 - `cd mcp-server && npm install && npm start` starts the standalone server or `npm run install-global` to expose the CLI.
+- `cd examples && ./scripts/repo.sh help` lists setup/build/integration commands for both examples.
+- `cd examples/athletic-analyst-ts && npm install && npm run build` prepares the TypeScript example.
+- `cd examples/athletic-analyst-py && python3 -m venv .venv && .venv/bin/pip install -r requirements.txt` prepares the Python example.
 
 ## Coding Style & Naming Conventions
 - Follow `docs/CODE_STANDARDS.md`: two-space indent, `fvm dart format`, clean `fvm flutter analyze`.
@@ -26,6 +30,7 @@
 - `cd mobile && ./scripts/checks.sh` is mandatory; add focused runs with `fvm flutter test <path>`.
 - `cd mobile && ./scripts/integration_test.sh` guards MCP behavior after flow changes.
 - Validate landing work with `firebase serve --only hosting`; grow Node coverage under `mcp-server/tests/` and wire it into `npm test` when added.
+- Example regression checks are manual for now: `cd examples && python3 -m unittest tests/test_run_tests.py`.
 
 ## Commit & Pull Request Guidelines
 - Use `type: short summary (#issue)` in imperative present tense.

@@ -5,6 +5,7 @@
 - [`FAQ.md`](FAQ.md) — Product FAQ used across the landing site and the app.
 - [`AGENTS.md`](../AGENTS.md) — Repository guidelines for contributors and automation agents.
 - [`PUBLISHING.md`](../mcp-server/PUBLISHING.md) — Internal npm release checklist for the MCP server.
+- [`examples/README.md`](../examples/README.md) — End-to-end TypeScript and Python agent examples for MCP consumption.
 - [`CONSOLIDATED_GUIDELINES.md`](CONSOLIDATED_GUIDELINES.md) — Unified reference for key guidelines and principles.
 - [`VYTALLINK_GPT_PROMPT.md`](VYTALLINK_GPT_PROMPT.md) — Prompt used by the GPT agent.
 
