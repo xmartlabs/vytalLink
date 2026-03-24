@@ -10,7 +10,7 @@ import { createExecutionTracer } from "./execution-trace.js";
 import { PromptReader } from "./line-reader.js";
 import { emitTestSummary } from "./test-config.js";
 
-const VALID_MODES: AnalysisMode[] = ["readiness", "recovery", "training", "sleep", "chat"];
+const VALID_MODES: AnalysisMode[] = ["readiness", "overview", "training", "sleep", "chat"];
 
 function parseArgs(): { mode: AnalysisMode; query?: string } {
   const args = process.argv.slice(2);
@@ -33,7 +33,7 @@ function parseArgs(): { mode: AnalysisMode; query?: string } {
 
 const ANALYSIS_QUERIES: Record<AnalysisMode, string> = {
   readiness: "Analyze my daily readiness to train today.",
-  recovery: "Analyze my recovery trends over the past 28 days.",
+  overview: "Give me a health overview for the last 7 days.",
   training: "Analyze my training load and injury risk.",
   sleep: "Analyze my sleep quality and patterns over the past 14 days.",
   chat: "",
