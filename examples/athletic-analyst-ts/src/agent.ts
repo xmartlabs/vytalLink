@@ -2,9 +2,9 @@ import Anthropic from "@anthropic-ai/sdk";
 import { McpBridge } from "./mcp-bridge.js";
 import { buildSystemPrompt, type AnalysisMode } from "./system-prompt.js";
 import type { ExecutionTracer } from "./execution-trace.js";
+import { TEST_MODE } from "./test-config.js";
 
 const client = new Anthropic();
-import { TEST_MODE } from "./test-config.js";
 
 const MODEL = "claude-sonnet-4-6";
 const MAX_STEPS = 15; // max tool-use iterations before giving up

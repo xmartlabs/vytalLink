@@ -25,7 +25,7 @@ Each folder contains its own README with the detailed setup. This document only 
 
 ```bash
 # Helpers for both examples
-cd examples && ./scripts/repo.sh help
+(cd examples && ./scripts/repo.sh help)
 
 # TypeScript example
 cd examples/athletic-analyst-ts && npm run agent -- --mode readiness

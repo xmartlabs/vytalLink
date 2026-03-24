@@ -152,6 +152,9 @@ class McpBridge:
                         duration_ms=round((time.perf_counter() - started_at) * 1000),
                         is_error=tool_reported_error,
                     )
+                if tool_reported_error:
+                    self._execution_summary["tool_failures"] += 1
+                    self._execution_summary["degraded"] = True
                 return {"content": "No data returned", "is_error": tool_reported_error}
             parts = []
             for block in result.content:

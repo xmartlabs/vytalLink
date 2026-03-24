@@ -295,16 +295,16 @@ def build_tests(word: str, pin: str) -> list[dict]:
     for mode, query in non_chat_modes:
         tests.append({
             "name": f"PY › {mode}",
-            "cmd": [sys.executable, "-m", "athletic-analyst-py.src.main", "--mode", mode, "--query", query],
-            "cwd": ROOT,
+            "cmd": [sys.executable, "-m", "src.main", "--mode", mode, "--query", query],
+            "cwd": PY_DIR,
             "stdin": creds,
         })
 
     # PY chat
     tests.append({
         "name": "PY › chat",
-        "cmd": [sys.executable, "-m", "athletic-analyst-py.src.main", "--mode", "chat"],
-        "cwd": ROOT,
+        "cmd": [sys.executable, "-m", "src.main", "--mode", "chat"],
+        "cwd": PY_DIR,
         "stdin": chat_input,
     })
 

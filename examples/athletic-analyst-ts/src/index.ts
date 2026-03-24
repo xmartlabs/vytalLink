@@ -98,7 +98,11 @@ async function main() {
   } finally {
     emitTestSummary(bridge.getExecutionSummary());
     reader.close();
-    await bridge.close();
+    try {
+      await bridge.close();
+    } catch (err) {
+      console.error("Non-fatal error while closing MCP bridge:", err);
+    }
   }
 }
 
