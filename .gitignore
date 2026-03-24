@@ -73,3 +73,5 @@ vendor/bundle/
 
 # FVM Version Cache
 .fvm/
+.claude/
+docs/plans/
