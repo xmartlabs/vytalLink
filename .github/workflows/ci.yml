@@ -1,0 +1,146 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+jobs:
+  changes:
+    runs-on: ubuntu-latest
+    outputs:
+      mobile: ${{ steps.filter.outputs.mobile }}
+      monorepo: ${{ steps.filter.outputs.monorepo }}
+    steps:
+      - uses: actions/checkout@v5
+      - uses: dorny/paths-filter@v3
+        id: filter
+        with:
+          filters: |
+            mobile:
+              - '.fvmrc'
+              - 'mobile/**'
+              - '.github/workflows/ci.yml'
+            monorepo:
+              - 'mcp-server/**'
+              - 'examples/**'
+              - '.github/workflows/ci.yml'
+
+  flutter_build:
+    needs: changes
+    if: needs.changes.outputs.mobile == 'true'
+    runs-on: macos-latest
+    env:
+      MOBILE_DIR: mobile
+      ANDROID_APP_DIR: mobile/android
+      IOS_APP_DIR: mobile/ios
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-java@v5
+        with:
+          distribution: 'zulu'
+          java-version: '17'
+      - uses: dart-lang/setup-dart@v1.4
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+          cache: true
+      - name: Cache FVM & Flutter
+        uses: actions/cache@v3
+        with:
+          path: /home/runner/fvm/versions/
+          key: ${{ runner.os }}-${{ hashFiles('**/fvm_config.json') }}
+      - name: Cache pub cache
+        uses: actions/cache@v3
+        with:
+          path: /home/runner/.pub-cache/
+          key: ${{ runner.os }}-pub-cache
+      - name: Install FVM && Flutter
+        run: dart pub global activate fvm --verbose && fvm install --verbose && fvm use --force --verbose
+      - uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: true
+          working-directory: ${{ env.MOBILE_DIR }}
+      - name: Activate arb_utils
+        run: dart pub global activate arb_utils 0.8.3
+      - name: Get dependencies
+        uses: maierj/fastlane-action@v3.1.0
+        with:
+          lane: 'fetch_dependencies'
+          subdirectory: ${{ env.MOBILE_DIR }}
+      - name: Run lints
+        uses: maierj/fastlane-action@v3.1.0
+        with:
+          lane: 'lints'
+          subdirectory: ${{ env.MOBILE_DIR }}
+      - name: Run Flutter tests
+        uses: maierj/fastlane-action@v3.1.0
+        with:
+          lane: 'tests'
+          subdirectory: ${{ env.MOBILE_DIR }}
+      - name: Check generated code
+        uses: maierj/fastlane-action@v3.1.0
+        with:
+          lane: 'ensure_no_change_in_generated_code'
+          subdirectory: ${{ env.MOBILE_DIR }}
+      - name: Build android app
+        env:
+          APP_ENV: 'dev'
+        uses: maierj/fastlane-action@v3.1.0
+        with:
+          lane: 'android build_dev_debug_apk'
+          subdirectory: ${{ env.ANDROID_APP_DIR }}
+
+  mcp_server_check:
+    needs: changes
+    if: needs.changes.outputs.monorepo == 'true'
+    name: MCP Server Check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+          cache-dependency-path: mcp-server/package-lock.json
+      - name: Install dependencies
+        run: cd mcp-server && npm ci
+      - name: Check JavaScript syntax
+        run: cd mcp-server && node --check vytalLink_mcp_server.js
+
+  examples_ts_build:
+    needs: changes
+    if: needs.changes.outputs.monorepo == 'true'
+    name: Examples TypeScript Build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+          cache-dependency-path: examples/athletic-analyst-ts/package-lock.json
+      - name: Install dependencies
+        run: cd examples/athletic-analyst-ts && npm ci
+      - name: Build TypeScript
+        run: cd examples/athletic-analyst-ts && npm run build
+
+  examples_py_check:
+    needs: changes
+    if: needs.changes.outputs.monorepo == 'true'
+    name: Examples Python Check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: pip
+          cache-dependency-path: examples/athletic-analyst-py/requirements.txt
+      - name: Install dependencies
+        run: cd examples/athletic-analyst-py && python -m pip install -r requirements.txt
+      - name: Compile Python sources
+        run: cd examples/athletic-analyst-py && python -m compileall .
+      - name: Run Python unit tests
+        run: cd examples && python -m unittest tests/test_run_tests.py

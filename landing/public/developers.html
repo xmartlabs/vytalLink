@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, viewport-fit=cover">
+    <meta name="description" content="Integrate your AI agent with the VytalLink MCP server to access wearable health data with one npm package.">
+    <meta name="keywords" content="MCP, Model Context Protocol, health data API, AI agent, wearable data, developer, vytalLink, npm, TypeScript">
+    <meta name="author" content="Xmartlabs">
+
+    <title>Developers - vytalLink</title>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <link rel="stylesheet" href="/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
+
+    <!-- Firebase Analytics (Google Analytics 4) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-KNFZRXV054"></script>
+    <script src="analytics.js"></script>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <i class="fas fa-heartbeat"></i>
+                <a href="/"><span>vytalLink</span></a>
+            </div>
+            <div class="nav-menu">
+                <a href="/#features" class="nav-link home-only desktop-only">How it Works</a>
+                <a href="/#demo" class="nav-link home-only desktop-only">Demo</a>
+                <a href="/#integrations" class="nav-link home-only desktop-only">AI Integrations</a>
+
+                <!-- Unified mobile menu -->
+                <a href="/" class="nav-link mobile-only"><i class="fas fa-house"></i> Home</a>
+                <a href="/chatgpt-setup.html" class="nav-link mobile-only"><span class="brand-mark brand-mark--chatgpt" aria-hidden="true"></span> ChatGPT Setup</a>
+                <a href="/claude-bundle-setup.html" class="nav-link mobile-only"><span class="brand-mark brand-mark--claude" aria-hidden="true"></span> Claude Bundle</a>
+                <a href="/mcp-setup.html" class="nav-link mobile-only"><i class="fas fa-server"></i> MCP Advanced</a>
+                <a href="/developers.html" class="nav-link mobile-only"><i class="fas fa-code"></i> Developers</a>
+                <a href="/faq.html" class="nav-link mobile-only"><i class="fas fa-circle-question"></i> FAQ</a>
+                <a href="/about.html" class="nav-link mobile-only"><i class="fas fa-circle-info"></i> About</a>
+                <a href="/privacy.html" class="nav-link mobile-only"><i class="fas fa-shield"></i> Privacy</a>
+                <a href="/terms.html" class="nav-link mobile-only"><i class="fas fa-file-contract"></i> Terms</a>
+                <a href="/contact.html" class="nav-link mobile-only"><i class="fas fa-envelope"></i> Contact</a>
+
+                <a href="/developers.html" class="nav-link desktop-only"><i class="fas fa-code"></i> Developers</a>
+                <div class="nav-dropdown">
+                    <button class="nav-link nav-dropdown-toggle" type="button">
+                        Setup Guides <i class="fas fa-chevron-down" aria-hidden="true"></i>
+                    </button>
+                    <div class="nav-dropdown-menu">
+                        <a class="nav-link" href="/chatgpt-setup.html">ChatGPT Setup</a>
+                        <a class="nav-link" href="/claude-bundle-setup.html">Claude Desktop Bundle</a>
+                        <a class="nav-link" href="/mcp-setup.html">MCP Advanced (npm)</a>
+                        <a class="nav-link" href="/faq.html">FAQ</a>
+                    </div>
+                </div>
+
+                <a href="#" class="btn btn-primary download-app-btn" onclick="openDownloadModal()">Download App</a>
+            </div>
+            <div class="hamburger"><span></span><span></span><span></span></div>
+        </div>
+    </nav>
+
+    <!-- 1. Hero -->
+    <section class="setup-hero">
+        <div class="container">
+            <div class="setup-header">
+                <h1>Connect Your AI Agent to Wearable Data</h1>
+                <p>Use one MCP server to access heart rate, sleep, steps, workouts, and more from the devices your users already use. Connect from TypeScript, Python, or any MCP-compatible language.</p>
+
+                <div class="dev-hero-buttons">
+                    <a href="https://github.com/xmartlabs/vytallink-health-kit" class="btn btn-primary" target="_blank" rel="noopener noreferrer">
+                        <i class="fab fa-github"></i> Use Health Kit Template
+                    </a>
+                    <a href="https://github.com/xmartlabs/vytalLink/tree/main/examples" class="btn btn-secondary" target="_blank" rel="noopener noreferrer">
+                        <i class="fas fa-folder-open"></i> Examples
+                    </a>
+                    <a href="https://vytallink.local.xmartlabs.com/docs/mcp" class="btn btn-secondary" target="_blank" rel="noopener noreferrer">
+                        <i class="fas fa-file-code"></i> MCP Swagger
+                    </a>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- 2. What VytalLink Does -->
+    <section class="dev-overview">
+        <div class="container">
+            <div class="dev-overview-content">
+                <h2>What VytalLink Does</h2>
+                <p>VytalLink connects wearable health data to AI agents. Users install the mobile app, and your agent connects through a standard MCP interface to read their metrics.</p>
+                <ul class="dev-overview-points">
+                    <li><i class="fas fa-check-circle"></i> Reads Apple Health (iOS) and Health Connect (Android)</li>
+                    <li><i class="fas fa-check-circle"></i> 15+ metric types: steps, heart rate, sleep, workouts, calories, HRV, blood oxygen, and more</li>
+                    <li><i class="fas fa-check-circle"></i> Real-time streaming while the mobile app is active</li>
+                    <li><i class="fas fa-check-circle"></i> No cloud copy. Data stays on the user's phone</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- 3. How It Works -->
+    <section class="dev-how-it-works">
+        <div class="container">
+            <div class="section-header">
+                <h2>How It Works</h2>
+                <p>From install to first query in four steps</p>
+            </div>
+
+            <div class="setup-steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <div class="step-content">
+                        <h3>User installs the VytalLink mobile app</h3>
+                        <p>The app reads Apple Health (iOS) or Health Connect (Android), then exposes those metrics through a private and secure MCP connection.</p>
+                    </div>
+                </div>
+
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <div class="step-content">
+                        <h3>User selects what to share</h3>
+                        <p>The app generates a Word + PIN that your agent will use to authenticate. Users control exactly which metrics are accessible.</p>
+                    </div>
+                </div>
+
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <div class="step-content">
+                        <h3>Agent authenticates</h3>
+                        <p>Your agent calls the <code>direct_login</code> tool with the user's Word and PIN:</p>
+                        <div class="code-block">
+                            <div class="code-header">
+                                <span>Tool Call</span>
+                                <button class="copy-btn" data-target="step-auth">
+                                    <i class="fas fa-copy"></i>
+                                </button>
+                            </div>
+                            <pre><code id="step-auth" class="language-json">{
+  "name": "direct_login",
+  "arguments": {
+    "word": "island",
+    "code": "828930"
+  }
+}</code></pre>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="step">
+                    <div class="step-number">4</div>
+                    <div class="step-content">
+                        <h3>Agent requests data</h3>
+                        <p>Now your agent can fetch any health metric. Here's an example requesting the last 7 days of heart rate data:</p>
+                        <div class="code-block">
+                            <div class="code-header">
+                                <span>Tool Call</span>
+                                <button class="copy-btn" data-target="step-data">
+                                    <i class="fas fa-copy"></i>
+                                </button>
+                            </div>
+                            <pre><code id="step-data" class="language-json">{
+  "name": "get_health_metrics",
+  "arguments": {
+    "metric_type": "HEART_RATE",
+    "start_date": "2025-01-01",
+    "end_date": "2025-01-07",
+    "aggregation": "DAILY"
+  }
+}</code></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 4. MCP Tools Reference -->
+    <section class="dev-tools">
+        <div class="container">
+            <div class="section-header">
+                <h2>MCP Tools Reference</h2>
+                <p>Three tools your agent can call after connecting</p>
+            </div>
+
+            <div class="dev-tools-grid">
+                <div class="dev-tool-card">
+                    <h3>direct_login</h3>
+                    <p>Authenticate with the user's Word + PIN. This is the recommended auth method: no redirects, no browser steps, and a single tool call.</p>
+                </div>
+                <div class="dev-tool-card">
+                    <h3>get_summary</h3>
+                    <p>Multi-metric summary for a date range. Returns an overview across steps, sleep, heart rate, and more in one call.</p>
+                </div>
+                <div class="dev-tool-card">
+                    <h3>get_health_metrics</h3>
+                    <p>Fetch specific metrics with a time range and aggregation level (raw, hourly, daily). The primary tool for reading health data.</p>
+                </div>
+            </div>
+
+            <div class="section-header" style="margin-bottom: 1.5rem;">
+                <h3>Supported Metric Types</h3>
+            </div>
+            <div class="dev-metric-tags">
+                <span class="dev-metric-tag">STEPS</span>
+                <span class="dev-metric-tag">HEART_RATE</span>
+                <span class="dev-metric-tag">SLEEP</span>
+                <span class="dev-metric-tag">WORKOUT</span>
+                <span class="dev-metric-tag">CALORIES</span>
+                <span class="dev-metric-tag">DISTANCE</span>
+                <span class="dev-metric-tag">HRV</span>
+                <span class="dev-metric-tag">BLOOD_OXYGEN</span>
+                <span class="dev-metric-tag">RESTING_HEART_RATE</span>
+                <span class="dev-metric-tag">RESPIRATORY_RATE</span>
+                <span class="dev-metric-tag">BODY_TEMPERATURE</span>
+                <span class="dev-metric-tag">BLOOD_PRESSURE</span>
+                <span class="dev-metric-tag">BLOOD_GLUCOSE</span>
+                <span class="dev-metric-tag">WEIGHT</span>
+                <span class="dev-metric-tag">BODY_FAT</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- 5. Code Example -->
+    <section id="code-examples" class="dev-code-example">
+        <div class="container">
+            <div class="section-header">
+                <h2>Build an Agent in 5 Minutes</h2>
+                <p>Use these snippets as reference pseudocode and adapt them to your runtime.</p>
+            </div>
+
+            <div class="client-tabs">
+                <button class="tab-btn active" data-client="typescript">
+                    <i class="fab fa-js"></i>
+                    TypeScript
+                </button>
+                <button class="tab-btn" data-client="python">
+                    <i class="fab fa-python"></i>
+                    Python
+                </button>
+            </div>
+
+            <p class="dev-code-note">The MCP server is shown running with <code>npx</code>; no global package install is required here.</p>
+
+            <div class="client-content active" id="typescript-content">
+                <div class="code-block">
+                    <div class="code-header">
+                        <span>agent.ts</span>
+                        <button class="copy-btn" data-target="code-typescript">
+                            <i class="fas fa-copy"></i>
+                        </button>
+                    </div>
+                    <pre><code id="code-typescript" class="language-typescript">import { Client } from "@modelcontextprotocol/sdk/client/index.js";
+import { StdioClientTransport } from "@modelcontextprotocol/sdk/client/stdio.js";
+
+// 1. Create client and transport
+const client = new Client({ name: "my-agent", version: "1.0.0" });
+const transport = new StdioClientTransport({
+  command: "npx",
+  args: ["@xmartlabs/vytallink-mcp-server"],
+});
+
+// 2. Connect and discover tools
+await client.connect(transport);
+const { tools } = await client.listTools();
+console.log(`Connected: ${tools.length} tools available`);
+
+// 3. Authenticate with Word + PIN
+await client.callTool({
+  name: "direct_login",
+  arguments: { word: "island", code: "828930" },
+});
+
+// 4. Fetch health data
+const result = await client.callTool({
+  name: "get_health_metrics",
+  arguments: {
+    metric_type: "HEART_RATE",
+    start_date: "2025-01-01",
+    end_date: "2025-01-07",
+    aggregation: "DAILY",
+  },
+});
+
+console.log(result.content);</code></pre>
+                </div>
+            </div>
+
+            <div class="client-content" id="python-content">
+                <div class="code-block">
+                    <div class="code-header">
+                        <span>agent.py</span>
+                        <button class="copy-btn" data-target="code-python">
+                            <i class="fas fa-copy"></i>
+                        </button>
+                    </div>
+                    <pre><code id="code-python" class="language-python">from mcp import ClientSession, StdioServerParameters
+from mcp.client.stdio import stdio_client
+
+# 1. Connect to VytalLink MCP server
+server_params = StdioServerParameters(
+    command="npx",
+    args=["@xmartlabs/vytallink-mcp-server"],
+)
+
+async with stdio_client(server_params) as (read, write):
+    async with ClientSession(read, write) as session:
+        await session.initialize()
+
+        # 2. Authenticate with Word + PIN
+        await session.call_tool(
+            "direct_login",
+            arguments={"word": "island", "code": "828930"},
+        )
+
+        # 3. Fetch health data
+        result = await session.call_tool(
+            "get_health_metrics",
+            arguments={
+                "metric_type": "HEART_RATE",
+                "start_date": "2025-01-01",
+                "end_date": "2025-01-07",
+                "aggregation": "DAILY",
+            },
+        )
+
+        print(result.content)</code></pre>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- 7. Why VytalLink -->
+    <section class="dev-why">
+        <div class="container">
+            <div class="section-header">
+                <h2>Why VytalLink</h2>
+                <p>The fastest path from zero to health data in your AI agent</p>
+            </div>
+
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-server"></i>
+                    </div>
+                    <h3>One Server, All Health Data</h3>
+                    <p>No vendor SDKs, no platform-specific code. One MCP server gives your agent access to Apple Health, Health Connect, and every wearable they support.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3>Privacy by Design</h3>
+                    <p>Health data never leaves the user's phone. Your agent reads it in real time through a secure connection, and nothing is stored in the cloud.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-rocket"></i>
+                    </div>
+                    <h3>Ship Faster</h3>
+                    <p>5 minutes from npm install to your first health data query. Standard MCP protocol means it works with any framework and any LLM provider.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="footer-logo">
+                        <i class="fas fa-heartbeat"></i>
+                        <span>vytalLink</span>
+                    </div>
+                    <p>Connecting your health data with AI, securely and privately.</p>
+                    <div class="download-footer">
+                        <a href="https://apps.apple.com/app/id6752308627" target="_blank">
+                            <img src="https://developer.apple.com/assets/elements/badges/download-on-the-app-store.svg" alt="Download on App Store">
+                        </a>
+                        <a href="https://play.google.com/store/apps/details?id=com.xmartlabs.vytallink" target="_blank">
+                            <img src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png" alt="Get it on Google Play">
+                        </a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h4>Product</h4>
+                    <ul>
+                        <li><a href="/#features">How it Works</a></li>
+                        <li><a href="/#integrations">AI Integrations</a></li>
+                        <li><a href="/#demo">Demo Video</a></li>
+                        <li><a href="/developers.html">Developers</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Setup Guides</h4>
+                    <ul>
+                        <li><a href="/chatgpt-setup.html">ChatGPT Setup</a></li>
+                        <li><a href="/claude-bundle-setup.html">Claude Desktop Bundle</a></li>
+                        <li><a href="/mcp-setup.html">MCP Advanced Setup</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Support</h4>
+                    <ul>
+                        <li><a href="/faq.html">FAQ</a></li>
+                        <li><a href="/about.html">About vytalLink</a></li>
+                        <li><a href="/privacy.html">Privacy Policy</a></li>
+                        <li><a href="/terms.html">Terms of Service</a></li>
+                        <li><a href="/contact.html">Contact Support</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>Made with ❤️ by <a href="https://xmartlabs.com" target="_blank" style="color: var(--primary-color); text-decoration: none;">Xmartlabs</a></p>
+                <div class="social-links">
+                    <a href="https://github.com/xmartlabs/vytalLink" target="_blank"><i class="fab fa-github"></i></a>
+                    <a href="https://xmartlabs.com" target="_blank"><i class="fas fa-globe"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="/script.js"></script>
+    <script src="/common-modal.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-typescript.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
+    <script src="/developers.js"></script>
+</body>
+</html>

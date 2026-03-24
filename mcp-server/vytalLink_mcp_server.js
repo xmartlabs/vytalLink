@@ -47,6 +47,7 @@ let buffer = '';
 let authToken = null;
 let versionWarning = null;
 let versionWarningShown = false;
+let _toolCallChain = Promise.resolve();
 
 process.stdin.on('data', (chunk) => {
   buffer += chunk;
@@ -83,7 +84,14 @@ async function handleRequest(request) {
     } else if (request.method === "tools/list") {
       await handleToolsList(request);
     } else if (request.method === "tools/call") {
-      await handleToolsCall(request);
+      _toolCallChain = _toolCallChain.then(
+        () => handleToolsCall(request),
+        () => handleToolsCall(request),  // run even if previous rejected
+      );
+      await _toolCallChain;
+    } else if (request.method === "notifications/cancelled") {
+      console.error('Received cancellation notification');
+      // Notifications don't require a response
     } else if (request.method === "prompts/list") {
       await handlePromptsList(request);
     } else if (request.method === "resources/list") {

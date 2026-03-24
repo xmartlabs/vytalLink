@@ -1,0 +1,209 @@
+/* Developers Page Styles */
+
+/* Hero — reuses .setup-hero base from 08-mcp-setup */
+
+/* Overview */
+.dev-overview {
+    padding: 5rem 0;
+}
+
+.dev-overview-content {
+    max-width: 720px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.dev-overview-content h2 {
+    font-size: 2.25rem;
+    margin-bottom: 1.5rem;
+    color: var(--text-dark);
+}
+
+.dev-overview-content p {
+    font-size: 1.1rem;
+    color: var(--text-light);
+    margin-bottom: 2rem;
+    line-height: 1.7;
+}
+
+.dev-overview-points {
+    list-style: none;
+    padding: 0;
+    text-align: left;
+    display: inline-block;
+}
+
+.dev-overview-points li {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+    color: var(--text-dark);
+    line-height: 1.5;
+}
+
+.dev-overview-points li i {
+    color: var(--accent-color);
+    margin-top: 0.25rem;
+    flex-shrink: 0;
+}
+
+.dev-hero-buttons {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 2rem;
+}
+
+/* How It Works — reuses .setup-steps, .step, .step-number from 08 */
+.dev-how-it-works {
+    padding: 5rem 0;
+    background: var(--secondary-color);
+}
+
+.dev-how-it-works .setup-steps {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+/* Tools Reference */
+.dev-tools {
+    padding: 5rem 0;
+}
+
+.dev-tools-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2.5rem;
+}
+
+.dev-tool-card {
+    background: var(--white);
+    padding: 1.75rem;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+    transition: var(--transition);
+    border-left: 4px solid var(--primary-color);
+}
+
+.dev-tool-card:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-lg);
+}
+
+.dev-tool-card h3 {
+    font-family: 'Inter', sans-serif;
+    font-size: 1.05rem;
+    color: var(--primary-dark);
+    font-weight: 700;
+    margin-bottom: 0.75rem;
+    background: transparent;
+    display: block;
+    padding: 0;
+    border-radius: 0;
+}
+
+.dev-tool-card p {
+    color: var(--text-light);
+    line-height: 1.6;
+}
+
+.dev-metric-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    justify-content: center;
+}
+
+.dev-metric-tag {
+    display: inline-block;
+    padding: 0.35rem 0.85rem;
+    background: var(--secondary-color);
+    color: var(--text-dark);
+    border-radius: 50px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    font-family: 'Monaco', 'Menlo', monospace;
+    border: 1px solid #e2e8f0;
+}
+
+/* Code Example section */
+.dev-code-example {
+    padding: 5rem 0;
+    background: var(--secondary-color);
+}
+
+.dev-code-example .client-tabs {
+    justify-content: center;
+    margin-bottom: 2rem;
+}
+
+.dev-code-example .tab-btn {
+    border-radius: 14px;
+    padding: 0.9rem 1.4rem;
+    border-color: #e2e8f0;
+    box-shadow: 0 2px 10px rgba(15, 23, 42, 0.06);
+}
+
+.dev-code-example .tab-btn:hover {
+    transform: translateY(-1px);
+}
+
+.dev-code-example .tab-btn.active {
+    box-shadow: 0 8px 20px rgba(99, 102, 241, 0.26);
+}
+
+.dev-code-note {
+    max-width: 900px;
+    margin: 0 auto 1rem;
+    text-align: center;
+    color: var(--text-light);
+    font-size: 0.95rem;
+}
+
+.dev-code-note code {
+    background: #e2e8f0;
+    color: var(--text-dark);
+    border-radius: 6px;
+    padding: 0.15rem 0.4rem;
+}
+
+.dev-code-example .code-block {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.dev-code-example .code-block pre {
+    max-height: 500px;
+    overflow-y: auto;
+}
+
+/* Why VytalLink section */
+.dev-why {
+    padding: 5rem 0;
+}
+
+.dev-why .features-grid {
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .dev-tools-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 480px) {
+    .dev-hero-buttons {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .dev-hero-buttons .btn {
+        text-align: center;
+    }
+}
