@@ -73,9 +73,9 @@
                     <a href="https://github.com/xmartlabs/vytallink-health-kit" class="btn btn-primary" target="_blank" rel="noopener noreferrer">
                         <i class="fab fa-github"></i> Use Health Kit Template
                     </a>
-                    <button type="button" class="btn btn-secondary btn-coming-soon" disabled aria-disabled="true">
-                        <i class="fas fa-flask"></i> Examples (Coming Soon)
-                    </button>
+                    <a href="https://github.com/xmartlabs/vytalLink/tree/main/examples" class="btn btn-secondary" target="_blank" rel="noopener noreferrer">
+                        <i class="fas fa-folder-open"></i> Examples
+                    </a>
                     <a href="https://vytallink.local.xmartlabs.com/docs/mcp" class="btn btn-secondary" target="_blank" rel="noopener noreferrer">
                         <i class="fas fa-file-code"></i> MCP Swagger
                     </a>
@@ -165,8 +165,8 @@
   "name": "get_health_metrics",
   "arguments": {
     "metric_type": "HEART_RATE",
-    "start_date": "2026-03-12",
-    "end_date": "2026-03-19",
+    "start_date": "2025-01-01",
+    "end_date": "2025-01-07",
     "aggregation": "DAILY"
   }
 }</code></pre>
@@ -278,8 +278,8 @@ const result = await client.callTool({
   name: "get_health_metrics",
   arguments: {
     metric_type: "HEART_RATE",
-    start_date: "2026-03-12",
-    end_date: "2026-03-19",
+    start_date: "2025-01-01",
+    end_date: "2025-01-07",
     aggregation: "DAILY",
   },
 });
@@ -320,8 +320,8 @@ async with stdio_client(server_params) as (read, write):
             "get_health_metrics",
             arguments={
                 "metric_type": "HEART_RATE",
-                "start_date": "2026-03-12",
-                "end_date": "2026-03-19",
+                "start_date": "2025-01-01",
+                "end_date": "2025-01-07",
                 "aggregation": "DAILY",
             },
         )

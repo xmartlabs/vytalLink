@@ -56,23 +56,6 @@
     margin-top: 2rem;
 }
 
-.dev-hero-buttons .btn-coming-soon {
-    background: #e2e8f0;
-    color: #64748b;
-    border: 2px solid #cbd5e1;
-    cursor: not-allowed;
-    pointer-events: none;
-    box-shadow: none;
-}
-
-.dev-hero-buttons .btn-coming-soon:hover {
-    background: #e2e8f0;
-    color: #64748b;
-    border-color: #cbd5e1;
-    transform: none;
-    box-shadow: none;
-}
-
 /* How It Works — reuses .setup-steps, .step, .step-number from 08 */
 .dev-how-it-works {
     padding: 5rem 0;
@@ -200,7 +183,6 @@
 /* Why VytalLink section */
 .dev-why {
     padding: 5rem 0;
-    background: var(--secondary-color);
 }
 
 .dev-why .features-grid {
