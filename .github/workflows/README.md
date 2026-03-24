@@ -1,21 +1,21 @@
-## flutter-ci.yml
+## ci.yml
 
-This YAML file contains the configuration for the continuous integration (CI) workflow for Flutter projects. It defines the steps and actions to be executed whenever changes are pushed to the repository. The CI workflow ensures that the code is built, tested, and validated before merging it into the main branch.
+Unified CI workflow for the monorepo. Runs on every pull request and on pushes to `main`.
 
-## monorepo-checks.yml
+A `changes` job detects which paths were modified, and downstream jobs only run if their relevant paths changed:
 
-This YAML file contains a lightweight CI workflow for non-Flutter parts of the monorepo. It runs on pull requests and pushes to `main`, and validates:
-
-- `mcp-server/` dependency install plus JavaScript syntax check (`node --check`).
-- `examples/athletic-analyst-ts/` dependency install and TypeScript build.
-- `examples/athletic-analyst-py/` dependency install, Python compile check, and unit tests.
+- **`flutter_build`** — runs on `macos-latest` when `mobile/**` or `.fvmrc` changes. Installs dependencies via Fastlane, runs lints, Flutter tests, checks generated code, and builds a debug Android APK.
+- **`mcp_server_check`** — runs on `ubuntu-latest` when `mcp-server/**` or `examples/**` changes. Installs dependencies and validates JavaScript syntax.
+- **`examples_ts_build`** — runs on `ubuntu-latest` when `mcp-server/**` or `examples/**` changes. Installs dependencies and builds the TypeScript example.
+- **`examples_py_check`** — runs on `ubuntu-latest` when `mcp-server/**` or `examples/**` changes. Installs dependencies, compiles Python sources, and runs unit tests.
 
 ## flutter-production-cd.yml
 
-This YAML file contains the configuration for the continuous deployment (CD) workflow for Flutter projects in a production environment. It defines the steps and actions to be executed when changes are merged into the main branch. The CD workflow automates the process of deploying the Flutter application to the production environment, ensuring a smooth and efficient release process.
+CD workflow triggered when a PR is merged into `main`. Calculates the next build number, then deploys to TestFlight (iOS) and Google Play (Android) in parallel.
 
-### Secrets required:
+### Secrets required
 
+```
 GOOGLE_PLAY_SERVICE_ACCOUNT_CREDENTIALS_CONTENT
 FIREBASE_SERVICE_ACCOUNT_CREDENTIALS_BASE_64
 IOS_DIST_CERTIFICATE_BASE_64
@@ -23,23 +23,24 @@ DIST_CERTIFICATE_PASSWORD
 APPSTORE_CONNECT_API_KEY_ID
 APPSTORE_CONNECT_API_KEY_ISSUER_ID
 APPSTORE_CONNECT_API_KEY_BASE_64
+```
 
 ## flutter-staging-cd.yml
 
-This YAML file contains the configuration for the continuous deployment (CD) workflow for Flutter projects in a staging environment. It defines the steps and actions to be executed when changes are merged into the staging branch. The CD workflow automates the process of deploying the Flutter application to the staging environment, allowing for testing and validation before releasing to production.
+CD workflow triggered when a PR is merged into `staging`. Calculates the next build number, then deploys to Firebase App Distribution (iOS and Android) in parallel.
 
-### Secrets required:
+### Secrets required
 
+```
 GOOGLE_PLAY_SERVICE_ACCOUNT_CREDENTIALS_CONTENT
 FIREBASE_SERVICE_ACCOUNT_CREDENTIALS_BASE_64
 IOS_DIST_CERTIFICATE_BASE_64_CONTENT
-FIREBASE_SERVICE_ACCOUNT_CREDENTIALS_BASE_64
+IOS_DIST_CERTIFICATE_PASSWORD
 APPSTORE_CONNECT_API_KEY_ID
 APPSTORE_CONNECT_API_KEY_ISSUER_ID
 APPSTORE_CONNECT_API_KEY_BASE_64_CONTENT
-IOS_DIST_CERTIFICATE_PASSWORD
-FIREBASE_SERVICE_ACCOUNT_CREDENTIALS_BASE_64
+```
 
 ## pr-title-checker.yml
 
-This YAML file contains the configuration for a workflow that checks the title of pull requests (PRs) in a Flutter project. It defines the steps and actions to be executed whenever a new PR is created. The workflow ensures that the PR title follows a specific format or meets certain criteria, helping maintain consistency and clarity in the project's PRs.
+Validates that PR titles follow the project's commit convention on every PR open, edit, or sync event.
