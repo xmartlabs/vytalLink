@@ -13,10 +13,6 @@ MAX_STEPS = 15  # max tool-use iterations before giving up
 client = anthropic.Anthropic()
 
 
-def _sanitize_schema(schema: dict) -> dict:
-    return {k: v for k, v in schema.items() if k not in ("oneOf", "anyOf", "allOf", "not")}
-
-
 def _tools_from_bridge(bridge: McpBridge) -> list[dict]:
     tools = []
     for t in bridge.get_mcp_tools():
@@ -24,7 +20,7 @@ def _tools_from_bridge(bridge: McpBridge) -> list[dict]:
         tool_def: dict = {
             "name": t.name,
             "description": t.description or "",
-            "input_schema": _sanitize_schema(raw_schema),
+            "input_schema": raw_schema,
         }
         tools.append(tool_def)
     return tools
