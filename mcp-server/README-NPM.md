@@ -52,7 +52,7 @@ Add to your Claude Desktop configuration (`claude_desktop_config.json`):
       "command": "npx",
       "args": ["@xmartlabs/vytallink-mcp-server"],
       "env": {
-        "VYTALLINK_BASE_URL": "https://vytallink.local.xmartlabs.com"
+        "VYTALLINK_BASE_URL": "https://api.vytallink.xmartlabs.com"
       }
     }
   }

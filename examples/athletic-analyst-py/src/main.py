@@ -14,7 +14,7 @@ load_dotenv(Path(__file__).parent.parent / ".env")
 
 ANALYSIS_QUERIES: dict[str, str] = {
     "readiness": "Analyze my daily readiness to train today.",
-    "recovery": "Analyze my recovery trends over the past 28 days.",
+    "overview": "Give me a health overview for the last 7 days.",
     "training": "Analyze my training load and injury risk.",
     "sleep": "Analyze my sleep quality and patterns over the past 14 days.",
     "chat": "",

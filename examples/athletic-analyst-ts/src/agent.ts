@@ -11,12 +11,6 @@ const MAX_STEPS = 15; // max tool-use iterations before giving up
 
 export type Message = Anthropic.Messages.MessageParam;
 
-const UNSUPPORTED_SCHEMA_KEYWORDS = new Set(["allOf", "anyOf", "oneOf", "not"]);
-
-function sanitizeSchema(schema: Record<string, unknown>): Record<string, unknown> {
-  return Object.fromEntries(Object.entries(schema).filter(([k]) => !UNSUPPORTED_SCHEMA_KEYWORDS.has(k)));
-}
-
 export async function runAgent(
   query: string,
   bridge: McpBridge,
@@ -27,7 +21,7 @@ export async function runAgent(
   const tools: Anthropic.Messages.Tool[] = bridge.getMcpTools().map((t) => ({
     name: t.name,
     description: t.description ?? "",
-    input_schema: sanitizeSchema((t.inputSchema ?? { type: "object", properties: {} }) as Record<string, unknown>) as Anthropic.Messages.Tool["input_schema"],
+    input_schema: (t.inputSchema ?? { type: "object", properties: {} }) as Anthropic.Messages.Tool["input_schema"],
   }));
 
   const messages: Message[] = [...history, { role: "user", content: query }];

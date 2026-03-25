@@ -63,11 +63,11 @@
     </nav>
 
     <!-- 1. Hero -->
-    <section class="setup-hero">
+    <section class="setup-hero dev-page-hero">
         <div class="container">
             <div class="setup-header">
-                <h1>Connect Your AI Agent to Wearable Data</h1>
-                <p>Use one MCP server to access heart rate, sleep, steps, workouts, and more from the devices your users already use. Connect from TypeScript, Python, or any MCP-compatible language.</p>
+                <h1>Build a Health Data Agent in 5 Minutes</h1>
+                <p>One MCP server for heart rate, sleep, steps, workouts, and more. Reads from whatever device your users already have. TypeScript, Python, or any MCP-compatible language.</p>
 
                 <div class="dev-hero-buttons">
                     <a href="https://github.com/xmartlabs/vytallink-health-kit" class="btn btn-primary" target="_blank" rel="noopener noreferrer">
@@ -76,7 +76,7 @@
                     <a href="https://github.com/xmartlabs/vytalLink/tree/main/examples" class="btn btn-secondary" target="_blank" rel="noopener noreferrer">
                         <i class="fas fa-folder-open"></i> Examples
                     </a>
-                    <a href="https://vytallink.local.xmartlabs.com/docs/mcp" class="btn btn-secondary" target="_blank" rel="noopener noreferrer">
+                    <a href="https://api.vytallink.xmartlabs.com/docs/mcp" class="btn btn-secondary" target="_blank" rel="noopener noreferrer">
                         <i class="fas fa-file-code"></i> MCP Swagger
                     </a>
                 </div>
@@ -115,6 +115,9 @@
                     <div class="step-content">
                         <h3>User installs the VytalLink mobile app</h3>
                         <p>The app reads Apple Health (iOS) or Health Connect (Android), then exposes those metrics through a private and secure MCP connection.</p>
+                        <a href="#" class="btn btn-primary btn-download-step" onclick="openDownloadModal(); return false;">
+                            <i class="fas fa-download"></i> Download App
+                        </a>
                     </div>
                 </div>
 
@@ -188,15 +191,15 @@
             <div class="dev-tools-grid">
                 <div class="dev-tool-card">
                     <h3>direct_login</h3>
-                    <p>Authenticate with the user's Word + PIN. This is the recommended auth method: no redirects, no browser steps, and a single tool call.</p>
+                    <p>Logs in with the user's Word + PIN. No browser, no redirect. One tool call.</p>
                 </div>
                 <div class="dev-tool-card">
                     <h3>get_summary</h3>
-                    <p>Multi-metric summary for a date range. Returns an overview across steps, sleep, heart rate, and more in one call.</p>
+                    <p>Returns a snapshot across steps, sleep, heart rate, and more for any date range.</p>
                 </div>
                 <div class="dev-tool-card">
                     <h3>get_health_metrics</h3>
-                    <p>Fetch specific metrics with a time range and aggregation level (raw, hourly, daily). The primary tool for reading health data.</p>
+                    <p>Query any metric by time range and aggregation: raw, hourly, or daily.</p>
                 </div>
             </div>
 
@@ -227,8 +230,8 @@
     <section id="code-examples" class="dev-code-example">
         <div class="container">
             <div class="section-header">
-                <h2>Build an Agent in 5 Minutes</h2>
-                <p>Use these snippets as reference pseudocode and adapt them to your runtime.</p>
+                <h2>Start with this</h2>
+                <p>Use these snippets as reference and adapt them to your runtime.</p>
             </div>
 
             <div class="client-tabs">
@@ -338,7 +341,7 @@ async with stdio_client(server_params) as (read, write):
         <div class="container">
             <div class="section-header">
                 <h2>Why VytalLink</h2>
-                <p>The fastest path from zero to health data in your AI agent</p>
+                <p>Zero to health data in your agent.</p>
             </div>
 
             <div class="features-grid">

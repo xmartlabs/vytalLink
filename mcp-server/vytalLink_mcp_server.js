@@ -33,7 +33,7 @@ try {
 
 const MCP_DISTRIBUTION = process.env.VYTALLINK_MCP_DIST || 'npm';
 
-const BASE_URL = process.env.VYTALLINK_BASE_URL || 'https://vytallink.local.xmartlabs.com';
+const BASE_URL = process.env.VYTALLINK_BASE_URL || 'https://api.vytallink.xmartlabs.com';
 const API_BASE_URL = `${BASE_URL}/mcp/call`;
 const TOOLS_URL = `${BASE_URL}/mcp/tools`;
 

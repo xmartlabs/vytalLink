@@ -1,4 +1,4 @@
-export type AnalysisMode = "readiness" | "recovery" | "training" | "sleep" | "chat";
+export type AnalysisMode = "readiness" | "overview" | "training" | "sleep" | "chat";
 
 export function buildSystemPrompt(mode: AnalysisMode = "chat"): string {
   const today = new Date().toISOString().split("T")[0];
@@ -35,25 +35,22 @@ Output format:
 - Resting HR: XX bpm
 **Recommendation**: [1–2 sentences of specific training guidance]`,
 
-    recovery: `
-## Task: Recovery Trend Analysis (28 days)
+    overview: `
+## Task: Health Overview
 
-Analyze recovery trends over the past 3–4 weeks:
+Fetch a broad health snapshot using a single call to \`get_summary\` covering the last 7 days.
+Include at a minimum: steps, heart rate, sleep, and HRV. Then provide a concise overview
+of the user's current health status.
 
-1. **Fetch data**: HRV daily values, sleep metrics, resting HR — past 28 days
-2. **Trend analysis**:
-   - HRV trend: Is it increasing (improving), decreasing (accumulated fatigue), or flat?
-   - Sleep consistency: Average duration, variance, efficiency trend
-   - Resting HR: Increasing (overtraining risk) or stable/decreasing (good adaptation)?
-3. **Pattern identification**: Identify any recovery debt, overreaching signs, or positive adaptation
+Use \`get_summary\` (not \`get_health_metrics\`) to retrieve all metrics in one call.
 
 Output format:
-**Recovery Trend: [Improving / Stable / Declining]**
-- HRV 4-week avg: X ms | Trend: ↑/↓/→ X%
-- Sleep avg: X.Xh | Consistency: ±Xmin
-- Resting HR trend: ↑/↓ X bpm over 4 weeks
-**Insights**: [2–3 key observations]
-**Action**: [Specific weekly training adjustment recommendation]`,
+**Health Overview — last 7 days**
+- Steps: X avg/day
+- Heart rate: X bpm avg
+- Sleep: X.Xh avg
+- HRV: X ms avg
+**Summary**: [2–3 sentences on overall health status]`,
 
     training: `
 ## Task: Training Load Analysis

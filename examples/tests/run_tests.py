@@ -259,7 +259,7 @@ def build_tests(word: str, pin: str) -> list[dict]:
 
     non_chat_modes = [
         ("readiness", "Quick readiness score today"),
-        ("recovery",  "Brief recovery summary"),
+        ("overview",  "Brief health overview"),
         ("training",  "Training load summary"),
         ("sleep",     "Sleep quality summary"),
     ]
