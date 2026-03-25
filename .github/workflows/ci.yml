@@ -13,7 +13,7 @@ jobs:
       mobile: ${{ steps.filter.outputs.mobile }}
       monorepo: ${{ steps.filter.outputs.monorepo }}
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - uses: dorny/paths-filter@v3
         id: filter
         with:
@@ -36,7 +36,7 @@ jobs:
       ANDROID_APP_DIR: mobile/android
       IOS_APP_DIR: mobile/ios
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - uses: actions/setup-java@v5
         with:
           distribution: 'zulu'
@@ -47,12 +47,12 @@ jobs:
           channel: 'stable'
           cache: true
       - name: Cache FVM & Flutter
-        uses: actions/cache@v3
+        uses: actions/cache@v5
         with:
           path: /home/runner/fvm/versions/
           key: ${{ runner.os }}-${{ hashFiles('**/fvm_config.json') }}
       - name: Cache pub cache
-        uses: actions/cache@v3
+        uses: actions/cache@v5
         with:
           path: /home/runner/.pub-cache/
           key: ${{ runner.os }}-pub-cache
@@ -98,7 +98,7 @@ jobs:
     name: MCP Server Check
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - uses: actions/setup-node@v4
         with:
           node-version: '20'
@@ -115,7 +115,7 @@ jobs:
     name: Examples TypeScript Build
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - uses: actions/setup-node@v4
         with:
           node-version: '20'
@@ -132,7 +132,7 @@ jobs:
     name: Examples Python Check
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
