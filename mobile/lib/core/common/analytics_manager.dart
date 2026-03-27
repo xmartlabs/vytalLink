@@ -5,6 +5,7 @@ import 'package:flutter_template/core/common/config.dart';
 import 'package:flutter_template/core/common/logger.dart';
 import 'package:flutter_template/core/model/health_data_request.dart';
 import 'package:flutter_template/core/model/health_data_response.dart';
+import 'package:flutter_template/core/model/summary_request.dart';
 
 abstract interface class AnalyticsManager {
   static final AnalyticsService _service = _FirebaseAnalyticsService();
@@ -76,6 +77,34 @@ abstract interface class AnalyticsManager {
         },
       ).ignore();
 
+  static void logSummaryRequest(SummaryRequest request) => _logEvent(
+        _AnalyticsEvent.summaryRequest,
+        {
+          'start_time': request.startTime.toIso8601String(),
+          'end_time': request.endTime.toIso8601String(),
+          'metric_count': request.metrics?.length ?? 0,
+        },
+      ).ignore();
+
+  static void logSummaryResponse({required int metricCount}) => _logEvent(
+        _AnalyticsEvent.summaryResponse,
+        {
+          'metric_count': metricCount,
+        },
+      ).ignore();
+
+  static void logSummaryError({
+    required String errorType,
+    required String errorMessage,
+  }) =>
+      _logEvent(
+        _AnalyticsEvent.summaryError,
+        {
+          'error_type': errorType,
+          'error_message': errorMessage,
+        },
+      ).ignore();
+
   static void logMcpConnectionStarted() =>
       _logEvent(_AnalyticsEvent.mcpConnectionStarted).ignore();
 
@@ -141,6 +170,9 @@ enum _AnalyticsEvent {
   healthDataRequest('health_data_request'),
   healthDataResponse('health_data_response'),
   healthDataError('health_data_error'),
+  summaryRequest('summary_request'),
+  summaryResponse('summary_response'),
+  summaryError('summary_error'),
   mcpConnectionStarted('mcp_connection_started'),
   mcpConnectionError('mcp_connection_error'),
   mcpConnectionLost('mcp_connection_lost'),

@@ -40,6 +40,22 @@ Map<String, dynamic> _$$ConnectionCodeMessageImplToJson(
       'type': instance.$type,
     };
 
+_$SummaryRequestMessageImpl _$$SummaryRequestMessageImplFromJson(
+        Map<String, dynamic> json) =>
+    _$SummaryRequestMessageImpl(
+      id: json['request_id'] as String,
+      payload: json['payload'] as Map<String, dynamic>,
+      $type: json['type'] as String?,
+    );
+
+Map<String, dynamic> _$$SummaryRequestMessageImplToJson(
+        _$SummaryRequestMessageImpl instance) =>
+    <String, dynamic>{
+      'request_id': instance.id,
+      'payload': instance.payload,
+      'type': instance.$type,
+    };
+
 _$UnknownMessageImpl _$$UnknownMessageImplFromJson(Map<String, dynamic> json) =>
     _$UnknownMessageImpl(
       data: json['data'] as Map<String, dynamic>,

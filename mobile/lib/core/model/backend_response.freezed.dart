@@ -18,6 +18,8 @@ BackendResponse _$BackendResponseFromJson(Map<String, dynamic> json) {
   switch (json['type']) {
     case 'health_data_response':
       return HealthDataBackendResponse.fromJson(json);
+    case 'summary_response':
+      return SummaryBackendResponse.fromJson(json);
     case 'generic':
       return GenericBackendResponse.fromJson(json);
 
@@ -37,6 +39,9 @@ mixin _$BackendResponse {
     required TResult Function(
             String id, @JsonKey(name: 'health_data') Map<String, dynamic> data)
         healthDataResponse,
+    required TResult Function(
+            String id, @JsonKey(name: 'summary_data') Map<String, dynamic> data)
+        summaryResponse,
     required TResult Function(String? id, Map<String, dynamic>? data) generic,
   }) =>
       throw _privateConstructorUsedError;
@@ -45,6 +50,9 @@ mixin _$BackendResponse {
     TResult? Function(
             String id, @JsonKey(name: 'health_data') Map<String, dynamic> data)?
         healthDataResponse,
+    TResult? Function(String id,
+            @JsonKey(name: 'summary_data') Map<String, dynamic> data)?
+        summaryResponse,
     TResult? Function(String? id, Map<String, dynamic>? data)? generic,
   }) =>
       throw _privateConstructorUsedError;
@@ -53,6 +61,9 @@ mixin _$BackendResponse {
     TResult Function(
             String id, @JsonKey(name: 'health_data') Map<String, dynamic> data)?
         healthDataResponse,
+    TResult Function(String id,
+            @JsonKey(name: 'summary_data') Map<String, dynamic> data)?
+        summaryResponse,
     TResult Function(String? id, Map<String, dynamic>? data)? generic,
     required TResult orElse(),
   }) =>
@@ -61,18 +72,21 @@ mixin _$BackendResponse {
   TResult map<TResult extends Object?>({
     required TResult Function(HealthDataBackendResponse value)
         healthDataResponse,
+    required TResult Function(SummaryBackendResponse value) summaryResponse,
     required TResult Function(GenericBackendResponse value) generic,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(HealthDataBackendResponse value)? healthDataResponse,
+    TResult? Function(SummaryBackendResponse value)? summaryResponse,
     TResult? Function(GenericBackendResponse value)? generic,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(HealthDataBackendResponse value)? healthDataResponse,
+    TResult Function(SummaryBackendResponse value)? summaryResponse,
     TResult Function(GenericBackendResponse value)? generic,
     required TResult orElse(),
   }) =>
@@ -222,6 +236,9 @@ class _$HealthDataBackendResponseImpl implements HealthDataBackendResponse {
     required TResult Function(
             String id, @JsonKey(name: 'health_data') Map<String, dynamic> data)
         healthDataResponse,
+    required TResult Function(
+            String id, @JsonKey(name: 'summary_data') Map<String, dynamic> data)
+        summaryResponse,
     required TResult Function(String? id, Map<String, dynamic>? data) generic,
   }) {
     return healthDataResponse(id, data);
@@ -233,6 +250,9 @@ class _$HealthDataBackendResponseImpl implements HealthDataBackendResponse {
     TResult? Function(
             String id, @JsonKey(name: 'health_data') Map<String, dynamic> data)?
         healthDataResponse,
+    TResult? Function(String id,
+            @JsonKey(name: 'summary_data') Map<String, dynamic> data)?
+        summaryResponse,
     TResult? Function(String? id, Map<String, dynamic>? data)? generic,
   }) {
     return healthDataResponse?.call(id, data);
@@ -244,6 +264,9 @@ class _$HealthDataBackendResponseImpl implements HealthDataBackendResponse {
     TResult Function(
             String id, @JsonKey(name: 'health_data') Map<String, dynamic> data)?
         healthDataResponse,
+    TResult Function(String id,
+            @JsonKey(name: 'summary_data') Map<String, dynamic> data)?
+        summaryResponse,
     TResult Function(String? id, Map<String, dynamic>? data)? generic,
     required TResult orElse(),
   }) {
@@ -258,6 +281,7 @@ class _$HealthDataBackendResponseImpl implements HealthDataBackendResponse {
   TResult map<TResult extends Object?>({
     required TResult Function(HealthDataBackendResponse value)
         healthDataResponse,
+    required TResult Function(SummaryBackendResponse value) summaryResponse,
     required TResult Function(GenericBackendResponse value) generic,
   }) {
     return healthDataResponse(this);
@@ -267,6 +291,7 @@ class _$HealthDataBackendResponseImpl implements HealthDataBackendResponse {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(HealthDataBackendResponse value)? healthDataResponse,
+    TResult? Function(SummaryBackendResponse value)? summaryResponse,
     TResult? Function(GenericBackendResponse value)? generic,
   }) {
     return healthDataResponse?.call(this);
@@ -276,6 +301,7 @@ class _$HealthDataBackendResponseImpl implements HealthDataBackendResponse {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(HealthDataBackendResponse value)? healthDataResponse,
+    TResult Function(SummaryBackendResponse value)? summaryResponse,
     TResult Function(GenericBackendResponse value)? generic,
     required TResult orElse(),
   }) {
@@ -311,6 +337,209 @@ abstract class HealthDataBackendResponse implements BackendResponse {
   @override
   @JsonKey(ignore: true)
   _$$HealthDataBackendResponseImplCopyWith<_$HealthDataBackendResponseImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$SummaryBackendResponseImplCopyWith<$Res>
+    implements $BackendResponseCopyWith<$Res> {
+  factory _$$SummaryBackendResponseImplCopyWith(
+          _$SummaryBackendResponseImpl value,
+          $Res Function(_$SummaryBackendResponseImpl) then) =
+      __$$SummaryBackendResponseImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {String id, @JsonKey(name: 'summary_data') Map<String, dynamic> data});
+}
+
+/// @nodoc
+class __$$SummaryBackendResponseImplCopyWithImpl<$Res>
+    extends _$BackendResponseCopyWithImpl<$Res, _$SummaryBackendResponseImpl>
+    implements _$$SummaryBackendResponseImplCopyWith<$Res> {
+  __$$SummaryBackendResponseImplCopyWithImpl(
+      _$SummaryBackendResponseImpl _value,
+      $Res Function(_$SummaryBackendResponseImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = null,
+    Object? data = null,
+  }) {
+    return _then(_$SummaryBackendResponseImpl(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
+      data: null == data
+          ? _value._data
+          : data // ignore: cast_nullable_to_non_nullable
+              as Map<String, dynamic>,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$SummaryBackendResponseImpl implements SummaryBackendResponse {
+  const _$SummaryBackendResponseImpl(
+      {required this.id,
+      @JsonKey(name: 'summary_data') required final Map<String, dynamic> data,
+      final String? $type})
+      : _data = data,
+        $type = $type ?? 'summary_response';
+
+  factory _$SummaryBackendResponseImpl.fromJson(Map<String, dynamic> json) =>
+      _$$SummaryBackendResponseImplFromJson(json);
+
+  @override
+  final String id;
+  final Map<String, dynamic> _data;
+  @override
+  @JsonKey(name: 'summary_data')
+  Map<String, dynamic> get data {
+    if (_data is EqualUnmodifiableMapView) return _data;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableMapView(_data);
+  }
+
+  @JsonKey(name: 'type')
+  final String $type;
+
+  @override
+  String toString() {
+    return 'BackendResponse.summaryResponse(id: $id, data: $data)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$SummaryBackendResponseImpl &&
+            (identical(other.id, id) || other.id == id) &&
+            const DeepCollectionEquality().equals(other._data, _data));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode =>
+      Object.hash(runtimeType, id, const DeepCollectionEquality().hash(_data));
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$SummaryBackendResponseImplCopyWith<_$SummaryBackendResponseImpl>
+      get copyWith => __$$SummaryBackendResponseImplCopyWithImpl<
+          _$SummaryBackendResponseImpl>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(
+            String id, @JsonKey(name: 'health_data') Map<String, dynamic> data)
+        healthDataResponse,
+    required TResult Function(
+            String id, @JsonKey(name: 'summary_data') Map<String, dynamic> data)
+        summaryResponse,
+    required TResult Function(String? id, Map<String, dynamic>? data) generic,
+  }) {
+    return summaryResponse(id, data);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(
+            String id, @JsonKey(name: 'health_data') Map<String, dynamic> data)?
+        healthDataResponse,
+    TResult? Function(String id,
+            @JsonKey(name: 'summary_data') Map<String, dynamic> data)?
+        summaryResponse,
+    TResult? Function(String? id, Map<String, dynamic>? data)? generic,
+  }) {
+    return summaryResponse?.call(id, data);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(
+            String id, @JsonKey(name: 'health_data') Map<String, dynamic> data)?
+        healthDataResponse,
+    TResult Function(String id,
+            @JsonKey(name: 'summary_data') Map<String, dynamic> data)?
+        summaryResponse,
+    TResult Function(String? id, Map<String, dynamic>? data)? generic,
+    required TResult orElse(),
+  }) {
+    if (summaryResponse != null) {
+      return summaryResponse(id, data);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(HealthDataBackendResponse value)
+        healthDataResponse,
+    required TResult Function(SummaryBackendResponse value) summaryResponse,
+    required TResult Function(GenericBackendResponse value) generic,
+  }) {
+    return summaryResponse(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(HealthDataBackendResponse value)? healthDataResponse,
+    TResult? Function(SummaryBackendResponse value)? summaryResponse,
+    TResult? Function(GenericBackendResponse value)? generic,
+  }) {
+    return summaryResponse?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(HealthDataBackendResponse value)? healthDataResponse,
+    TResult Function(SummaryBackendResponse value)? summaryResponse,
+    TResult Function(GenericBackendResponse value)? generic,
+    required TResult orElse(),
+  }) {
+    if (summaryResponse != null) {
+      return summaryResponse(this);
+    }
+    return orElse();
+  }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$SummaryBackendResponseImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class SummaryBackendResponse implements BackendResponse {
+  const factory SummaryBackendResponse(
+      {required final String id,
+      @JsonKey(name: 'summary_data')
+      required final Map<String, dynamic> data}) = _$SummaryBackendResponseImpl;
+
+  factory SummaryBackendResponse.fromJson(Map<String, dynamic> json) =
+      _$SummaryBackendResponseImpl.fromJson;
+
+  @override
+  String get id;
+  @override
+  @JsonKey(name: 'summary_data')
+  Map<String, dynamic> get data;
+  @override
+  @JsonKey(ignore: true)
+  _$$SummaryBackendResponseImplCopyWith<_$SummaryBackendResponseImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
 
@@ -412,6 +641,9 @@ class _$GenericBackendResponseImpl implements GenericBackendResponse {
     required TResult Function(
             String id, @JsonKey(name: 'health_data') Map<String, dynamic> data)
         healthDataResponse,
+    required TResult Function(
+            String id, @JsonKey(name: 'summary_data') Map<String, dynamic> data)
+        summaryResponse,
     required TResult Function(String? id, Map<String, dynamic>? data) generic,
   }) {
     return generic(id, data);
@@ -423,6 +655,9 @@ class _$GenericBackendResponseImpl implements GenericBackendResponse {
     TResult? Function(
             String id, @JsonKey(name: 'health_data') Map<String, dynamic> data)?
         healthDataResponse,
+    TResult? Function(String id,
+            @JsonKey(name: 'summary_data') Map<String, dynamic> data)?
+        summaryResponse,
     TResult? Function(String? id, Map<String, dynamic>? data)? generic,
   }) {
     return generic?.call(id, data);
@@ -434,6 +669,9 @@ class _$GenericBackendResponseImpl implements GenericBackendResponse {
     TResult Function(
             String id, @JsonKey(name: 'health_data') Map<String, dynamic> data)?
         healthDataResponse,
+    TResult Function(String id,
+            @JsonKey(name: 'summary_data') Map<String, dynamic> data)?
+        summaryResponse,
     TResult Function(String? id, Map<String, dynamic>? data)? generic,
     required TResult orElse(),
   }) {
@@ -448,6 +686,7 @@ class _$GenericBackendResponseImpl implements GenericBackendResponse {
   TResult map<TResult extends Object?>({
     required TResult Function(HealthDataBackendResponse value)
         healthDataResponse,
+    required TResult Function(SummaryBackendResponse value) summaryResponse,
     required TResult Function(GenericBackendResponse value) generic,
   }) {
     return generic(this);
@@ -457,6 +696,7 @@ class _$GenericBackendResponseImpl implements GenericBackendResponse {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(HealthDataBackendResponse value)? healthDataResponse,
+    TResult? Function(SummaryBackendResponse value)? summaryResponse,
     TResult? Function(GenericBackendResponse value)? generic,
   }) {
     return generic?.call(this);
@@ -466,6 +706,7 @@ class _$GenericBackendResponseImpl implements GenericBackendResponse {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(HealthDataBackendResponse value)? healthDataResponse,
+    TResult Function(SummaryBackendResponse value)? summaryResponse,
     TResult Function(GenericBackendResponse value)? generic,
     required TResult orElse(),
   }) {

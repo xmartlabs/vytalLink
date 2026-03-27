@@ -20,6 +20,8 @@ BackendMessage _$BackendMessageFromJson(Map<String, dynamic> json) {
       return HealthDataRequestMessage.fromJson(json);
     case 'connection_code':
       return ConnectionCodeMessage.fromJson(json);
+    case 'summary_request':
+      return SummaryRequestMessage.fromJson(json);
     case 'unknown':
       return UnknownMessage.fromJson(json);
 
@@ -38,6 +40,9 @@ mixin _$BackendMessage {
         healthDataRequest,
     required TResult Function(String code, String word, String message)
         connectionCode,
+    required TResult Function(@JsonKey(name: 'request_id') String id,
+            Map<String, dynamic> payload)
+        summaryRequest,
     required TResult Function(Map<String, dynamic> data) unknown,
   }) =>
       throw _privateConstructorUsedError;
@@ -47,6 +52,9 @@ mixin _$BackendMessage {
             Map<String, dynamic> payload)?
         healthDataRequest,
     TResult? Function(String code, String word, String message)? connectionCode,
+    TResult? Function(@JsonKey(name: 'request_id') String id,
+            Map<String, dynamic> payload)?
+        summaryRequest,
     TResult? Function(Map<String, dynamic> data)? unknown,
   }) =>
       throw _privateConstructorUsedError;
@@ -56,6 +64,9 @@ mixin _$BackendMessage {
             Map<String, dynamic> payload)?
         healthDataRequest,
     TResult Function(String code, String word, String message)? connectionCode,
+    TResult Function(@JsonKey(name: 'request_id') String id,
+            Map<String, dynamic> payload)?
+        summaryRequest,
     TResult Function(Map<String, dynamic> data)? unknown,
     required TResult orElse(),
   }) =>
@@ -64,6 +75,7 @@ mixin _$BackendMessage {
   TResult map<TResult extends Object?>({
     required TResult Function(HealthDataRequestMessage value) healthDataRequest,
     required TResult Function(ConnectionCodeMessage value) connectionCode,
+    required TResult Function(SummaryRequestMessage value) summaryRequest,
     required TResult Function(UnknownMessage value) unknown,
   }) =>
       throw _privateConstructorUsedError;
@@ -71,6 +83,7 @@ mixin _$BackendMessage {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(HealthDataRequestMessage value)? healthDataRequest,
     TResult? Function(ConnectionCodeMessage value)? connectionCode,
+    TResult? Function(SummaryRequestMessage value)? summaryRequest,
     TResult? Function(UnknownMessage value)? unknown,
   }) =>
       throw _privateConstructorUsedError;
@@ -78,6 +91,7 @@ mixin _$BackendMessage {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(HealthDataRequestMessage value)? healthDataRequest,
     TResult Function(ConnectionCodeMessage value)? connectionCode,
+    TResult Function(SummaryRequestMessage value)? summaryRequest,
     TResult Function(UnknownMessage value)? unknown,
     required TResult orElse(),
   }) =>
@@ -204,6 +218,9 @@ class _$HealthDataRequestMessageImpl extends HealthDataRequestMessage {
         healthDataRequest,
     required TResult Function(String code, String word, String message)
         connectionCode,
+    required TResult Function(@JsonKey(name: 'request_id') String id,
+            Map<String, dynamic> payload)
+        summaryRequest,
     required TResult Function(Map<String, dynamic> data) unknown,
   }) {
     return healthDataRequest(id, payload);
@@ -216,6 +233,9 @@ class _$HealthDataRequestMessageImpl extends HealthDataRequestMessage {
             Map<String, dynamic> payload)?
         healthDataRequest,
     TResult? Function(String code, String word, String message)? connectionCode,
+    TResult? Function(@JsonKey(name: 'request_id') String id,
+            Map<String, dynamic> payload)?
+        summaryRequest,
     TResult? Function(Map<String, dynamic> data)? unknown,
   }) {
     return healthDataRequest?.call(id, payload);
@@ -228,6 +248,9 @@ class _$HealthDataRequestMessageImpl extends HealthDataRequestMessage {
             Map<String, dynamic> payload)?
         healthDataRequest,
     TResult Function(String code, String word, String message)? connectionCode,
+    TResult Function(@JsonKey(name: 'request_id') String id,
+            Map<String, dynamic> payload)?
+        summaryRequest,
     TResult Function(Map<String, dynamic> data)? unknown,
     required TResult orElse(),
   }) {
@@ -242,6 +265,7 @@ class _$HealthDataRequestMessageImpl extends HealthDataRequestMessage {
   TResult map<TResult extends Object?>({
     required TResult Function(HealthDataRequestMessage value) healthDataRequest,
     required TResult Function(ConnectionCodeMessage value) connectionCode,
+    required TResult Function(SummaryRequestMessage value) summaryRequest,
     required TResult Function(UnknownMessage value) unknown,
   }) {
     return healthDataRequest(this);
@@ -252,6 +276,7 @@ class _$HealthDataRequestMessageImpl extends HealthDataRequestMessage {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(HealthDataRequestMessage value)? healthDataRequest,
     TResult? Function(ConnectionCodeMessage value)? connectionCode,
+    TResult? Function(SummaryRequestMessage value)? summaryRequest,
     TResult? Function(UnknownMessage value)? unknown,
   }) {
     return healthDataRequest?.call(this);
@@ -262,6 +287,7 @@ class _$HealthDataRequestMessageImpl extends HealthDataRequestMessage {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(HealthDataRequestMessage value)? healthDataRequest,
     TResult Function(ConnectionCodeMessage value)? connectionCode,
+    TResult Function(SummaryRequestMessage value)? summaryRequest,
     TResult Function(UnknownMessage value)? unknown,
     required TResult orElse(),
   }) {
@@ -397,6 +423,9 @@ class _$ConnectionCodeMessageImpl extends ConnectionCodeMessage {
         healthDataRequest,
     required TResult Function(String code, String word, String message)
         connectionCode,
+    required TResult Function(@JsonKey(name: 'request_id') String id,
+            Map<String, dynamic> payload)
+        summaryRequest,
     required TResult Function(Map<String, dynamic> data) unknown,
   }) {
     return connectionCode(code, word, message);
@@ -409,6 +438,9 @@ class _$ConnectionCodeMessageImpl extends ConnectionCodeMessage {
             Map<String, dynamic> payload)?
         healthDataRequest,
     TResult? Function(String code, String word, String message)? connectionCode,
+    TResult? Function(@JsonKey(name: 'request_id') String id,
+            Map<String, dynamic> payload)?
+        summaryRequest,
     TResult? Function(Map<String, dynamic> data)? unknown,
   }) {
     return connectionCode?.call(code, word, message);
@@ -421,6 +453,9 @@ class _$ConnectionCodeMessageImpl extends ConnectionCodeMessage {
             Map<String, dynamic> payload)?
         healthDataRequest,
     TResult Function(String code, String word, String message)? connectionCode,
+    TResult Function(@JsonKey(name: 'request_id') String id,
+            Map<String, dynamic> payload)?
+        summaryRequest,
     TResult Function(Map<String, dynamic> data)? unknown,
     required TResult orElse(),
   }) {
@@ -435,6 +470,7 @@ class _$ConnectionCodeMessageImpl extends ConnectionCodeMessage {
   TResult map<TResult extends Object?>({
     required TResult Function(HealthDataRequestMessage value) healthDataRequest,
     required TResult Function(ConnectionCodeMessage value) connectionCode,
+    required TResult Function(SummaryRequestMessage value) summaryRequest,
     required TResult Function(UnknownMessage value) unknown,
   }) {
     return connectionCode(this);
@@ -445,6 +481,7 @@ class _$ConnectionCodeMessageImpl extends ConnectionCodeMessage {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(HealthDataRequestMessage value)? healthDataRequest,
     TResult? Function(ConnectionCodeMessage value)? connectionCode,
+    TResult? Function(SummaryRequestMessage value)? summaryRequest,
     TResult? Function(UnknownMessage value)? unknown,
   }) {
     return connectionCode?.call(this);
@@ -455,6 +492,7 @@ class _$ConnectionCodeMessageImpl extends ConnectionCodeMessage {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(HealthDataRequestMessage value)? healthDataRequest,
     TResult Function(ConnectionCodeMessage value)? connectionCode,
+    TResult Function(SummaryRequestMessage value)? summaryRequest,
     TResult Function(UnknownMessage value)? unknown,
     required TResult orElse(),
   }) {
@@ -487,6 +525,211 @@ abstract class ConnectionCodeMessage extends BackendMessage {
   String get message;
   @JsonKey(ignore: true)
   _$$ConnectionCodeMessageImplCopyWith<_$ConnectionCodeMessageImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$SummaryRequestMessageImplCopyWith<$Res> {
+  factory _$$SummaryRequestMessageImplCopyWith(
+          _$SummaryRequestMessageImpl value,
+          $Res Function(_$SummaryRequestMessageImpl) then) =
+      __$$SummaryRequestMessageImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call(
+      {@JsonKey(name: 'request_id') String id, Map<String, dynamic> payload});
+}
+
+/// @nodoc
+class __$$SummaryRequestMessageImplCopyWithImpl<$Res>
+    extends _$BackendMessageCopyWithImpl<$Res, _$SummaryRequestMessageImpl>
+    implements _$$SummaryRequestMessageImplCopyWith<$Res> {
+  __$$SummaryRequestMessageImplCopyWithImpl(_$SummaryRequestMessageImpl _value,
+      $Res Function(_$SummaryRequestMessageImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = null,
+    Object? payload = null,
+  }) {
+    return _then(_$SummaryRequestMessageImpl(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
+      payload: null == payload
+          ? _value._payload
+          : payload // ignore: cast_nullable_to_non_nullable
+              as Map<String, dynamic>,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$SummaryRequestMessageImpl extends SummaryRequestMessage {
+  const _$SummaryRequestMessageImpl(
+      {@JsonKey(name: 'request_id') required this.id,
+      required final Map<String, dynamic> payload,
+      final String? $type})
+      : _payload = payload,
+        $type = $type ?? 'summary_request',
+        super._();
+
+  factory _$SummaryRequestMessageImpl.fromJson(Map<String, dynamic> json) =>
+      _$$SummaryRequestMessageImplFromJson(json);
+
+  @override
+  @JsonKey(name: 'request_id')
+  final String id;
+  final Map<String, dynamic> _payload;
+  @override
+  Map<String, dynamic> get payload {
+    if (_payload is EqualUnmodifiableMapView) return _payload;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableMapView(_payload);
+  }
+
+  @JsonKey(name: 'type')
+  final String $type;
+
+  @override
+  String toString() {
+    return 'BackendMessage.summaryRequest(id: $id, payload: $payload)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$SummaryRequestMessageImpl &&
+            (identical(other.id, id) || other.id == id) &&
+            const DeepCollectionEquality().equals(other._payload, _payload));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(
+      runtimeType, id, const DeepCollectionEquality().hash(_payload));
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$SummaryRequestMessageImplCopyWith<_$SummaryRequestMessageImpl>
+      get copyWith => __$$SummaryRequestMessageImplCopyWithImpl<
+          _$SummaryRequestMessageImpl>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(@JsonKey(name: 'request_id') String id,
+            Map<String, dynamic> payload)
+        healthDataRequest,
+    required TResult Function(String code, String word, String message)
+        connectionCode,
+    required TResult Function(@JsonKey(name: 'request_id') String id,
+            Map<String, dynamic> payload)
+        summaryRequest,
+    required TResult Function(Map<String, dynamic> data) unknown,
+  }) {
+    return summaryRequest(id, payload);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(@JsonKey(name: 'request_id') String id,
+            Map<String, dynamic> payload)?
+        healthDataRequest,
+    TResult? Function(String code, String word, String message)? connectionCode,
+    TResult? Function(@JsonKey(name: 'request_id') String id,
+            Map<String, dynamic> payload)?
+        summaryRequest,
+    TResult? Function(Map<String, dynamic> data)? unknown,
+  }) {
+    return summaryRequest?.call(id, payload);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(@JsonKey(name: 'request_id') String id,
+            Map<String, dynamic> payload)?
+        healthDataRequest,
+    TResult Function(String code, String word, String message)? connectionCode,
+    TResult Function(@JsonKey(name: 'request_id') String id,
+            Map<String, dynamic> payload)?
+        summaryRequest,
+    TResult Function(Map<String, dynamic> data)? unknown,
+    required TResult orElse(),
+  }) {
+    if (summaryRequest != null) {
+      return summaryRequest(id, payload);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(HealthDataRequestMessage value) healthDataRequest,
+    required TResult Function(ConnectionCodeMessage value) connectionCode,
+    required TResult Function(SummaryRequestMessage value) summaryRequest,
+    required TResult Function(UnknownMessage value) unknown,
+  }) {
+    return summaryRequest(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(HealthDataRequestMessage value)? healthDataRequest,
+    TResult? Function(ConnectionCodeMessage value)? connectionCode,
+    TResult? Function(SummaryRequestMessage value)? summaryRequest,
+    TResult? Function(UnknownMessage value)? unknown,
+  }) {
+    return summaryRequest?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(HealthDataRequestMessage value)? healthDataRequest,
+    TResult Function(ConnectionCodeMessage value)? connectionCode,
+    TResult Function(SummaryRequestMessage value)? summaryRequest,
+    TResult Function(UnknownMessage value)? unknown,
+    required TResult orElse(),
+  }) {
+    if (summaryRequest != null) {
+      return summaryRequest(this);
+    }
+    return orElse();
+  }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$SummaryRequestMessageImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class SummaryRequestMessage extends BackendMessage {
+  const factory SummaryRequestMessage(
+          {@JsonKey(name: 'request_id') required final String id,
+          required final Map<String, dynamic> payload}) =
+      _$SummaryRequestMessageImpl;
+  const SummaryRequestMessage._() : super._();
+
+  factory SummaryRequestMessage.fromJson(Map<String, dynamic> json) =
+      _$SummaryRequestMessageImpl.fromJson;
+
+  @JsonKey(name: 'request_id')
+  String get id;
+  Map<String, dynamic> get payload;
+  @JsonKey(ignore: true)
+  _$$SummaryRequestMessageImplCopyWith<_$SummaryRequestMessageImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
 
@@ -577,6 +820,9 @@ class _$UnknownMessageImpl extends UnknownMessage {
         healthDataRequest,
     required TResult Function(String code, String word, String message)
         connectionCode,
+    required TResult Function(@JsonKey(name: 'request_id') String id,
+            Map<String, dynamic> payload)
+        summaryRequest,
     required TResult Function(Map<String, dynamic> data) unknown,
   }) {
     return unknown(data);
@@ -589,6 +835,9 @@ class _$UnknownMessageImpl extends UnknownMessage {
             Map<String, dynamic> payload)?
         healthDataRequest,
     TResult? Function(String code, String word, String message)? connectionCode,
+    TResult? Function(@JsonKey(name: 'request_id') String id,
+            Map<String, dynamic> payload)?
+        summaryRequest,
     TResult? Function(Map<String, dynamic> data)? unknown,
   }) {
     return unknown?.call(data);
@@ -601,6 +850,9 @@ class _$UnknownMessageImpl extends UnknownMessage {
             Map<String, dynamic> payload)?
         healthDataRequest,
     TResult Function(String code, String word, String message)? connectionCode,
+    TResult Function(@JsonKey(name: 'request_id') String id,
+            Map<String, dynamic> payload)?
+        summaryRequest,
     TResult Function(Map<String, dynamic> data)? unknown,
     required TResult orElse(),
   }) {
@@ -615,6 +867,7 @@ class _$UnknownMessageImpl extends UnknownMessage {
   TResult map<TResult extends Object?>({
     required TResult Function(HealthDataRequestMessage value) healthDataRequest,
     required TResult Function(ConnectionCodeMessage value) connectionCode,
+    required TResult Function(SummaryRequestMessage value) summaryRequest,
     required TResult Function(UnknownMessage value) unknown,
   }) {
     return unknown(this);
@@ -625,6 +878,7 @@ class _$UnknownMessageImpl extends UnknownMessage {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(HealthDataRequestMessage value)? healthDataRequest,
     TResult? Function(ConnectionCodeMessage value)? connectionCode,
+    TResult? Function(SummaryRequestMessage value)? summaryRequest,
     TResult? Function(UnknownMessage value)? unknown,
   }) {
     return unknown?.call(this);
@@ -635,6 +889,7 @@ class _$UnknownMessageImpl extends UnknownMessage {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(HealthDataRequestMessage value)? healthDataRequest,
     TResult Function(ConnectionCodeMessage value)? connectionCode,
+    TResult Function(SummaryRequestMessage value)? summaryRequest,
     TResult Function(UnknownMessage value)? unknown,
     required TResult orElse(),
   }) {

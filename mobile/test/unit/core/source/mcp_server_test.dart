@@ -4,92 +4,23 @@ import 'dart:convert';
 import 'package:flutter_template/core/common/config.dart';
 import 'package:flutter_template/core/model/health_data_request.dart';
 import 'package:flutter_template/core/model/mcp_exceptions.dart';
+import 'package:flutter_template/core/model/summary_request.dart';
+import 'package:flutter_template/core/model/summary_response.dart';
 import 'package:flutter_template/core/service/health_data_manager.dart';
 import 'package:flutter_template/core/service/server/mcp_server.dart';
 import 'package:flutter_template/core/service/server/mcp_transport.dart';
+import 'package:flutter_template/core/service/summary_data_manager.dart';
 import 'package:flutter_template/model/vytal_health_data_category.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 
+import '../../../helpers/fake_mcp_transport.dart';
 import '../../../helpers/mock_websocket.dart';
 import '../../../helpers/test_data_factory.dart';
 
 class MockHealthDataManager extends Mock implements HealthDataManager {}
 
-class FakeMcpTransport implements McpTransport {
-  FakeMcpTransport();
-
-  final StreamController<McpTransportEvent> _statusController =
-      StreamController<McpTransportEvent>.broadcast();
-  final StreamController<String> _messageController =
-      StreamController<String>.broadcast();
-
-  Future<void> Function()? onStartCallback;
-  Future<void> Function()? onStopCallback;
-  Future<void> Function(String message)? onSendCallback;
-
-  final List<String> sentMessages = <String>[];
-
-  bool _isConnected = false;
-
-  @override
-  Stream<McpTransportEvent> get events => _statusController.stream;
-
-  @override
-  Stream<String> get messages => _messageController.stream;
-
-  @override
-  bool get isConnected => _isConnected;
-
-  @override
-  Future<void> start() async {
-    if (onStartCallback != null) {
-      await onStartCallback!();
-    }
-  }
-
-  @override
-  Future<void> stop() async {
-    _isConnected = false;
-    if (onStopCallback != null) {
-      await onStopCallback!();
-    }
-  }
-
-  @override
-  Future<void> send(String message) async {
-    sentMessages.add(message);
-    if (onSendCallback != null) {
-      await onSendCallback!(message);
-    }
-  }
-
-  @override
-  Future<void> dispose() async {
-    await stop();
-    await _statusController.close();
-    await _messageController.close();
-  }
-
-  void emitStatus(McpTransportEvent event) {
-    event.when(
-      connecting: () {
-        _isConnected = false;
-      },
-      connected: () {
-        _isConnected = true;
-      },
-      disconnected: (_, __) {
-        _isConnected = false;
-      },
-    );
-    _statusController.add(event);
-  }
-
-  void emitMessage(String message) {
-    _messageController.add(message);
-  }
-}
+class MockSummaryDataManager extends Mock implements SummaryDataManager {}
 
 void main() {
   setUpAll(() {
@@ -100,18 +31,27 @@ void main() {
     Config.testingMode = true;
 
     registerFallbackValue(TestDataFactory.createHealthDataRequest());
+    registerFallbackValue(
+      SummaryRequest(
+        startTime: DateTime.utc(2024, 1, 1),
+        endTime: DateTime.utc(2024, 1, 8),
+      ),
+    );
   });
 
   group('HealthMcpServerService', () {
     late HealthMcpServerService mcpServer;
     late MockHealthDataManager mockHealthDataManager;
+    late MockSummaryDataManager mockSummaryDataManager;
     late FakeMcpTransport fakeTransport;
 
     setUp(() {
       mockHealthDataManager = MockHealthDataManager();
+      mockSummaryDataManager = MockSummaryDataManager();
       fakeTransport = FakeMcpTransport();
       mcpServer = HealthMcpServerService(
         healthDataManager: mockHealthDataManager,
+        summaryDataManager: mockSummaryDataManager,
         transport: fakeTransport,
       );
     });
@@ -468,6 +408,252 @@ void main() {
         };
 
         await mcpServer.handleBackendMessage(jsonEncode(messageJson));
+      });
+    });
+
+    group('summary request handling', () {
+      // Connect the fake transport and process a connection code message so
+      // that HealthMcpServerService.isConnected returns true (required for
+      // sendToBackend to work).
+      setUp(() async {
+        fakeTransport.emitStatus(const McpTransportEvent.connected());
+        await mcpServer.handleBackendMessage(
+          jsonEncode(
+            WebSocketTestMessageFactory.createConnectionCodeMessage(
+              code: 'SUMMARY-CODE',
+              word: 'bear',
+              message: 'Ready for summary tests',
+            ),
+          ),
+        );
+        // Clear any messages recorded during setup.
+        fakeTransport.sentMessages.clear();
+      });
+
+      test('success path sends a summary_response message', () async {
+        final summaryResponse = SummaryResponse(
+          success: true,
+          startTime: DateTime(2024, 1, 1).toIso8601String(),
+          endTime: DateTime(2024, 1, 8).toIso8601String(),
+          results: [
+            SummaryMetricResult(
+              valueType: VytalHealthDataCategory.STEPS,
+              success: true,
+              data: TestDataFactory.createHealthDataResponse(
+                valueType: 'STEPS',
+                count: 3,
+              ),
+            ),
+          ],
+        );
+
+        when(() => mockSummaryDataManager.processSummaryRequest(any()))
+            .thenAnswer((_) async => summaryResponse);
+
+        final requestMessage =
+            WebSocketTestMessageFactory.createSummaryRequestMessage(
+          id: 'summary-success-1',
+        );
+
+        await mcpServer.handleBackendMessage(jsonEncode(requestMessage));
+
+        expect(fakeTransport.sentMessages, hasLength(1));
+        final decoded = jsonDecode(fakeTransport.sentMessages.first)
+            as Map<String, dynamic>;
+        // Must be summary_response, not health_data_error or
+        // health_data_response.
+        expect(decoded['type'], equals('summary_response'));
+        expect(decoded['id'], equals('summary-success-1'));
+        expect(decoded['summary_data'], isNotNull);
+      });
+
+      test(
+          'error path sends a summary_response with success: false, '
+          'not HealthDataErrorResponse', () async {
+        when(() => mockSummaryDataManager.processSummaryRequest(any()))
+            .thenThrow(Exception('summary processing failed'));
+
+        final requestMessage =
+            WebSocketTestMessageFactory.createSummaryRequestMessage(
+          id: 'summary-error-1',
+        );
+
+        await mcpServer.handleBackendMessage(jsonEncode(requestMessage));
+
+        expect(fakeTransport.sentMessages, hasLength(1));
+        final decoded = jsonDecode(fakeTransport.sentMessages.first)
+            as Map<String, dynamic>;
+        // Critical: must be summary_response, NOT health_data_error.
+        expect(decoded['type'], equals('summary_response'));
+        expect(decoded['id'], equals('summary-error-1'));
+        final summaryData = decoded['summary_data'] as Map<String, dynamic>;
+        expect(summaryData['success'], isFalse);
+        expect(summaryData['start_time'], isNotEmpty);
+        expect(summaryData['end_time'], isNotEmpty);
+        expect(summaryData['results'], isA<List<dynamic>>());
+      });
+
+      test('sendToBackend failure in error branch does not propagate exception',
+          () async {
+        when(() => mockSummaryDataManager.processSummaryRequest(any()))
+            .thenThrow(Exception('summary processing failed'));
+
+        // Make sendToBackend also throw on the error response attempt.
+        fakeTransport.onSendCallback = (_) async {
+          throw Exception('transport send failure');
+        };
+
+        final requestMessage =
+            WebSocketTestMessageFactory.createSummaryRequestMessage(
+          id: 'summary-inner-error-1',
+        );
+
+        // Should complete without throwing.
+        await expectLater(
+          mcpServer.handleBackendMessage(jsonEncode(requestMessage)),
+          completes,
+        );
+      });
+
+      test(
+          'parse failures preserve request_id and return full summary_response',
+          () async {
+        final invalidRequestMessage = {
+          'type': 'summary_request',
+          'request_id': 'summary-parse-error-1',
+          'payload': {
+            'start_time': '2024-01-01T00:00:00Z',
+            'end_time': '2024-01-08T00:00:00Z',
+            'metrics': [
+              {
+                'value_type': 'NOT_A_REAL_METRIC',
+              },
+            ],
+          },
+        };
+
+        await mcpServer.handleBackendMessage(jsonEncode(invalidRequestMessage));
+
+        expect(fakeTransport.sentMessages, hasLength(1));
+        final decoded = jsonDecode(fakeTransport.sentMessages.first)
+            as Map<String, dynamic>;
+        expect(decoded['type'], equals('summary_response'));
+        expect(decoded['id'], equals('summary-parse-error-1'));
+        final summaryData = decoded['summary_data'] as Map<String, dynamic>;
+        expect(summaryData['success'], isFalse);
+        expect(summaryData['start_time'], equals('2024-01-01T00:00:00Z'));
+        expect(summaryData['end_time'], equals('2024-01-08T00:00:00Z'));
+        expect(summaryData['results'], isA<List<dynamic>>());
+      });
+
+      test(
+          'non-map summary payloads still return a correlated summary_response',
+          () async {
+        final invalidRequestMessage = {
+          'type': 'summary_request',
+          'request_id': 'summary-payload-error-1',
+          'payload': 'not-a-map',
+        };
+
+        await mcpServer.handleBackendMessage(jsonEncode(invalidRequestMessage));
+
+        expect(fakeTransport.sentMessages, hasLength(1));
+        final decoded = jsonDecode(fakeTransport.sentMessages.first)
+            as Map<String, dynamic>;
+        expect(decoded['type'], equals('summary_response'));
+        expect(decoded['id'], equals('summary-payload-error-1'));
+        final summaryData = decoded['summary_data'] as Map<String, dynamic>;
+        expect(summaryData['success'], isFalse);
+        expect(summaryData['start_time'], isEmpty);
+        expect(summaryData['end_time'], isEmpty);
+        expect(summaryData['results'], isA<List<dynamic>>());
+      });
+
+      test(
+          'summary_request without any ID field sends response with empty id',
+          () async {
+        // _messageResponseId returns '' when none of request_id / requestId /
+        // id is present in the message. The outer catch should still send a
+        // summary_response (not health_data_error) with id: ''.
+        final noIdRequestMessage = {
+          'type': 'summary_request',
+          'payload': {
+            'start_time': '2024-01-01T00:00:00Z',
+            'end_time': '2024-01-08T00:00:00Z',
+          },
+        };
+
+        await mcpServer.handleBackendMessage(jsonEncode(noIdRequestMessage));
+
+        expect(fakeTransport.sentMessages, hasLength(1));
+        final decoded = jsonDecode(fakeTransport.sentMessages.first)
+            as Map<String, dynamic>;
+        // Must be summary_response, not health_data_error.
+        expect(decoded['type'], equals('summary_response'));
+        // Documents current behaviour: id is empty string when no ID field is
+        // present in the incoming message.
+        expect(decoded['id'], equals(''));
+      });
+
+      test('transport-backed summary wire path supports HRV metrics', () async {
+        final realSummaryManager = SummaryDataManager(
+          healthDataManager: mockHealthDataManager,
+        );
+        final realService = HealthMcpServerService(
+          healthDataManager: mockHealthDataManager,
+          summaryDataManager: realSummaryManager,
+          transport: fakeTransport,
+        );
+
+        when(() => mockHealthDataManager.processHealthDataRequest(any()))
+            .thenAnswer(
+          (_) async => TestDataFactory.createHealthDataResponse(
+            valueType: 'HRV',
+            count: 1,
+          ),
+        );
+
+        try {
+          await realService.handleBackendMessage(
+            jsonEncode(
+              WebSocketTestMessageFactory.createConnectionCodeMessage(
+                code: 'SUMMARY-HRV',
+                word: 'otter',
+                message: 'Ready for HRV',
+              ),
+            ),
+          );
+          fakeTransport.sentMessages.clear();
+
+          final requestMessage = {
+            'type': 'summary_request',
+            'request_id': 'summary-hrv-1',
+            'payload': {
+              'start_time': '2024-01-01T00:00:00Z',
+              'end_time': '2024-01-08T00:00:00Z',
+              'metrics': [
+                {
+                  'value_type': 'HRV',
+                },
+              ],
+            },
+          };
+
+          await realService.handleBackendMessage(jsonEncode(requestMessage));
+
+          expect(fakeTransport.sentMessages, hasLength(1));
+          final decoded = jsonDecode(fakeTransport.sentMessages.first)
+              as Map<String, dynamic>;
+          expect(decoded['type'], equals('summary_response'));
+          expect(decoded['id'], equals('summary-hrv-1'));
+          final summaryData = decoded['summary_data'] as Map<String, dynamic>;
+          expect(summaryData['success'], isTrue);
+          final results = summaryData['results'] as List<dynamic>;
+          expect(results, hasLength(1));
+          expect(results.first['value_type'], equals('HRV'));
+        } finally {
+          await realService.dispose();
+        }
       });
     });
   });

@@ -137,4 +137,23 @@ class WebSocketTestMessageFactory {
       'invalid': 'json structure',
       'missing': 'required fields',
     };
+
+  static Map<String, dynamic> createSummaryRequestMessage({
+    String id = 'summary-test-id-123',
+    String? startTime,
+    String? endTime,
+    List<Map<String, dynamic>>? metrics,
+  }) {
+    final now = DateTime.now();
+    return {
+      'type': 'summary_request',
+      'request_id': id,
+      'payload': {
+        'start_time': startTime ??
+            now.subtract(const Duration(days: 7)).toIso8601String(),
+        'end_time': endTime ?? now.toIso8601String(),
+        if (metrics != null) 'metrics': metrics,
+      },
+    };
+  }
 }

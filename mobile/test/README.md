@@ -209,6 +209,23 @@ The integration tests verify end-to-end data flow:
 2. **Permission Management** → **Data Access** → **Transformation** → **Serialization**
 3. **WebSocket Communication** → **Message Handling** → **Error Recovery**
 
+### Important: Mock-Based vs Real On-Device Tests
+
+The tests in `test/integration/` (run by `scripts/integration_test.sh`) are
+**mock-based flow tests**, not real hardware integration tests. They use
+simulated health data and do not connect to a real device, Apple HealthKit, or
+Google Health Connect.
+
+Specifically:
+- `health_data_flow_test.dart` uses a mocked `health` plugin — no HealthKit or
+  Health Connect permissions are requested or exercised.
+- These tests can run in any CI environment without a physical device.
+
+For real on-device validation (i.e., reading actual data from HealthKit or
+Health Connect), a physical iOS or Android device is required. Such tests
+cannot be automated in standard CI pipelines without dedicated hardware runners
+and are not currently part of this suite.
+
 ## 📝 Adding New Tests
 
 ### For New Components

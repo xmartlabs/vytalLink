@@ -6,7 +6,7 @@ import { TEST_MODE } from "./test-config.js";
 
 const client = new Anthropic();
 
-const MODEL = "claude-sonnet-4-6";
+const MODEL = "claude-haiku-4-5";
 const MAX_STEPS = 15; // max tool-use iterations before giving up
 
 export type Message = Anthropic.Messages.MessageParam;

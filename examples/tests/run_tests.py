@@ -308,6 +308,36 @@ def build_tests(word: str, pin: str) -> list[dict]:
         "stdin": chat_input,
     })
 
+    # Direct get_summary tool call — bypasses the agent so the tool is always exercised.
+    # This reliably reproduces the summary_request bug on old app versions.
+    tests.append({
+        "name": "PY › get_summary direct",
+        "cmd": [sys.executable, "-m", "src.tool_probe", "--tool", "get_summary", "--days", "30"],
+        "cwd": PY_DIR,
+        "stdin": creds,
+    })
+
+    # Summary with 30 days of data — reproduces the summary_request bug on old app versions.
+    # The prompt explicitly instructs the agent to use get_summary so the test reliably
+    # exercises that tool rather than falling back to individual get_health_metrics calls.
+    summary_query = (
+        "Use the get_summary tool to retrieve a full 30-day health summary covering all "
+        "available metrics (steps, heart rate, sleep, HRV, calories, exercise time). "
+        "Use the last 30 days as the date range."
+    )
+    tests.append({
+        "name": "TS › summary-30d",
+        "cmd": ["npm", "run", "agent", "--", "--mode", "overview", "--query", summary_query],
+        "cwd": TS_DIR,
+        "stdin": creds,
+    })
+    tests.append({
+        "name": "PY › summary-30d",
+        "cmd": [sys.executable, "-m", "src.main", "--mode", "overview", "--query", summary_query],
+        "cwd": PY_DIR,
+        "stdin": creds,
+    })
+
     return tests
 
 

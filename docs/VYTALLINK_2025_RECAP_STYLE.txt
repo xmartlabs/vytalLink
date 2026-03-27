@@ -1,0 +1,27 @@
+VytalLink 2025 Recap Style (Instagram-ready)
+
+Palette & Atmosphere
+- Background gradient: #1e1b4b → #312e81 → black (deep, moody base).
+- Primary: #6366f1; primary dark: #4f46e5; signature gradient: 135deg #6366f1 → #8b5cf6 (push saturation).
+- Accent: #10b981 (emerald pop); text dark: #1e293b; text light: #64748b; surface: #f1f5f9; white: #ffffff. These brand colors are optional beyond the logo—feel free to explore other trendy, high-contrast palettes as long as the logo stays on-brand.
+- Use vivid, on-trend contrast for Instagram: punchy purples, glossy emerald pops, subtle neon edge; add soft glows, confetti, and signature-gradient lines for energy.
+
+Branding & Logo
+- Brand mark: custom heart-pulse silhouette from the landing favicon (Font Awesome heart-pulse–based shape, tinted brand violet); use that silhouette or a matching stylized heart line—avoid generic stock icons.
+- Lockup: “vytalLink” set in Inter Bold (landing default), gradient text (#6366f1→#8b5cf6), paired with the heart-pulse mark. Keep small, modern sans-serif, high contrast over dark overlays.
+- Place the logo/pulse in the footer bar; avoid stretching; keep clear space equal to the icon height.
+
+Layout (vertical 1080x1350)
+- Title: “vytalLink wrapped 2025” (translate if needed; default to this wording).
+- Hero: total steps (huge type) + subtitle with distance multiple (e.g., “5.3× MVD → Buenos Aires”).
+- Grid 2x3 cards: calories (🔥), workouts (🏃), distance (🌍), sleep (🌙), epic month (⭐), total steps (🦶). If metrics are missing, rebalance the grid to keep it clean and attractive (never invent data).
+- Highlights: 5 emoji bullets (data-driven).
+- Comparisons section (lower area): steps percentile vs global, distance/route equivalence, calories vs marathons.
+- Hashtags: “#FitnessWrapped #2025Goals” (localize only if typical).
+- Footer bar: dark overlay, “powered by vytallink” in #64748b, heartbeat icon in #6366f1, “vytalLink” in #6366f1; small modern sans-serif.
+
+Rendering Notes
+- Glassmorphism cards with indigo/purple tints; geometric shapes/particles in indigo/purple/emerald; subtle glow, confetti; circular progress at 100%.
+- Layered depth: soft blurs, light blooms, and specular highlights on cards to feel premium; keep backgrounds clean to let saturated gradients pop.
+- Typography: bold modern (Inter/Montserrat), white with light shadows; add particles, glows, connecting lines; vibe energetic, motivational, celebratory, professional but fun.
+- Include metric equivalences in visible copy unless the user opts out (distance vs route, calories vs marathons, steps vs route if relevant, workouts vs weeks, sleep vs nights).

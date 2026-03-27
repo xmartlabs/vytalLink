@@ -6,6 +6,7 @@ ROOT_DIR="$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)"
 PY_DIR="$ROOT_DIR/athletic-analyst-py"
 TS_DIR="$ROOT_DIR/athletic-analyst-ts"
 PY_VENV="$PY_DIR/.venv"
+PYTHON_BIN="${PY_VENV}/bin/python"
 
 print_help() {
   cat <<'EOF'
@@ -46,7 +47,11 @@ build_ts() {
 test_integration() {
   require_credentials
   cd "$ROOT_DIR"
-  python3 tests/run_tests.py "$WORD" "$PIN"
+  if [ -x "$PYTHON_BIN" ]; then
+    "$PYTHON_BIN" tests/run_tests.py "$WORD" "$PIN"
+  else
+    python3 tests/run_tests.py "$WORD" "$PIN"
+  fi
 }
 
 COMMAND="${1:-help}"

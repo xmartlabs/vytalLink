@@ -11,6 +11,12 @@ sealed class BackendResponse with _$BackendResponse {
     @JsonKey(name: 'health_data') required Map<String, dynamic> data,
   }) = HealthDataBackendResponse;
 
+  @FreezedUnionValue('summary_response')
+  const factory BackendResponse.summaryResponse({
+    required String id,
+    @JsonKey(name: 'summary_data') required Map<String, dynamic> data,
+  }) = SummaryBackendResponse;
+
   @FreezedUnionValue('generic')
   const factory BackendResponse.generic({
     String? id,
