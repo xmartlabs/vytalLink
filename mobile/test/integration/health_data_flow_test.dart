@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter_template/core/common/config.dart';
 import 'package:flutter_template/core/health/health_data_aggregator.dart';
 import 'package:flutter_template/core/health/health_data_mapper.dart';
@@ -5,16 +7,21 @@ import 'package:flutter_template/core/health/health_permissions_guard.dart';
 import 'package:flutter_template/core/model/health_data_request.dart';
 import 'package:flutter_template/core/model/mcp_exceptions.dart';
 import 'package:flutter_template/core/model/statistic_types.dart';
+import 'package:flutter_template/core/model/summary_request.dart';
 import 'package:flutter_template/core/model/time_group_by.dart';
 import 'package:flutter_template/core/service/health_data_manager.dart';
 import 'package:flutter_template/core/service/server/mcp_server.dart';
+import 'package:flutter_template/core/service/server/mcp_transport.dart';
+import 'package:flutter_template/core/service/summary_data_manager.dart';
 import 'package:flutter_template/model/vytal_health_data_category.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:health/health.dart';
 import 'package:mocktail/mocktail.dart';
 
+import '../helpers/fake_mcp_transport.dart';
 import '../helpers/mock_health_client.dart';
 import '../helpers/mock_health_data_point.dart';
+import '../helpers/mock_websocket.dart';
 import '../test_utils.dart';
 
 /// Integration tests for the complete health data processing flow
@@ -352,6 +359,150 @@ void main() {
 
         expect(responseJson['success'], isFalse);
         expect(responseJson['error_message'], contains('Health client error'));
+      });
+
+      group('Summary Request Integration', () {
+        test('processes summary request with large dataset', () async {
+          final start = DateTime(2026, 2, 24);
+          final end = DateTime(2026, 3, 25);
+
+          // Return 30 data points (one per day) for every metric request
+          final mockDataPoints = List.generate(
+            30,
+            (i) => TestHealthDataFactory.createStepsDataPoint(
+              dateFrom: start.add(Duration(days: i)),
+              dateTo: start.add(Duration(days: i, hours: 1)),
+              steps: 5000 + i * 100,
+            ),
+          );
+
+          when(
+            () => mockHealthClient.getHealthDataFromTypes(
+              types: any(named: 'types'),
+              startTime: any(named: 'startTime'),
+              endTime: any(named: 'endTime'),
+            ),
+          ).thenAnswer((_) async => mockDataPoints);
+
+          final summaryDataManager = SummaryDataManager(
+            healthDataManager: healthDataManager,
+          );
+
+          final response = await summaryDataManager.processSummaryRequest(
+            SummaryRequest(
+              startTime: start,
+              endTime: end,
+              metrics: [
+                const SummaryMetricRequest(
+                  valueType: VytalHealthDataCategory.STEPS,
+                ),
+                const SummaryMetricRequest(
+                  valueType: VytalHealthDataCategory.HEART_RATE,
+                ),
+                const SummaryMetricRequest(
+                  valueType: VytalHealthDataCategory.CALORIES,
+                ),
+                const SummaryMetricRequest(
+                  valueType: VytalHealthDataCategory.SLEEP,
+                ),
+                const SummaryMetricRequest(
+                  valueType: VytalHealthDataCategory.EXERCISE_TIME,
+                ),
+              ],
+            ),
+          );
+
+          expect(response.success, isTrue);
+          expect(response.results, hasLength(5));
+          for (final result in response.results) {
+            expect(
+              result.success,
+              isTrue,
+              reason: '${result.valueType.name} should succeed',
+            );
+            expect(
+              result.data,
+              isNotNull,
+              reason: '${result.valueType.name} should have data',
+            );
+          }
+        });
+
+        test(
+            'handleBackendMessage routes summary_request '
+            'and sends summary_response',
+            () async {
+          final fakeTransport = FakeMcpTransport();
+          final mcpServerWithTransport = HealthMcpServerService(
+            healthDataManager: healthDataManager,
+            transport: fakeTransport,
+          );
+
+          // Connect the transport so sendToBackend is allowed.
+          fakeTransport.emitStatus(const McpTransportEvent.connected());
+          await mcpServerWithTransport.handleBackendMessage(
+            jsonEncode(
+              WebSocketTestMessageFactory.createConnectionCodeMessage(
+                code: 'INT-CODE',
+                word: 'tiger',
+                message: 'Ready',
+              ),
+            ),
+          );
+          fakeTransport.sentMessages.clear();
+
+          final start = DateTime(2026, 3, 1);
+          final end = DateTime(2026, 3, 8);
+
+          final mockDataPoints = List.generate(
+            7,
+            (i) => TestHealthDataFactory.createStepsDataPoint(
+              dateFrom: start.add(Duration(days: i)),
+              dateTo: start.add(Duration(days: i, hours: 1)),
+              steps: 5000,
+            ),
+          );
+
+          when(
+            () => mockHealthClient.getHealthDataFromTypes(
+              types: any(named: 'types'),
+              startTime: any(named: 'startTime'),
+              endTime: any(named: 'endTime'),
+            ),
+          ).thenAnswer((_) async => mockDataPoints);
+
+          final summaryRequestJson =
+              WebSocketTestMessageFactory.createSummaryRequestMessage(
+            id: 'integration-summary-1',
+            startTime: start.toIso8601String(),
+            endTime: end.toIso8601String(),
+          );
+
+          await mcpServerWithTransport
+              .handleBackendMessage(jsonEncode(summaryRequestJson));
+
+          expect(
+            fakeTransport.sentMessages,
+            hasLength(1),
+            reason: 'Expected exactly one response message',
+          );
+
+          final decoded = jsonDecode(fakeTransport.sentMessages.first)
+              as Map<String, dynamic>;
+
+          expect(
+            decoded['type'],
+            equals('summary_response'),
+            reason: 'Response must be summary_response, not health_data_error',
+          );
+
+          final summaryData =
+              decoded['summary_data'] as Map<String, dynamic>;
+          expect(summaryData['success'], isTrue);
+
+          await mcpServerWithTransport.dispose();
+          await fakeTransport.dispose();
+        });
       });
     });
 

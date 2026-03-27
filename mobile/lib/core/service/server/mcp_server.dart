@@ -10,10 +10,12 @@ import 'package:flutter_template/core/model/health_data_request.dart';
 import 'package:flutter_template/core/model/health_data_response.dart';
 import 'package:flutter_template/core/model/mcp_connection_state.dart';
 import 'package:flutter_template/core/model/mcp_exceptions.dart';
+import 'package:flutter_template/core/model/summary_request.dart';
 import 'package:flutter_template/core/service/health_data_manager.dart';
 import 'package:flutter_template/core/service/server/foreground_mcp_transport.dart';
 import 'package:flutter_template/core/service/server/mcp_background_service.dart';
 import 'package:flutter_template/core/service/server/mcp_transport.dart';
+import 'package:flutter_template/core/service/summary_data_manager.dart';
 import 'package:flutter_template/core/service/server/websocket_mcp_transport.dart';
 import 'package:rxdart/rxdart.dart';
 
@@ -22,10 +24,15 @@ export 'package:flutter_template/core/model/mcp_connection_state.dart';
 class HealthMcpServerService {
   HealthMcpServerService({
     HealthDataManager? healthDataManager,
+    SummaryDataManager? summaryDataManager,
     McpTransport? transport,
     Uri? backendUri,
     bool? useForegroundTransport,
   })  : _healthDataManager = healthDataManager ?? HealthDataManager(),
+        _summaryDataManager = summaryDataManager ??
+            SummaryDataManager(
+              healthDataManager: healthDataManager,
+            ),
         _connectionState = BehaviorSubject<McpConnectionState>.seeded(
           const McpConnectionState.disconnected(),
         ),
@@ -45,6 +52,7 @@ class HealthMcpServerService {
 
   final BehaviorSubject<McpConnectionState> _connectionState;
   final HealthDataManager _healthDataManager;
+  final SummaryDataManager _summaryDataManager;
   final Uri _backendUri;
   final bool _foregroundPreferred;
   bool _foregroundFallbackAttempted = false;
@@ -81,6 +89,17 @@ class HealthMcpServerService {
   bool get isConnecting => currentStatus is McpConnectionStateConnecting;
 
   bool get isDisconnected => currentStatus is McpConnectionStateDisconnected;
+
+  String _messageRequestId(Map<String, dynamic> rawMessage) =>
+      rawMessage['request_id']?.toString() ??
+      rawMessage['requestId']?.toString() ??
+      'n/a';
+
+  String _messageResponseId(Map<String, dynamic> rawMessage) =>
+      rawMessage['request_id']?.toString() ??
+      rawMessage['requestId']?.toString() ??
+      rawMessage['id']?.toString() ??
+      '';
 
   Future<void> stop() async {
     await _transport.stop();
@@ -131,20 +150,29 @@ class HealthMcpServerService {
 
     final jsonMessage = jsonEncode(message);
     await _transport.send(jsonMessage);
-    Logger.d('Sent message to backend: $jsonMessage');
+    Logger.d('[MCP] Sent response to backend: $jsonMessage');
   }
 
   Future<void> handleBackendMessage(String data) async {
+    Map<String, dynamic>? rawMessage;
     try {
-      final Map<String, dynamic> rawMessage = jsonDecode(data);
-      Logger.d('Received raw message: $rawMessage');
+      rawMessage = jsonDecode(data) as Map<String, dynamic>;
+      Logger.d('[MCP] Received raw message: $rawMessage');
       final BackendMessage message = BackendMessage.fromJson(rawMessage);
 
-      Logger.d('Processing backend message: ${message.runtimeType}');
+      Logger.d(
+        '[MCP] Parsed backend message: '
+        'type=${message.runtimeType} '
+        'requestId=${_messageRequestId(rawMessage)}',
+      );
 
       switch (message) {
         case final HealthDataRequestMessage dataRequestMessage:
           await _handleDataRequestMessage(dataRequestMessage);
+          break;
+
+        case final SummaryRequestMessage summaryRequestMessage:
+          await _handleSummaryRequestMessage(summaryRequestMessage);
           break;
 
         case final ConnectionCodeMessage codeMessage:
@@ -152,30 +180,56 @@ class HealthMcpServerService {
           break;
 
         case UnknownMessage():
-          Logger.w('Unknown message type received');
+          Logger.w('[MCP] Unknown message type received');
           break;
       }
     } catch (e) {
-      Logger.e('Error processing backend message: $e', e);
-      try {
-        final errorResponse = HealthDataErrorResponse(
+      Logger.e('[MCP] Error processing backend message: $e', e);
+      await _sendFallbackError(rawMessage, e);
+    }
+  }
+
+  Future<void> _sendFallbackError(
+    Map<String, dynamic>? rawMessage,
+    Object error,
+  ) async {
+    try {
+      final msgType = rawMessage != null
+          ? (rawMessage['type'] as String? ?? '').toLowerCase()
+          : null;
+      if (msgType == 'summary_request') {
+        final dynamic payload = rawMessage?['payload'];
+        final payloadMap = payload is Map<String, dynamic> ? payload : null;
+        final response = BackendResponse.summaryResponse(
+          id: rawMessage != null ? _messageResponseId(rawMessage) : '',
+          data: {
+            'success': false,
+            'start_time': payloadMap?['start_time'] as String? ?? '',
+            'end_time': payloadMap?['end_time'] as String? ?? '',
+            'results': <Map<String, dynamic>>[],
+            'error_message': 'Error processing summary request: $error',
+          },
+        );
+        await sendToBackend(response.toJson());
+      } else {
+        final response = HealthDataErrorResponse(
           success: false,
-          errorMessage: 'Error retrieving health data: ${e.toString()}',
+          errorMessage: 'Error retrieving health data: $error',
         );
-        await sendToBackend(errorResponse.toJson());
-      } catch (innerError) {
-        Logger.e(
-          'Error sending error message to backend: $innerError',
-          innerError,
-        );
+        await sendToBackend(response.toJson());
       }
+    } catch (innerError) {
+      Logger.e(
+        '[MCP] Error sending error message to backend: $innerError',
+        innerError,
+      );
     }
   }
 
   void _handleConnectionCredentialsMessage(
     ConnectionCodeMessage message,
   ) {
-    Logger.d('Received connection code: ${message.code}');
+    Logger.d('[MCP] Received connection code: ${message.code}');
     AnalyticsManager.logMcpConnectionStarted();
 
     McpBackgroundService.startOrUpdate(
@@ -197,6 +251,7 @@ class HealthMcpServerService {
     HealthDataRequestMessage message,
   ) async {
     final request = HealthDataRequest.fromJson(message.payload);
+    Logger.d('[MCP] Handling health data request: ${message.id}');
     AnalyticsManager.logHealthDataRequest(request);
     final responseData = await handleHealthDataRequest(request);
     final backendResponse = BackendResponse.healthDataResponse(
@@ -204,6 +259,50 @@ class HealthMcpServerService {
       data: responseData,
     );
     await sendToBackend(backendResponse.toJson());
+  }
+
+  Future<void> _handleSummaryRequestMessage(
+    SummaryRequestMessage message,
+  ) async {
+    final request = SummaryRequest.fromJson(message.payload);
+    Logger.d('[MCP] Handling summary request: ${message.id}');
+    AnalyticsManager.logSummaryRequest(request);
+    try {
+      final responseData =
+          await _summaryDataManager.processSummaryRequest(request);
+      AnalyticsManager.logSummaryResponse(
+        metricCount: responseData.results.length,
+      );
+      final backendResponse = BackendResponse.summaryResponse(
+        id: message.id,
+        data: responseData.toJson(),
+      );
+      await sendToBackend(backendResponse.toJson());
+    } catch (e) {
+      Logger.e('[MCP] Error handling summary request: $e', e);
+      AnalyticsManager.logSummaryError(
+        errorType: e.runtimeType.toString(),
+        errorMessage: e.toString(),
+      );
+      final errorResponse = BackendResponse.summaryResponse(
+        id: message.id,
+        data: {
+          'success': false,
+          'start_time': request.startTime.toIso8601String(),
+          'end_time': request.endTime.toIso8601String(),
+          'results': <Map<String, dynamic>>[],
+          'error_message': 'Error retrieving summary data: ${e.toString()}',
+        },
+      );
+      try {
+        await sendToBackend(errorResponse.toJson());
+      } catch (innerError) {
+        Logger.e(
+          '[MCP] Error sending summary error response: $innerError',
+          innerError,
+        );
+      }
+    }
   }
 
   Future<Map<String, dynamic>> handleHealthDataRequest(

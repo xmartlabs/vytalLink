@@ -16,6 +16,7 @@ android/app/google-services.json
 ios/Runner/GoogleService-Info.plist
 ios/Runner/Dev/GoogleService-Info.plist
 /secrets/
+environments/*.private.env
 firebase.json
 
 # Android Studio build artifacts

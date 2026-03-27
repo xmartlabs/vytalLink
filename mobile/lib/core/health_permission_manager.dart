@@ -12,7 +12,10 @@ class HealthPermissionManager {
 
   HealthPermissionManager({Health? healthClient})
       : _healthClient = healthClient ?? Health() {
+    // Keep the upfront permission surface stable. HRV is requested on demand
+    // through HealthDataManager when a summary explicitly asks for it.
     _requiredHealthDataTypes = VytalHealthDataCategory.values
+        .where((category) => category != VytalHealthDataCategory.HRV)
         .flatMap((category) => category.platformHealthDataTypes)
         .distinct()
         .toList();

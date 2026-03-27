@@ -24,6 +24,7 @@ mixin _$WorkoutSummaryData {
   double get totalDistance => throw _privateConstructorUsedError;
   double get totalEnergyBurned => throw _privateConstructorUsedError;
   double get totalSteps => throw _privateConstructorUsedError;
+  int get sessionCount => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -41,7 +42,8 @@ abstract class $WorkoutSummaryDataCopyWith<$Res> {
       {String workoutType,
       double totalDistance,
       double totalEnergyBurned,
-      double totalSteps});
+      double totalSteps,
+      int sessionCount});
 }
 
 /// @nodoc
@@ -61,6 +63,7 @@ class _$WorkoutSummaryDataCopyWithImpl<$Res, $Val extends WorkoutSummaryData>
     Object? totalDistance = null,
     Object? totalEnergyBurned = null,
     Object? totalSteps = null,
+    Object? sessionCount = null,
   }) {
     return _then(_value.copyWith(
       workoutType: null == workoutType
@@ -79,6 +82,10 @@ class _$WorkoutSummaryDataCopyWithImpl<$Res, $Val extends WorkoutSummaryData>
           ? _value.totalSteps
           : totalSteps // ignore: cast_nullable_to_non_nullable
               as double,
+      sessionCount: null == sessionCount
+          ? _value.sessionCount
+          : sessionCount // ignore: cast_nullable_to_non_nullable
+              as int,
     ) as $Val);
   }
 }
@@ -95,7 +102,8 @@ abstract class _$$WorkoutSummaryDataImplCopyWith<$Res>
       {String workoutType,
       double totalDistance,
       double totalEnergyBurned,
-      double totalSteps});
+      double totalSteps,
+      int sessionCount});
 }
 
 /// @nodoc
@@ -113,6 +121,7 @@ class __$$WorkoutSummaryDataImplCopyWithImpl<$Res>
     Object? totalDistance = null,
     Object? totalEnergyBurned = null,
     Object? totalSteps = null,
+    Object? sessionCount = null,
   }) {
     return _then(_$WorkoutSummaryDataImpl(
       workoutType: null == workoutType
@@ -131,6 +140,10 @@ class __$$WorkoutSummaryDataImplCopyWithImpl<$Res>
           ? _value.totalSteps
           : totalSteps // ignore: cast_nullable_to_non_nullable
               as double,
+      sessionCount: null == sessionCount
+          ? _value.sessionCount
+          : sessionCount // ignore: cast_nullable_to_non_nullable
+              as int,
     ));
   }
 }
@@ -142,7 +155,8 @@ class _$WorkoutSummaryDataImpl implements _WorkoutSummaryData {
       {this.workoutType = 'other',
       this.totalDistance = 0,
       this.totalEnergyBurned = 0,
-      this.totalSteps = 0});
+      this.totalSteps = 0,
+      this.sessionCount = 0});
 
   factory _$WorkoutSummaryDataImpl.fromJson(Map<String, dynamic> json) =>
       _$$WorkoutSummaryDataImplFromJson(json);
@@ -159,10 +173,13 @@ class _$WorkoutSummaryDataImpl implements _WorkoutSummaryData {
   @override
   @JsonKey()
   final double totalSteps;
+  @override
+  @JsonKey()
+  final int sessionCount;
 
   @override
   String toString() {
-    return 'WorkoutSummaryData(workoutType: $workoutType, totalDistance: $totalDistance, totalEnergyBurned: $totalEnergyBurned, totalSteps: $totalSteps)';
+    return 'WorkoutSummaryData(workoutType: $workoutType, totalDistance: $totalDistance, totalEnergyBurned: $totalEnergyBurned, totalSteps: $totalSteps, sessionCount: $sessionCount)';
   }
 
   @override
@@ -177,13 +194,15 @@ class _$WorkoutSummaryDataImpl implements _WorkoutSummaryData {
             (identical(other.totalEnergyBurned, totalEnergyBurned) ||
                 other.totalEnergyBurned == totalEnergyBurned) &&
             (identical(other.totalSteps, totalSteps) ||
-                other.totalSteps == totalSteps));
+                other.totalSteps == totalSteps) &&
+            (identical(other.sessionCount, sessionCount) ||
+                other.sessionCount == sessionCount));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(
-      runtimeType, workoutType, totalDistance, totalEnergyBurned, totalSteps);
+  int get hashCode => Object.hash(runtimeType, workoutType, totalDistance,
+      totalEnergyBurned, totalSteps, sessionCount);
 
   @JsonKey(ignore: true)
   @override
@@ -205,7 +224,8 @@ abstract class _WorkoutSummaryData implements WorkoutSummaryData {
       {final String workoutType,
       final double totalDistance,
       final double totalEnergyBurned,
-      final double totalSteps}) = _$WorkoutSummaryDataImpl;
+      final double totalSteps,
+      final int sessionCount}) = _$WorkoutSummaryDataImpl;
 
   factory _WorkoutSummaryData.fromJson(Map<String, dynamic> json) =
       _$WorkoutSummaryDataImpl.fromJson;
@@ -218,6 +238,8 @@ abstract class _WorkoutSummaryData implements WorkoutSummaryData {
   double get totalEnergyBurned;
   @override
   double get totalSteps;
+  @override
+  int get sessionCount;
   @override
   @JsonKey(ignore: true)
   _$$WorkoutSummaryDataImplCopyWith<_$WorkoutSummaryDataImpl> get copyWith =>

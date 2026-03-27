@@ -8,6 +8,7 @@ import 'package:health/health.dart';
 enum VytalHealthDataCategory {
   STEPS,
   HEART_RATE,
+  HRV,
   CALORIES,
   BLOOD_OXYGEN,
   BLOOD_PRESSURE,
@@ -23,12 +24,16 @@ enum VytalHealthDataCategory {
   DISTANCE,
 }
 
+// Exclude TOTAL_CALORIES_BURNED on iOS as it available only on Health Connect.
+final _finalDataTypes = (Platform.isIOS
+        ? dataTypeKeysIOS
+            .filter((it) => it != HealthDataType.TOTAL_CALORIES_BURNED)
+        : dataTypeKeysAndroid)
+    .toSet();
+
 extension VytalHealthDataCategoryTypes on VytalHealthDataCategory {
   List<HealthDataType> get platformHealthDataTypes => _healthDataTypes
-      .filter(
-        (dataType) => (Platform.isIOS ? dataTypeKeysIOS : dataTypeKeysAndroid)
-            .contains(dataType),
-      )
+      .filter((dataType) => _finalDataTypes.contains(dataType))
       .toList();
 
   // ignore: long-method
@@ -40,6 +45,11 @@ extension VytalHealthDataCategoryTypes on VytalHealthDataCategory {
         return [
           HealthDataType.HEART_RATE,
           HealthDataType.RESTING_HEART_RATE,
+        ];
+      case VytalHealthDataCategory.HRV:
+        return [
+          HealthDataType.HEART_RATE_VARIABILITY_RMSSD,
+          HealthDataType.HEART_RATE_VARIABILITY_SDNN,
         ];
       case VytalHealthDataCategory.CALORIES:
         return [
@@ -103,6 +113,8 @@ extension VytalHealthDataCategoryTypes on VytalHealthDataCategory {
         return 'Number of steps taken';
       case VytalHealthDataCategory.HEART_RATE:
         return 'Heart rate (beats per minute), including resting heart rate';
+      case VytalHealthDataCategory.HRV:
+        return 'Heart rate variability (RMSSD and SDNN)';
       case VytalHealthDataCategory.CALORIES:
         return 'Calories burned (total and active)';
       case VytalHealthDataCategory.BLOOD_OXYGEN:

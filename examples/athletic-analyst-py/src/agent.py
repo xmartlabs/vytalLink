@@ -7,7 +7,7 @@ from .system_prompt import build_system_prompt, AnalysisMode
 from .execution_trace import ExecutionTracer
 from .test_config import TEST_MODE
 
-MODEL = "claude-sonnet-4-6"
+MODEL = "claude-haiku-4-5"  # cost-efficient for examples; upgrade to claude-sonnet-4-6 for production
 MAX_STEPS = 15  # max tool-use iterations before giving up
 
 client = anthropic.Anthropic()

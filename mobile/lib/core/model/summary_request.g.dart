@@ -1,28 +1,24 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'health_data_request.dart';
+part of 'summary_request.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$HealthDataRequestImpl _$$HealthDataRequestImplFromJson(
+_$SummaryMetricRequestImpl _$$SummaryMetricRequestImplFromJson(
         Map<String, dynamic> json) =>
-    _$HealthDataRequestImpl(
+    _$SummaryMetricRequestImpl(
       valueType:
           $enumDecode(_$VytalHealthDataCategoryEnumMap, json['value_type']),
-      startTime: DateTime.parse(json['start_time'] as String),
-      endTime: DateTime.parse(json['end_time'] as String),
       groupBy: $enumDecodeNullable(_$TimeGroupByEnumMap, json['group_by']),
       statistic: $enumDecodeNullable(_$StatisticTypeEnumMap, json['statistic']),
     );
 
-Map<String, dynamic> _$$HealthDataRequestImplToJson(
-        _$HealthDataRequestImpl instance) =>
+Map<String, dynamic> _$$SummaryMetricRequestImplToJson(
+        _$SummaryMetricRequestImpl instance) =>
     <String, dynamic>{
       'value_type': _$VytalHealthDataCategoryEnumMap[instance.valueType]!,
-      'start_time': instance.startTime.toIso8601String(),
-      'end_time': instance.endTime.toIso8601String(),
       'group_by': _$TimeGroupByEnumMap[instance.groupBy],
       'statistic': _$StatisticTypeEnumMap[instance.statistic],
     };
@@ -57,3 +53,20 @@ const _$StatisticTypeEnumMap = {
   StatisticType.sum: 'SUM',
   StatisticType.average: 'AVERAGE',
 };
+
+_$SummaryRequestImpl _$$SummaryRequestImplFromJson(Map<String, dynamic> json) =>
+    _$SummaryRequestImpl(
+      startTime: DateTime.parse(json['start_time'] as String),
+      endTime: DateTime.parse(json['end_time'] as String),
+      metrics: (json['metrics'] as List<dynamic>?)
+          ?.map((e) => SummaryMetricRequest.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+
+Map<String, dynamic> _$$SummaryRequestImplToJson(
+        _$SummaryRequestImpl instance) =>
+    <String, dynamic>{
+      'start_time': instance.startTime.toIso8601String(),
+      'end_time': instance.endTime.toIso8601String(),
+      'metrics': instance.metrics?.map((e) => e.toJson()).toList(),
+    };

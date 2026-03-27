@@ -10,6 +10,7 @@ class WorkoutSummaryData with _$WorkoutSummaryData {
     @Default(0) double totalDistance,
     @Default(0) double totalEnergyBurned,
     @Default(0) double totalSteps,
+    @Default(0) int sessionCount,
   }) = _WorkoutSummaryData;
 
   factory WorkoutSummaryData.fromJson(Map<String, dynamic> json) =>

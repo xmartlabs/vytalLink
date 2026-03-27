@@ -108,7 +108,6 @@ class HealthMcpConnectionManager {
       _errorController.add(error);
       Logger.e('MCP WebSocket connection failed: $error');
       _scheduleReconnect();
-      rethrow;
     }
   }
 

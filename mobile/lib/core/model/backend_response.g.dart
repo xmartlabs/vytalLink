@@ -22,6 +22,22 @@ Map<String, dynamic> _$$HealthDataBackendResponseImplToJson(
       'type': instance.$type,
     };
 
+_$SummaryBackendResponseImpl _$$SummaryBackendResponseImplFromJson(
+        Map<String, dynamic> json) =>
+    _$SummaryBackendResponseImpl(
+      id: json['id'] as String,
+      data: json['summary_data'] as Map<String, dynamic>,
+      $type: json['type'] as String?,
+    );
+
+Map<String, dynamic> _$$SummaryBackendResponseImplToJson(
+        _$SummaryBackendResponseImpl instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'summary_data': instance.data,
+      'type': instance.$type,
+    };
+
 _$GenericBackendResponseImpl _$$GenericBackendResponseImplFromJson(
         Map<String, dynamic> json) =>
     _$GenericBackendResponseImpl(
