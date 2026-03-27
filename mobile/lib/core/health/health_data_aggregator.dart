@@ -462,6 +462,8 @@ class HealthDataAggregator {
 
     final aggregatedWorkoutType =
         aggregation.workoutTypes.distinct().join(', ');
+    // sessionCount is 0 when the health plugin doesn't report it per-session
+    // (e.g. some workout types). Fall back to counting valid data points.
     final sessionCount = aggregation.sessionCount == 0
         ? validWorkouts
         : aggregation.sessionCount;

@@ -50,6 +50,7 @@ test_integration() {
   if [ -x "$PYTHON_BIN" ]; then
     "$PYTHON_BIN" tests/run_tests.py "$WORD" "$PIN"
   else
+    echo "Warning: venv not found at $PY_VENV. Run './scripts/repo.sh setup-py' first. Falling back to system python3." >&2
     python3 tests/run_tests.py "$WORD" "$PIN"
   fi
 }
