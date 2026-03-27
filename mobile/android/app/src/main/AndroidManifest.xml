@@ -65,12 +65,12 @@
     <!-- For reading data in background -->
     <uses-permission android:name="android.permission.health.READ_HEALTH_DATA_IN_BACKGROUND"/>
 
+    <!-- largeHeap: year recap loads 12 months × multiple metrics into memory simultaneously.
+         TODO: investigate streaming/chunking to remove this requirement. -->
     <application
         android:label="@string/app_name"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher"
-        <!-- largeHeap: year recap loads 12 months × multiple metrics into memory simultaneously.
-             TODO: investigate streaming/chunking to remove this requirement. -->
         android:largeHeap="true">
         <activity
             android:name=".MainActivity"
