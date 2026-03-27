@@ -93,6 +93,24 @@ Both examples use the same bridge pattern:
 - Uses backend as the source of truth for tool definitions
 - Supports configurable base URL via `VYTALLINK_BASE_URL`
 
+## Generated Code
+
+**Never edit generated files manually.** Generated files include:
+
+- `*.g.dart` — JSON serialization (json_serializable)
+- `*.freezed.dart` — Freezed models
+- `*.gr.dart` — auto_route routing
+- `*.gen.dart` — flutter_gen assets
+- `lib/l10n/app_*.dart` — localization
+
+To regenerate after changing Freezed models, routes, localization, or assets:
+
+```bash
+cd mobile && ./scripts/clean_up.sh
+```
+
+This cleans the build cache, re-fetches deps, and reruns `build_runner` + l10n generation.
+
 ## Code Standards
 
 Full details are in `docs/CODE_STANDARDS.md`. Key rules:
@@ -107,12 +125,6 @@ Full details are in `docs/CODE_STANDARDS.md`. Key rules:
 - Async methods should return `Future<void>`
 - Prefer dedicated widget classes over private `_build*()` helpers
 - Use `color.withValues(alpha: 0.xx)` instead of `withAlpha(...)`
-
-After touching Freezed models, routes, or localization, run:
-
-```bash
-cd mobile && ./scripts/clean_up.sh
-```
 
 ## Testing
 
