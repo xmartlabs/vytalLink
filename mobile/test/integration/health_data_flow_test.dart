@@ -429,7 +429,8 @@ void main() {
         });
 
         test(
-            'handleBackendMessage routes summary_request and sends summary_response',
+            'handleBackendMessage routes summary_request '
+            'and sends summary_response',
             () async {
           final fakeTransport = FakeMcpTransport();
           final mcpServerWithTransport = HealthMcpServerService(

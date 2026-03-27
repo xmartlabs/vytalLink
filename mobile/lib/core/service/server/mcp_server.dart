@@ -185,38 +185,44 @@ class HealthMcpServerService {
       }
     } catch (e) {
       Logger.e('[MCP] Error processing backend message: $e', e);
-      try {
-        final String? msgType = rawMessage != null
-            ? (rawMessage['type'] as String? ?? '').toLowerCase()
-            : null;
-        if (msgType == 'summary_request') {
-          final dynamic payload = rawMessage?['payload'];
-          final payloadMap = payload is Map<String, dynamic> ? payload : null;
-          final errorResponse = BackendResponse.summaryResponse(
-            id: rawMessage != null ? _messageResponseId(rawMessage) : '',
-            data: {
-              'success': false,
-              'start_time': payloadMap?['start_time'] as String? ?? '',
-              'end_time': payloadMap?['end_time'] as String? ?? '',
-              'results': <Map<String, dynamic>>[],
-              'error_message':
-                  'Error processing summary request: ${e.toString()}',
-            },
-          );
-          await sendToBackend(errorResponse.toJson());
-        } else {
-          final errorResponse = HealthDataErrorResponse(
-            success: false,
-            errorMessage: 'Error retrieving health data: ${e.toString()}',
-          );
-          await sendToBackend(errorResponse.toJson());
-        }
-      } catch (innerError) {
-        Logger.e(
-          '[MCP] Error sending error message to backend: $innerError',
-          innerError,
+      await _sendFallbackError(rawMessage, e);
+    }
+  }
+
+  Future<void> _sendFallbackError(
+    Map<String, dynamic>? rawMessage,
+    Object error,
+  ) async {
+    try {
+      final msgType = rawMessage != null
+          ? (rawMessage['type'] as String? ?? '').toLowerCase()
+          : null;
+      if (msgType == 'summary_request') {
+        final dynamic payload = rawMessage?['payload'];
+        final payloadMap = payload is Map<String, dynamic> ? payload : null;
+        final response = BackendResponse.summaryResponse(
+          id: rawMessage != null ? _messageResponseId(rawMessage) : '',
+          data: {
+            'success': false,
+            'start_time': payloadMap?['start_time'] as String? ?? '',
+            'end_time': payloadMap?['end_time'] as String? ?? '',
+            'results': <Map<String, dynamic>>[],
+            'error_message': 'Error processing summary request: $error',
+          },
         );
+        await sendToBackend(response.toJson());
+      } else {
+        final response = HealthDataErrorResponse(
+          success: false,
+          errorMessage: 'Error retrieving health data: $error',
+        );
+        await sendToBackend(response.toJson());
       }
+    } catch (innerError) {
+      Logger.e(
+        '[MCP] Error sending error message to backend: $innerError',
+        innerError,
+      );
     }
   }
 
