@@ -67,19 +67,7 @@
         <div class="container">
             <div class="setup-header">
                 <h1>Build a Health Data Agent in 5 Minutes</h1>
-                <p>One MCP server for heart rate, sleep, steps, workouts, and more. Reads from whatever device your users already have. TypeScript, Python, or any MCP-compatible language, plus a hosted install-link flow for ChatGPT-style app installs. End users still connect through VytalLink with Word + PIN when they need the manual path.</p>
-
-                <div class="dev-hero-buttons">
-                    <a href="https://github.com/xmartlabs/vytallink-health-kit" class="btn btn-primary" target="_blank" rel="noopener noreferrer">
-                        <i class="fab fa-github"></i> Use Health Kit Template
-                    </a>
-                    <a href="https://github.com/xmartlabs/vytalLink/tree/main/examples" class="btn btn-secondary" target="_blank" rel="noopener noreferrer">
-                        <i class="fas fa-folder-open"></i> Examples
-                    </a>
-                    <a href="https://api.vytallink.xmartlabs.com/docs/mcp" class="btn btn-secondary" target="_blank" rel="noopener noreferrer">
-                        <i class="fas fa-file-code"></i> MCP Swagger
-                    </a>
-                </div>
+                <p>Developers integrate the VytalLink MCP once. End users connect through the VytalLink app with Word + PIN, then use your agent to read wearable data.</p>
             </div>
         </div>
     </section>
@@ -230,7 +218,6 @@ async with stdio_client(server_params) as (read, write):
                     <div class="step-content">
                         <h3>Link the user</h3>
                         <p>Send your users the VytalLink app link. The user first opens VytalLink, gets a <strong>Word + PIN</strong>, then goes into your agent and uses those credentials there while VytalLink stays open as the bridge.</p>
-                        <p>If your client supports installed app flows, send users through the hosted VytalLink install link first and keep Word + PIN as the fallback for clients that do not complete the round-trip.</p>
 
                         <div class="dev-deeplink-widget">
                             <div class="dev-deeplink-widget-header">
@@ -408,230 +395,13 @@ print(result.content)</code></pre>
                     <p>Query any metric by time range and aggregation: raw, hourly, or daily.</p>
                 </div>
             </div>
+
             <div class="dev-swagger-cta">
                 <i class="fas fa-book-open"></i>
                 <span>Full parameter reference, schemas, and response types in the</span>
                 <a href="https://api.vytallink.xmartlabs.com/docs/mcp" target="_blank" rel="noopener noreferrer">
                     API Reference <i class="fas fa-arrow-up-right-from-square"></i>
                 </a>
-            </div>
-
-            <div class="section-header" style="margin-bottom: 1.5rem;">
-                <h3>Supported Metric Types</h3>
-            </div>
-            <div class="dev-metric-tags">
-                <span class="dev-metric-tag">STEPS</span>
-                <span class="dev-metric-tag">HEART_RATE</span>
-                <span class="dev-metric-tag">SLEEP</span>
-                <span class="dev-metric-tag">WORKOUT</span>
-                <span class="dev-metric-tag">CALORIES</span>
-                <span class="dev-metric-tag">DISTANCE</span>
-                <span class="dev-metric-tag">HRV</span>
-                <span class="dev-metric-tag">BLOOD_OXYGEN</span>
-                <span class="dev-metric-tag">RESTING_HEART_RATE</span>
-                <span class="dev-metric-tag">RESPIRATORY_RATE</span>
-                <span class="dev-metric-tag">BODY_TEMPERATURE</span>
-                <span class="dev-metric-tag">BLOOD_PRESSURE</span>
-                <span class="dev-metric-tag">BLOOD_GLUCOSE</span>
-                <span class="dev-metric-tag">WEIGHT</span>
-                <span class="dev-metric-tag">BODY_FAT</span>
-            </div>
-        </div>
-    </section>
-
-    <!-- 5. Code Example -->
-    <section id="code-examples" class="dev-code-example">
-        <div class="container">
-            <div class="section-header">
-                <h2>Start with this</h2>
-                <p>Use these snippets as reference and adapt them to your runtime.</p>
-            </div>
-
-            <div class="client-tabs">
-                <button class="tab-btn active" data-client="typescript">
-                    <i class="fab fa-js"></i>
-                    TypeScript
-                </button>
-                <button class="tab-btn" data-client="python">
-                    <i class="fab fa-python"></i>
-                    Python
-                </button>
-            </div>
-
-            <p class="dev-code-note">The MCP server is shown running with <code>npx</code>; no global package install is required here.</p>
-
-            <div class="client-content active" id="typescript-content">
-                <div class="code-block">
-                    <div class="code-header">
-                        <span>agent.ts</span>
-                        <button class="copy-btn" data-target="code-typescript">
-                            <i class="fas fa-copy"></i>
-                        </button>
-                    </div>
-                    <pre><code id="code-typescript" class="language-typescript">import { Client } from "@modelcontextprotocol/sdk/client/index.js";
-import { StdioClientTransport } from "@modelcontextprotocol/sdk/client/stdio.js";
-
-// 1. Create client and transport
-const client = new Client({ name: "my-agent", version: "1.0.0" });
-const transport = new StdioClientTransport({
-  command: "npx",
-  args: ["@xmartlabs/vytallink-mcp-server"],
-});
-
-// 2. Connect and discover tools
-await client.connect(transport);
-const { tools } = await client.listTools();
-console.log(`Connected: ${tools.length} tools available`);
-
-// 3. Authenticate with Word + PIN
-await client.callTool({
-  name: "direct_login",
-  arguments: { word: "island", code: "828930" },
-});
-
-// 4. Fetch health data
-const result = await client.callTool({
-  name: "get_health_metrics",
-  arguments: {
-    metric_type: "HEART_RATE",
-    start_date: "2025-01-01",
-    end_date: "2025-01-07",
-    aggregation: "DAILY",
-  },
-});
-
-console.log(result.content);</code></pre>
-                </div>
-            </div>
-
-            <div class="client-content" id="python-content">
-                <div class="code-block">
-                    <div class="code-header">
-                        <span>agent.py</span>
-                        <button class="copy-btn" data-target="code-python">
-                            <i class="fas fa-copy"></i>
-                        </button>
-                    </div>
-                    <pre><code id="code-python" class="language-python">from mcp import ClientSession, StdioServerParameters
-from mcp.client.stdio import stdio_client
-
-# 1. Connect to VytalLink MCP server
-server_params = StdioServerParameters(
-    command="npx",
-    args=["@xmartlabs/vytallink-mcp-server"],
-)
-
-async with stdio_client(server_params) as (read, write):
-    async with ClientSession(read, write) as session:
-        await session.initialize()
-
-        # 2. Authenticate with Word + PIN
-        await session.call_tool(
-            "direct_login",
-            arguments={"word": "island", "code": "828930"},
-        )
-
-        # 3. Fetch health data
-        result = await session.call_tool(
-            "get_health_metrics",
-            arguments={
-                "metric_type": "HEART_RATE",
-                "start_date": "2025-01-01",
-                "end_date": "2025-01-07",
-                "aggregation": "DAILY",
-            },
-        )
-
-        print(result.content)</code></pre>
-                </div>
-            </div>
-
-        </div>
-    </section>
-
-    <section class="dev-code-example">
-        <div class="container">
-            <div class="section-header">
-                <h2>Install-link Contract</h2>
-                <p>Use these VytalLink-owned URLs when your client supports installed apps, then fall back to <code>direct_login</code> with Word + PIN.</p>
-            </div>
-
-            <div class="code-block">
-                <div class="code-header">
-                    <span>manifest.json</span>
-                </div>
-                <pre><code class="language-json">{
-  "plugin_id": "chatgpt",
-  "name": "ChatGPT",
-  "description": "Hosted ChatGPT install and connect flow for vytalLink with Word + PIN fallback.",
-  "icon_url": "https://vytallink.xmartlabs.com/favicon.svg",
-  "entry_url": "https://chatgpt.com/g/g-68c2fb58447c8191b5af624f6b33bdd6-vytallink",
-  "allowed_return_origins": [
-    "https://vytallink.xmartlabs.com",
-    "vytallink://connect/chatgpt/callback"
-  ],
-  "manifest_version": "1.0.0",
-  "supports_connect_flow": true,
-  "supports_word_pin_fallback": true
-}</code></pre>
-            </div>
-
-            <div class="setup-steps" style="margin-top: 2rem;">
-                <div class="step">
-                    <div class="step-number">1</div>
-                    <div class="step-content">
-                        <h3>Install URL</h3>
-                        <p><code>/install/chatgpt</code> is the user-facing handoff page. It explains the ChatGPT install flow and keeps the manual Word + PIN path visible if the prompt is unavailable.</p>
-                    </div>
-                </div>
-                <div class="step">
-                    <div class="step-number">2</div>
-                    <div class="step-content">
-                        <h3>Callback URL</h3>
-                        <p><code>/connect/chatgpt/callback</code> is the stable return target after install/connect. It accepts query params such as <code>state</code> and <code>install_id</code>, confirms the round-trip, and reminds users that Word + PIN still works.</p>
-                    </div>
-                </div>
-                <div class="step">
-                    <div class="step-number">3</div>
-                    <div class="step-content">
-                        <h3>App links</h3>
-                        <p>We publish <code>/.well-known/apple-app-site-association</code> and <code>/.well-known/assetlinks.json</code> for the production app so install and callback URLs can be upgraded into app links when platform support is enabled.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- 7. Why VytalLink -->
-    <section class="dev-why">
-        <div class="container">
-            <div class="section-header">
-                <h2>Why VytalLink</h2>
-                <p>Zero to health data in your agent.</p>
-            </div>
-
-            <div class="features-grid">
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-server"></i>
-                    </div>
-                    <h3>One Server, All Health Data</h3>
-                    <p>No vendor SDKs, no platform-specific code. One MCP server gives your agent access to Apple Health, Health Connect, and every wearable they support.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-shield-alt"></i>
-                    </div>
-                    <h3>Privacy by Design</h3>
-                    <p>Health data never leaves the user's phone. Your agent reads it in real time through a secure connection, and nothing is stored in the cloud.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-rocket"></i>
-                    </div>
-                    <h3>Ship Faster</h3>
-                    <p>5 minutes from npm install to your first health data query. Standard MCP protocol means it works with any framework and any LLM provider.</p>
-                </div>
             </div>
         </div>
     </section>
