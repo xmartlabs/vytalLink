@@ -41,6 +41,12 @@ cd examples/athletic-analyst-py && python -m src.main --mode readiness
 - Consolidated guidelines: [`docs/CONSOLIDATED_GUIDELINES.md`](docs/CONSOLIDATED_GUIDELINES.md).
 - Add any new repository-wide guides under [`docs/`](docs/).
 
+## Repository Scripts
+
+- `./scripts/setup_wt.sh` links credential files from one local checkout into another checkout or worktree.
+- Run `./scripts/setup_wt.sh` from inside a worktree to use the current directory as the target and the main repo as the source.
+- Pass `--source /path/to/source/repo` if you want to choose a different source checkout.
+
 ## Contributing
 
 1. Create a descriptive branch.
