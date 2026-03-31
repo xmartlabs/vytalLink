@@ -206,6 +206,19 @@
         font-size: 0.7rem;
       }
     </style>
+  <script>
+    const PLAY_URL = "https://play.google.com/store/apps/details?id=com.xmartlabs.vytallink";
+    const APP_STORE_URL = "https://apps.apple.com/us/app/vytallink/id6752308627";
+
+    const ua = navigator.userAgent || "";
+    const isAndroid = /Android/i.test(ua);
+    const isClassicIOS = /iPhone|iPad|iPod/i.test(ua);
+    const isIPadDesktopLike = /Macintosh;.*Mac OS X/i.test(ua) && /Mobile\/[0-9A-Za-z]+/i.test(ua);
+    const isIOS = isClassicIOS || isIPadDesktopLike;
+
+    if (isAndroid) window.location.replace(PLAY_URL);
+    else if (isIOS) window.location.replace(APP_STORE_URL);
+  </script>
   </head>
   <body>
     <header class="app-header">
