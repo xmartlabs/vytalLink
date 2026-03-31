@@ -14,6 +14,7 @@ class ServerActionButtonWidget extends StatelessWidget {
   final McpServerStatus status;
   final AsyncCallback? onStartPressed;
   final VoidCallback? onChatGptQuickAction;
+  final VoidCallback? onChatGptInstalledPluginAction;
   final VoidCallback? onChatGptDesktopPressed;
 
   const ServerActionButtonWidget({
@@ -21,6 +22,7 @@ class ServerActionButtonWidget extends StatelessWidget {
     required this.status,
     this.onStartPressed,
     this.onChatGptQuickAction,
+    this.onChatGptInstalledPluginAction,
     this.onChatGptDesktopPressed,
     super.key,
   });
@@ -45,6 +47,7 @@ class ServerActionButtonWidget extends StatelessWidget {
         stateView = _RunningButtons(
           key: const ValueKey('running'),
           onChatGptQuickAction: onChatGptQuickAction,
+          onChatGptInstalledPluginAction: onChatGptInstalledPluginAction,
           onChatGptDesktopPressed: onChatGptDesktopPressed,
         );
         break;
@@ -153,10 +156,12 @@ class _LoadingButton extends StatelessWidget {
 
 class _RunningButtons extends StatelessWidget {
   final VoidCallback? onChatGptQuickAction;
+  final VoidCallback? onChatGptInstalledPluginAction;
   final VoidCallback? onChatGptDesktopPressed;
 
   const _RunningButtons({
     required this.onChatGptQuickAction,
+    required this.onChatGptInstalledPluginAction,
     required this.onChatGptDesktopPressed,
     super.key,
   });
@@ -186,6 +191,7 @@ class _RunningButtons extends StatelessWidget {
         content: context.localizations.home_dialog_start_chat_body,
         contentWidget: _StartChatDialogContent(
           onChatGptQuickAction: onChatGptQuickAction,
+          onChatGptInstalledPluginAction: onChatGptInstalledPluginAction,
           onChatGptDesktopPressed: onChatGptDesktopPressed,
           onInstructionTap: _handleInstructionTap,
         ),
@@ -207,12 +213,14 @@ class _RunningButtons extends StatelessWidget {
 
 class _StartChatDialogContent extends StatelessWidget {
   final VoidCallback? onChatGptQuickAction;
+  final VoidCallback? onChatGptInstalledPluginAction;
   final VoidCallback? onChatGptDesktopPressed;
   final void Function(BuildContext context, VoidCallback? action)
       onInstructionTap;
 
   const _StartChatDialogContent({
     required this.onChatGptQuickAction,
+    required this.onChatGptInstalledPluginAction,
     required this.onChatGptDesktopPressed,
     required this.onInstructionTap,
   });
@@ -240,6 +248,21 @@ class _StartChatDialogContent extends StatelessWidget {
             text: context.localizations.home_dialog_chatgpt_desktop_bullet,
           ),
           const SizedBox(height: 16),
+          AppButton.filled(
+            label: context
+                .localizations.home_ai_card_installed_plugin_primary_action,
+            icon: Assets.icons.chatgpt.svg(
+              width: AppButtonDefaults.iconSize,
+              height: AppButtonDefaults.iconSize,
+              colorFilter:
+                  const ColorFilter.mode(Colors.white, BlendMode.srcIn),
+            ),
+            onPressed: () => onInstructionTap(
+              context,
+              onChatGptInstalledPluginAction,
+            ),
+          ),
+          const SizedBox(height: 10),
           _ChatGptMobileButton(
             onPressed: () => onInstructionTap(context, onChatGptQuickAction),
           ),

@@ -67,7 +67,7 @@
         <div class="container">
             <div class="setup-header">
                 <h1>Build a Health Data Agent in 5 Minutes</h1>
-                <p>One MCP server for heart rate, sleep, steps, workouts, and more. Reads from whatever device your users already have. TypeScript, Python, or any MCP-compatible language.</p>
+                <p>One MCP server for heart rate, sleep, steps, workouts, and more. Reads from whatever device your users already have. TypeScript, Python, or any MCP-compatible language, plus a hosted install-link flow for ChatGPT-style app installs.</p>
 
                 <div class="dev-hero-buttons">
                     <a href="https://github.com/xmartlabs/vytallink-health-kit" class="btn btn-primary" target="_blank" rel="noopener noreferrer">
@@ -125,7 +125,7 @@
                     <div class="step-number">2</div>
                     <div class="step-content">
                         <h3>User selects what to share</h3>
-                        <p>The app generates a Word + PIN that your agent will use to authenticate. Users control exactly which metrics are accessible.</p>
+                        <p>The app generates a Word + PIN that your agent will use to authenticate. If your client supports app installs, point it at our hosted install link first and keep Word + PIN as the fallback.</p>
                     </div>
                 </div>
 
@@ -333,6 +333,59 @@ async with stdio_client(server_params) as (read, write):
                 </div>
             </div>
 
+        </div>
+    </section>
+
+    <section class="dev-code-example">
+        <div class="container">
+            <div class="section-header">
+                <h2>Install-link Contract</h2>
+                <p>Use these VytalLink-owned URLs when your client supports installed apps, then fall back to <code>direct_login</code> with Word + PIN.</p>
+            </div>
+
+            <div class="code-block">
+                <div class="code-header">
+                    <span>manifest.json</span>
+                </div>
+                <pre><code class="language-json">{
+  "plugin_id": "chatgpt",
+  "name": "ChatGPT",
+  "description": "Hosted ChatGPT install and connect flow for vytalLink with Word + PIN fallback.",
+  "icon_url": "https://vytallink.xmartlabs.com/favicon.svg",
+  "entry_url": "https://chatgpt.com/g/g-68c2fb58447c8191b5af624f6b33bdd6-vytallink",
+  "allowed_return_origins": [
+    "https://vytallink.xmartlabs.com",
+    "vytallink://connect/chatgpt/callback"
+  ],
+  "manifest_version": "1.0.0",
+  "supports_connect_flow": true,
+  "supports_word_pin_fallback": true
+}</code></pre>
+            </div>
+
+            <div class="setup-steps" style="margin-top: 2rem;">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <div class="step-content">
+                        <h3>Install URL</h3>
+                        <p><code>/install/chatgpt</code> is the user-facing handoff page. It explains the ChatGPT install flow and keeps the manual Word + PIN path visible if the prompt is unavailable.</p>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <div class="step-content">
+                        <h3>Callback URL</h3>
+                        <p><code>/connect/chatgpt/callback</code> is the stable return target after install/connect. It accepts query params such as <code>state</code> and <code>install_id</code>, confirms the round-trip, and reminds users that Word + PIN still works.</p>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <div class="step-content">
+                        <h3>App links</h3>
+                        <p>We publish <code>/.well-known/apple-app-site-association</code> and <code>/.well-known/assetlinks.json</code> for the production app so install and callback URLs can be upgraded into app links when platform support is enabled.</p>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
 

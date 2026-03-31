@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, viewport-fit=cover">
+    <meta name="description" content="Install vytalLink in ChatGPT and keep the Word + PIN fallback ready from the mobile app.">
+    <meta name="author" content="Xmartlabs">
+    <title>Install vytalLink in ChatGPT - vytalLink</title>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <link rel="stylesheet" href="/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-KNFZRXV054"></script>
+    <script src="/analytics.js"></script>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <i class="fas fa-heartbeat"></i>
+                <a href="/"><span>vytalLink</span></a>
+            </div>
+            <div class="nav-menu">
+                <a href="/" class="nav-link">Home</a>
+                <a href="/chatgpt-setup.html" class="nav-link">ChatGPT Setup</a>
+                <a href="/developers.html" class="nav-link">Developers</a>
+                <a href="#" class="btn btn-primary download-app-btn" onclick="openDownloadModal()">Download App</a>
+            </div>
+            <div class="hamburger"><span></span><span></span><span></span></div>
+        </div>
+    </nav>
+
+    <section class="setup-hero">
+        <div class="container">
+            <div class="setup-header">
+                <div class="chatgpt-hero-icon">
+                    <span class="brand-mark brand-mark--chatgpt brand-mark--xl" aria-hidden="true"></span>
+                </div>
+                <h1>Install vytalLink in ChatGPT</h1>
+                <p>Start from our hosted install link, then fall back to Word + PIN if ChatGPT asks for a manual connection.</p>
+                <div class="hero-badge">
+                    <i class="fas fa-link"></i>
+                    <span>Hosted install-link flow</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="setup-instructions">
+        <div class="container">
+            <div class="section-header">
+                <h2>What to expect</h2>
+                <p>This page works whether ChatGPT supports installed apps for you already or still falls back to manual auth.</p>
+            </div>
+
+            <div class="setup-steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <div class="step-content">
+                        <h3>Keep the vytalLink app open</h3>
+                        <p>If you came here from the mobile app, your Word + PIN were prepared before this page opened. If you started on the web, open vytalLink first and tap <strong>Get Word + PIN</strong>.</p>
+                    </div>
+                </div>
+
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <div class="step-content">
+                        <h3>Open ChatGPT through the install flow</h3>
+                        <p>ChatGPT may show an install or connect prompt for vytalLink. If it does, continue there. If not, open the chat anyway and use the fallback instructions below.</p>
+                        <div class="cta-buttons">
+                            <a href="https://chatgpt.com/g/g-68c2fb58447c8191b5af624f6b33bdd6-vytallink" class="btn btn-primary btn-large" target="_blank" rel="noopener">
+                                <span class="brand-mark brand-mark--chatgpt brand-mark--lg" aria-hidden="true"></span>
+                                Open ChatGPT install flow
+                            </a>
+                            <a href="/chatgpt-setup.html" class="btn btn-secondary btn-large">
+                                <i class="fas fa-book-open"></i>
+                                View full setup guide
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <div class="step-content">
+                        <h3>Fallback: paste Word + PIN</h3>
+                        <p>If ChatGPT asks you to connect manually, paste the Word + PIN from the vytalLink app. That fallback remains valid even when the install prompt is missing.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta-section">
+        <div class="container">
+            <div class="cta-content">
+                <h2>Missing the app?</h2>
+                <p>Install vytalLink first, then come back here and continue the ChatGPT flow.</p>
+                <div class="cta-buttons">
+                    <a href="https://apps.apple.com/app/id6752308627" class="btn btn-primary btn-large" target="_blank" rel="noopener">
+                        <i class="fab fa-apple"></i>
+                        Download on App Store
+                    </a>
+                    <a href="https://play.google.com/store/apps/details?id=com.xmartlabs.vytallink" class="btn btn-primary btn-large" target="_blank" rel="noopener">
+                        <i class="fab fa-google-play"></i>
+                        Get it on Google Play
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="/bundle-config.js"></script>
+    <script src="/common-modal.js"></script>
+</body>
+</html>

@@ -8,6 +8,16 @@
     ],
     "redirects": [
       {
+        "source": "/install/chatgpt",
+        "destination": "/install/chatgpt/index.html",
+        "type": 302
+      },
+      {
+        "source": "/connect/chatgpt/callback",
+        "destination": "/connect/chatgpt/callback/index.html",
+        "type": 302
+      },
+      {
         "source": "/about",
         "destination": "/about.html",
         "type": 301
@@ -41,6 +51,34 @@
         "source": "/developers",
         "destination": "/developers.html",
         "type": 301
+      }
+    ],
+    "headers": [
+      {
+        "source": "/.well-known/apple-app-site-association",
+        "headers": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Cache-Control",
+            "value": "public,max-age=3600"
+          }
+        ]
+      },
+      {
+        "source": "/.well-known/assetlinks.json",
+        "headers": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Cache-Control",
+            "value": "public,max-age=3600"
+          }
+        ]
       }
     ],
     "rewrites": [

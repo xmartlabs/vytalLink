@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, viewport-fit=cover">
+    <meta name="description" content="ChatGPT callback page for the vytalLink install-link and manual Word + PIN fallback flow.">
+    <meta name="author" content="Xmartlabs">
+    <title>Finish ChatGPT connection - vytalLink</title>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <link rel="stylesheet" href="/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-KNFZRXV054"></script>
+    <script src="/analytics.js"></script>
+</head>
+<body>
+    <section class="setup-hero">
+        <div class="container">
+            <div class="setup-header">
+                <div class="chatgpt-hero-icon">
+                    <span class="brand-mark brand-mark--chatgpt brand-mark--xl" aria-hidden="true"></span>
+                </div>
+                <h1>Finish your ChatGPT connection</h1>
+                <p>This callback confirms the install-link flow and keeps the manual Word + PIN fallback available.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="setup-instructions">
+        <div class="container">
+            <div class="section-header">
+                <h2>Next step</h2>
+                <p id="callback-summary">Return to the vytalLink mobile app if ChatGPT still needs your Word + PIN.</p>
+            </div>
+
+            <div class="setup-steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <div class="step-content">
+                        <h3>Check the result in ChatGPT</h3>
+                        <p>If ChatGPT shows vytalLink as connected, you are done. If it asks for credentials, keep the mobile app open and paste the Word + PIN from there.</p>
+                    </div>
+                </div>
+
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <div class="step-content">
+                        <h3>Fallback stays available</h3>
+                        <p>The callback does not remove the manual auth path. It simply gives ChatGPT a stable VytalLink-owned return URL before you fall back to Word + PIN.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="cta-buttons" style="justify-content: center;">
+                <a href="/install/chatgpt" class="btn btn-primary btn-large">
+                    <i class="fas fa-rotate-right"></i>
+                    Restart install flow
+                </a>
+                <a href="/chatgpt-setup.html" class="btn btn-secondary btn-large">
+                    <i class="fas fa-book-open"></i>
+                    View setup guide
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        const state = params.get('state');
+        const installId = params.get('install_id');
+        if (state || installId) {
+          const parts = [];
+          if (installId) parts.push(`install_id=${installId}`);
+          if (state) parts.push(`state=${state}`);
+          document.getElementById('callback-summary').textContent =
+            `Callback received (${parts.join(', ')}). Return to the vytalLink app if ChatGPT still needs your Word + PIN.`;
+        }
+    </script>
+</body>
+</html>

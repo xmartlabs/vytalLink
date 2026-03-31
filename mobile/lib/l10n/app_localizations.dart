@@ -232,6 +232,24 @@ abstract class AppLocalizations {
   /// **'ChatGPT Integration'**
   String get chatgpt_integration_title;
 
+  /// No description provided for @chatgpt_install_section_action.
+  ///
+  /// In en, this message translates to:
+  /// **'Open install link'**
+  String get chatgpt_install_section_action;
+
+  /// No description provided for @chatgpt_install_section_description.
+  ///
+  /// In en, this message translates to:
+  /// **'If your ChatGPT shows an install or connect prompt for apps, start with the hosted vytalLink install link. If the prompt falls back to manual connect, use the same Word + PIN from the home screen.'**
+  String get chatgpt_install_section_description;
+
+  /// No description provided for @chatgpt_install_section_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Install-link flow'**
+  String get chatgpt_install_section_title;
+
   /// No description provided for @chatgpt_open_custom_gpt.
   ///
   /// In en, this message translates to:
@@ -700,6 +718,30 @@ abstract class AppLocalizations {
   /// **'This guide walks you through both paths:'**
   String get home_ai_card_guide_header;
 
+  /// No description provided for @home_ai_card_installed_plugin_description.
+  ///
+  /// In en, this message translates to:
+  /// **'Use the hosted install link if your ChatGPT supports installed apps. We keep your Word + PIN ready so the flow can fall back to manual connect without extra steps.'**
+  String get home_ai_card_installed_plugin_description;
+
+  /// No description provided for @home_ai_card_installed_plugin_hint.
+  ///
+  /// In en, this message translates to:
+  /// **'Best path when ChatGPT shows an install or connect prompt. If it asks for credentials, paste the Word + PIN from this app.'**
+  String get home_ai_card_installed_plugin_hint;
+
+  /// No description provided for @home_ai_card_installed_plugin_primary_action.
+  ///
+  /// In en, this message translates to:
+  /// **'Install in ChatGPT'**
+  String get home_ai_card_installed_plugin_primary_action;
+
+  /// No description provided for @home_ai_card_installed_plugin_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Install vytalLink in ChatGPT'**
+  String get home_ai_card_installed_plugin_title;
+
   /// No description provided for @home_ai_card_intro.
   ///
   /// In en, this message translates to:
@@ -723,6 +765,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Use GPT on this phone'**
   String get home_ai_card_mobile_title;
+
+  /// No description provided for @home_ai_card_word_pin_fallback_description.
+  ///
+  /// In en, this message translates to:
+  /// **'Prefer the classic flow or need a fallback? Generate Word + PIN here and use them with ChatGPT on this phone, ChatGPT.com, Claude Desktop, or any MCP client.'**
+  String get home_ai_card_word_pin_fallback_description;
+
+  /// No description provided for @home_ai_card_word_pin_fallback_hint.
+  ///
+  /// In en, this message translates to:
+  /// **'This fallback stays available even if the install prompt is missing or your AI client does not support installed apps yet.'**
+  String get home_ai_card_word_pin_fallback_hint;
+
+  /// No description provided for @home_ai_card_word_pin_fallback_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Use Word + PIN anywhere'**
+  String get home_ai_card_word_pin_fallback_title;
 
   /// No description provided for @home_banner_bridge_active.
   ///

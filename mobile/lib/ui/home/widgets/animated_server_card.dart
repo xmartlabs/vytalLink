@@ -170,6 +170,12 @@ class AnimatedServerCard extends StatelessWidget {
               errorMessage: errorMessage,
               status: status,
               onStartPressed: connectCallback,
+              onChatGptInstalledPluginAction: () =>
+                  launchChatGptInstalledPluginFlow(
+                context: context,
+                credentials: bridgeCredentials,
+                connectCallback: connectCallback,
+              ),
               onChatGptQuickAction: () => launchChatGptQuickAction(
                 context: context,
                 credentials: bridgeCredentials,

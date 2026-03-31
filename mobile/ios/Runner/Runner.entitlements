@@ -6,5 +6,10 @@
 	<true/>
 	<key>com.apple.developer.healthkit.background-delivery</key>
 	<true/>
+	<key>com.apple.developer.associated-domains</key>
+	<array>
+		<string>applinks:vytallink.web.app</string>
+		<string>applinks:vytallink.xmartlabs.com</string>
+	</array>
 </dict>
 </plist>

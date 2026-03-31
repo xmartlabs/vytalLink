@@ -1,0 +1,15 @@
+{
+  "plugin_id": "chatgpt",
+  "name": "ChatGPT",
+  "description": "Hosted ChatGPT install and connect flow for vytalLink with Word + PIN fallback.",
+  "icon_url": "/favicon.svg",
+  "entry_url": "https://chatgpt.com/g/g-68c2fb58447c8191b5af624f6b33bdd6-vytallink",
+  "allowed_return_origins": [
+    "https://vytallink.web.app",
+    "https://vytallink.xmartlabs.com",
+    "vytallink://connect/chatgpt/callback"
+  ],
+  "manifest_version": "1.0.0",
+  "supports_connect_flow": true,
+  "supports_word_pin_fallback": true
+}

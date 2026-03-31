@@ -1,3 +1,5 @@
+import 'package:flutter_template/core/service/installed_plugin_registry_service.dart';
+import 'package:flutter_template/core/service/plugin_registry_storage_service.dart';
 import 'package:flutter_template/core/service/shared_preference_service.dart';
 import 'package:flutter_template/ui/router/app_router.dart';
 import 'package:get_it/get_it.dart';
@@ -15,6 +17,10 @@ class UtilsDiModule {
 extension _GetItDiModuleExtensions on GetIt {
   void _setupModule() {
     registerLazySingleton(() => AppRouter(get()));
+    registerLazySingleton(() => PluginRegistryStorageService());
+    registerLazySingleton(
+      () => InstalledPluginRegistryService(storageService: get()),
+    );
     registerLazySingleton(() => SharedPreferenceService());
   }
 }

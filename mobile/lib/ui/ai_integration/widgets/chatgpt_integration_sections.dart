@@ -1,10 +1,13 @@
 import 'package:design_system/design_system.dart';
 import 'package:design_system/extensions/color_extensions.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_template/core/common/config.dart';
 import 'package:flutter_template/gen/assets.gen.dart';
 import 'package:flutter_template/ui/ai_integration/widgets/expandable_section.dart';
 import 'package:flutter_template/ui/ai_integration/widgets/setup_step.dart';
 import 'package:flutter_template/ui/extensions/context_extensions.dart';
+import 'package:flutter_template/ui/helpers/url_launcher_helper.dart';
+import 'package:flutter_template/ui/home/helpers/installed_plugin_link_helper.dart';
 import 'package:flutter_template/ui/widgets/bold_tag_text.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -95,6 +98,76 @@ class HowToSetupSection extends StatelessWidget {
           ],
         ),
       );
+}
+
+class ChatGptInstalledAppSection extends StatelessWidget {
+  const ChatGptInstalledAppSection({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final installFlow = InstalledPluginLinkHelper.chatGpt(
+      landingUrl: Config.landingUrl,
+    );
+
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: context.theme.colorScheme.primary.withValues(alpha: 0.08),
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(
+          color: context.theme.colorScheme.primary.withValues(alpha: 0.18),
+        ),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Icon(
+                Icons.extension_rounded,
+                color: context.theme.colorScheme.primary,
+                size: 18,
+              ),
+              const SizedBox(width: 10),
+              Expanded(
+                child: Text(
+                  context.localizations.chatgpt_install_section_title,
+                  style: context.theme.textTheme.titleSmall?.copyWith(
+                    fontWeight: FontWeight.w700,
+                    color: context.theme.colorScheme.onSurface,
+                  ),
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 8),
+          Text(
+            context.localizations.chatgpt_install_section_description,
+            style: context.theme.textTheme.bodySmall?.copyWith(
+              color: context.theme.colorScheme.onSurfaceVariant,
+              height: 1.4,
+            ),
+          ),
+          const SizedBox(height: 12),
+          AppButton.filled(
+            label: context.localizations.chatgpt_install_section_action,
+            icon: Assets.icons.chatgpt.svg(
+              width: AppButtonDefaults.iconSize,
+              height: AppButtonDefaults.iconSize,
+              colorFilter: const ColorFilter.mode(
+                Colors.white,
+                BlendMode.srcIn,
+              ),
+            ),
+            onPressed: () => UrlLauncherHelper.launchInBrowserView(
+              installFlow.installUri.toString(),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 }
 
 class ChatGptIntegrationHeroSection extends StatelessWidget {

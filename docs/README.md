@@ -8,5 +8,7 @@
 - [`examples/README.md`](../examples/README.md) — End-to-end TypeScript and Python agent examples for MCP consumption.
 - [`CONSOLIDATED_GUIDELINES.md`](CONSOLIDATED_GUIDELINES.md) — Unified reference for key guidelines and principles.
 - [`VYTALLINK_GPT_PROMPT.md`](VYTALLINK_GPT_PROMPT.md) — Prompt used by the GPT agent.
+- [`INSTALLED_PLUGINS_V1.md`](INSTALLED_PLUGINS_V1.md) — Explanation of the installed-plugins v1 feature, its goal, scope, and user flow.
+- [`PLUGIN_INSTALL_CONNECT_CONTRACT.md`](PLUGIN_INSTALL_CONNECT_CONTRACT.md) — Technical reference for the install/callback contract and plugin manifest.
 
 Add any additional monorepo-wide documentation to this folder and reference it from here.

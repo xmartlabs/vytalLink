@@ -24,6 +24,7 @@ class AiIntegrationCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = context.theme;
     final colorScheme = theme.colorScheme;
+
     return VytalLinkCard(
       margin: const EdgeInsets.only(bottom: 24),
       padding: const EdgeInsets.all(24),
@@ -45,47 +46,25 @@ class AiIntegrationCard extends StatelessWidget {
               height: 1.4,
             ),
           ),
-          const SizedBox(height: 8),
-          Text(
-            context.localizations.home_ai_card_guide_header,
-            style: theme.textTheme.bodySmall?.copyWith(
-              color: colorScheme.onSurfaceVariant,
-              fontWeight: FontWeight.w600,
-            ),
-          ),
-          const SizedBox(height: 12),
-          Text(
-            context.localizations.home_ai_card_blog_gpt,
-            style: theme.textTheme.bodySmall?.copyWith(
-              color: colorScheme.onSurfaceVariant,
-              fontStyle: FontStyle.italic,
-              height: 1.45,
-            ),
-          ),
-          const SizedBox(height: 6),
-          Text(
-            context.localizations.home_ai_card_blog_claude,
-            style: theme.textTheme.bodySmall?.copyWith(
-              color: colorScheme.onSurfaceVariant,
-              fontStyle: FontStyle.italic,
-              height: 1.45,
-            ),
-          ),
           const SizedBox(height: 24),
           _AiOptionSection(
+            key: const Key('ai-installed-plugin-section'),
             accentColor: colorScheme.primary,
             icon: Icon(
-              Icons.desktop_windows,
+              Icons.extension_rounded,
               color: colorScheme.primary,
               size: 22,
             ),
-            title: context.localizations.home_ai_card_desktop_title,
-            description: context.localizations.home_ai_card_desktop_description,
-            hint: context.localizations.home_ai_card_desktop_hint,
+            title: context.localizations.home_ai_card_installed_plugin_title,
+            description:
+                context.localizations.home_ai_card_installed_plugin_description,
+            hint: context.localizations.home_ai_card_installed_plugin_hint,
             badgeLabel: context.localizations.mcp_recommended_badge,
             actions: [
               AppButton.filled(
-                label: context.localizations.home_dialog_chatgpt_view_guide,
+                key: const Key('ai-installed-plugin-primary-action'),
+                label: context
+                    .localizations.home_ai_card_installed_plugin_primary_action,
                 icon: Assets.icons.chatgpt.svg(
                   width: AppButtonDefaults.iconSize,
                   height: AppButtonDefaults.iconSize,
@@ -94,35 +73,27 @@ class AiIntegrationCard extends StatelessWidget {
                     BlendMode.srcIn,
                   ),
                 ),
-                onPressed: () =>
-                    context.router.push(const ChatGptIntegrationRoute()),
-              ),
-              AppButton.outlined(
-                label: context.localizations.home_dialog_claude_view_guide,
-                icon: Assets.icons.claude.svg(
-                  width: AppButtonDefaults.iconSize,
-                  height: AppButtonDefaults.iconSize,
-                  colorFilter: ColorFilter.mode(
-                    colorScheme.primary,
-                    BlendMode.srcIn,
-                  ),
+                onPressed: () => launchChatGptInstalledPluginFlow(
+                  context: context,
+                  credentials: bridgeCredentials,
+                  connectCallback: connectCallback,
                 ),
-                onPressed: () =>
-                    context.router.push(const McpIntegrationRoute()),
               ),
             ],
           ),
           const SizedBox(height: 24),
           _AiOptionSection(
+            key: const Key('ai-word-pin-fallback-section'),
             accentColor: colorScheme.primary,
             icon: Icon(
-              Icons.phone_iphone,
+              Icons.password_rounded,
               color: colorScheme.primary,
               size: 22,
             ),
-            title: context.localizations.home_ai_card_mobile_title,
-            description: context.localizations.home_ai_card_mobile_description,
-            hint: context.localizations.home_ai_card_mobile_hint,
+            title: context.localizations.home_ai_card_word_pin_fallback_title,
+            description: context
+                .localizations.home_ai_card_word_pin_fallback_description,
+            hint: context.localizations.home_ai_card_word_pin_fallback_hint,
             actions: [
               AppButton.filled(
                 label: context.localizations.chatgpt_open_custom_gpt,
@@ -137,6 +108,29 @@ class AiIntegrationCard extends StatelessWidget {
                   credentials: bridgeCredentials,
                   connectCallback: connectCallback,
                 ),
+              ),
+              AppButton.outlined(
+                key: const Key('ai-desktop-guide-action'),
+                label: context.localizations.home_dialog_claude_view_guide,
+                icon: Assets.icons.claude.svg(
+                  width: AppButtonDefaults.iconSize,
+                  height: AppButtonDefaults.iconSize,
+                  colorFilter: ColorFilter.mode(
+                    colorScheme.primary,
+                    BlendMode.srcIn,
+                  ),
+                ),
+                onPressed: () =>
+                    context.router.push(const McpIntegrationRoute()),
+              ),
+              AppButton.outlined(
+                label: context.localizations.home_dialog_chatgpt_view_guide,
+                icon: const Icon(
+                  Icons.help_outline_rounded,
+                  size: AppButtonDefaults.iconSize,
+                ),
+                onPressed: () =>
+                    context.router.push(const ChatGptIntegrationRoute()),
               ),
             ],
           ),
@@ -163,6 +157,7 @@ class _AiOptionSection extends StatelessWidget {
     required this.hint,
     required this.actions,
     this.badgeLabel,
+    super.key,
   });
 
   @override

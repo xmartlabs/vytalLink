@@ -12,6 +12,7 @@ import 'unit/core/health/health_sleep_session_normalizer_adjustment_test.dart'
 import 'unit/core/health/health_sleep_session_normalizer_test.dart'
     as health_sleep_session_normalizer_test;
 import 'unit/core/model/health_data_point_test.dart' as health_data_point_test;
+import 'unit/core/model/installed_plugin_test.dart' as installed_plugin_test;
 import 'unit/core/model/health_data_request_test.dart'
     as health_data_request_test;
 import 'unit/core/model/health_data_response_test.dart'
@@ -20,8 +21,17 @@ import 'unit/core/model/workout_summary_data_test.dart'
     as workout_summary_data_test;
 import 'unit/core/service/health_data_manager_test.dart'
     as health_data_manager_test;
+import 'unit/core/service/installed_plugin_registry_service_test.dart'
+    as installed_plugin_registry_service_test;
+import 'unit/core/service/plugin_registry_storage_service_test.dart'
+    as plugin_registry_storage_service_test;
 import 'unit/core/source/mcp_server_test.dart' as mcp_server_test;
 import 'unit/ui/home/home_cubit_test.dart' as home_cubit_test;
+import 'unit/ui/home/ai_integration_card_test.dart' as ai_integration_card_test;
+import 'unit/ui/home/installed_plugin_link_helper_test.dart'
+    as installed_plugin_link_helper_test;
+import 'unit/ui/router/deep_link_coordinator_test.dart'
+    as deep_link_coordinator_test;
 
 void main() {
   // Health data tests
@@ -39,11 +49,19 @@ void main() {
 
   // Model tests
   health_data_point_test.main();
+  installed_plugin_test.main();
   health_data_request_test.main();
   health_data_response_test.main();
 
   // UI tests
   home_cubit_test.main();
+  ai_integration_card_test.main();
+  installed_plugin_link_helper_test.main();
+  deep_link_coordinator_test.main();
+
+  // Storage tests
+  installed_plugin_registry_service_test.main();
+  plugin_registry_storage_service_test.main();
 
   // Integration tests
   health_data_flow_test.main();

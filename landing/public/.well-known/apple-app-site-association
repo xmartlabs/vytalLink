@@ -1,0 +1,14 @@
+{
+  "applinks": {
+    "apps": [],
+    "details": [
+      {
+        "appID": "6F2G55XL63.com.xmartlabs.vytallink",
+        "paths": [
+          "/install/*",
+          "/connect/*"
+        ]
+      }
+    ]
+  }
+}
