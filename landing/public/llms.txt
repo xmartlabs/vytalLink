@@ -1,0 +1,25 @@
+# VytalLink
+
+> Privacy-first platform connecting wearable health data (Apple Health, Google Health Connect) to AI assistants via MCP (Model Context Protocol). Your data stays on your phone.
+
+VytalLink is a mobile app that acts as a local MCP server, exposing health metrics from Apple HealthKit and Google Health Connect to AI tools like Claude Desktop and ChatGPT. Users share access via a Word + PIN credential system — no cloud upload of health data.
+
+## Product
+
+- [Home](https://vytallink.xmartlabs.com/): Overview, features, and download links for iOS and Android
+- [About](https://vytallink.xmartlabs.com/about.md): Mission, values, and the Xmartlabs team behind VytalLink
+- [FAQ](https://vytallink.xmartlabs.com/faq.md): Common questions about the app and integrations
+
+## Setup Guides
+
+- [MCP Advanced Setup](https://vytallink.xmartlabs.com/mcp-setup.md): Connect any MCP-compatible AI agent to VytalLink (Claude Desktop, Cursor, VS Code, and more)
+- [ChatGPT Setup](https://vytallink.xmartlabs.com/chatgpt-setup.md): Use the VytalLink custom GPT in ChatGPT
+- [Claude Desktop Bundle Setup](https://vytallink.xmartlabs.com/claude-bundle-setup.md): Connect Claude Desktop using the pre-built one-click bundle
+
+## Developers
+
+- [Developer Guide](https://vytallink.xmartlabs.com/developers.md): Build health data agents in 5 minutes — TypeScript and Python examples, MCP tools reference, authentication flow
+
+## Full content
+
+- [llms-full.txt](https://vytallink.xmartlabs.com/llms-full.txt): All pages concatenated for single-file consumption
