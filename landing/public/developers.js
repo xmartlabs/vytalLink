@@ -3,17 +3,22 @@
 document.addEventListener('DOMContentLoaded', function() {
     // Tab switching
     const tabBtns = document.querySelectorAll('.tab-btn');
-    const clientContents = document.querySelectorAll('.client-content');
+    const clientContents = document.querySelectorAll('.client-content[data-client-panel]');
 
     tabBtns.forEach(btn => {
         btn.addEventListener('click', function() {
             const client = this.getAttribute('data-client');
 
             tabBtns.forEach(tab => tab.classList.remove('active'));
-            clientContents.forEach(content => content.classList.remove('active'));
+            clientContents.forEach(content => {
+                content.classList.toggle(
+                    'active',
+                    content.getAttribute('data-client-panel') === client
+                );
+            });
 
-            this.classList.add('active');
-            document.getElementById(`${client}-content`).classList.add('active');
+            // Activate all tab buttons for the selected language (tabs appear in each code block header)
+            document.querySelectorAll(`.tab-btn[data-client="${client}"]`).forEach(matchingBtn => matchingBtn.classList.add('active'));
         });
     });
 
@@ -84,7 +89,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
 
-    document.querySelectorAll('.step, .dev-tool-card, .feature-card, .dev-metric-tag').forEach(el => {
+    document.querySelectorAll('.step, .dev-tool-card, .feature-card, .dev-flow-concept').forEach(el => {
         el.style.opacity = '0';
         el.style.transform = 'translateY(30px)';
         el.style.transition = 'opacity 0.6s ease-out, transform 0.6s ease-out';

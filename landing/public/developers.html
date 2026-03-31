@@ -67,112 +67,263 @@
         <div class="container">
             <div class="setup-header">
                 <h1>Build a Health Data Agent in 5 Minutes</h1>
-                <p>One MCP server for heart rate, sleep, steps, workouts, and more. Reads from whatever device your users already have. TypeScript, Python, or any MCP-compatible language.</p>
-
-                <div class="dev-hero-buttons">
-                    <a href="https://github.com/xmartlabs/vytallink-health-kit" class="btn btn-primary" target="_blank" rel="noopener noreferrer">
-                        <i class="fab fa-github"></i> Use Health Kit Template
-                    </a>
-                    <a href="https://github.com/xmartlabs/vytalLink/tree/main/examples" class="btn btn-secondary" target="_blank" rel="noopener noreferrer">
-                        <i class="fas fa-folder-open"></i> Examples
-                    </a>
-                    <a href="https://api.vytallink.xmartlabs.com/docs/mcp" class="btn btn-secondary" target="_blank" rel="noopener noreferrer">
-                        <i class="fas fa-file-code"></i> MCP Swagger
-                    </a>
-                </div>
-
+                <p>Developers integrate the VytalLink MCP once. End users connect through the VytalLink app with Word + PIN, then use your agent to read wearable data.</p>
             </div>
         </div>
     </section>
 
-    <!-- 2. What VytalLink Does -->
-    <section class="dev-overview">
+    <!-- 2. Why Use VytalLink -->
+    <section class="dev-overview" id="dev-overview">
         <div class="container">
-            <div class="dev-overview-content">
-                <h2>What VytalLink Does</h2>
-                <p>VytalLink connects wearable health data to AI agents. Users install the mobile app, and your agent connects through a standard MCP interface to read their metrics.</p>
-                <ul class="dev-overview-points">
-                    <li><i class="fas fa-check-circle"></i> Reads Apple Health (iOS) and Health Connect (Android)</li>
-                    <li><i class="fas fa-check-circle"></i> 15+ metric types: steps, heart rate, sleep, workouts, calories, HRV, blood oxygen, and more</li>
-                    <li><i class="fas fa-check-circle"></i> Real-time streaming while the mobile app is active</li>
-                    <li><i class="fas fa-check-circle"></i> No cloud copy. Data stays on the user's phone</li>
-                </ul>
+            <span class="dev-eyebrow">Why VytalLink</span>
+            <div class="dev-overview-cards">
+                <div class="dev-overview-card">
+                    <div class="dev-overview-card-icon"><i class="fas fa-bolt"></i></div>
+                    <h3>Zero Mobile Dev</h3>
+                    <p>No custom app, no HealthKit entitlements, no platform accounts. Just install VytalLink and connect.</p>
+                </div>
+                <div class="dev-overview-card">
+                    <div class="dev-overview-card-icon"><i class="fas fa-heart-pulse"></i></div>
+                    <h3>All Major Wearables</h3>
+                    <p>Apple Health (iOS) and Health Connect (Android) cover most devices that sync to the phone.</p>
+                </div>
+                <div class="dev-overview-card">
+                    <div class="dev-overview-card-icon"><i class="fas fa-signal"></i></div>
+                    <h3>Real-Time Streaming</h3>
+                    <p>Live metrics while the VytalLink app is active. No polling, no delay.</p>
+                </div>
+                <div class="dev-overview-card">
+                    <div class="dev-overview-card-icon"><i class="fas fa-lock"></i></div>
+                    <h3>Privacy by Design</h3>
+                    <p>Health data never leaves the device. No cloud copy, nothing stored server-side.</p>
+                </div>
             </div>
         </div>
     </section>
 
     <!-- 3. How It Works -->
-    <section class="dev-how-it-works">
+    <section class="dev-how-it-works" id="dev-how-it-works">
         <div class="container">
             <div class="section-header">
-                <h2>How It Works</h2>
-                <p>From install to first query in four steps</p>
+                <h2>Get Started in a Few Simple Steps</h2>
+                <p>See the full connection flow first, then wire the MCP tools below.</p>
+            </div>
+
+            <div class="dev-flow-showcase">
+                <div class="dev-flow-concept">
+                    <div class="dev-flow-concept-layout">
+                        <div class="dev-flow-concept-body">
+                            <span class="dev-flow-concept-kicker">How it works</span>
+                            <ol class="dev-flow-steps-list">
+                                <li>Developer integrates the VytalLink MCP once</li>
+                                <li>User gets Word + PIN in VytalLink</li>
+                                <li>User connects the developer's agent with Word + PIN</li>
+                                <li>Agent queries health data through VytalLink</li>
+                            </ol>
+                        </div>
+                        <div class="dev-flow-banner dev-flow-media-shell dev-flow-media-shell--loop">
+                            <img src="/img/developers/flow-loop-scene.svg" alt="Connection flow: user gets Word and PIN in VytalLink, then uses the developer's agent." class="dev-flow-media-art">
+                            <div class="dev-flow-signal dev-flow-signal--one" aria-hidden="true"></div>
+                            <div class="dev-flow-signal dev-flow-signal--two" aria-hidden="true"></div>
+                            <span class="dev-flow-chip dev-flow-chip--left"><i class="fas fa-code"></i> Developer's agent</span>
+                            <span class="dev-flow-chip dev-flow-chip--right"><i class="fas fa-mobile-screen-button"></i> VytalLink app</span>
+                            <span class="dev-flow-chip dev-flow-chip--center"><i class="fas fa-user"></i> User</span>
+                            <span class="dev-flow-link-label dev-flow-link-label--left"><i class="fas fa-key"></i> Gets Word + PIN here</span>
+                            <span class="dev-flow-link-label dev-flow-link-label--right"><i class="fas fa-comments"></i> Asks the agent questions</span>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <div class="setup-steps">
                 <div class="step">
                     <div class="step-number">1</div>
                     <div class="step-content">
-                        <h3>User installs the VytalLink mobile app</h3>
-                        <p>The app reads Apple Health (iOS) or Health Connect (Android), then exposes those metrics through a private and secure MCP connection.</p>
-                        <a href="#" class="btn btn-primary btn-download-step" onclick="openDownloadModal(); return false;">
-                            <i class="fas fa-download"></i> Download App
-                        </a>
+                        <h3>Integrate the VytalLink server</h3>
+                        <p>Start with the minimal setup below, or browse the <a href="https://github.com/xmartlabs/vytalLink/tree/main/examples" target="_blank" rel="noopener noreferrer">examples repo</a> for complete TypeScript and Python agents.</p>
+
+                        <div class="dev-template-callout">
+                            <div class="dev-template-callout-icon">
+                                <i class="fas fa-star"></i>
+                            </div>
+                            <div class="dev-template-callout-body">
+                                <strong>Recommended: Health Kit Template</strong>
+                                <p>The fastest path to a solid foundation. Ships with a working agent setup, CLI, Jupyter notebooks, readiness reporting, and built-in observability. Ready for production from day one.</p>
+                                <a href="https://github.com/xmartlabs/vytallink-health-kit" target="_blank" rel="noopener noreferrer" class="dev-template-link">
+                                    View on GitHub <i class="fas fa-arrow-right"></i>
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="dev-step-code">
+                            <div class="client-content active" data-client-panel="typescript">
+                                <div class="code-block">
+                                    <div class="code-header dev-lang-header">
+                                        <div class="dev-lang-tabs">
+                                            <button class="tab-btn active" data-client="typescript">agent.ts</button>
+                                            <button class="tab-btn" data-client="python">agent.py</button>
+                                        </div>
+                                        <button class="copy-btn" data-target="code-typescript">
+                                            <i class="fas fa-copy"></i>
+                                        </button>
+                                    </div>
+                                    <pre><code id="code-typescript" class="language-typescript">import { Client } from "@modelcontextprotocol/sdk/client/index.js";
+import { StdioClientTransport } from "@modelcontextprotocol/sdk/client/stdio.js";
+
+// 1. Create client and transport
+const client = new Client({ name: "my-agent", version: "1.0.0" });
+const transport = new StdioClientTransport({
+  command: "npx",
+  args: ["@xmartlabs/vytallink-mcp-server"],
+});
+
+// 2. Connect and discover tools
+await client.connect(transport);
+const { tools } = await client.listTools();
+console.log(`Connected: ${tools.length} tools available`);</code></pre>
+                                </div>
+                            </div>
+
+                            <div class="client-content" data-client-panel="python">
+                                <div class="code-block">
+                                    <div class="code-header dev-lang-header">
+                                        <div class="dev-lang-tabs">
+                                            <button class="tab-btn" data-client="typescript">agent.ts</button>
+                                            <button class="tab-btn active" data-client="python">agent.py</button>
+                                        </div>
+                                        <button class="copy-btn" data-target="code-python">
+                                            <i class="fas fa-copy"></i>
+                                        </button>
+                                    </div>
+                                    <pre><code id="code-python" class="language-python">from mcp import ClientSession, StdioServerParameters
+from mcp.client.stdio import stdio_client
+
+# 1. Connect to VytalLink MCP server
+server_params = StdioServerParameters(
+    command="npx",
+    args=["@xmartlabs/vytallink-mcp-server"],
+)
+
+async with stdio_client(server_params) as (read, write):
+    async with ClientSession(read, write) as session:
+        await session.initialize()</code></pre>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
                 <div class="step">
                     <div class="step-number">2</div>
                     <div class="step-content">
-                        <h3>User selects what to share</h3>
-                        <p>The app generates a Word + PIN that your agent will use to authenticate. Users control exactly which metrics are accessible.</p>
+                        <h3>Link the user</h3>
+                        <p>Send your users the VytalLink app link. The user first opens VytalLink, gets a <strong>Word + PIN</strong>, then goes into your agent and uses those credentials there while VytalLink stays open as the bridge.</p>
+
+                        <div class="dev-deeplink-widget">
+                            <div class="dev-deeplink-widget-header">
+                                <span><i class="fas fa-link"></i> Share this link with your users</span>
+                                <a href="https://vytallink.xmartlabs.com/app" target="_blank" rel="noopener noreferrer" class="dev-deeplink-app-btn">
+                                    <i class="fas fa-mobile-screen-button"></i> Download App
+                                </a>
+                            </div>
+                            <div class="dev-deeplink-field">
+                                <code id="deeplink-example">https://vytallink.xmartlabs.com/app</code>
+                                <button class="dev-deeplink-copy copy-btn" data-target="deeplink-example">
+                                    <i class="fas fa-copy"></i> Copy
+                                </button>
+                            </div>
+                        </div>
+
+                        <p>Your agent calls <code>direct_login</code> with the user's Word and PIN:</p>
+                        <div class="client-content active" data-client-panel="typescript">
+                            <div class="code-block">
+                                <div class="code-header dev-lang-header">
+                                    <div class="dev-lang-tabs">
+                                        <button class="tab-btn active" data-client="typescript">agent.ts</button>
+                                        <button class="tab-btn" data-client="python">agent.py</button>
+                                    </div>
+                                    <button class="copy-btn" data-target="step-auth-ts">
+                                        <i class="fas fa-copy"></i>
+                                    </button>
+                                </div>
+                                <pre><code id="step-auth-ts" class="language-typescript">await client.callTool({
+  name: "direct_login",
+  arguments: { word: "island", code: "828930" },
+});</code></pre>
+                            </div>
+                        </div>
+                        <div class="client-content" data-client-panel="python">
+                            <div class="code-block">
+                                <div class="code-header dev-lang-header">
+                                    <div class="dev-lang-tabs">
+                                        <button class="tab-btn" data-client="typescript">agent.ts</button>
+                                        <button class="tab-btn active" data-client="python">agent.py</button>
+                                    </div>
+                                    <button class="copy-btn" data-target="step-auth-py">
+                                        <i class="fas fa-copy"></i>
+                                    </button>
+                                </div>
+                                <pre><code id="step-auth-py" class="language-python">await session.call_tool(
+    "direct_login",
+    arguments={"word": "island", "code": "828930"},
+)</code></pre>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
                 <div class="step">
                     <div class="step-number">3</div>
                     <div class="step-content">
-                        <h3>Agent authenticates</h3>
-                        <p>Your agent calls the <code>direct_login</code> tool with the user's Word and PIN:</p>
-                        <div class="code-block">
-                            <div class="code-header">
-                                <span>Tool Call</span>
-                                <button class="copy-btn" data-target="step-auth">
-                                    <i class="fas fa-copy"></i>
-                                </button>
-                            </div>
-                            <pre><code id="step-auth" class="language-json">{
-  "name": "direct_login",
-  "arguments": {
-    "word": "island",
-    "code": "828930"
-  }
-}</code></pre>
-                        </div>
-                    </div>
-                </div>
+                        <h3>Start querying data</h3>
+                        <p>Once the user is linked, your agent can start making MCP queries right away. Here's an example that requests the last 7 days of heart rate data:</p>
+                        <div class="client-content active" data-client-panel="typescript">
+                            <div class="code-block">
+                                <div class="code-header dev-lang-header">
+                                    <div class="dev-lang-tabs">
+                                        <button class="tab-btn active" data-client="typescript">agent.ts</button>
+                                        <button class="tab-btn" data-client="python">agent.py</button>
+                                    </div>
+                                    <button class="copy-btn" data-target="step-data-ts">
+                                        <i class="fas fa-copy"></i>
+                                    </button>
+                                </div>
+                                <pre><code id="step-data-ts" class="language-typescript">const result = await client.callTool({
+  name: "get_health_metrics",
+  arguments: {
+    metric_type: "HEART_RATE",
+    start_date: "2025-01-01",
+    end_date: "2025-01-07",
+    aggregation: "DAILY",
+  },
+});
 
-                <div class="step">
-                    <div class="step-number">4</div>
-                    <div class="step-content">
-                        <h3>Agent requests data</h3>
-                        <p>Now your agent can fetch any health metric. Here's an example requesting the last 7 days of heart rate data:</p>
-                        <div class="code-block">
-                            <div class="code-header">
-                                <span>Tool Call</span>
-                                <button class="copy-btn" data-target="step-data">
-                                    <i class="fas fa-copy"></i>
-                                </button>
+console.log(result.content);</code></pre>
                             </div>
-                            <pre><code id="step-data" class="language-json">{
-  "name": "get_health_metrics",
-  "arguments": {
-    "metric_type": "HEART_RATE",
-    "start_date": "2025-01-01",
-    "end_date": "2025-01-07",
-    "aggregation": "DAILY"
-  }
-}</code></pre>
+                        </div>
+                        <div class="client-content" data-client-panel="python">
+                            <div class="code-block">
+                                <div class="code-header dev-lang-header">
+                                    <div class="dev-lang-tabs">
+                                        <button class="tab-btn" data-client="typescript">agent.ts</button>
+                                        <button class="tab-btn active" data-client="python">agent.py</button>
+                                    </div>
+                                    <button class="copy-btn" data-target="step-data-py">
+                                        <i class="fas fa-copy"></i>
+                                    </button>
+                                </div>
+                                <pre><code id="step-data-py" class="language-python">result = await session.call_tool(
+    "get_health_metrics",
+    arguments={
+        "metric_type": "HEART_RATE",
+        "start_date": "2025-01-01",
+        "end_date": "2025-01-07",
+        "aggregation": "DAILY",
+    },
+)
+
+print(result.content)</code></pre>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -180,7 +331,49 @@
         </div>
     </section>
 
-    <!-- 4. MCP Tools Reference -->
+    <!-- 4. Good to Know -->
+    <section class="dev-notes">
+        <div class="container">
+            <div class="section-header">
+                <h2>Good to Know</h2>
+                <p>Read this before you start integrating</p>
+            </div>
+            <div class="dev-notes-grid">
+                <div class="dev-note-card dev-note-card--runtime">
+                    <div class="dev-note-card-top">
+                        <div class="dev-note-icon">
+                            <i class="fas fa-mobile-screen-button"></i>
+                        </div>
+                        <span class="dev-note-badge">Runtime</span>
+                    </div>
+                    <h3>App Must Stay Open</h3>
+                    <p>The VytalLink app needs to be active in the foreground to stream data. If the user backgrounds or closes the app, the data connection pauses until they return.</p>
+                </div>
+                <div class="dev-note-card dev-note-card--perf">
+                    <div class="dev-note-card-top">
+                        <div class="dev-note-icon">
+                            <i class="fas fa-layer-group"></i>
+                        </div>
+                        <span class="dev-note-badge">Performance</span>
+                    </div>
+                    <h3>Send Data in Batches</h3>
+                    <p>When querying large time ranges, the OS may throttle or kill long-running calls. Break requests into smaller date windows and merge the results in your agent.</p>
+                </div>
+                <div class="dev-note-card dev-note-card--beta">
+                    <div class="dev-note-card-top">
+                        <div class="dev-note-icon">
+                            <i class="fas fa-flask"></i>
+                        </div>
+                        <span class="dev-note-badge">Beta</span>
+                    </div>
+                    <h3>API is Experimental</h3>
+                    <p>The backend API works well for prototyping and testing, but it is not yet hardened for production traffic. Use it at your own risk and expect possible breaking changes.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 5. MCP Tools Reference -->
     <section class="dev-tools">
         <div class="container">
             <div class="section-header">
@@ -203,169 +396,12 @@
                 </div>
             </div>
 
-            <div class="section-header" style="margin-bottom: 1.5rem;">
-                <h3>Supported Metric Types</h3>
-            </div>
-            <div class="dev-metric-tags">
-                <span class="dev-metric-tag">STEPS</span>
-                <span class="dev-metric-tag">HEART_RATE</span>
-                <span class="dev-metric-tag">SLEEP</span>
-                <span class="dev-metric-tag">WORKOUT</span>
-                <span class="dev-metric-tag">CALORIES</span>
-                <span class="dev-metric-tag">DISTANCE</span>
-                <span class="dev-metric-tag">HRV</span>
-                <span class="dev-metric-tag">BLOOD_OXYGEN</span>
-                <span class="dev-metric-tag">RESTING_HEART_RATE</span>
-                <span class="dev-metric-tag">RESPIRATORY_RATE</span>
-                <span class="dev-metric-tag">BODY_TEMPERATURE</span>
-                <span class="dev-metric-tag">BLOOD_PRESSURE</span>
-                <span class="dev-metric-tag">BLOOD_GLUCOSE</span>
-                <span class="dev-metric-tag">WEIGHT</span>
-                <span class="dev-metric-tag">BODY_FAT</span>
-            </div>
-        </div>
-    </section>
-
-    <!-- 5. Code Example -->
-    <section id="code-examples" class="dev-code-example">
-        <div class="container">
-            <div class="section-header">
-                <h2>Start with this</h2>
-                <p>Use these snippets as reference and adapt them to your runtime.</p>
-            </div>
-
-            <div class="client-tabs">
-                <button class="tab-btn active" data-client="typescript">
-                    <i class="fab fa-js"></i>
-                    TypeScript
-                </button>
-                <button class="tab-btn" data-client="python">
-                    <i class="fab fa-python"></i>
-                    Python
-                </button>
-            </div>
-
-            <p class="dev-code-note">The MCP server is shown running with <code>npx</code>; no global package install is required here.</p>
-
-            <div class="client-content active" id="typescript-content">
-                <div class="code-block">
-                    <div class="code-header">
-                        <span>agent.ts</span>
-                        <button class="copy-btn" data-target="code-typescript">
-                            <i class="fas fa-copy"></i>
-                        </button>
-                    </div>
-                    <pre><code id="code-typescript" class="language-typescript">import { Client } from "@modelcontextprotocol/sdk/client/index.js";
-import { StdioClientTransport } from "@modelcontextprotocol/sdk/client/stdio.js";
-
-// 1. Create client and transport
-const client = new Client({ name: "my-agent", version: "1.0.0" });
-const transport = new StdioClientTransport({
-  command: "npx",
-  args: ["@xmartlabs/vytallink-mcp-server"],
-});
-
-// 2. Connect and discover tools
-await client.connect(transport);
-const { tools } = await client.listTools();
-console.log(`Connected: ${tools.length} tools available`);
-
-// 3. Authenticate with Word + PIN
-await client.callTool({
-  name: "direct_login",
-  arguments: { word: "island", code: "828930" },
-});
-
-// 4. Fetch health data
-const result = await client.callTool({
-  name: "get_health_metrics",
-  arguments: {
-    metric_type: "HEART_RATE",
-    start_date: "2025-01-01",
-    end_date: "2025-01-07",
-    aggregation: "DAILY",
-  },
-});
-
-console.log(result.content);</code></pre>
-                </div>
-            </div>
-
-            <div class="client-content" id="python-content">
-                <div class="code-block">
-                    <div class="code-header">
-                        <span>agent.py</span>
-                        <button class="copy-btn" data-target="code-python">
-                            <i class="fas fa-copy"></i>
-                        </button>
-                    </div>
-                    <pre><code id="code-python" class="language-python">from mcp import ClientSession, StdioServerParameters
-from mcp.client.stdio import stdio_client
-
-# 1. Connect to VytalLink MCP server
-server_params = StdioServerParameters(
-    command="npx",
-    args=["@xmartlabs/vytallink-mcp-server"],
-)
-
-async with stdio_client(server_params) as (read, write):
-    async with ClientSession(read, write) as session:
-        await session.initialize()
-
-        # 2. Authenticate with Word + PIN
-        await session.call_tool(
-            "direct_login",
-            arguments={"word": "island", "code": "828930"},
-        )
-
-        # 3. Fetch health data
-        result = await session.call_tool(
-            "get_health_metrics",
-            arguments={
-                "metric_type": "HEART_RATE",
-                "start_date": "2025-01-01",
-                "end_date": "2025-01-07",
-                "aggregation": "DAILY",
-            },
-        )
-
-        print(result.content)</code></pre>
-                </div>
-            </div>
-
-        </div>
-    </section>
-
-    <!-- 7. Why VytalLink -->
-    <section class="dev-why">
-        <div class="container">
-            <div class="section-header">
-                <h2>Why VytalLink</h2>
-                <p>Zero to health data in your agent.</p>
-            </div>
-
-            <div class="features-grid">
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-server"></i>
-                    </div>
-                    <h3>One Server, All Health Data</h3>
-                    <p>No vendor SDKs, no platform-specific code. One MCP server gives your agent access to Apple Health, Health Connect, and every wearable they support.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-shield-alt"></i>
-                    </div>
-                    <h3>Privacy by Design</h3>
-                    <p>Health data never leaves the user's phone. Your agent reads it in real time through a secure connection, and nothing is stored in the cloud.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-rocket"></i>
-                    </div>
-                    <h3>Ship Faster</h3>
-                    <p>5 minutes from npm install to your first health data query. Standard MCP protocol means it works with any framework and any LLM provider.</p>
-                </div>
+            <div class="dev-swagger-cta">
+                <i class="fas fa-book-open"></i>
+                <span>Full parameter reference, schemas, and response types in the</span>
+                <a href="https://api.vytallink.xmartlabs.com/docs/mcp" target="_blank" rel="noopener noreferrer">
+                    API Reference <i class="fas fa-arrow-up-right-from-square"></i>
+                </a>
             </div>
         </div>
     </section>
@@ -381,7 +417,7 @@ async with stdio_client(server_params) as (read, write):
                     </div>
                     <p>Connecting your health data with AI, securely and privately.</p>
                     <div class="download-footer">
-                        <a href="https://apps.apple.com/app/id6752308627" target="_blank">
+                        <a href="https://apps.apple.com/us/app/vytallink/id6752308627" target="_blank">
                             <img src="https://developer.apple.com/assets/elements/badges/download-on-the-app-store.svg" alt="Download on App Store">
                         </a>
                         <a href="https://play.google.com/store/apps/details?id=com.xmartlabs.vytallink" target="_blank">

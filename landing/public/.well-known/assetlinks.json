@@ -1,0 +1,12 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.xmartlabs.vytallink",
+      "sha256_cert_fingerprints": [
+        "3E:83:4D:2D:EA:4D:0B:C1:7C:4C:44:BA:62:A3:6A:FE:F8:81:3B:4D:EF:75:2B:A1:B4:2A:15:04:01:45:BB:03"
+      ]
+    }
+  }
+]
