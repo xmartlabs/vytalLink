@@ -3,25 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, viewport-fit=cover">
-    <meta name="description" content="Ask ChatGPT questions about your health data and get clear answers in seconds. Connect your fitness tracker to AI assistants like ChatGPT and Claude. You control what gets shared.">
+    <meta name="description" content="vytalLink connects wearable health data to any AI. Use it personally with ChatGPT or Claude, or add it to your own agent with one npm install.">
     <meta name="keywords" content="health data, AI, ChatGPT, Claude, MCP, OAuth, fitness tracker, health app, vytalLink">
     <meta name="author" content="Xmartlabs">
     
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://vytallink.com/">
-    <meta property="og:title" content="vytalLink - Connect Your Health Data with AI">
-    <meta property="og:description" content="Ask ChatGPT questions about your health data and get clear answers in seconds. Connect your fitness tracker to AI assistants like ChatGPT and Claude. You control what gets shared.">
+    <meta property="og:title" content="vytalLink - Health Data for Any AI">
+    <meta property="og:description" content="vytalLink connects wearable health data to any AI. Use it personally with ChatGPT or Claude, or add it to your own agent with one npm install.">
     <meta property="og:image" content="https://vytallink.com/og-image.png">
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
     <meta property="twitter:url" content="https://vytallink.com/">
-    <meta property="twitter:title" content="vytalLink - Connect Your Health Data with AI">
-    <meta property="twitter:description" content="Ask ChatGPT questions about your health data and get clear answers in seconds. Connect your fitness tracker to AI assistants like ChatGPT and Claude. You control what gets shared.">
+    <meta property="twitter:title" content="vytalLink - Health Data for Any AI">
+    <meta property="twitter:description" content="vytalLink connects wearable health data to any AI. Use it personally with ChatGPT or Claude, or add it to your own agent with one npm install.">
     <meta property="twitter:image" content="https://vytallink.com/og-image.png">
     
-    <title>vytalLink - Connect Your Health Data with AI</title>
+    <title>vytalLink - Health Data for Any AI</title>
     <link rel="icon" type="image/svg+xml" href="/favicon.svg">
     <link rel="stylesheet" href="/styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -40,6 +40,7 @@
                 <a href="/"><span>vytalLink</span></a>
             </div>
             <div class="nav-menu">
+                <a href="#how-it-works" class="nav-link home-only desktop-only">How It Works</a>
                 <a href="#features" class="nav-link home-only desktop-only">How to Use</a>
                 <a href="#demo" class="nav-link home-only desktop-only">Demo</a>
                 <a href="#integrations" class="nav-link home-only desktop-only">AI Integrations</a>
@@ -56,7 +57,7 @@
                 <a href="/terms.html" class="nav-link mobile-only"><i class="fas fa-file-contract"></i> Terms</a>
                 <a href="/contact.html" class="nav-link mobile-only"><i class="fas fa-envelope"></i> Contact</a>
 
-                    <a href="/developers.html" class="nav-link desktop-only"><i class="fas fa-code"></i> Developers</a>
+                    <a href="/developers.html" class="nav-link nav-link--highlight desktop-only"><i class="fas fa-code"></i> Developers</a>
                     <div class="nav-dropdown desktop-only">
                         <button class="nav-link nav-dropdown-toggle" type="button">
                             Setup Guides <i class="fas fa-chevron-down" aria-hidden="true"></i>
@@ -80,24 +81,33 @@
         <div class="hero-container">
             <div class="hero-content">
                 <h1 class="hero-title">
-                    Let <span class="gradient-text">ChatGPT</span> turn your wearable health stats into clear next steps
+                    Your health data, ready for <span class="gradient-text">any AI</span>
                 </h1>
                 <p class="hero-description">
-                    <strong>vytalLink</strong> connects your fitness tracker to AI assistants so you can ask questions about your sleep, workouts, and steps.
-                    You control what gets shared.
+                    <strong>vytalLink</strong> is a secure bridge between your wearable data and any AI assistant. Use it personally with ChatGPT or Claude, or build it into your own agent so your users can connect their health data too.
                 </p>
-                <p class="hero-description" style="font-size: 0.9rem; opacity: 0.85;">
-                    You chat from your desktop in ChatGPT or Claude—keep the mobile app open so the link keeps streaming.
-                </p>
-                <div class="hero-buttons">
-                    <a href="https://apps.apple.com/app/id6752308627" class="btn btn-primary btn-large" target="_blank">
-                        <i class="fab fa-apple"></i>
-                        Download on App Store
-                    </a>
-                    <a href="https://play.google.com/store/apps/details?id=com.xmartlabs.vytallink" class="btn btn-primary btn-large" target="_blank">
-                        <i class="fab fa-google-play"></i>
-                        Get it on Google Play
-                    </a>
+
+                <div class="hero-dual-path">
+                    <div class="hero-path hero-path--personal">
+                        <div class="hero-path-label">For personal use</div>
+                        <p>Download the app, tap Get Word + PIN, and start asking ChatGPT or Claude about your sleep, workouts, and heart rate.</p>
+                        <div class="hero-path-buttons">
+                            <a href="https://apps.apple.com/app/id6752308627" class="btn btn-primary" target="_blank">
+                                <i class="fab fa-apple"></i> App Store
+                            </a>
+                            <a href="https://play.google.com/store/apps/details?id=com.xmartlabs.vytallink" class="btn btn-primary" target="_blank">
+                                <i class="fab fa-google-play"></i> Google Play
+                            </a>
+                        </div>
+                    </div>
+                    <div class="hero-path-divider" aria-hidden="true">or</div>
+                    <div class="hero-path hero-path--developer">
+                        <div class="hero-path-label">For developers</div>
+                        <p>Add health data to your agent in one npm install. Your users connect through the app. No mobile dev required.</p>
+                        <a href="/developers.html" class="btn btn-secondary">
+                            <i class="fas fa-code"></i> Developer Guide
+                        </a>
+                    </div>
                 </div>
                 <div class="hero-stats">
                     <div class="stat">
@@ -160,6 +170,94 @@
                             </div>
                         </div>
                     </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Two Ways Section -->
+    <section id="how-it-works" class="two-ways-section">
+        <div class="container">
+            <div class="section-header">
+                <h2>Two ways to use vytalLink</h2>
+                <p>Whether you want health insights for yourself or you're building a product, the mechanism is the same: the app holds your data, AI reads it through a secure connection.</p>
+            </div>
+
+            <div class="dual-path-columns">
+                <div class="path-column path-column--personal">
+                    <i class="fas fa-user path-column-icon"></i>
+                    <h3>Personal health AI</h3>
+                    <p>Use ChatGPT or Claude to ask questions about your own data.</p>
+                    <ol class="path-steps">
+                        <li>
+                            <span class="path-step-num">1</span>
+                            <div>
+                                <strong>Download vytalLink</strong>
+                                <p>Get the app on iOS or Android. It reads your health data from Apple Health or Health Connect.</p>
+                            </div>
+                        </li>
+                        <li>
+                            <span class="path-step-num">2</span>
+                            <div>
+                                <strong>Tap Get Word + PIN</strong>
+                                <p>The app generates a short word and a 6-digit PIN. These are your temporary access codes for the session.</p>
+                            </div>
+                        </li>
+                        <li>
+                            <span class="path-step-num">3</span>
+                            <div>
+                                <strong>Open ChatGPT or Claude</strong>
+                                <p>Find the vytalLink GPT, or set up Claude Desktop. Paste your Word + PIN when asked.</p>
+                            </div>
+                        </li>
+                        <li>
+                            <span class="path-step-num">4</span>
+                            <div>
+                                <strong>Ask your questions</strong>
+                                <p>Keep the app open and start chatting. Your AI reads your data in real time.</p>
+                            </div>
+                        </li>
+                    </ol>
+                    <a href="#integrations" class="btn btn-primary btn-sm">See setup guides</a>
+                </div>
+
+                <div class="path-column-separator" aria-hidden="true"></div>
+
+                <div class="path-column path-column--developer">
+                    <i class="fas fa-code path-column-icon"></i>
+                    <h3>Developer integration</h3>
+                    <p>Add health data to your own agent. Your users connect through the app, you don't need to build anything mobile.</p>
+                    <ol class="path-steps">
+                        <li>
+                            <span class="path-step-num">1</span>
+                            <div>
+                                <strong>Install the MCP server</strong>
+                                <p>One npm package. Works with any MCP-compatible agent in TypeScript or Python.</p>
+                            </div>
+                        </li>
+                        <li>
+                            <span class="path-step-num">2</span>
+                            <div>
+                                <strong>Send users to vytalLink</strong>
+                                <p>Point them to <code>vytallink.xmartlabs.com/app</code>. They download the app and get a Word + PIN.</p>
+                            </div>
+                        </li>
+                        <li>
+                            <span class="path-step-num">3</span>
+                            <div>
+                                <strong>Call direct_login in your agent</strong>
+                                <p>Your agent accepts their Word + PIN and authenticates. No browser redirect, no OAuth dance.</p>
+                            </div>
+                        </li>
+                        <li>
+                            <span class="path-step-num">4</span>
+                            <div>
+                                <strong>Query health data</strong>
+                                <p>Use <code>get_summary</code> or <code>get_health_metrics</code> to pull steps, sleep, heart rate, and more.</p>
+                            </div>
+                        </li>
+                    </ol>
+                    <a href="/developers.html" class="btn btn-secondary btn-sm">Read the developer guide</a>
                 </div>
             </div>
         </div>
@@ -247,8 +345,8 @@
 
             <!-- Key Features Grid -->
             <div class="section-subheader">
-                <h3>Why people love vytalLink</h3>
-                <p>Stay in control of your health data while getting clear, practical answers in seconds.</p>
+                <h3>Why teams choose vytalLink</h3>
+                <p>Whether you're looking for personal health insights or building a product, here's what makes vytalLink different.</p>
             </div>
 
             <div class="features-grid">
@@ -287,12 +385,13 @@
                     <h3>All Your Health Data</h3>
                     <p>Heart rate, steps, sleep, workouts, and more. Ask questions about any part of your health.</p>
                 </div>
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-code"></i>
-                    </div>
-                    <h3>Built for Developers</h3>
-                    <p>OAuth 2.0, REST API, WebSocket support, and MCP integration if you're building health apps.</p>
+                <div class="feature-card feature-card--developer">
+                    <div class="feature-icon"><i class="fas fa-code"></i></div>
+                    <h3>Built for developers too</h3>
+                    <p>One npm package, three MCP tools, no mobile app to build. Your users connect through vytalLink and your agent queries their data directly.</p>
+                    <a href="/developers.html" class="feature-card-link">
+                        Read the developer guide <i class="fas fa-arrow-right"></i>
+                    </a>
                 </div>
             </div>
         </div>
@@ -354,8 +453,8 @@
     <section id="integrations" class="integrations-section">
         <div class="container">
             <div class="section-header">
-                <h2>Pick Your AI Assistant</h2>
-                <p>vytalLink works with the AI tools you already use</p>
+                <h2>Connect to any AI</h2>
+                <p>Use vytalLink personally with ChatGPT or Claude, or build it into your own agent.</p>
             </div>
             
             <div class="integrations-grid">
@@ -376,7 +475,24 @@
                         Setup Guide
                     </a>
                 </div>
-                
+
+                <div class="integration-card integration-card--developer">
+                    <div class="integration-header">
+                        <i class="fas fa-code" style="font-size: 2rem; color: var(--primary-color);"></i>
+                        <h3>Build Your Own Agent</h3>
+                        <span class="integration-badge integration-badge--developer">Developers</span>
+                    </div>
+                    <p>Add health data to your agent without building a mobile app. Install the MCP server, point users to the vytalLink app, and start querying their data in minutes.</p>
+                    <div class="integration-steps">
+                        <span>1. Install the npm package</span>
+                        <span>2. Send users to the vytalLink app</span>
+                        <span>3. Authenticate with Word + PIN</span>
+                    </div>
+                    <a href="/developers.html" class="btn btn-primary">
+                        <i class="fas fa-book"></i> Developer Guide
+                    </a>
+                </div>
+
                 <div class="integration-card">
                     <div class="integration-header">
                         <span class="brand-mark brand-mark--claude brand-mark--xl" aria-hidden="true"></span>
@@ -412,24 +528,6 @@
                         Setup Guide
                     </a>
                 </div>
-
-                <div class="integration-card">
-                    <div class="integration-header">
-                        <i class="fas fa-code"></i>
-                        <h3>Build Your Own Agent</h3>
-                        <span class="integration-badge">Developers</span>
-                    </div>
-                    <p>Build custom AI agents with vytalLink MCP and bring wearable health data into your own workflows.</p>
-                    <div class="integration-steps">
-                        <span>1. Open the developer guide</span>
-                        <span>2. Connect with MCP tools</span>
-                        <span>3. Authenticate using Word + PIN</span>
-                    </div>
-                    <a href="/developers.html" class="btn btn-secondary">
-                        <i class="fas fa-book"></i>
-                        Developer Guide
-                    </a>
-                </div>
             </div>
         </div>
     </section>
@@ -456,10 +554,11 @@
                 <div class="footer-section">
                     <h4>Product</h4>
                     <ul>
-                        <li><a href="#features">How to Use</a></li>
+                        <li><a href="#how-it-works">How It Works</a></li>
+                        <li><a href="#features">Personal Use</a></li>
                         <li><a href="#integrations">AI Integrations</a></li>
+                        <li><a href="/developers.html">For Developers</a></li>
                         <li><a href="#demo">Demo Video</a></li>
-                        <li><a href="/developers.html">Developers</a></li>
                     </ul>
                 </div>
                 <div class="footer-section">
