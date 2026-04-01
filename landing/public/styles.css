@@ -4785,6 +4785,12 @@ h1, h2, h3, h4 {
     line-height: 1.6;
 }
 
+/* Small button variant */
+.btn-sm {
+    font-size: 0.8rem;
+    padding: 8px 16px;
+}
+
 @media (max-width: 768px) {
     .hero-dual-path { flex-direction: column; }
     .hero-path-divider { padding-top: 0; text-align: center; }
