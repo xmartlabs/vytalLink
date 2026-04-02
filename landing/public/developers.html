@@ -378,7 +378,7 @@ print(result.content)</code></pre>
         <div class="container">
             <div class="section-header">
                 <h2>What your users see</h2>
-                <p>Understanding the end user flow helps you write better onboarding instructions and set the right expectations with people who need to download the app.</p>
+                <p>Knowing what your users see helps you write better onboarding copy and avoid the most common questions.</p>
             </div>
 
             <div class="dev-user-flow-grid">
@@ -425,7 +425,7 @@ print(result.content)</code></pre>
                         <p>vytalLink must remain open in the foreground for the data bridge to stay active. If the user closes or backgrounds the app, queries will fail until they return to it.</p>
                         <div class="dev-user-flow-tip">
                             <i class="fas fa-lightbulb"></i>
-                            <span>Include a persistent reminder in your UI: "Keep the vytalLink app open while you chat." Surface this clearly — users who background it will see errors.</span>
+                            <span>Add a visible reminder in your UI: "Keep the vytalLink app open while you chat." Users who close or switch away will see errors, so make it obvious.</span>
                         </div>
                     </div>
                 </div>
@@ -434,7 +434,7 @@ print(result.content)</code></pre>
                     <div class="dev-user-flow-num">5</div>
                     <div class="dev-user-flow-content">
                         <h3>They stay in control</h3>
-                        <p>Users can close vytalLink at any time to stop sharing data. The credentials expire. Reconnecting generates a fresh Word + PIN. Users always hold the keys.</p>
+                        <p>Users can close vytalLink at any time to stop sharing data. The credentials expire automatically. Reconnecting generates a new Word + PIN.</p>
                         <div class="dev-user-flow-tip">
                             <i class="fas fa-lightbulb"></i>
                             <span>Be upfront in your product about what data you're reading. Users trust apps that are transparent about it. Calling <code>get_summary</code> first and showing a preview before full queries helps build that trust.</span>
@@ -449,7 +449,7 @@ print(result.content)</code></pre>
                     <strong>Sample onboarding copy for your product</strong>
                     <p class="dev-sample-copy-hint">Feel free to adapt this:</p>
                     <blockquote>
-                        "To read your health data, you'll need to download VytalLink — a free app that keeps your data on your phone. Open it, tap 'Get Word + PIN', then come back here and enter those two values. Keep the app open while we chat. You can disconnect anytime by closing VytalLink."
+                        "To read your health data, you'll need to download VytalLink, a free app that keeps your data on your phone. Open it, tap 'Get Word + PIN', then come back here and enter those two values. Keep the app open while we chat. You can disconnect anytime by closing VytalLink."
                     </blockquote>
                 </div>
             </div>
