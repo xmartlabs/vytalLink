@@ -805,7 +805,7 @@ abstract class AppLocalizations {
   /// No description provided for @home_checklist_step_2.
   ///
   /// In en, this message translates to:
-  /// **'Open ChatGPT (search \"vytalLink\") here or on your computer.'**
+  /// **'Open ChatGPT, Claude, or the app that sent you here. Paste your Word + PIN.'**
   String get home_checklist_step_2;
 
   /// No description provided for @home_checklist_step_3.
@@ -931,7 +931,7 @@ abstract class AppLocalizations {
   /// No description provided for @home_helper_chat_runs_elsewhere.
   ///
   /// In en, this message translates to:
-  /// **'You chat in ChatGPT or Claude; this app only shares what you approve.'**
+  /// **'You chat in ChatGPT, Claude, or the app you connected. vytalLink only shares what you approve.'**
   String get home_helper_chat_runs_elsewhere;
 
   /// No description provided for @home_helper_keep_open_reason.
@@ -1171,7 +1171,7 @@ abstract class AppLocalizations {
   /// No description provided for @home_value_prop_point_1.
   ///
   /// In en, this message translates to:
-  /// **'Ask your metrics <b>on any screen</b> through ChatGPT, Claude, or your MCP client'**
+  /// **'<b>Ask your AI</b> about sleep, workouts, or heart rate on any screen'**
   String get home_value_prop_point_1;
 
   /// No description provided for @home_value_prop_point_2.
@@ -1183,19 +1183,19 @@ abstract class AppLocalizations {
   /// No description provided for @home_value_prop_point_3.
   ///
   /// In en, this message translates to:
-  /// **'<b>Keep this app open</b> while you chat so insights stay live'**
+  /// **'<b>Keep this app open</b> while you chat. Close it anytime to stop sharing.'**
   String get home_value_prop_point_3;
 
   /// No description provided for @home_value_prop_subtitle.
   ///
   /// In en, this message translates to:
-  /// **'Ask ChatGPT or Claude questions about your health data without giving up your privacy. This app just keeps the connection alive.'**
+  /// **'Ask ChatGPT or Claude about your health, or connect an app that asked you to install vytalLink. Your data stays on this phone. You decide when it gets shared.'**
   String get home_value_prop_subtitle;
 
   /// No description provided for @home_value_prop_title.
   ///
   /// In en, this message translates to:
-  /// **'Chat with your wearable data wherever you are'**
+  /// **'Your health data, on call'**
   String get home_value_prop_title;
 
   /// No description provided for @how_it_works_step1_description.
@@ -1411,19 +1411,19 @@ abstract class AppLocalizations {
   /// No description provided for @mcp_helper_chat_runs_on_desktop.
   ///
   /// In en, this message translates to:
-  /// **'<b>Chats happen in your AI client</b> such as ChatGPT, Claude Desktop, Cursor, or VS Code. This app keeps the bridge open and only shares what you approve.'**
+  /// **'<b>Chats happen in the app or service you connected.</b> This could be ChatGPT, Claude Desktop, Cursor, VS Code, or any app that uses vytalLink. This app keeps the bridge open and only shares what you approve.'**
   String get mcp_helper_chat_runs_on_desktop;
 
   /// No description provided for @mcp_integration_hero_subtitle.
   ///
   /// In en, this message translates to:
-  /// **'Install the Claude Desktop bundle or connect Cursor/VS Code to analyze your health data like a pro.'**
+  /// **'If an app or service asked you to connect vytalLink, this is how you do it. You can also set up Claude Desktop, Cursor, or VS Code from this screen.'**
   String get mcp_integration_hero_subtitle;
 
   /// No description provided for @mcp_integration_hero_title.
   ///
   /// In en, this message translates to:
-  /// **'Connect with Professional AI Tools'**
+  /// **'Connect your health data'**
   String get mcp_integration_hero_title;
 
   /// No description provided for @mcp_integration_title.
@@ -1447,7 +1447,7 @@ abstract class AppLocalizations {
   /// No description provided for @mcp_setup_intro.
   ///
   /// In en, this message translates to:
-  /// **'This is for developers who want to use other MCP clients. Most people should use the Claude Desktop bundle above.'**
+  /// **'This is for developers or advanced users who want to connect other MCP clients. If you’re here because another app sent you, just tap ‘Get Word + PIN’ on the home screen and enter those codes where that app asks.'**
   String get mcp_setup_intro;
 
   /// Requirement message shown in setup step 1, clarifying that Node.js must be installed.
@@ -1605,6 +1605,42 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Ask About Your Trends'**
   String get onboarding_ask_questions_title;
+
+  /// No description provided for @onboarding_bridge_description.
+  ///
+  /// In en, this message translates to:
+  /// **'If an app or AI tool told you to download vytalLink, here\'s what\'s happening: that app needs your health data from your phone. vytalLink lets it read that data directly from your device, without copying anything to a server.'**
+  String get onboarding_bridge_description;
+
+  /// No description provided for @onboarding_bridge_feature_1.
+  ///
+  /// In en, this message translates to:
+  /// **'Your health data stays on your phone'**
+  String get onboarding_bridge_feature_1;
+
+  /// No description provided for @onboarding_bridge_feature_2.
+  ///
+  /// In en, this message translates to:
+  /// **'You generate a Word + PIN and share it with that app'**
+  String get onboarding_bridge_feature_2;
+
+  /// No description provided for @onboarding_bridge_feature_3.
+  ///
+  /// In en, this message translates to:
+  /// **'Close the app anytime to stop sharing immediately'**
+  String get onboarding_bridge_feature_3;
+
+  /// No description provided for @onboarding_bridge_subtitle.
+  ///
+  /// In en, this message translates to:
+  /// **''**
+  String get onboarding_bridge_subtitle;
+
+  /// No description provided for @onboarding_bridge_title.
+  ///
+  /// In en, this message translates to:
+  /// **'You\'re in the right place'**
+  String get onboarding_bridge_title;
 
   /// No description provided for @onboarding_get_started.
   ///
