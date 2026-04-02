@@ -18,7 +18,32 @@ VytalLink is a mobile app that acts as a local MCP server, exposing health metri
 
 ## Developers
 
-- [Developer Guide](https://vytallink.xmartlabs.com/developers.md): Build health data agents in 5 minutes — TypeScript and Python examples, MCP tools reference, authentication flow
+- [Developer Guide](https://vytallink.xmartlabs.com/developers.md): Build health data agents in 5 minutes — MCP tools reference, authentication flow
+- [Agent Examples (TypeScript & Python)](https://github.com/xmartlabs/vytalLink/tree/main/examples): Complete working agents — clone, configure, run
+- [Health Kit Starter Template](https://github.com/xmartlabs/vytallink-health-kit): Recommended fastest path — CLI, Jupyter notebooks, production-ready
+
+## Important notes
+
+- MCP tool calls must be sequential (no parallel calls). The server does not support concurrent requests.
+- The VytalLink mobile app must be open on the user's phone for the MCP connection to work. The phone acts as the data source.
+
+## Resources
+
+- [GitHub Repository](https://github.com/xmartlabs/vytalLink): Source code, issues, and contributions
+- [npm Package](https://www.npmjs.com/package/@xmartlabs/vytallink-mcp-server): MCP server proxy (`npm install -g @xmartlabs/vytallink-mcp-server`)
+- [Architecture Blog Post](https://blog.xmartlabs.com/blog/blog-building-health-apps-mcp-llms/): How VytalLink works under the hood
+- [Bug Reports & Feature Requests](https://github.com/xmartlabs/vytalLink/issues)
+- Email: vytalLink@xmartlabs.com
+
+## API & MCP Reference
+
+- [Swagger UI (Interactive Docs)](https://api.vytallink.xmartlabs.com/docs/mcp): Browse and test MCP tools interactively
+- [OpenAPI Schema (JSON)](https://api.vytallink.xmartlabs.com/openapi/schema.json): Machine-readable API spec
+- [OpenAPI Schema (YAML)](https://api.vytallink.xmartlabs.com/openapi/schema.yaml): Machine-readable API spec
+- [MCP Tools Endpoint](https://api.vytallink.xmartlabs.com/mcp/tools): Live list of available MCP tools (GET)
+- [MCP Call Endpoint](https://api.vytallink.xmartlabs.com/mcp/call): Invoke MCP tools (POST)
+- [MCP WebSocket](https://api.vytallink.xmartlabs.com/mcp/ws): Real-time MCP connection
+- [OAuth Discovery](https://api.vytallink.xmartlabs.com/.well-known/oauth-authorization-server): OAuth 2.0 server metadata
 
 ## Full content
 

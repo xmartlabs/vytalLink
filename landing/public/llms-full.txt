@@ -325,6 +325,7 @@ print(result.content)
 Read this before you start integrating
 
 - **Runtime - App Must Stay Open:** The VytalLink app needs to be active in the foreground to stream data. If the user backgrounds or closes the app, the data connection pauses until they return.
+- **Important - Sequential Calls Only:** MCP tool calls must be made one at a time. The server does not support parallel or concurrent requests. Wait for each call to complete before sending the next one.
 - **Performance - Send Data in Batches:** When querying large time ranges, the OS may throttle or kill long-running calls. Break requests into smaller date windows and merge the results in your agent.
 - **Beta - API is Experimental:** The backend API works well for prototyping and testing, but it is not yet hardened for production traffic. Use it at your own risk and expect possible breaking changes.
 
