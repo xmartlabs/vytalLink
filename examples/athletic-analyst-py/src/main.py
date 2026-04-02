@@ -4,13 +4,14 @@ from pathlib import Path
 
 from dotenv import load_dotenv
 
+_ENV_PATH = Path(__file__).resolve().parent.parent / ".env"
+load_dotenv(_ENV_PATH)
+
 from .mcp_bridge import McpBridge
 from .agent import run_agent
 from .system_prompt import VALID_MODES, AnalysisMode
 from .execution_trace import ExecutionTracer
 from .test_config import emit_test_summary
-
-load_dotenv(Path(__file__).parent.parent / ".env")
 
 ANALYSIS_QUERIES: dict[str, str] = {
     "readiness": "Analyze my daily readiness to train today.",
