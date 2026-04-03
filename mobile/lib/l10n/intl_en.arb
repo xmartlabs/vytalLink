@@ -337,7 +337,7 @@
   "mcp_integration_title": "Professional AI Tools",
   "mcp_recommended_badge": "Recommended",
   "mcp_setup_guide_button": "Open advanced npm guide",
-  "mcp_setup_intro": "This is for developers or advanced users who want to connect other MCP clients. If you\u2019re here because another app sent you, just tap \u2018Get Word + PIN\u2019 on the home screen and enter those codes where that app asks.",
+  "mcp_setup_intro": "This is for developers or advanced users who want to connect other MCP clients. If you’re here because another app sent you, just tap ‘Get Word + PIN’ on the home screen and enter those codes where that app asks.",
   "mcp_setup_nodejs_requirement": "You must have Node.js installed on your system to run the vytalLink server.",
   "@mcp_setup_nodejs_requirement": {
     "description": "Requirement message shown in setup step 1, clarifying that Node.js must be installed."
