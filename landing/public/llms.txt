@@ -20,7 +20,7 @@ VytalLink is a mobile app that acts as a local MCP server, exposing health metri
 
 - [Developer Guide](https://vytallink.xmartlabs.com/developers.md): Build health data agents in 5 minutes — MCP tools reference, authentication flow
 - [Agent Examples (TypeScript & Python)](https://github.com/xmartlabs/vytalLink/tree/main/examples): Complete working agents — clone, configure, run
-- [Health Kit Starter Template](https://github.com/xmartlabs/vytallink-health-kit): Recommended fastest path — CLI, Jupyter notebooks, production-ready
+- [Health Kit Starter Template](https://github.com/xmartlabs/vytallink-health-kit): Python starter kit with CLI, Jupyter notebooks, and built-in observability (Grafana, Jaeger, LangSmith) — structured foundation for hackathons and prototypes
 
 ## Important notes
 
@@ -42,7 +42,6 @@ VytalLink is a mobile app that acts as a local MCP server, exposing health metri
 - [OpenAPI Schema (YAML)](https://api.vytallink.xmartlabs.com/openapi/schema.yaml): Machine-readable API spec
 - [MCP Tools Endpoint](https://api.vytallink.xmartlabs.com/mcp/tools): Live list of available MCP tools (GET)
 - [MCP Call Endpoint](https://api.vytallink.xmartlabs.com/mcp/call): Invoke MCP tools (POST)
-- [MCP WebSocket](https://api.vytallink.xmartlabs.com/mcp/ws): Real-time MCP connection
 - [OAuth Discovery](https://api.vytallink.xmartlabs.com/.well-known/oauth-authorization-server): OAuth 2.0 server metadata
 
 ## Full content

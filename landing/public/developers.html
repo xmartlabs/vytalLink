@@ -27,8 +27,7 @@
                 <a href="/"><span>vytalLink</span></a>
             </div>
             <div class="nav-menu">
-                <a href="/#features" class="nav-link home-only desktop-only">How it Works</a>
-                <a href="/#demo" class="nav-link home-only desktop-only">Demo</a>
+                <a href="/#how-it-works" class="nav-link home-only desktop-only">How It Works</a>
                 <a href="/#integrations" class="nav-link home-only desktop-only">AI Integrations</a>
 
                 <!-- Unified mobile menu -->
@@ -148,7 +147,7 @@
                             </div>
                             <div class="dev-template-callout-body">
                                 <strong>Recommended: Health Kit Template</strong>
-                                <p>The fastest path to a solid foundation. Ships with a working agent setup, CLI, Jupyter notebooks, readiness reporting, and built-in observability. Ready for production from day one.</p>
+                                <p>A batteries-included Python starter kit with clean architecture, CLI, Jupyter notebooks, and a full observability stack (Grafana, Jaeger, LangSmith). More structure than the raw examples — good for hackathons and prototypes that need a solid base.</p>
                                 <a href="https://github.com/xmartlabs/vytallink-health-kit" target="_blank" rel="noopener noreferrer" class="dev-template-link">
                                     View on GitHub <i class="fas fa-arrow-right"></i>
                                 </a>
@@ -352,16 +351,6 @@ print(result.content)</code></pre>
                 <div class="dev-note-card dev-note-card--perf">
                     <div class="dev-note-card-top">
                         <div class="dev-note-icon">
-                            <i class="fas fa-arrows-turn-to-dots"></i>
-                        </div>
-                        <span class="dev-note-badge">Important</span>
-                    </div>
-                    <h3>Sequential Calls Only</h3>
-                    <p>MCP tool calls must be made one at a time. The server does not support parallel or concurrent requests. Wait for each call to complete before sending the next one.</p>
-                </div>
-                <div class="dev-note-card dev-note-card--perf">
-                    <div class="dev-note-card-top">
-                        <div class="dev-note-icon">
                             <i class="fas fa-layer-group"></i>
                         </div>
                         <span class="dev-note-badge">Performance</span>
@@ -383,88 +372,6 @@ print(result.content)</code></pre>
         </div>
     </section>
 
-    <!-- End User Experience Section -->
-    <section id="end-user-experience">
-        <div class="container">
-            <div class="section-header">
-                <h2>What your users see</h2>
-                <p>Knowing what your users see helps you write better onboarding copy and avoid the most common questions.</p>
-            </div>
-
-            <div class="dev-user-flow-grid">
-                <div class="dev-user-flow-card">
-                    <div class="dev-user-flow-num">1</div>
-                    <div class="dev-user-flow-content">
-                        <h3>They receive your link</h3>
-                        <p>You send users to <code>https://vytallink.xmartlabs.com/app</code>. That page explains what vytalLink is in plain terms and links to the App Store and Google Play.</p>
-                        <div class="dev-user-flow-tip">
-                            <i class="fas fa-lightbulb"></i>
-                            <span>Tell users in your UI: "You'll need to download a free app called vytalLink to connect your health data. It keeps your data on your phone and gives you a code to share with us."</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="dev-user-flow-card">
-                    <div class="dev-user-flow-num">2</div>
-                    <div class="dev-user-flow-content">
-                        <h3>They download the app and get a Word + PIN</h3>
-                        <p>Inside the app they tap "Get Word + PIN." The app starts a local server and shows a short word (like "island") and a 6-digit PIN (like "828930"). These change each session.</p>
-                        <div class="dev-user-flow-tip">
-                            <i class="fas fa-lightbulb"></i>
-                            <span>Let users know the codes are temporary. Refreshing or closing the app generates new ones, so they should use the codes right away.</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="dev-user-flow-card">
-                    <div class="dev-user-flow-num">3</div>
-                    <div class="dev-user-flow-content">
-                        <h3>They enter the codes in your product</h3>
-                        <p>Your agent calls <code>direct_login</code> with their Word and PIN. The user enters those two values wherever your interface asks for them. No redirect, no browser pop-up.</p>
-                        <div class="dev-user-flow-tip">
-                            <i class="fas fa-lightbulb"></i>
-                            <span>Label your input fields exactly "Word" and "PIN" to match what the vytalLink app shows. It reduces confusion and support requests.</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="dev-user-flow-card">
-                    <div class="dev-user-flow-num">4</div>
-                    <div class="dev-user-flow-content">
-                        <h3>The app stays open while they use your product</h3>
-                        <p>vytalLink must remain open in the foreground for the data bridge to stay active. If the user closes or backgrounds the app, queries will fail until they return to it.</p>
-                        <div class="dev-user-flow-tip">
-                            <i class="fas fa-lightbulb"></i>
-                            <span>Add a visible reminder in your UI: "Keep the vytalLink app open while you chat." Users who close or switch away will see errors, so make it obvious.</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="dev-user-flow-card">
-                    <div class="dev-user-flow-num">5</div>
-                    <div class="dev-user-flow-content">
-                        <h3>They stay in control</h3>
-                        <p>Users can close vytalLink at any time to stop sharing data. The credentials expire automatically. Reconnecting generates a new Word + PIN.</p>
-                        <div class="dev-user-flow-tip">
-                            <i class="fas fa-lightbulb"></i>
-                            <span>Be upfront in your product about what data you're reading. Users trust apps that are transparent about it. Calling <code>get_summary</code> first and showing a preview before full queries helps build that trust.</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="dev-sample-copy">
-                <i class="fas fa-copy"></i>
-                <div>
-                    <strong>Sample onboarding copy for your product</strong>
-                    <p class="dev-sample-copy-hint">Feel free to adapt this:</p>
-                    <blockquote>
-                        "To read your health data, you'll need to download VytalLink, a free app that keeps your data on your phone. Open it, tap 'Get Word + PIN', then come back here and enter those two values. Keep the app open while we chat. You can disconnect anytime by closing VytalLink."
-                    </blockquote>
-                </div>
-            </div>
-        </div>
-    </section>
 
     <!-- 6. MCP Tools Reference -->
     <section class="dev-tools">
@@ -521,9 +428,8 @@ print(result.content)</code></pre>
                 <div class="footer-section">
                     <h4>Product</h4>
                     <ul>
-                        <li><a href="/#features">How it Works</a></li>
+                        <li><a href="/#how-it-works">How It Works</a></li>
                         <li><a href="/#integrations">AI Integrations</a></li>
-                        <li><a href="/#demo">Demo Video</a></li>
                         <li><a href="/developers.html">Developers</a></li>
                     </ul>
                 </div>

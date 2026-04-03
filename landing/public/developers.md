@@ -26,7 +26,7 @@ Start with the minimal setup below, or browse the [examples repo](https://github
 
 #### Recommended: Health Kit Template
 
-The fastest path to a solid foundation. Ships with a working agent setup, CLI, Jupyter notebooks, readiness reporting, and built-in observability. Ready for production from day one.
+A batteries-included Python starter kit with clean architecture, CLI, Jupyter notebooks, and a full observability stack (Grafana, Jaeger, LangSmith). More structure than the raw examples — good for hackathons and prototypes that need a solid base.
 
 - [View on GitHub](https://github.com/xmartlabs/vytallink-health-kit)
 
@@ -137,7 +137,6 @@ print(result.content)
 Read this before you start integrating
 
 - **Runtime - App Must Stay Open:** The VytalLink app needs to be active in the foreground to stream data. If the user backgrounds or closes the app, the data connection pauses until they return.
-- **Important - Sequential Calls Only:** MCP tool calls must be made one at a time. The server does not support parallel or concurrent requests. Wait for each call to complete before sending the next one.
 - **Performance - Send Data in Batches:** When querying large time ranges, the OS may throttle or kill long-running calls. Break requests into smaller date windows and merge the results in your agent.
 - **Beta - API is Experimental:** The backend API works well for prototyping and testing, but it is not yet hardened for production traffic. Use it at your own risk and expect possible breaking changes.
 

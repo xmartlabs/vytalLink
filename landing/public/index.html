@@ -41,8 +41,6 @@
             </div>
             <div class="nav-menu">
                 <a href="#how-it-works" class="nav-link home-only desktop-only">How It Works</a>
-                <a href="#features" class="nav-link home-only desktop-only">How to Use</a>
-                <a href="#demo" class="nav-link home-only desktop-only">Demo</a>
                 <a href="#integrations" class="nav-link home-only desktop-only">AI Integrations</a>
 
                 <!-- Unified mobile menu -->
@@ -87,27 +85,13 @@
                     <strong>vytalLink</strong> connects your wearable data to any AI. Use it with ChatGPT or Claude for personal health insights, or build it into your own agent so your users can connect their data.
                 </p>
 
-                <div class="hero-dual-path">
-                    <div class="hero-path hero-path--personal">
-                        <div class="hero-path-label">For personal use</div>
-                        <p>Download the app, tap Get Word + PIN, and start asking ChatGPT or Claude about your health data.</p>
-                        <div class="hero-path-buttons">
-                            <a href="https://apps.apple.com/app/id6752308627" class="btn btn-primary" target="_blank" rel="noopener noreferrer">
-                                <i class="fab fa-apple"></i> App Store
-                            </a>
-                            <a href="https://play.google.com/store/apps/details?id=com.xmartlabs.vytallink" class="btn btn-primary" target="_blank" rel="noopener noreferrer">
-                                <i class="fab fa-google-play"></i> Google Play
-                            </a>
-                        </div>
-                    </div>
-                    <div class="hero-path-divider" aria-hidden="true">or</div>
-                    <div class="hero-path hero-path--developer">
-                        <div class="hero-path-label">For developers</div>
-                        <p>Add health data to your agent in one npm install. Your users connect through the app. No mobile dev required.</p>
-                        <a href="/developers.html" class="btn btn-secondary">
-                            <i class="fas fa-code"></i> Developer Guide
-                        </a>
-                    </div>
+                <div class="hero-buttons">
+                    <a href="https://apps.apple.com/app/id6752308627" class="btn btn-primary btn-large" target="_blank" rel="noopener noreferrer">
+                        <i class="fab fa-apple"></i> Download on App Store
+                    </a>
+                    <a href="https://play.google.com/store/apps/details?id=com.xmartlabs.vytallink" class="btn btn-primary btn-large" target="_blank" rel="noopener noreferrer">
+                        <i class="fab fa-google-play"></i> Get it on Google Play
+                    </a>
                 </div>
                 <div class="hero-stats">
                     <div class="stat">
@@ -175,96 +159,9 @@
         </div>
     </section>
 
-    <!-- Two Ways Section -->
-    <section id="how-it-works" class="two-ways-section">
-        <div class="container">
-            <div class="section-header">
-                <h2>Two ways to use vytalLink</h2>
-                <p>Whether you want health insights for yourself or you're building a product, it works the same way: the app holds your data and AI reads it when you're connected.</p>
-            </div>
-
-            <div class="dual-path-columns">
-                <div class="path-column path-column--personal">
-                    <i class="fas fa-user path-column-icon"></i>
-                    <h3>Personal health AI</h3>
-                    <p>Use ChatGPT or Claude to ask questions about your own data.</p>
-                    <ol class="path-steps">
-                        <li>
-                            <span class="path-step-num">1</span>
-                            <div>
-                                <strong>Download vytalLink</strong>
-                                <p>Get the app on iOS or Android. It reads your health data from Apple Health or Health Connect.</p>
-                            </div>
-                        </li>
-                        <li>
-                            <span class="path-step-num">2</span>
-                            <div>
-                                <strong>Tap Get Word + PIN</strong>
-                                <p>The app generates a short word and a 6-digit PIN. These are your temporary access codes for the session.</p>
-                            </div>
-                        </li>
-                        <li>
-                            <span class="path-step-num">3</span>
-                            <div>
-                                <strong>Open ChatGPT or Claude</strong>
-                                <p>Find the vytalLink GPT, or set up Claude Desktop. Paste your Word + PIN when asked.</p>
-                            </div>
-                        </li>
-                        <li>
-                            <span class="path-step-num">4</span>
-                            <div>
-                                <strong>Ask your questions</strong>
-                                <p>Keep the app open and start chatting. Your AI reads your data in real time.</p>
-                            </div>
-                        </li>
-                    </ol>
-                    <a href="#integrations" class="btn btn-primary btn-sm">See setup guides</a>
-                </div>
-
-                <div class="path-column-separator" aria-hidden="true"></div>
-
-                <div class="path-column path-column--developer">
-                    <i class="fas fa-code path-column-icon"></i>
-                    <h3>Developer integration</h3>
-                    <p>Add health data to your own agent. Your users connect through the app. You don't need to build a mobile app.</p>
-                    <ol class="path-steps">
-                        <li>
-                            <span class="path-step-num">1</span>
-                            <div>
-                                <strong>Install the MCP server</strong>
-                                <p>One npm package. Works with any MCP-compatible agent in TypeScript or Python.</p>
-                            </div>
-                        </li>
-                        <li>
-                            <span class="path-step-num">2</span>
-                            <div>
-                                <strong>Send users to vytalLink</strong>
-                                <p>Point them to <code>vytallink.xmartlabs.com/app</code>. They download the app and get a Word + PIN.</p>
-                            </div>
-                        </li>
-                        <li>
-                            <span class="path-step-num">3</span>
-                            <div>
-                                <strong>Call direct_login in your agent</strong>
-                                <p>Your agent accepts their Word + PIN and authenticates. No browser redirect, no OAuth dance.</p>
-                            </div>
-                        </li>
-                        <li>
-                            <span class="path-step-num">4</span>
-                            <div>
-                                <strong>Query health data</strong>
-                                <p>Use <code>get_summary</code> or <code>get_health_metrics</code> to pull steps, sleep, heart rate, and more.</p>
-                            </div>
-                        </li>
-                    </ol>
-                    <a href="/developers.html" class="btn btn-secondary btn-sm">Read the developer guide</a>
-                </div>
-            </div>
-        </div>
-    </section>
 
     <!-- Features Section -->
-    <section id="features" class="features">
+    <section id="how-it-works" class="features">
         <div class="container">
             <div class="section-header">
                 <h2>How to use vytalLink</h2>
@@ -345,7 +242,7 @@
 
             <!-- Key Features Grid -->
             <div class="section-subheader">
-                <h3>Why teams choose vytalLink</h3>
+                <h3>Why people choose vytalLink</h3>
                 <p>Whether you're using it yourself or building something with it, here's what sets it apart.</p>
             </div>
 
@@ -385,76 +282,17 @@
                     <h3>All Your Health Data</h3>
                     <p>Heart rate, steps, sleep, workouts, and more. Ask questions about any part of your health.</p>
                 </div>
-                <div class="feature-card feature-card--developer">
-                    <div class="feature-icon"><i class="fas fa-code"></i></div>
-                    <h3>Built for developers too</h3>
-                    <p>One npm package, three MCP tools, no mobile app to build. Your users connect through vytalLink and your agent queries their data directly.</p>
-                    <a href="/developers.html" class="feature-card-link">
-                        Read the developer guide <i class="fas fa-arrow-right"></i>
-                    </a>
-                </div>
             </div>
         </div>
     </section>
 
-    <!-- API Overview Section -->
-    <section id="demo" class="demo-section">
-        <div class="container">
-            <div class="demo-content">
-                <div class="demo-text">
-                    <h2>See How It Works</h2>
-                    <p>Watch how simple it is to connect your health data with AI assistants.</p>
-                    
-                    <div class="demo-features">
-                        <div class="demo-feature">
-                            <i class="fas fa-play-circle"></i>
-                            <span>Step-by-step tutorial</span>
-                        </div>
-                        <div class="demo-feature">
-                            <i class="fas fa-mobile-alt"></i>
-                            <span>Real app demonstration</span>
-                        </div>
-                        <div class="demo-feature">
-                            <i class="fas fa-comments"></i>
-                            <span>AI conversation examples</span>
-                        </div>
-                        <div class="demo-feature">
-                            <i class="fas fa-shield-alt"></i>
-                            <span>Security and privacy</span>
-                        </div>
-                    </div>
-
-                    <div class="cta-buttons">
-                        <a href="https://apps.apple.com/app/id6752308627" class="btn btn-primary" target="_blank">
-                            <i class="fab fa-apple"></i>
-                            Download Now
-                        </a>
-                        <a href="https://chatgpt.com/gpts" class="btn btn-secondary" target="_blank">
-                            <span class="brand-mark brand-mark--chatgpt brand-mark--lg" aria-hidden="true"></span>
-                            Try with ChatGPT
-                        </a>
-                    </div>
-                </div>
-                <div class="demo-video">
-                    <div class="video-placeholder">
-                        <div class="video-content">
-                            <i class="fas fa-play-circle"></i>
-                            <h3>Demo Video</h3>
-                            <p>Coming Soon!</p>
-                            <small>We're preparing an amazing demo video to show you exactly how vytalLink works.</small>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
 
     <!-- Getting Started Section -->
     <section id="integrations" class="integrations-section">
         <div class="container">
             <div class="section-header">
-                <h2>Connect to any AI</h2>
-                <p>Use vytalLink personally with ChatGPT or Claude, or build it into your own agent.</p>
+                <h2>Pick your AI assistant</h2>
+                <p>Connect vytalLink to ChatGPT, Claude, or any MCP-compatible client.</p>
             </div>
             
             <div class="integrations-grid">
@@ -473,23 +311,6 @@
                     <a href="/chatgpt-setup.html" class="btn btn-primary">
                         <i class="fas fa-cog"></i>
                         Setup Guide
-                    </a>
-                </div>
-
-                <div class="integration-card integration-card--developer">
-                    <div class="integration-header">
-                        <i class="fas fa-code"></i>
-                        <h3>Build Your Own Agent</h3>
-                        <span class="integration-badge integration-badge--developer">Developers</span>
-                    </div>
-                    <p>Add health data to your agent without building a mobile app. Install the MCP server, point users to the vytalLink app, and start querying their data in minutes.</p>
-                    <div class="integration-steps">
-                        <span>1. Install the npm package</span>
-                        <span>2. Send users to the vytalLink app</span>
-                        <span>3. Authenticate with Word + PIN</span>
-                    </div>
-                    <a href="/developers.html" class="btn btn-primary">
-                        <i class="fas fa-book"></i> Developer Guide
                     </a>
                 </div>
 
@@ -532,6 +353,21 @@
         </div>
     </section>
 
+    <!-- Developer CTA Banner -->
+    <section class="developer-banner">
+        <div class="container">
+            <div class="developer-banner-content">
+                <div class="developer-banner-text">
+                    <h2>Building a health AI product?</h2>
+                    <p>Add real-time wearable data to your agent with one npm install. Your users connect through the vytalLink app. No mobile development required.</p>
+                </div>
+                <a href="/developers.html" class="btn btn-primary btn-large">
+                    <i class="fas fa-code"></i> Developer Guide
+                </a>
+            </div>
+        </div>
+    </section>
+
     <!-- Footer -->
     <footer class="footer">
         <div class="container">
@@ -555,10 +391,8 @@
                     <h4>Product</h4>
                     <ul>
                         <li><a href="#how-it-works">How It Works</a></li>
-                        <li><a href="#features">Personal Use</a></li>
                         <li><a href="#integrations">AI Integrations</a></li>
                         <li><a href="/developers.html">For Developers</a></li>
-                        <li><a href="#demo">Demo Video</a></li>
                     </ul>
                 </div>
                 <div class="footer-section">

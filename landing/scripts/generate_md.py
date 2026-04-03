@@ -536,20 +536,15 @@ def render_developers(soup: BeautifulSoup) -> str:
     return join_blocks(blocks)
 
 
-def render_faq(soup: BeautifulSoup) -> str:
-    hero = soup.select_one(".faq-hero")
-    blocks = [
-        f"# {text_from(hero.find('h1'))}",
-        text_from(hero.select_one(".hero-subtitle")),
-    ]
-
-    for item in soup.select(".faq-list > details"):
+def render_faq_items(items, heading_level: int = 2) -> list[str]:
+    blocks = []
+    prefix = "#" * heading_level
+    for item in items:
         question = text_from(item.find("summary"))
         answer = item.select_one(".faq-answer")
         if answer is None:
             continue
-
-        answer_blocks = [f"## {question}"]
+        answer_blocks = [f"{prefix} {question}"]
         for child in answer.children:
             if isinstance(child, NavigableString):
                 continue
@@ -558,6 +553,25 @@ def render_faq(soup: BeautifulSoup) -> str:
             elif child.name in {"ul", "ol"}:
                 answer_blocks.append(render_list(child))
         blocks.append(join_blocks(answer_blocks))
+    return blocks
+
+
+def render_faq(soup: BeautifulSoup) -> str:
+    hero = soup.select_one(".faq-hero")
+    blocks = [
+        f"# {text_from(hero.find('h1'))}",
+        text_from(hero.select_one(".hero-subtitle")),
+    ]
+
+    sections = soup.select(".faq-list .faq-section")
+    if sections:
+        for section in sections:
+            title = section.select_one(".faq-section-title")
+            if title:
+                blocks.append(f"## {text_from(title)}")
+            blocks.extend(render_faq_items(section.select("details"), heading_level=3))
+    else:
+        blocks.extend(render_faq_items(soup.select(".faq-list > details"), heading_level=2))
 
     return join_blocks(blocks)
 
