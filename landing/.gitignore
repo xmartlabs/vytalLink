@@ -68,3 +68,6 @@ node_modules/
 
 # dataconnect generated files
 .dataconnect
+
+# Virtual environment used by build-llms.sh
+.build-llms-venv/

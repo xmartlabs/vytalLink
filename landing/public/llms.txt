@@ -1,0 +1,49 @@
+# VytalLink
+
+> Privacy-first platform connecting wearable health data (Apple Health, Google Health Connect) to AI assistants via MCP (Model Context Protocol). Your data stays on your phone.
+
+VytalLink is a mobile app that acts as a local MCP server, exposing health metrics from Apple HealthKit and Google Health Connect to AI tools like Claude Desktop and ChatGPT. Users share access via a Word + PIN credential system — no cloud upload of health data.
+
+## Product
+
+- [Home](https://vytallink.xmartlabs.com/): Overview, features, and download links for iOS and Android
+- [About](https://vytallink.xmartlabs.com/about.md): Mission, values, and the Xmartlabs team behind VytalLink
+- [FAQ](https://vytallink.xmartlabs.com/faq.md): Common questions about the app and integrations
+
+## Setup Guides
+
+- [MCP Advanced Setup](https://vytallink.xmartlabs.com/mcp-setup.md): Connect any MCP-compatible AI agent to VytalLink (Claude Desktop, Cursor, VS Code, and more)
+- [ChatGPT Setup](https://vytallink.xmartlabs.com/chatgpt-setup.md): Use the VytalLink custom GPT in ChatGPT
+- [Claude Desktop Bundle Setup](https://vytallink.xmartlabs.com/claude-bundle-setup.md): Connect Claude Desktop using the pre-built one-click bundle
+
+## Developers
+
+- [Developer Guide](https://vytallink.xmartlabs.com/developers.md): Build health data agents in 5 minutes — MCP tools reference, authentication flow
+- [Agent Examples (TypeScript & Python)](https://github.com/xmartlabs/vytalLink/tree/main/examples): Complete working agents — clone, configure, run
+- [Health Kit Starter Template](https://github.com/xmartlabs/vytallink-health-kit): Python starter kit with CLI, Jupyter notebooks, and built-in observability (Grafana, Jaeger, LangSmith) — structured foundation for hackathons and prototypes
+
+## Important notes
+
+- MCP tool calls must be sequential (no parallel calls). The server does not support concurrent requests.
+- The VytalLink mobile app must be open on the user's phone for the MCP connection to work. The phone acts as the data source.
+
+## Resources
+
+- [GitHub Repository](https://github.com/xmartlabs/vytalLink): Source code, issues, and contributions
+- [npm Package](https://www.npmjs.com/package/@xmartlabs/vytallink-mcp-server): MCP server proxy (`npm install -g @xmartlabs/vytallink-mcp-server`)
+- [Architecture Blog Post](https://blog.xmartlabs.com/blog/blog-building-health-apps-mcp-llms/): How VytalLink works under the hood
+- [Bug Reports & Feature Requests](https://github.com/xmartlabs/vytalLink/issues)
+- Email: vytalLink@xmartlabs.com
+
+## API & MCP Reference
+
+- [Swagger UI (Interactive Docs)](https://api.vytallink.xmartlabs.com/docs/mcp): Browse and test MCP tools interactively
+- [OpenAPI Schema (JSON)](https://api.vytallink.xmartlabs.com/openapi/schema.json): Machine-readable API spec
+- [OpenAPI Schema (YAML)](https://api.vytallink.xmartlabs.com/openapi/schema.yaml): Machine-readable API spec
+- [MCP Tools Endpoint](https://api.vytallink.xmartlabs.com/mcp/tools): Live list of available MCP tools (GET)
+- [MCP Call Endpoint](https://api.vytallink.xmartlabs.com/mcp/call): Invoke MCP tools (POST)
+- [OAuth Discovery](https://api.vytallink.xmartlabs.com/.well-known/oauth-authorization-server): OAuth 2.0 server metadata
+
+## Full content
+
+- [llms-full.txt](https://vytallink.xmartlabs.com/llms-full.txt): All pages concatenated for single-file consumption

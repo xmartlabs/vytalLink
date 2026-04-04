@@ -27,8 +27,7 @@
                 <a href="/"><span>vytalLink</span></a>
             </div>
             <div class="nav-menu">
-                <a href="/#features" class="nav-link home-only desktop-only">How it Works</a>
-                <a href="/#demo" class="nav-link home-only desktop-only">Demo</a>
+                <a href="/#how-it-works" class="nav-link home-only desktop-only">How It Works</a>
                 <a href="/#integrations" class="nav-link home-only desktop-only">AI Integrations</a>
 
                 <!-- Unified mobile menu -->
@@ -43,8 +42,8 @@
                 <a href="/terms.html" class="nav-link mobile-only"><i class="fas fa-file-contract"></i> Terms</a>
                 <a href="/contact.html" class="nav-link mobile-only"><i class="fas fa-envelope"></i> Contact</a>
 
-                <a href="/developers.html" class="nav-link desktop-only"><i class="fas fa-code"></i> Developers</a>
-                <div class="nav-dropdown">
+                <a href="/developers.html" class="nav-link nav-link--highlight desktop-only"><i class="fas fa-code"></i> Developers</a>
+                <div class="nav-dropdown desktop-only">
                     <button class="nav-link nav-dropdown-toggle" type="button">
                         Setup Guides <i class="fas fa-chevron-down" aria-hidden="true"></i>
                     </button>
@@ -148,7 +147,7 @@
                             </div>
                             <div class="dev-template-callout-body">
                                 <strong>Recommended: Health Kit Template</strong>
-                                <p>The fastest path to a solid foundation. Ships with a working agent setup, CLI, Jupyter notebooks, readiness reporting, and built-in observability. Ready for production from day one.</p>
+                                <p>A batteries-included Python starter kit with clean architecture, CLI, Jupyter notebooks, and a full observability stack (Grafana, Jaeger, LangSmith). More structure than the raw examples — good for hackathons and prototypes that need a solid base.</p>
                                 <a href="https://github.com/xmartlabs/vytallink-health-kit" target="_blank" rel="noopener noreferrer" class="dev-template-link">
                                     View on GitHub <i class="fas fa-arrow-right"></i>
                                 </a>
@@ -369,11 +368,63 @@ print(result.content)</code></pre>
                     <h3>API is Experimental</h3>
                     <p>The backend API works well for prototyping and testing, but it is not yet hardened for production traffic. Use it at your own risk and expect possible breaking changes.</p>
                 </div>
+                <div class="dev-note-card dev-note-card--data">
+                    <div class="dev-note-card-top">
+                        <div class="dev-note-icon">
+                            <i class="fas fa-code"></i>
+                        </div>
+                        <span class="dev-note-badge">Data</span>
+                    </div>
+                    <h3>Response Format</h3>
+                    <p>Tool responses include two representations: <code>content[0].text</code> with a human-readable summary for LLMs, and <code>structuredContent</code> with the full JSON payload (healthData array, count, success). Use <code>structuredContent</code> when you need to parse values programmatically.</p>
+                </div>
+                <div class="dev-note-card dev-note-card--data">
+                    <div class="dev-note-card-top">
+                        <div class="dev-note-icon">
+                            <i class="fas fa-mobile-screen-button"></i>
+                        </div>
+                        <span class="dev-note-badge">Data</span>
+                    </div>
+                    <h3>Multi-Device Deduplication</h3>
+                    <p>The API may return data from multiple devices (different <code>source_id</code> values) for the same time period. To avoid double-counting, pick the <code>source_id</code> with the most data points and discard the rest.</p>
+                </div>
             </div>
         </div>
     </section>
 
-    <!-- 5. MCP Tools Reference -->
+    <!-- 5. Direct HTTP API -->
+    <section class="dev-http-api">
+        <div class="container">
+            <div class="section-header">
+                <h2>Direct HTTP API</h2>
+                <p>For browser-based or server-side integrations that cannot use MCP stdio</p>
+            </div>
+            <div class="dev-notes-grid">
+                <div class="dev-note-card dev-note-card--runtime">
+                    <div class="dev-note-card-top">
+                        <div class="dev-note-icon">
+                            <i class="fas fa-plug"></i>
+                        </div>
+                        <span class="dev-note-badge">Endpoint</span>
+                    </div>
+                    <h3>POST /mcp/call</h3>
+                    <p>Send <code>{"name": "tool_name", "arguments": {...}}</code> to <code>https://api.vytallink.xmartlabs.com/mcp/call</code>. Authenticate with <code>Authorization: Bearer &lt;token&gt;</code> from the <code>direct_login</code> response. The token is in <code>structuredContent.access_token</code>.</p>
+                </div>
+                <div class="dev-note-card dev-note-card--perf">
+                    <div class="dev-note-card-top">
+                        <div class="dev-note-icon">
+                            <i class="fas fa-list"></i>
+                        </div>
+                        <span class="dev-note-badge">Discovery</span>
+                    </div>
+                    <h3>GET /mcp/tools</h3>
+                    <p>Fetch the current list of available tools, their input schemas, and output schemas. No authentication required. Use this to discover tool names and parameters dynamically.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 6. MCP Tools Reference -->
     <section class="dev-tools">
         <div class="container">
             <div class="section-header">
@@ -417,10 +468,10 @@ print(result.content)</code></pre>
                     </div>
                     <p>Connecting your health data with AI, securely and privately.</p>
                     <div class="download-footer">
-                        <a href="https://apps.apple.com/us/app/vytallink/id6752308627" target="_blank">
+                        <a href="https://apps.apple.com/app/id6752308627" target="_blank" rel="noopener noreferrer">
                             <img src="https://developer.apple.com/assets/elements/badges/download-on-the-app-store.svg" alt="Download on App Store">
                         </a>
-                        <a href="https://play.google.com/store/apps/details?id=com.xmartlabs.vytallink" target="_blank">
+                        <a href="https://play.google.com/store/apps/details?id=com.xmartlabs.vytallink" target="_blank" rel="noopener noreferrer">
                             <img src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png" alt="Get it on Google Play">
                         </a>
                     </div>
@@ -428,9 +479,8 @@ print(result.content)</code></pre>
                 <div class="footer-section">
                     <h4>Product</h4>
                     <ul>
-                        <li><a href="/#features">How it Works</a></li>
+                        <li><a href="/#how-it-works">How It Works</a></li>
                         <li><a href="/#integrations">AI Integrations</a></li>
-                        <li><a href="/#demo">Demo Video</a></li>
                         <li><a href="/developers.html">Developers</a></li>
                     </ul>
                 </div>
