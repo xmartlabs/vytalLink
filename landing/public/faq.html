@@ -72,14 +72,14 @@
 
         <!-- Tab switcher -->
         <div class="faq-tabs">
-          <div class="faq-tabs-track">
-            <button class="faq-tab active" data-tab="general">General</button>
-            <button class="faq-tab" data-tab="developers"><i class="fas fa-code" aria-hidden="true"></i> For developers</button>
+          <div class="faq-tabs-track" role="tablist" aria-label="FAQ categories">
+            <button class="faq-tab active" id="faq-tab-general" type="button" role="tab" aria-selected="true" aria-controls="faq-panel-general" data-tab="general">General</button>
+            <button class="faq-tab" id="faq-tab-developers" type="button" role="tab" aria-selected="false" aria-controls="faq-panel-developers" data-tab="developers"><i class="fas fa-code" aria-hidden="true"></i> For developers</button>
           </div>
         </div>
 
         <div class="faq-list">
-          <div class="faq-section active" data-panel="general">
+          <div class="faq-section active" id="faq-panel-general" role="tabpanel" aria-labelledby="faq-tab-general" tabindex="0" data-panel="general">
           <details>
             <summary>What does VytalLink do? <span class="arrow">›</span></summary>
             <div class="faq-answer">
@@ -281,7 +281,7 @@
           </details>
           </div>
 
-          <div class="faq-section" data-panel="developers">
+          <div class="faq-section" id="faq-panel-developers" role="tabpanel" aria-labelledby="faq-tab-developers" tabindex="0" data-panel="developers">
 
           <details>
             <summary>What MCP tools does VytalLink expose? <span class="arrow">›</span></summary>
@@ -397,10 +397,16 @@
       document.querySelectorAll('.faq-tab').forEach(function(tab) {
         tab.addEventListener('click', function() {
           var target = tab.dataset.tab;
-          document.querySelectorAll('.faq-tab').forEach(function(t) { t.classList.remove('active'); });
+          var panel = target ? document.querySelector('.faq-section[data-panel="' + target + '"]') : null;
+          if (!panel) { return; }
+          document.querySelectorAll('.faq-tab').forEach(function(t) {
+            t.classList.remove('active');
+            t.setAttribute('aria-selected', 'false');
+          });
           document.querySelectorAll('.faq-section').forEach(function(p) { p.classList.remove('active'); });
           tab.classList.add('active');
-          document.querySelector('.faq-section[data-panel="' + target + '"]').classList.add('active');
+          tab.setAttribute('aria-selected', 'true');
+          panel.classList.add('active');
         });
       });
     </script>

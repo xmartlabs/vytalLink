@@ -3,12 +3,20 @@ set -euo pipefail
 
 ROOT_DIR="$(cd "$(dirname "$0")/.." && pwd)"
 
-# Install dependencies into the same interpreter used to run the generator.
-# Homebrew-managed Python may require these flags for user installs.
-if ! python3 -c "import html2text, bs4" 2>/dev/null; then
-  echo "Installing dependencies..."
-  python3 -m pip install --user --break-system-packages html2text beautifulsoup4
+VENV_DIR="$ROOT_DIR/.build-llms-venv"
+PYTHON_BIN="$VENV_DIR/bin/python"
+
+# Install dependencies into an isolated virtual environment.
+# This avoids relying on ambient pip behavior (e.g. --break-system-packages support).
+if [ ! -x "$PYTHON_BIN" ]; then
+  echo "Creating virtual environment..."
+  python3 -m venv "$VENV_DIR"
 fi
 
-python3 "$ROOT_DIR/scripts/generate_md.py"
+if ! "$PYTHON_BIN" -c "import html2text, bs4" 2>/dev/null; then
+  echo "Installing dependencies..."
+  "$PYTHON_BIN" -m pip install "html2text==2024.2.26" "beautifulsoup4==4.12.3"
+fi
+
+"$PYTHON_BIN" "$ROOT_DIR/scripts/generate_md.py"
 echo "Done. Run 'firebase serve --only hosting --port 5000' to verify."

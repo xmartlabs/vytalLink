@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import re
+from collections.abc import Callable
 from pathlib import Path
 
 import html2text
@@ -197,7 +198,7 @@ def render_support_links(section: Tag) -> str:
     return join_blocks([f"## {title}", intro, links])
 
 
-def render_steps(steps: list[Tag], extra_renderer: callable | None = None) -> list[str]:
+def render_steps(steps: list[Tag], extra_renderer: Callable[[Tag], str] | None = None) -> list[str]:
     blocks: list[str] = []
     for step in steps:
         number = text_from(step.select_one(".step-number"))
