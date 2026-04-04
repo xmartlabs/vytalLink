@@ -368,10 +368,61 @@ print(result.content)</code></pre>
                     <h3>API is Experimental</h3>
                     <p>The backend API works well for prototyping and testing, but it is not yet hardened for production traffic. Use it at your own risk and expect possible breaking changes.</p>
                 </div>
+                <div class="dev-note-card dev-note-card--data">
+                    <div class="dev-note-card-top">
+                        <div class="dev-note-icon">
+                            <i class="fas fa-code"></i>
+                        </div>
+                        <span class="dev-note-badge">Data</span>
+                    </div>
+                    <h3>Response Format</h3>
+                    <p>Tool responses include two representations: <code>content[0].text</code> with a human-readable summary for LLMs, and <code>structuredContent</code> with the full JSON payload (healthData array, count, success). Use <code>structuredContent</code> when you need to parse values programmatically.</p>
+                </div>
+                <div class="dev-note-card dev-note-card--data">
+                    <div class="dev-note-card-top">
+                        <div class="dev-note-icon">
+                            <i class="fas fa-mobile-screen-button"></i>
+                        </div>
+                        <span class="dev-note-badge">Data</span>
+                    </div>
+                    <h3>Multi-Device Deduplication</h3>
+                    <p>The API may return data from multiple devices (different <code>source_id</code> values) for the same time period. To avoid double-counting, pick the <code>source_id</code> with the most data points and discard the rest.</p>
+                </div>
             </div>
         </div>
     </section>
 
+    <!-- 5. Direct HTTP API -->
+    <section class="dev-http-api">
+        <div class="container">
+            <div class="section-header">
+                <h2>Direct HTTP API</h2>
+                <p>For browser-based or server-side integrations that cannot use MCP stdio</p>
+            </div>
+            <div class="dev-notes-grid">
+                <div class="dev-note-card dev-note-card--runtime">
+                    <div class="dev-note-card-top">
+                        <div class="dev-note-icon">
+                            <i class="fas fa-plug"></i>
+                        </div>
+                        <span class="dev-note-badge">Endpoint</span>
+                    </div>
+                    <h3>POST /mcp/call</h3>
+                    <p>Send <code>{"name": "tool_name", "arguments": {...}}</code> to <code>https://api.vytallink.xmartlabs.com/mcp/call</code>. Authenticate with <code>Authorization: Bearer &lt;token&gt;</code> from the <code>direct_login</code> response. The token is in <code>structuredContent.access_token</code>.</p>
+                </div>
+                <div class="dev-note-card dev-note-card--perf">
+                    <div class="dev-note-card-top">
+                        <div class="dev-note-icon">
+                            <i class="fas fa-list"></i>
+                        </div>
+                        <span class="dev-note-badge">Discovery</span>
+                    </div>
+                    <h3>GET /mcp/tools</h3>
+                    <p>Fetch the current list of available tools, their input schemas, and output schemas. No authentication required. Use this to discover tool names and parameters dynamically.</p>
+                </div>
+            </div>
+        </div>
+    </section>
 
     <!-- 6. MCP Tools Reference -->
     <section class="dev-tools">

@@ -520,6 +520,20 @@ def render_developers(soup: BeautifulSoup) -> str:
             "\n".join(lines),
         ]))
 
+    http_api = soup.select_one(".dev-http-api")
+    if http_api:
+        lines = []
+        for card in http_api.select(".dev-note-card"):
+            badge = text_from(card.select_one(".dev-note-badge"))
+            title = text_from(card.find("h3"))
+            description = fragment_to_markdown(card.find("p"))
+            lines.append(f"- **{badge} - {title}:** {description}")
+        blocks.append(join_blocks([
+            f"## {text_from(http_api.find('h2'))}",
+            text_from(http_api.select_one(".section-header p")),
+            "\n".join(lines),
+        ]))
+
     tools = soup.select_one(".dev-tools")
     if tools:
         lines = []

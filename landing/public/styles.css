@@ -4499,7 +4499,8 @@ h1, h2, h3, h4 {
 }
 
 /* ─── Developer Notes ────────────────────────────────────────────────── */
-.dev-notes {
+.dev-notes,
+.dev-http-api {
     padding: 5rem 0;
     background: var(--white);
 }
