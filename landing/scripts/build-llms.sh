@@ -18,5 +18,6 @@ if ! "$PYTHON_BIN" -c "import html2text, bs4" 2>/dev/null; then
   "$PYTHON_BIN" -m pip install "html2text==2024.2.26" "beautifulsoup4==4.12.3"
 fi
 
-"$PYTHON_BIN" "$ROOT_DIR/scripts/generate_md.py"
+VYTALLINK_API_URL="${VYTALLINK_API_URL:-https://api.vytallink.xmartlabs.com}" \
+    "$PYTHON_BIN" "$ROOT_DIR/scripts/generate_md.py"
 echo "Done. Run 'firebase serve --only hosting --port 5000' to verify."
