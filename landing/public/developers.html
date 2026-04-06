@@ -290,10 +290,11 @@ async with stdio_client(server_params) as (read, write):
                                 <pre><code id="step-data-ts" class="language-typescript">const result = await client.callTool({
   name: "get_health_metrics",
   arguments: {
-    metric_type: "HEART_RATE",
-    start_date: "2025-01-01",
-    end_date: "2025-01-07",
-    aggregation: "DAILY",
+    value_type: "HEART_RATE",
+    start_time: "2025-01-01T00:00:00Z",
+    end_time: "2025-01-07T23:59:59Z",
+    group_by: "DAY",
+    statistic: "SUM",
   },
 });
 
@@ -314,10 +315,11 @@ console.log(result.content);</code></pre>
                                 <pre><code id="step-data-py" class="language-python">result = await session.call_tool(
     "get_health_metrics",
     arguments={
-        "metric_type": "HEART_RATE",
-        "start_date": "2025-01-01",
-        "end_date": "2025-01-07",
-        "aggregation": "DAILY",
+        "value_type": "HEART_RATE",
+        "start_time": "2025-01-01T00:00:00Z",
+        "end_time": "2025-01-07T23:59:59Z",
+        "group_by": "DAY",
+        "statistic": "SUM",
     },
 )
 

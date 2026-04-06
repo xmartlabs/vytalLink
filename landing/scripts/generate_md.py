@@ -3,7 +3,10 @@
 
 from __future__ import annotations
 
+import json
+import os
 import re
+import urllib.request
 from collections.abc import Callable
 from pathlib import Path
 
@@ -623,6 +626,205 @@ def page_heading(markdown: str, fallback: str) -> str:
     return f"# {fallback}"
 
 
+def _fetch_json(url: str) -> dict | None:
+    try:
+        req = urllib.request.Request(url, headers={
+            "Accept": "application/json",
+            "User-Agent": "vytallink-build/1.0",
+        })
+        with urllib.request.urlopen(req, timeout=15) as resp:
+            return json.loads(resp.read())
+    except Exception as exc:
+        print(f"Warning: failed to fetch {url}: {exc}")
+        return None
+
+
+# Developer-friendly conversion notes that supplement the raw API description.
+# These are applied after parsing to give developers the context they need
+# to interpret values correctly without needing to make trial API calls.
+_NOTES_ENRICHMENT: dict[str, str] = {
+    "SLEEP": "avg minutes per night when using AVERAGE statistic. Divide by 60 to get hours (e.g. 396 min → 6.6h)",
+    "DISTANCE": "value in meters. Divide by 1000 for km (e.g. 117666 → 117.7 km)",
+    "EXERCISE_TIME": "minutes of exercise. May return empty (count: 0) depending on the user's device. Check count before using",
+    "WORKOUT": "object with fields: session_count (int), total_energy_burned (kcal), total_distance (meters), total_steps (int), workout_type (string). NOT a number — requires special parsing",
+    "CALORIES": "total and active calories burned, in kcal",
+}
+
+
+def _parse_units_table(description: str) -> list[tuple[str, str, str, str]]:
+    """Parse metric entries from the value_type description.
+
+    Handles two patterns:
+    - Standard: 'METRIC (description — unit: UNIT)'
+    - Special:  'METRIC (description — NOTES)' (for WORKOUT, BODY_METRICS, etc.)
+    """
+    rows: list[tuple[str, str, str, str]] = []
+    for match in re.finditer(
+        r"(\b[A-Z][A-Z_]+)\s*\(([^)]+)\)",
+        description,
+    ):
+        metric = match.group(1)
+        inner = match.group(2).strip()
+        # Try to extract unit from "description — unit: UNIT" pattern
+        unit_match = re.search(r"(?:—|--|-)\s*unit(?:s)?:\s*(.+)", inner)
+        if unit_match:
+            raw_unit = unit_match.group(1).strip().rstrip(",. ")
+            # Some units have extra context after a semicolon (e.g. SLEEP),
+            # keep only the unit name itself.
+            unit = raw_unit.split(";")[0].strip()
+            desc = inner[:unit_match.start()].strip().rstrip(",. —-")
+            value_type = "number"
+        elif metric == "WORKOUT":
+            unit = "noUnit"
+            # Capture everything after the em-dash as the description since
+            # it contains the field list ("value is an object with fields: …")
+            parts = inner.split("—", 1)
+            desc = parts[1].strip().rstrip(",. ") if len(parts) > 1 else inner
+            value_type = "**object**"
+        else:
+            # Metrics like BODY_METRICS with "units vary"
+            parts = inner.split("—", 1)
+            desc = parts[0].strip().rstrip(",. ")
+            unit = parts[1].strip().rstrip(",. ") if len(parts) > 1 else "varies"
+            value_type = "number"
+        # Apply developer-friendly enrichment notes where defined
+        desc = _NOTES_ENRICHMENT.get(metric, desc)
+        rows.append((metric, unit, value_type, desc))
+    return rows
+
+
+def _format_example(key: str, example: dict) -> str:
+    """Format an OpenAPI example as a markdown fenced code block."""
+    summary = example.get("summary", key)
+    value = example.get("value", {})
+    json_str = json.dumps(value, indent=2, ensure_ascii=False)
+    return f"**{summary}:**\n\n```json\n{json_str}\n```"
+
+
+def generate_mcp_reference(base_url: str) -> str | None:
+    """Fetch MCP tool definitions and OpenAPI spec, return a markdown reference section."""
+    tools_data = _fetch_json(f"{base_url}/mcp/tools")
+    openapi_data = _fetch_json(f"{base_url}/docs/mcp/openapi.json")
+
+    if not tools_data or not openapi_data:
+        return None
+
+    tools = tools_data.get("tools", [])
+    health_tool = next((t for t in tools if t["name"] == "get_health_metrics"), None)
+    if not health_tool:
+        print("Warning: get_health_metrics tool not found in /mcp/tools response")
+        return None
+
+    blocks: list[str] = ["# MCP API Reference"]
+
+    # --- Response format (static text) ---
+    blocks.append(join_blocks([
+        "## Response format",
+        (
+            "Every tool response has two fields:\n"
+            "- `content[0].text`: human-readable summary for LLMs\n"
+            "- `structuredContent`: full JSON payload — **always read from here when parsing programmatically**\n\n"
+            "The shape of `structuredContent` depends on the tool:\n"
+            "- `get_health_metrics` / `get_summary`: `{ healthData, count, success }`\n"
+            "- `direct_login`: `{ success, access_token, token_type, expires_in, user_id, message }`\n\n"
+            "**direct_login response example:**\n"
+            "```json\n"
+            "{\n"
+            '  "content": [{ "type": "text", "text": "Authentication successful! You are now logged in." }],\n'
+            '  "structuredContent": {\n'
+            '    "success": true,\n'
+            '    "access_token": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9...",\n'
+            '    "token_type": "Bearer",\n'
+            '    "expires_in": 7200\n'
+            "  }\n"
+            "}\n"
+            "```\n"
+            "The token is always in `structuredContent.access_token`. It is not in `content[0].text`.\n\n"
+            "**healthData record fields** (for `get_health_metrics` and `get_summary`):\n"
+            "- `type` (string): metric type, e.g. `STEPS`, `SLEEP_SESSION`, `WORKOUT`\n"
+            "- `value` (number or object): the metric value — number for most metrics, object for WORKOUT\n"
+            "- `unit` (string): unit of measurement, e.g. `count`, `minute`, `meter`\n"
+            "- `date_from` (ISO 8601): start of the measurement period — **field is `date_from`, not `startDate` or `start_time`**\n"
+            "- `date_to` (ISO 8601): end of the measurement period\n"
+            "- `source_id` (string): identifies the app or device that recorded the data (e.g. `com.apple.health`, `com.google.android.apps.fitness`)"
+        ),
+    ]))
+
+    # --- get_health_metrics call example (exact parameter names) ---
+    blocks.append(join_blocks([
+        "## get_health_metrics parameters",
+        (
+            "Required: `value_type`, `start_time`, `end_time`. Optional: `group_by`, `statistic`.\n\n"
+            "**Parameter names are exact — do not use aliases** (`metric_type`, `start_date`, `end_date`, `aggregation` are not valid).\n\n"
+            "```json\n"
+            "{\n"
+            '  "name": "get_health_metrics",\n'
+            '  "arguments": {\n'
+            '    "value_type": "STEPS",\n'
+            '    "start_time": "2026-01-01T00:00:00Z",\n'
+            '    "end_time": "2026-01-31T23:59:59Z",\n'
+            '    "group_by": "DAY",\n'
+            '    "statistic": "SUM"\n'
+            "  }\n"
+            "}\n"
+            "```"
+        ),
+    ]))
+
+    # --- Units per metric (parsed from tool definition) ---
+    value_type_desc = (
+        health_tool.get("inputSchema", {})
+        .get("properties", {})
+        .get("value_type", {})
+        .get("description", "")
+    )
+    rows = _parse_units_table(value_type_desc)
+    if rows:
+        table_lines = [
+            "| value_type | Unit | value field type | Notes |",
+            "|-----------|------|-----------------|-------|",
+        ]
+        for metric, unit, vtype, notes in rows:
+            table_lines.append(f"| {metric} | {unit} | {vtype} | {notes} |")
+        blocks.append(join_blocks(["## Units per metric", "\n".join(table_lines)]))
+
+    # --- Response examples (from OpenAPI spec) ---
+    examples = (
+        openapi_data.get("paths", {})
+        .get("/mcp/call", {})
+        .get("post", {})
+        .get("responses", {})
+        .get("200", {})
+        .get("content", {})
+        .get("application/json", {})
+        .get("examples", {})
+    )
+    health_examples = {
+        k: v for k, v in examples.items() if k.startswith("healthMetrics")
+    }
+    if health_examples:
+        example_blocks = ["## Response examples"]
+        for key, example in health_examples.items():
+            example_blocks.append(_format_example(key, example))
+        blocks.append(join_blocks(example_blocks))
+
+    # --- Device availability notes (static text) ---
+    blocks.append(join_blocks([
+        "## Device availability notes",
+        (
+            "Not all devices report all metrics. EXERCISE_TIME and MINDFULNESS are commonly unavailable. "
+            "When count is 0 and healthData is empty, the metric is not tracked by the user's device. "
+            "Handle this gracefully in your integration.\n\n"
+            "**Multiple sources per time period:** A single call can return multiple entries in `healthData` "
+            "for the same time period — one per `source_id` (e.g. Google Fit, heytap health, Apple Health). "
+            "Do not sum across sources. Pick the `source_id` with the most entries and use only those values. "
+            "Summing all entries will produce inflated totals."
+        ),
+    ]))
+
+    return join_blocks(blocks)
+
+
 def main() -> None:
     all_md: list[str] = []
     pages = sorted(f.stem for f in PUBLIC.glob("*.html") if f.stem not in EXCLUDE)
@@ -635,6 +837,15 @@ def main() -> None:
         out.write_text(md + "\n", encoding="utf-8")
         all_md.append(md)
         print(f"Generated {out.name}")
+
+    api_url = os.environ.get("VYTALLINK_API_URL")
+    if api_url:
+        mcp_ref = generate_mcp_reference(api_url.rstrip("/"))
+        if mcp_ref:
+            all_md.append(mcp_ref)
+            print("Generated MCP API Reference section from backend")
+    else:
+        print("Skipping MCP API Reference (VYTALLINK_API_URL not set)")
 
     full_path = PUBLIC / "llms-full.txt"
     full_path.write_text("\n\n---\n\n".join(all_md) + "\n", encoding="utf-8")
