@@ -415,7 +415,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get home_checklist_step_2 =>
-      'Open ChatGPT, Claude, or the app that sent you here. Paste your Word + PIN.';
+      'Open ChatGPT (search \"vytalLink\") here or on your computer.';
 
   @override
   String get home_checklist_step_3 => 'Paste your Word + PIN and start asking';
@@ -494,7 +494,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get home_helper_chat_runs_elsewhere =>
-      'You chat in ChatGPT, Claude, or the app you connected. vytalLink only shares what you approve.';
+      'You chat in ChatGPT or Claude; this app only shares what you approve.';
 
   @override
   String get home_helper_keep_open_reason =>
@@ -641,7 +641,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get home_value_prop_point_1 =>
-      '<b>Ask your AI</b> about sleep, workouts, or heart rate on any screen';
+      'Ask your metrics <b>on any screen</b> through ChatGPT, Claude, or your MCP client';
 
   @override
   String get home_value_prop_point_2 =>
@@ -649,14 +649,15 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get home_value_prop_point_3 =>
-      '<b>Keep this app open</b> while you chat. Close it anytime to stop sharing.';
+      '<b>Keep this app open</b> while you chat so insights stay live';
 
   @override
   String get home_value_prop_subtitle =>
-      'Ask ChatGPT or Claude about your health, or connect an app that asked you to install vytalLink. Your data stays on this phone. You decide when it gets shared.';
+      'Ask ChatGPT or Claude questions about your health data without giving up your privacy. This app just keeps the connection alive.';
 
   @override
-  String get home_value_prop_title => 'Your health data, on call';
+  String get home_value_prop_title =>
+      'Chat with your wearable data wherever you are';
 
   @override
   String get how_it_works_step1_description =>
@@ -780,14 +781,14 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get mcp_helper_chat_runs_on_desktop =>
-      '<b>Chats happen in the app or service you connected.</b> This could be ChatGPT, Claude Desktop, Cursor, VS Code, or any app that uses vytalLink. This app keeps the bridge open and only shares what you approve.';
+      '<b>Chats happen in your AI client</b> such as ChatGPT, Claude Desktop, Cursor, or VS Code. This app keeps the bridge open and only shares what you approve.';
 
   @override
   String get mcp_integration_hero_subtitle =>
-      'If an app or service asked you to connect vytalLink, this is how you do it. You can also set up Claude Desktop, Cursor, or VS Code from this screen.';
+      'Install the Claude Desktop bundle or connect Cursor/VS Code to analyze your health data like a pro.';
 
   @override
-  String get mcp_integration_hero_title => 'Connect your health data';
+  String get mcp_integration_hero_title => 'Connect with Professional AI Tools';
 
   @override
   String get mcp_integration_title => 'Professional AI Tools';
@@ -800,7 +801,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get mcp_setup_intro =>
-      'This is for developers or advanced users who want to connect other MCP clients. If you’re here because another app sent you, just tap ‘Get Word + PIN’ on the home screen and enter those codes where that app asks.';
+      'This is for developers who want to use other MCP clients. Most people should use the Claude Desktop bundle above.';
 
   @override
   String get mcp_setup_nodejs_requirement =>
@@ -892,28 +893,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get onboarding_ask_questions_title => 'Ask About Your Trends';
-
-  @override
-  String get onboarding_bridge_description =>
-      'If an app or AI tool told you to download vytalLink, here\'s what\'s happening: that app needs your health data from your phone. vytalLink lets it read that data directly from your device, without copying anything to a server.';
-
-  @override
-  String get onboarding_bridge_feature_1 =>
-      'Your health data stays on your phone';
-
-  @override
-  String get onboarding_bridge_feature_2 =>
-      'You generate a Word + PIN and share it with that app';
-
-  @override
-  String get onboarding_bridge_feature_3 =>
-      'Close the app anytime to stop sharing immediately';
-
-  @override
-  String get onboarding_bridge_subtitle => '';
-
-  @override
-  String get onboarding_bridge_title => 'You\'re in the right place';
 
   @override
   String get onboarding_get_started => 'Get Started';

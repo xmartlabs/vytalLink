@@ -8,7 +8,6 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 enum OnboardingPageType {
   welcome,
-  thirdPartyBridge,
   healthMonitoring,
   howItWorks,
   askQuestions,
@@ -20,8 +19,6 @@ extension OnboardingPageTypeExtension on OnboardingPageType {
     switch (this) {
       case OnboardingPageType.welcome:
         return _buildWelcomePage(context);
-      case OnboardingPageType.thirdPartyBridge:
-        return _buildThirdPartyBridgePage(context);
       case OnboardingPageType.healthMonitoring:
         return _buildHealthMonitoringPage(context);
       case OnboardingPageType.howItWorks:
@@ -42,19 +39,6 @@ extension OnboardingPageTypeExtension on OnboardingPageType {
           context.localizations.onboarding_welcome_feature_1,
           context.localizations.onboarding_welcome_feature_2,
           context.localizations.onboarding_welcome_feature_3,
-        ],
-      );
-
-  OnboardingPage _buildThirdPartyBridgePage(BuildContext context) =>
-      OnboardingPage(
-        icon: FontAwesomeIcons.plugCircleCheck,
-        title: context.localizations.onboarding_bridge_title,
-        subtitle: context.localizations.onboarding_bridge_subtitle,
-        description: context.localizations.onboarding_bridge_description,
-        features: [
-          context.localizations.onboarding_bridge_feature_1,
-          context.localizations.onboarding_bridge_feature_2,
-          context.localizations.onboarding_bridge_feature_3,
         ],
       );
 
