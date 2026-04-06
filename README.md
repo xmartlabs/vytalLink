@@ -41,6 +41,8 @@ cd examples/athletic-analyst-py && python -m src.main --mode readiness
 - Consolidated guidelines: [`docs/CONSOLIDATED_GUIDELINES.md`](docs/CONSOLIDATED_GUIDELINES.md).
 - Add any new repository-wide guides under [`docs/`](docs/).
 
+> **Building an integration?** Start with [`llms.txt`](https://vytallink.xmartlabs.com/llms.txt) — an AI-friendly overview of the product, API reference, and integration gotchas.
+
 ## Contributing
 
 1. Create a descriptive branch.

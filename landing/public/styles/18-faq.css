@@ -72,6 +72,68 @@
   margin: 4px 0;
 }
 
+/* Tab switcher */
+.faq-tabs {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 36px;
+}
+
+.faq-tabs-track {
+  display: inline-flex;
+  background: var(--secondary-color);
+  border-radius: 14px;
+  padding: 4px;
+  gap: 2px;
+}
+
+.faq-tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 9px 22px;
+  border: none;
+  background: transparent;
+  border-radius: 10px;
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-light);
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  white-space: nowrap;
+}
+
+.faq-tab i {
+  font-size: 12px;
+}
+
+.faq-tab:hover:not(.active) {
+  color: var(--text-dark);
+}
+
+.faq-tab.active {
+  background: #fff;
+  color: var(--text-dark);
+  font-weight: 600;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08), 0 0 0 1px rgba(0, 0, 0, 0.04);
+}
+
+/* Panels */
+.faq-section {
+  display: none;
+}
+
+.faq-section.active {
+  display: block;
+  animation: faqFadeIn 0.18s ease;
+}
+
+@keyframes faqFadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
 @media (max-width: 768px) {
   .faq-hero h1 {
     font-size: 32px;

@@ -32,6 +32,21 @@ To combine all CSS files into a single `public/styles.css` (no `@import`s):
 scripts/build-css.sh
 ```
 
+## Generated files
+
+The following files are auto-generated and not tracked in git:
+
+- `public/*.md` — Markdown mirrors of each HTML page (for LLM consumption)
+- `public/llms-full.txt` — All pages concatenated into one file
+
+They are regenerated automatically on every `firebase deploy` via the predeploy hook. To regenerate locally:
+
+```bash
+scripts/build-llms.sh
+```
+
+`public/llms.txt` is **not** generated — it is maintained by hand as the product index for AI crawlers.
+
 ## Navigation
 
 - The navbar HTML lives at the top of each page in `public/*.html`.

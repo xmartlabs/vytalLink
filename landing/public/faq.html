@@ -23,8 +23,7 @@
           <a href="/"><span>vytalLink</span></a>
         </div>
         <div class="nav-menu">
-          <a href="/#features" class="nav-link home-only desktop-only">How it Works</a>
-          <a href="/#demo" class="nav-link home-only desktop-only">Demo</a>
+          <a href="/#how-it-works" class="nav-link home-only desktop-only">How It Works</a>
           <a href="/#integrations" class="nav-link home-only desktop-only">AI Integrations</a>
 
           <!-- Unified mobile menu -->
@@ -70,7 +69,17 @@
     <!-- FAQ Content -->
     <section class="faq">
       <div class="container">
+
+        <!-- Tab switcher -->
+        <div class="faq-tabs">
+          <div class="faq-tabs-track" role="tablist" aria-label="FAQ categories">
+            <button class="faq-tab active" id="faq-tab-general" type="button" role="tab" aria-selected="true" aria-controls="faq-panel-general" data-tab="general">General</button>
+            <button class="faq-tab" id="faq-tab-developers" type="button" role="tab" aria-selected="false" aria-controls="faq-panel-developers" data-tab="developers"><i class="fas fa-code" aria-hidden="true"></i> For developers</button>
+          </div>
+        </div>
+
         <div class="faq-list">
+          <div class="faq-section active" id="faq-panel-general" role="tabpanel" aria-labelledby="faq-tab-general" tabindex="0" data-panel="general">
           <details>
             <summary>What does VytalLink do? <span class="arrow">›</span></summary>
             <div class="faq-answer">
@@ -88,7 +97,7 @@
           <details>
             <summary>Can I use ChatGPT on mobile? <span class="arrow">›</span></summary>
             <div class="faq-answer">
-              <p>Not yet. ChatGPT on mobile doesn't work because the VytalLink app needs to stay open to share your data while you chat.</p>
+              <p>Yes, from the VytalLink app. After connecting, tap "Start Chatting" and it opens the ChatGPT GPT in a built-in browser. That keeps VytalLink running in the foreground so your data keeps flowing. Opening the standalone ChatGPT app instead will break the connection.</p>
             </div>
           </details>
 
@@ -113,7 +122,7 @@
           <details>
             <summary>Does VytalLink store my health data? <span class="arrow">›</span></summary>
             <div class="faq-answer">
-              <p>No. Your phone is the source of truth. The relay is stateless and does not persist health data. Only the specific fields you approve per connection are streamed to your chosen AI provider.</p>
+              <p>Your phone remains the source of truth. VytalLink is designed to relay only the health data needed for an active session, and not to keep a separate cloud copy of your metrics after that session ends.</p>
             </div>
           </details>
 
@@ -122,7 +131,7 @@
             <div class="faq-answer">
               <p>You choose who to share your data with during each session. Once shared, the data is subject to the recipient’s policies:</p>
               <ul>
-                <li>ChatGPT sessions are subject to OpenAI’s policies. Note: Our GPT integration is configured to not use your data for training.</li>
+                <li>ChatGPT sessions are subject to OpenAI’s policies and the settings or plan that apply to your account.</li>
                 <li>Claude Desktop sessions are subject to Anthropic’s policies.</li>
                 <li>For MCP clients (Cursor, VS Code, etc.), data flows to the provider behind that client.</li>
               </ul>
@@ -177,7 +186,7 @@
           <details>
             <summary>Do I need to register to use the app? <span class="arrow">›</span></summary>
             <div class="faq-answer">
-              <p>No. VytalLink is completely anonymous and does not store any user data. You can use the app without creating an account.</p>
+              <p>No account is required to start using VytalLink. The app is designed to work without a sign-up flow, so you can connect your health data without creating a separate VytalLink account.</p>
             </div>
           </details>
 
@@ -250,7 +259,7 @@
           <details>
             <summary>How is my privacy protected? <span class="arrow">›</span></summary>
             <div class="faq-answer">
-              <p>Your privacy is our priority. VytalLink uses encryption to secure your data and operates as a stateless relay, meaning no data is stored. You control what is shared and can disconnect at any time.</p>
+              <p>VytalLink is designed to keep your health data on your phone until you choose to share it with a connected assistant. Only the information needed for the current session is relayed, and you can stop sharing by ending the session or closing the app.</p>
             </div>
           </details>
 
@@ -270,6 +279,57 @@
               <p>Yes, you can connect to multiple AI clients simultaneously. However, we recommend maintaining a single active connection for simplicity and to avoid potential data conflicts.</p>
             </div>
           </details>
+          </div>
+
+          <div class="faq-section" id="faq-panel-developers" role="tabpanel" aria-labelledby="faq-tab-developers" tabindex="0" data-panel="developers">
+
+          <details>
+            <summary>What MCP tools does VytalLink expose? <span class="arrow">›</span></summary>
+            <div class="faq-answer">
+              <ul>
+                <li><code>direct_login</code> — authenticates the user with their Word + PIN. No browser, no redirect.</li>
+                <li><code>get_summary</code> — returns a snapshot of steps, sleep, heart rate, and more for any date range.</li>
+                <li><code>get_health_metrics</code> — queries a specific metric by time range and aggregation (raw, hourly, or daily).</li>
+              </ul>
+              <p>Full parameter reference, schemas, and response types in the <a href="https://api.vytallink.xmartlabs.com/docs/mcp" target="_blank" rel="noopener noreferrer">API Reference</a>.</p>
+            </div>
+          </details>
+
+          <details>
+            <summary>How does the user connect to my agent? <span class="arrow">›</span></summary>
+            <div class="faq-answer">
+              <p>The user opens the VytalLink app and taps to get a Word + PIN, then enters those credentials inside your agent. Your agent calls <code>direct_login</code> with the Word and PIN to establish the session. The user must keep the VytalLink app open for the connection to stay active.</p>
+            </div>
+          </details>
+
+          <details>
+            <summary>What languages and SDKs are supported? <span class="arrow">›</span></summary>
+            <div class="faq-answer">
+              <p>Any language with an MCP client SDK works. The <a href="https://github.com/xmartlabs/vytalLink/tree/main/examples" target="_blank" rel="noopener noreferrer">examples repo</a> includes TypeScript and Python agents. You can also start from the <a href="https://github.com/xmartlabs/vytallink-health-kit" target="_blank" rel="noopener noreferrer">Health Kit Template</a>, a Python starter with CLI, Jupyter notebooks, and an observability stack.</p>
+            </div>
+          </details>
+
+          <details>
+            <summary>Why does my agent stop getting data when the user switches apps? <span class="arrow">›</span></summary>
+            <div class="faq-answer">
+              <p>The VytalLink app must be active in the foreground to stream data. If the user backgrounds or closes the app, the data connection pauses until they return and reopen it. There is no background data mode.</p>
+            </div>
+          </details>
+
+          <details>
+            <summary>How should I handle large time ranges? <span class="arrow">›</span></summary>
+            <div class="faq-answer">
+              <p>The OS may throttle or kill long-running calls on large date windows. Break requests into smaller windows (a week at a time works well) and merge the results in your agent.</p>
+            </div>
+          </details>
+
+          <details>
+            <summary>Is the API production-ready? <span class="arrow">›</span></summary>
+            <div class="faq-answer">
+              <p>Not yet. The backend works well for prototyping and testing, but it is not hardened for production traffic. Use it at your own risk and expect possible breaking changes.</p>
+            </div>
+          </details>
+          </div>
         </div>
       </div>
     </section>
@@ -296,10 +356,10 @@
           <div class="footer-section">
             <h4>Product</h4>
             <ul>
-              <li><a href="/#features">How it Works</a></li>
+              <li><a href="/#how-it-works">How It Works</a></li>
               <li><a href="/#integrations">AI Integrations</a></li>
-              <li><a href="/#demo">Demo Video</a></li>
               <li><a href="/developers.html">Developers</a></li>
+              <li><a href="/llms.txt">AI Documentation</a></li>
             </ul>
           </div>
           <div class="footer-section">
@@ -334,5 +394,22 @@
 
     <script src="/script.js"></script>
     <script src="/common-modal.js"></script>
+    <script>
+      document.querySelectorAll('.faq-tab').forEach(function(tab) {
+        tab.addEventListener('click', function() {
+          var target = tab.dataset.tab;
+          var panel = target ? document.querySelector('.faq-section[data-panel="' + target + '"]') : null;
+          if (!panel) { return; }
+          document.querySelectorAll('.faq-tab').forEach(function(t) {
+            t.classList.remove('active');
+            t.setAttribute('aria-selected', 'false');
+          });
+          document.querySelectorAll('.faq-section').forEach(function(p) { p.classList.remove('active'); });
+          tab.classList.add('active');
+          tab.setAttribute('aria-selected', 'true');
+          panel.classList.add('active');
+        });
+      });
+    </script>
   </body>
   </html>
