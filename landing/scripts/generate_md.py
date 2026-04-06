@@ -643,7 +643,7 @@ def _fetch_json(url: str) -> dict | None:
 # These are applied after parsing to give developers the context they need
 # to interpret values correctly without needing to make trial API calls.
 _NOTES_ENRICHMENT: dict[str, str] = {
-    "SLEEP": "avg minutes per night when using AVERAGE statistic. Divide by 60 to get hours (e.g. 396 min → 6.6h)",
+    "SLEEP": "request as `SLEEP`; response records return `type: SLEEP_SESSION` (different name). Avg minutes/night with AVERAGE statistic. Divide by 60 for hours",
     "DISTANCE": "value in meters. Divide by 1000 for km (e.g. 117666 → 117.7 km)",
     "EXERCISE_TIME": "minutes of exercise. May return empty (count: 0) depending on the user's device. Check count before using",
     "WORKOUT": "object with fields: session_count (int), total_energy_burned (kcal), total_distance (meters), total_steps (int), workout_type (string). NOT a number — requires special parsing",
@@ -741,7 +741,9 @@ def generate_mcp_reference(base_url: str) -> str | None:
             "```\n"
             "The token is always in `structuredContent.access_token`. It is not in `content[0].text`.\n\n"
             "**healthData record fields** (for `get_health_metrics` and `get_summary`):\n"
-            "- `type` (string): metric type, e.g. `STEPS`, `SLEEP_SESSION`, `WORKOUT`\n"
+            "- `type` (string): metric type in the response — **may differ from the `value_type` you sent**. "
+            "Example: request `value_type: \"SLEEP\"` returns records with `type: \"SLEEP_SESSION\"`. "
+            "Never use response `type` values as `value_type` inputs.\n"
             "- `value` (number or object): the metric value — number for most metrics, object for WORKOUT\n"
             "- `unit` (string): unit of measurement, e.g. `count`, `minute`, `meter`\n"
             "- `date_from` (ISO 8601): start of the measurement period — **field is `date_from`, not `startDate` or `start_time`**\n"
