@@ -643,7 +643,12 @@ def _fetch_json(url: str) -> dict | None:
 # These are applied after parsing to give developers the context they need
 # to interpret values correctly without needing to make trial API calls.
 _NOTES_ENRICHMENT: dict[str, str] = {
-    "SLEEP": "request as `SLEEP`; response records return `type: SLEEP_SESSION` (different name). Avg minutes/night with AVERAGE statistic. Divide by 60 for hours",
+    "SLEEP": "response records return type: SLEEP_SESSION (not SLEEP). Avg minutes/night with AVERAGE statistic. Divide by 60 for hours",
+    "GLUCOSE": "response records return type: BLOOD_GLUCOSE (not GLUCOSE)",
+    "CALORIES": "response returns two records: TOTAL_CALORIES_BURNED and ACTIVE_ENERGY_BURNED — sum them for total kcal",
+    "BLOOD_PRESSURE": "response returns two records: BLOOD_PRESSURE_SYSTOLIC and BLOOD_PRESSURE_DIASTOLIC",
+    "HEART_RATE": "response returns two records: HEART_RATE and RESTING_HEART_RATE",
+    "DISTANCE": "response records return type: DISTANCE_WALKING_RUNNING or DISTANCE_DELTA (not DISTANCE)",
     "DISTANCE": "value in meters. Divide by 1000 for km (e.g. 117666 → 117.7 km)",
     "EXERCISE_TIME": "minutes of exercise. May return empty (count: 0) depending on the user's device. Check count before using",
     "WORKOUT": "object with fields: session_count (int), total_energy_burned (kcal), total_distance (meters), total_steps (int), workout_type (string). NOT a number — requires special parsing",
@@ -749,6 +754,33 @@ def generate_mcp_reference(base_url: str) -> str | None:
             "- `date_from` (ISO 8601): start of the measurement period — **field is `date_from`, not `startDate` or `start_time`**\n"
             "- `date_to` (ISO 8601): end of the measurement period\n"
             "- `source_id` (string): identifies the app or device that recorded the data (e.g. `com.apple.health`, `com.google.android.apps.fitness`)"
+        ),
+    ]))
+
+    # --- Request value_type → response type mapping (from Flutter app source) ---
+    blocks.append(join_blocks([
+        "## value_type → response type mapping",
+        (
+            "The `type` field in `healthData[]` is **not always the same** as the `value_type` you sent. "
+            "Some categories return multiple records with different type names. "
+            "Never use response `type` values as `value_type` inputs — always use the left column.\n\n"
+            "| value_type (request) | type values in response healthData[] |\n"
+            "|----------------------|--------------------------------------|\n"
+            "| STEPS | STEPS |\n"
+            "| HEART_RATE | HEART_RATE, RESTING_HEART_RATE |\n"
+            "| CALORIES | TOTAL_CALORIES_BURNED, ACTIVE_ENERGY_BURNED |\n"
+            "| BLOOD_OXYGEN | BLOOD_OXYGEN |\n"
+            "| BLOOD_PRESSURE | BLOOD_PRESSURE_SYSTOLIC, BLOOD_PRESSURE_DIASTOLIC |\n"
+            "| BODY_TEMPERATURE | BODY_TEMPERATURE |\n"
+            "| BODY_METRICS | WEIGHT, HEIGHT, BODY_FAT_PERCENTAGE, WATER, NUTRITION |\n"
+            "| GLUCOSE | BLOOD_GLUCOSE |\n"
+            "| EXERCISE_TIME | EXERCISE_TIME |\n"
+            "| RESPIRATORY_RATE | RESPIRATORY_RATE |\n"
+            "| WALKING_SPEED | WALKING_SPEED |\n"
+            "| SLEEP | SLEEP_SESSION (aggregated); SLEEP_ASLEEP, SLEEP_REM, SLEEP_DEEP, SLEEP_LIGHT, SLEEP_IN_BED, SLEEP_AWAKE, etc. (raw) |\n"
+            "| MINDFULNESS | MINDFULNESS |\n"
+            "| WORKOUT | WORKOUT |\n"
+            "| DISTANCE | DISTANCE_WALKING_RUNNING, DISTANCE_DELTA |"
         ),
     ]))
 
