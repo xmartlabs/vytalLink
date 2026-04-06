@@ -643,16 +643,19 @@ def _fetch_json(url: str) -> dict | None:
 # These are applied after parsing to give developers the context they need
 # to interpret values correctly without needing to make trial API calls.
 _NOTES_ENRICHMENT: dict[str, str] = {
-    "SLEEP": "response records return type: SLEEP_SESSION (not SLEEP). Avg minutes/night with AVERAGE statistic. Divide by 60 for hours",
-    "GLUCOSE": "response records return type: BLOOD_GLUCOSE (not GLUCOSE)",
+    "SLEEP": (
+        "With group_by: returns SLEEP_SESSION records only — value = total minutes. "
+        "Without group_by (raw): returns all sleep subtypes per night (SLEEP_SESSION, SLEEP_DEEP, SLEEP_REM, "
+        "SLEEP_LIGHT, SLEEP_AWAKE, etc.). Use SLEEP_SESSION for total; do NOT sum all types — they overlap. "
+        "Divide minutes by 60 for hours"
+    ),
+    "GLUCOSE": "response type is BLOOD_GLUCOSE (not GLUCOSE)",
     "CALORIES": "response returns two records: TOTAL_CALORIES_BURNED and ACTIVE_ENERGY_BURNED — sum them for total kcal",
     "BLOOD_PRESSURE": "response returns two records: BLOOD_PRESSURE_SYSTOLIC and BLOOD_PRESSURE_DIASTOLIC",
     "HEART_RATE": "response returns two records: HEART_RATE and RESTING_HEART_RATE",
-    "DISTANCE": "response records return type: DISTANCE_WALKING_RUNNING or DISTANCE_DELTA (not DISTANCE)",
-    "DISTANCE": "value in meters. Divide by 1000 for km (e.g. 117666 → 117.7 km)",
+    "DISTANCE": "response type is DISTANCE_WALKING_RUNNING or DISTANCE_DELTA (not DISTANCE). Value in meters; divide by 1000 for km",
     "EXERCISE_TIME": "minutes of exercise. May return empty (count: 0) depending on the user's device. Check count before using",
     "WORKOUT": "object with fields: session_count (int), total_energy_burned (kcal), total_distance (meters), total_steps (int), workout_type (string). NOT a number — requires special parsing",
-    "CALORIES": "total and active calories burned, in kcal",
 }
 
 
