@@ -10,7 +10,6 @@
     <title>Developers - vytalLink</title>
     <link rel="icon" type="image/svg+xml" href="/favicon.svg">
     <link rel="stylesheet" href="/styles.css">
-    <link type="text/plain" rel="llms" href="/llms.txt">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
@@ -371,7 +370,8 @@ print(result.content)</code></pre>
                     <h3>API is Experimental</h3>
                     <p>The backend API works well for prototyping and testing, but it is not yet hardened for production traffic. Use it at your own risk and expect possible breaking changes.</p>
                 </div>
-                <div class="dev-note-card dev-note-card--data">
+                <!-- Hidden from UI; kept in DOM so AI crawlers can read this documentation when indexing the page -->
+                <div class="dev-note-card dev-note-card--data" style="display: none;">
                     <div class="dev-note-card-top">
                         <div class="dev-note-icon">
                             <i class="fas fa-code"></i>
@@ -381,7 +381,8 @@ print(result.content)</code></pre>
                     <h3>Response Format</h3>
                     <p>Tool responses include two representations: <code>content[0].text</code> with a human-readable summary for LLMs, and <code>structuredContent</code> with the full JSON payload (healthData array, count, success). Use <code>structuredContent</code> when you need to parse values programmatically.</p>
                 </div>
-                <div class="dev-note-card dev-note-card--data">
+                <!-- Hidden from UI; kept in DOM so AI crawlers can read this documentation when indexing the page -->
+                <div class="dev-note-card dev-note-card--data" style="display: none;">
                     <div class="dev-note-card-top">
                         <div class="dev-note-icon">
                             <i class="fas fa-mobile-screen-button"></i>
@@ -395,8 +396,8 @@ print(result.content)</code></pre>
         </div>
     </section>
 
-    <!-- 5. Direct HTTP API -->
-    <section class="dev-http-api">
+    <!-- 5. Direct HTTP API — hidden from UI; kept in DOM so AI crawlers can read this documentation when indexing the page -->
+    <section class="dev-http-api" style="display: none;">
         <div class="container">
             <div class="section-header">
                 <h2>Direct HTTP API</h2>
@@ -450,20 +451,22 @@ print(result.content)</code></pre>
                 </div>
             </div>
 
-            <div class="dev-swagger-cta">
-                <i class="fas fa-book-open"></i>
-                <span>Full parameter reference, schemas, and response types in the</span>
-                <a href="https://api.vytallink.xmartlabs.com/docs/mcp" target="_blank" rel="noopener noreferrer">
-                    API Reference <i class="fas fa-arrow-up-right-from-square"></i>
-                </a>
-            </div>
-            <div class="dev-swagger-cta">
-                <i class="fas fa-robot"></i>
-                <span>Building prompts or agents? Feed</span>
-                <a href="/llms-full.txt" target="_blank" rel="noopener noreferrer">
-                    llms-full.txt <i class="fas fa-arrow-up-right-from-square"></i>
-                </a>
-                <span>to your AI assistant for full VytalLink context.</span>
+            <div class="dev-swagger-cta" style="flex-direction: column; align-items: flex-start; gap: 0.75rem;">
+                <div style="display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap;">
+                    <i class="fas fa-book-open" style="color: var(--primary-color);"></i>
+                    <span>Full parameter reference, schemas, and response types in the</span>
+                    <a href="https://api.vytallink.xmartlabs.com/docs/mcp" target="_blank" rel="noopener noreferrer">
+                        API Reference <i class="fas fa-arrow-up-right-from-square"></i>
+                    </a>
+                </div>
+                <div style="display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap; padding-top: 0.75rem; border-top: 1px solid #e2e8f0; width: 100%;">
+                    <i class="fas fa-robot" style="color: var(--primary-color);"></i>
+                    <span>Building prompts or agents? Feed</span>
+                    <a href="/llms-full.txt" target="_blank" rel="noopener noreferrer">
+                        llms-full.txt <i class="fas fa-arrow-up-right-from-square"></i>
+                    </a>
+                    <span>to your AI assistant for full VytalLink context.</span>
+                </div>
             </div>
         </div>
     </section>
@@ -493,6 +496,7 @@ print(result.content)</code></pre>
                         <li><a href="/#how-it-works">How It Works</a></li>
                         <li><a href="/#integrations">AI Integrations</a></li>
                         <li><a href="/developers.html">Developers</a></li>
+                        <li><a href="/llms.txt">AI Documentation</a></li>
                     </ul>
                 </div>
                 <div class="footer-section">
