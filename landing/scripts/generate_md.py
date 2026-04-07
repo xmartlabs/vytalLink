@@ -725,6 +725,43 @@ def generate_mcp_reference(base_url: str) -> str | None:
 
     blocks: list[str] = ["# MCP API Reference"]
 
+    # --- Authentication (direct_login) ---
+    blocks.append(join_blocks([
+        "## Authentication — direct_login",
+        (
+            "Call `direct_login` via `POST /mcp/call` to get a Bearer token. "
+            "No Authorization header needed for this call.\n\n"
+            "**Request — exact field names (common mistakes in bold):**\n"
+            "- `word` (string, required) — the connection keyword from the VytalLink app (e.g. `\"island\"`). "
+            "**Not** `connection_word`, `username`, or `user_word`.\n"
+            "- `code` (string, required) — the 6-digit PIN from the VytalLink app (e.g. `\"828930\"`). "
+            "**Not** `pin`, `password`, or `otp`.\n\n"
+            "```json\n"
+            "{\n"
+            '  "name": "direct_login",\n'
+            '  "arguments": { "word": "island", "code": "828930" }\n'
+            "}\n"
+            "```\n\n"
+            "**Response — token location:**\n"
+            "```json\n"
+            "{\n"
+            '  "content": [{ "type": "text", "text": "Authentication successful! ..." }],\n'
+            '  "structuredContent": {\n'
+            '    "success": true,\n'
+            '    "access_token": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9...",\n'
+            '    "token_type": "Bearer",\n'
+            '    "expires_in": 7200\n'
+            "  }\n"
+            "}\n"
+            "```\n"
+            "Read the token from `structuredContent.access_token`. **It is not in `content[0].text`** "
+            "(the text field contains it as prose, but parse `structuredContent` — never regex the text field).\n\n"
+            "Use the token in all subsequent calls: `Authorization: Bearer <access_token>`.\n\n"
+            "**On failure** (wrong word/code), the HTTP status is still 200 but `structuredContent.success` is `false` "
+            "and an `error` key is present at the top level. Always check `structuredContent.success` before reading the token."
+        ),
+    ]))
+
     # --- Response format (static text) ---
     blocks.append(join_blocks([
         "## Response format",
@@ -735,19 +772,6 @@ def generate_mcp_reference(base_url: str) -> str | None:
             "The shape of `structuredContent` depends on the tool:\n"
             "- `get_health_metrics` / `get_summary`: `{ healthData, count, success }`\n"
             "- `direct_login`: `{ success, access_token, token_type, expires_in, user_id, message }`\n\n"
-            "**direct_login response example:**\n"
-            "```json\n"
-            "{\n"
-            '  "content": [{ "type": "text", "text": "Authentication successful! You are now logged in." }],\n'
-            '  "structuredContent": {\n'
-            '    "success": true,\n'
-            '    "access_token": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9...",\n'
-            '    "token_type": "Bearer",\n'
-            '    "expires_in": 7200\n'
-            "  }\n"
-            "}\n"
-            "```\n"
-            "The token is always in `structuredContent.access_token`. It is not in `content[0].text`.\n\n"
             "**healthData record fields** (for `get_health_metrics` and `get_summary`):\n"
             "- `type` (string): metric type in the response — **may differ from the `value_type` you sent**. "
             "Example: request `value_type: \"SLEEP\"` returns records with `type: \"SLEEP_SESSION\"`. "
