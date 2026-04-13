@@ -805,13 +805,13 @@ abstract class AppLocalizations {
   /// No description provided for @home_checklist_step_2.
   ///
   /// In en, this message translates to:
-  /// **'Open ChatGPT, Claude, or the app that sent you here. Paste your Word + PIN.'**
+  /// **'Open ChatGPT, Claude, or the app that sent you here'**
   String get home_checklist_step_2;
 
   /// No description provided for @home_checklist_step_3.
   ///
   /// In en, this message translates to:
-  /// **'Paste your Word + PIN and start asking'**
+  /// **'Enter your Word + PIN and start asking'**
   String get home_checklist_step_3;
 
   /// No description provided for @home_checklist_title.
@@ -823,7 +823,7 @@ abstract class AppLocalizations {
   /// Format used when copying Word and PIN to the clipboard.
   ///
   /// In en, this message translates to:
-  /// **'VytalLink credential — Word: {word} | PIN: {pin}'**
+  /// **'VytalLink Word: {word} | PIN: {pin}'**
   String home_clipboard_credentials_template(String word, String pin);
 
   /// No description provided for @home_description_error.
@@ -835,13 +835,13 @@ abstract class AppLocalizations {
   /// No description provided for @home_description_offline.
   ///
   /// In en, this message translates to:
-  /// **'Connect your AI assistant to get insights from your wearable data.'**
+  /// **'Connect an AI app or service to your wearable data.'**
   String get home_description_offline;
 
   /// No description provided for @home_description_running.
   ///
   /// In en, this message translates to:
-  /// **'Open ChatGPT on this phone or your computer, then paste your Word + PIN.'**
+  /// **'Open your AI app or the one that sent you here, then enter your Word + PIN.'**
   String get home_description_running;
 
   /// No description provided for @home_description_starting.
@@ -1003,7 +1003,7 @@ abstract class AppLocalizations {
   /// No description provided for @home_on_device_guidance_bullet_no_external_app.
   ///
   /// In en, this message translates to:
-  /// **'Stay in this browser. <b>Don\'t tap \'Install\', \'Open in app\', or switch apps</b>—it closes the connection. Login is fine if asked.'**
+  /// **'Stay in this browser. <b>Don\'t tap \'Install\', \'Open in app\', or switch apps.</b> That closes the connection. Login is fine if asked.'**
   String get home_on_device_guidance_bullet_no_external_app;
 
   /// No description provided for @home_on_device_guidance_intro.
@@ -1153,25 +1153,25 @@ abstract class AppLocalizations {
   /// No description provided for @home_toast_credentials_copied.
   ///
   /// In en, this message translates to:
-  /// **'We copied your Word + PIN so you can paste them into ChatGPT.'**
+  /// **'Word + PIN copied. Enter them in your AI app.'**
   String get home_toast_credentials_copied;
 
   /// No description provided for @home_toast_credentials_missing.
   ///
   /// In en, this message translates to:
-  /// **'Start the bridge first—your Word + PIN only appear when the app is connected.'**
+  /// **'Start the bridge first. Your Word + PIN only appear when the app is connected.'**
   String get home_toast_credentials_missing;
 
   /// No description provided for @home_toast_credentials_ready.
   ///
   /// In en, this message translates to:
-  /// **'Word + PIN ready - paste it into your AI assistant.'**
+  /// **'Word + PIN ready. Enter them in your AI app.'**
   String get home_toast_credentials_ready;
 
   /// No description provided for @home_value_prop_point_1.
   ///
   /// In en, this message translates to:
-  /// **'<b>Ask your AI</b> about sleep, workouts, or heart rate on any screen'**
+  /// **'<b>Ask questions</b> about sleep, workouts, or heart rate from any device'**
   String get home_value_prop_point_1;
 
   /// No description provided for @home_value_prop_point_2.
@@ -1183,19 +1183,19 @@ abstract class AppLocalizations {
   /// No description provided for @home_value_prop_point_3.
   ///
   /// In en, this message translates to:
-  /// **'<b>Keep this app open</b> while you chat. Close it anytime to stop sharing.'**
+  /// **'<b>Keep this app open</b> while you chat. Close or minimize it to stop sharing.'**
   String get home_value_prop_point_3;
 
   /// No description provided for @home_value_prop_subtitle.
   ///
   /// In en, this message translates to:
-  /// **'Ask ChatGPT or Claude about your health, or connect an app that asked you to install vytalLink. Your data stays on this phone. You decide when it gets shared.'**
+  /// **'Ask ChatGPT or Claude about your health, or connect an app that sent you here. Your data stays on this phone.'**
   String get home_value_prop_subtitle;
 
   /// No description provided for @home_value_prop_title.
   ///
   /// In en, this message translates to:
-  /// **'Your health data, on call'**
+  /// **'Your health data, ready to share'**
   String get home_value_prop_title;
 
   /// No description provided for @how_it_works_step1_description.
@@ -1411,13 +1411,13 @@ abstract class AppLocalizations {
   /// No description provided for @mcp_helper_chat_runs_on_desktop.
   ///
   /// In en, this message translates to:
-  /// **'<b>Chats happen in the app or service you connected.</b> This could be ChatGPT, Claude Desktop, Cursor, VS Code, or any app that uses vytalLink. This app keeps the bridge open and only shares what you approve.'**
+  /// **'<b>Chats happen in the app you connected.</b> vytalLink keeps the bridge open and only shares what you approve.'**
   String get mcp_helper_chat_runs_on_desktop;
 
   /// No description provided for @mcp_integration_hero_subtitle.
   ///
   /// In en, this message translates to:
-  /// **'If an app or service asked you to connect vytalLink, this is how you do it. You can also set up Claude Desktop, Cursor, or VS Code from this screen.'**
+  /// **'Set up Claude Desktop, Cursor, VS Code, or another MCP client to use your health data.'**
   String get mcp_integration_hero_subtitle;
 
   /// No description provided for @mcp_integration_hero_title.
@@ -1447,7 +1447,7 @@ abstract class AppLocalizations {
   /// No description provided for @mcp_setup_intro.
   ///
   /// In en, this message translates to:
-  /// **'This is for developers or advanced users who want to connect other MCP clients. If you’re here because another app sent you, just tap ‘Get Word + PIN’ on the home screen and enter those codes where that app asks.'**
+  /// **'For developers and advanced users who want to connect other MCP clients. If another app sent you here, you only need the Word + PIN from the home screen.'**
   String get mcp_setup_intro;
 
   /// Requirement message shown in setup step 1, clarifying that Node.js must be installed.
@@ -1609,7 +1609,7 @@ abstract class AppLocalizations {
   /// No description provided for @onboarding_bridge_description.
   ///
   /// In en, this message translates to:
-  /// **'If an app or AI tool told you to download vytalLink, here\'s what\'s happening: that app needs your health data from your phone. vytalLink lets it read that data directly from your device, without copying anything to a server.'**
+  /// **'Some apps need your phone\'s health data to work. vytalLink reads it directly from your device and shares only what you approve. Nothing leaves your phone unless you say so.'**
   String get onboarding_bridge_description;
 
   /// No description provided for @onboarding_bridge_feature_1.
@@ -1621,13 +1621,13 @@ abstract class AppLocalizations {
   /// No description provided for @onboarding_bridge_feature_2.
   ///
   /// In en, this message translates to:
-  /// **'You generate a Word + PIN and share it with that app'**
+  /// **'You generate a Word + PIN and enter it where asked'**
   String get onboarding_bridge_feature_2;
 
   /// No description provided for @onboarding_bridge_feature_3.
   ///
   /// In en, this message translates to:
-  /// **'Close the app anytime to stop sharing immediately'**
+  /// **'Close or minimize the app anytime to stop sharing'**
   String get onboarding_bridge_feature_3;
 
   /// No description provided for @onboarding_bridge_subtitle.
@@ -1639,7 +1639,7 @@ abstract class AppLocalizations {
   /// No description provided for @onboarding_bridge_title.
   ///
   /// In en, this message translates to:
-  /// **'You\'re in the right place'**
+  /// **'Coming from another app?'**
   String get onboarding_bridge_title;
 
   /// No description provided for @onboarding_get_started.
@@ -1693,7 +1693,7 @@ abstract class AppLocalizations {
   /// No description provided for @onboarding_how_it_works_feature_1.
   ///
   /// In en, this message translates to:
-  /// **'Fast start in ChatGPT with zero setup'**
+  /// **'Fast start with ChatGPT, zero setup needed'**
   String get onboarding_how_it_works_feature_1;
 
   /// No description provided for @onboarding_how_it_works_feature_2.
@@ -1741,7 +1741,7 @@ abstract class AppLocalizations {
   /// No description provided for @onboarding_welcome_description.
   ///
   /// In en, this message translates to:
-  /// **'Link your phone’s health data once and let <b>ChatGPT</b> or <b>Claude</b> answer questions about your sleep, workouts, steps, and trends. No dashboards, just clear answers.'**
+  /// **'Link your phone’s health data once and let <b>ChatGPT</b>, <b>Claude</b>, or another app answer questions about your sleep, workouts, steps, and trends.'**
   String get onboarding_welcome_description;
 
   /// No description provided for @onboarding_welcome_feature_1.
