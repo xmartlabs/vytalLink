@@ -134,7 +134,7 @@ PODS:
   - GoogleUtilities/UserDefaults (8.1.0):
     - GoogleUtilities/Logger
     - GoogleUtilities/Privacy
-  - health (13.2.0):
+  - health (13.2.1):
     - Flutter
   - integration_test (0.0.1):
     - Flutter
@@ -273,7 +273,7 @@ SPEC CHECKSUMS:
   GoogleAppMeasurement: 09f341dfa8527d1612a09cbfe809a242c0b737af
   GoogleDataTransport: aae35b7ea0c09004c3797d53c8c41f66f219d6a7
   GoogleUtilities: 00c88b9a86066ef77f0da2fab05f65d7768ed8e1
-  health: afa47eecde2e04d74ae99e485e8e4bd18bdf9d75
+  health: b2123f165ca25ea7faaa4a4b3e7b1b6405483b28
   integration_test: 252f60fa39af5e17c3aa9899d35d908a0721b573
   nanopb: fad817b59e0457d11a5dfbde799381cd727c1275
   network_info_plus: 6613d9d7cdeb0e6f366ed4dbe4b3c51c52d567a9
