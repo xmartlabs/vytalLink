@@ -47,7 +47,7 @@ matches_default_credential_pattern() {
   case "$relative_path" in
     .env|.env.local|.env.production|.env.development|*.private.env|*.local.env|*.production.env|*.development.env|\
     *"/secrets/"*|*"/secrets"|*"/credentials/"*|*"/credentials"|\
-    *GoogleService-Info*.plist|*google-services*.json|*serviceAccount*.json|*credentials*.json|\
+    *firebase.json|*GoogleService-Info*.plist|*google-services*.json|*serviceAccount*.json|*credentials*.json|\
     *keys.properties|*upload_certificate.pem|*.jks|*.keystore|*.p8|*.pem|*.key)
       return 0
       ;;
