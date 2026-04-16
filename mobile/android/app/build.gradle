@@ -115,6 +115,11 @@ android {
             }
         }
     }
+    packaging {
+        jniLibs {
+            useLegacyPackaging = false
+        }
+    }
     lintOptions {
         checkReleaseBuilds false
     }
