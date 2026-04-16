@@ -63,8 +63,8 @@
         <div class="container">
             <div class="hero-content">
                 <h1>Privacy Policy</h1>
-                <p class="hero-subtitle">Your health data privacy is our top priority</p>
-                <p class="last-updated">Last updated: September 11, 2025</p>
+                <p class="hero-subtitle">How we handle your health data</p>
+                <p class="last-updated">Last updated: April 16, 2026 · Effective since: September 11, 2025</p>
             </div>
         </div>
     </section>
@@ -73,123 +73,197 @@
     <section class="legal-content">
         <div class="container">
             <div class="legal-document">
-                
+
+                <section class="legal-section">
+                    <h2>Data Controller</h2>
+                    <p>The data controller for the vytalLink application and website is:</p>
+                    <ul>
+                        <li><strong>Entity:</strong> Xmartlabs SRL</li>
+                        <li><strong>Location:</strong> Montevideo, Uruguay</li>
+                        <li><strong>Contact:</strong> <a href="mailto:vytallink@xmartlabs.com">vytallink@xmartlabs.com</a></li>
+                    </ul>
+                </section>
+
                 <section class="legal-section">
                     <h2>Overview</h2>
-                    <p>At vytalLink, we believe your health data belongs to you. This Privacy Policy explains how we collect, use, and protect your information when you use our mobile application and services.</p>
-                    <p><strong>Key principle:</strong> Your health data stays on your device. We create a local MCP (Model Context Protocol) server that allows AI tools to query your data directly from your device, ensuring maximum privacy and control.</p>
+                    <p>At vytalLink, we believe your health data belongs to you. This Privacy Policy explains how we collect, use, and protect your information when you use our mobile application and website.</p>
+                    <p><strong>Key principle:</strong> Your health data stays on your device. vytalLink reads health data from your device and makes it available to AI tools through the MCP (Model Context Protocol). Data is processed locally on your phone and relayed through our server to the AI service you connect. We never store it.</p>
                 </section>
 
                 <section class="legal-section">
                     <h2>Information We Collect</h2>
-                    
+
                     <h3>Health Data</h3>
                     <ul>
-                        <li><strong>Device Storage:</strong> All health data (steps, heart rate, sleep, workouts) is stored locally on your device</li>
-                        <li><strong>Temporary Access:</strong> We only access your health data when you make a specific request through an AI assistant</li>
-                        <li><strong>No Storage:</strong> We do not store your health data on our servers</li>
-                           <li><strong>No Personal Data:</strong> vytalLink does not collect personally identifiable data (name, email, etc.).</li>
+                        <li><strong>Device Storage:</strong> All health data (steps, heart rate, sleep, workouts) is stored locally on your device via Apple HealthKit or Google Health Connect</li>
+                        <li><strong>On-demand Access:</strong> Health data is only read from your device when you make a specific request through an AI assistant</li>
+                        <li><strong>Relay, Not Storage:</strong> When an AI service requests your health data, it passes through our server as a stateless relay. The server routes the request to your phone and forwards the response back to the AI service. We do not store, cache, or log health data on our servers at any point</li>
+                        <li><strong>Local Processing:</strong> All filtering, aggregation, and normalization of health data happens on your device before it leaves</li>
                     </ul>
 
-                    <h3>Authentication Data</h3>
+                    <h3>Authentication Data (stored on device)</h3>
                     <ul>
-                        <li>Local MCP server Word + PIN for AI integration</li>
-                        <li>Session tokens for device-to-AI communication (stored temporarily)</li>
-                        <li>App usage analytics (anonymized)</li>
+                        <li>Local MCP server word + PIN for AI integration</li>
+                        <li>Session tokens for device-to-AI communication (stored temporarily on your device)</li>
                     </ul>
 
-                    <h3>Technical Data</h3>
+                    <h3>Technical and Analytics Data</h3>
+                    <p>We collect limited technical data to maintain and improve the app. Under applicable privacy laws (including GDPR), some of this data may qualify as personal data:</p>
                     <ul>
                         <li>Device type and operating system version</li>
                         <li>App version and crash reports</li>
-                        <li>Network connectivity information</li>
+                        <li>Anonymized app usage patterns (e.g., screens visited, feature usage)</li>
+                        <li>Network connectivity status</li>
+                        <li>Approximate location (country and city level, inferred from IP address by Firebase Analytics). We do not collect precise GPS or fine-grained location data</li>
+                    </ul>
+                    <p>We do not collect your name, email address, physical address, or other direct identifiers through the app.</p>
+
+                    <h3>Website Analytics</h3>
+                    <p>Our website (<a href="https://vytallink.com">vytallink.com</a>) uses Google Analytics 4 (via Google Tag Manager) to understand how visitors use the site. This service may set cookies on your browser and collect:</p>
+                    <ul>
+                        <li>Pages visited, time on page, and referral source</li>
+                        <li>Browser type, screen resolution, and general location (country/city level)</li>
+                        <li>A randomly generated client identifier (not linked to your identity)</li>
+                    </ul>
+                    <p>You can opt out of Google Analytics by installing the <a href="https://tools.google.com/dlpage/gaoptout" target="_blank" rel="noopener">Google Analytics Opt-out Browser Add-on</a>.</p>
+                </section>
+
+                <section class="legal-section">
+                    <h2>Legal Basis for Processing</h2>
+                    <p>We process the limited data described above based on the following legal grounds (as defined under GDPR and similar laws):</p>
+                    <ul>
+                        <li><strong>Consent:</strong> You grant explicit permission to access health data through your device's system health permissions (HealthKit / Health Connect)</li>
+                        <li><strong>Legitimate interest:</strong> We collect anonymized analytics and crash reports to maintain, secure, and improve the app. This processing is minimal and does not override your privacy rights</li>
+                        <li><strong>Contract performance:</strong> Processing necessary to provide the core vytalLink service (e.g., running the local MCP server)</li>
                     </ul>
                 </section>
 
                 <section class="legal-section">
                     <h2>How We Use Your Information</h2>
                     <ul>
-                        <li><strong>Local MCP Server:</strong> Create a secure local server that AI tools can query for your health data</li>
-                        <li><strong>AI Integration:</strong> Enable secure communication between your device and AI assistants</li>
-                        <li><strong>Data Control:</strong> Give you complete control over what data is shared and when</li>
-                        <li><strong>Service Improvement:</strong> Analyze usage patterns to improve app functionality</li>
-                        <li><strong>Support:</strong> Provide customer support and troubleshoot issues</li>
+                        <li><strong>Local MCP Server:</strong> Create a secure local server on your device that AI tools can query for your health data</li>
+                        <li><strong>AI Integration:</strong> Enable secure communication between your device and the AI assistants you choose</li>
+                        <li><strong>Service Improvement:</strong> Analyze anonymized usage patterns and crash data to improve app functionality and stability</li>
+                        <li><strong>Approximate Location:</strong> Firebase Analytics infers your general location (country/city) from your IP address to help us understand where our users are and prioritize language and regional support. We do not request GPS permissions or collect precise location</li>
                     </ul>
                 </section>
 
                 <section class="legal-section">
                     <h2>Data Sharing and Third Parties</h2>
-                    
-                    <h3>AI Services</h3>
-                    <p>When you connect AI tools to vytalLink, they query your health data directly from the local MCP server running on your device. No data is transmitted to vytalLink servers - all communication is between your device and the AI service you choose.</p>
 
-                    <h3>Third-Party Services</h3>
+                    <h3>AI Services</h3>
+                    <p>When you connect an AI tool to vytalLink, it sends requests to our server, which relays them to your phone via a secure WebSocket connection. Your phone reads the requested health data locally, and the response travels back through our server to the AI service. Our server acts only as a stateless pass-through and does not store, cache, or inspect the health data in transit.</p>
+                    <p>You decide which AI service to connect and what data categories to share. Once your data reaches that service, its own privacy policy and terms apply. vytalLink has no control over how third-party AI services process, store, or use your data, and we are not responsible for their data practices. We recommend reviewing the privacy policy of any AI service before connecting it.</p>
+
+                    <h3>Firebase (Google)</h3>
+                    <p>We use the following Firebase services, operated by Google LLC:</p>
                     <ul>
-                        <li><strong>Analytics:</strong> Anonymized usage data may be shared with analytics services</li>
-                        <li><strong>Crash Reporting:</strong> Technical crash data to improve app stability</li>
-                        <li><strong>No Health Data:</strong> We never share your health data with third parties for marketing or commercial purposes</li>
-                           <li><strong>Firebase Analytics and Crashlytics:</strong> We use Firebase Analytics and Crashlytics to obtain anonymous usage metrics and crash reports. These services may process data globally, but never include personally identifiable information or health data.</li>
+                        <li><strong>Firebase Analytics:</strong> Collects anonymized usage metrics (events, screen views, user properties). Does not include health data or direct personal identifiers.</li>
+                        <li><strong>Firebase Crashlytics:</strong> Collects crash reports including device model, OS version, and stack traces to help us fix bugs. Does not include health data.</li>
                     </ul>
+                    <p>Firebase may process this data on servers located outside your country of residence (including the United States). Google acts as a data processor on our behalf and is bound by its <a href="https://firebase.google.com/support/privacy" target="_blank" rel="noopener">Firebase Data Processing Terms</a>.</p>
+
+                    <h3>What We Never Do</h3>
+                    <ul>
+                        <li>We never store, cache, or log your health data on our servers. Our server relays it in transit only at your request</li>
+                        <li>We never sell, rent, or share any data with third parties for advertising, marketing, or data brokering purposes</li>
+                        <li>We never send your data to any service you have not explicitly chosen to connect</li>
+                    </ul>
+                </section>
+
+                <section class="legal-section">
+                    <h2>International Data Transfers</h2>
+                    <p>Xmartlabs is based in Uruguay, which has been recognized by the European Commission as providing an adequate level of data protection. Anonymized analytics and crash data processed by Firebase may be transferred to Google servers in the United States and other countries. These transfers are covered by Google's data processing terms and Standard Contractual Clauses.</p>
                 </section>
 
                 <section class="legal-section">
                     <h2>Security Measures</h2>
                     <ul>
-                        <li><strong>Local Processing:</strong> All health data processing happens on your device</li>
-                        <li><strong>No Cloud Storage:</strong> Health data never leaves your device or gets stored on our servers</li>
+                        <li><strong>Local Processing:</strong> All health data filtering and aggregation happens on your device before anything is sent</li>
+                        <li><strong>No Cloud Storage:</strong> Health data passes through our server as a relay but is never stored, cached, or logged</li>
                         <li><strong>Secure MCP Protocol:</strong> Industry-standard MCP (Model Context Protocol) for AI communication</li>
-                        <li><strong>Device-level Security:</strong> Relies on your device's built-in security (iOS/Android)</li>
-                        <li><strong>Encrypted Connections:</strong> All AI communications are encrypted in transit</li>
+                        <li><strong>Device-level Security:</strong> Relies on your device's built-in security features (iOS/Android encryption, biometrics)</li>
+                        <li><strong>Encrypted Connections:</strong> All communications between your device and AI services are encrypted in transit (TLS)</li>
                         <li><strong>No Persistent Sessions:</strong> Connection data is cleared after each session</li>
                     </ul>
+                    <p>No security system is perfect. While we take reasonable measures to protect data in transit and rely on your device's built-in protections for data at rest, we cannot guarantee absolute security.</p>
                 </section>
 
                 <section class="legal-section">
                     <h2>Your Rights and Control</h2>
+                    <p>Depending on your jurisdiction, you may have the following rights:</p>
                     <ul>
-                        <li><strong>Data Access:</strong> View all data stored by the app</li>
-                        <li><strong>Data Deletion:</strong> Delete your account and all associated data</li>
-                        <li><strong>Selective Sharing:</strong> Choose exactly what health data to share</li>
-                        <li><strong>Revoke Access:</strong> Disconnect AI services at any time</li>
-                        <li><strong>Export Data:</strong> Download your data in a portable format</li>
-                           <li><strong>Total Deletion:</strong> Since vytalLink does not store data on its own servers, simply uninstalling the app removes all information.</li>
+                        <li><strong>Selective Sharing:</strong> Choose exactly what health data categories to share with AI assistants</li>
+                        <li><strong>Revoke Access:</strong> Disconnect AI services or revoke health data permissions at any time through your device settings</li>
+                        <li><strong>Total Deletion:</strong> Since vytalLink does not store personal or health data on its servers, uninstalling the app removes all locally stored information</li>
+                        <li><strong>Right of Access and Portability:</strong> For the limited analytics data we process via Firebase, you may request access or a copy by contacting us</li>
+                        <li><strong>Right to Erasure:</strong> You may request deletion of any analytics data associated with your device by contacting us</li>
+                        <li><strong>Right to Object:</strong> You may object to processing based on legitimate interest by contacting us</li>
+                        <li><strong>Opt Out of Analytics:</strong> You can disable analytics collection within the app settings or by using the Google Analytics opt-out tools</li>
+                        <li><strong>Lodge a Complaint:</strong> If you believe your privacy rights have been violated, you may lodge a complaint with your local data protection authority</li>
+                    </ul>
+                    <p>To exercise any of these rights, contact us at <a href="mailto:vytallink@xmartlabs.com">vytallink@xmartlabs.com</a>. We will respond within 30 days.</p>
+                </section>
+
+                <section class="legal-section">
+                    <h2>California Residents (CCPA/CPRA)</h2>
+                    <p>If you are a California resident, you have additional rights under the California Consumer Privacy Act (CCPA) and the California Privacy Rights Act (CPRA):</p>
+                    <ul>
+                        <li><strong>Right to Know:</strong> You may request the categories and specific pieces of personal information we have collected</li>
+                        <li><strong>Right to Delete:</strong> You may request deletion of your personal information</li>
+                        <li><strong>Right to Opt Out of Sale:</strong> We do not sell or share your personal information for cross-context behavioral advertising</li>
+                        <li><strong>Non-Discrimination:</strong> We will not discriminate against you for exercising your CCPA rights</li>
                     </ul>
                 </section>
 
                 <section class="legal-section">
                     <h2>Data Retention</h2>
                     <ul>
-                        <li><strong>Health Data:</strong> Never stored on our servers</li>
-                        <li><strong>Session Data:</strong> Cleared immediately after AI requests</li>
-                        <li><strong>Authentication Tokens:</strong> Expired and deleted after 24 hours</li>
-                        <li><strong>Analytics Data:</strong> Anonymized data retained for 12 months</li>
+                        <li><strong>Health Data:</strong> Never stored on our servers; remains on your device until you delete it or uninstall the app</li>
+                        <li><strong>Session Data:</strong> Cleared immediately after AI communication sessions end</li>
+                        <li><strong>Authentication Tokens:</strong> Expire and are deleted after 24 hours</li>
+                        <li><strong>Analytics Data:</strong> Anonymized analytics data is retained by Firebase for up to 14 months, then automatically deleted</li>
+                        <li><strong>Crash Reports:</strong> Retained for up to 90 days, then automatically deleted</li>
                     </ul>
                 </section>
 
                 <section class="legal-section">
                     <h2>Children's Privacy</h2>
-                    <p>vytalLink is not intended for children under 13 years of age. We do not knowingly collect personal information from children under 13. If you are a parent or guardian and believe your child has provided us with personal information, please contact us.</p>
+                    <p>vytalLink is intended for users aged 18 and older. Users between 13 and 17 may use the app with parental or guardian consent. We do not knowingly collect personal information from children under 13. If you are a parent or guardian and believe your child has used the app without appropriate consent, please contact us and we will take steps to address the situation.</p>
                 </section>
 
                 <section class="legal-section">
-                    <h2>International Users</h2>
-                    <p>vytalLink is designed to comply with international privacy laws including GDPR, CCPA, and HIPAA principles. Users in the European Union have additional rights under GDPR.</p>
+                    <h2>Compliance</h2>
+                    <p>vytalLink follows these privacy frameworks:</p>
+                    <ul>
+                        <li><strong>GDPR (EU):</strong> We provide a legal basis for all processing, honor data subject rights, and ensure adequate safeguards for international transfers</li>
+                        <li><strong>CCPA/CPRA (California):</strong> We disclose data practices, honor opt-out and deletion requests, and do not sell personal information</li>
+                        <li><strong>Apple App Tracking Transparency:</strong> We comply with Apple's ATT framework and do not track users across apps or websites owned by other companies</li>
+                        <li><strong>Google Play Data Safety:</strong> Our data safety disclosures accurately reflect the data practices described in this policy</li>
+                    </ul>
+                    <p>vytalLink is a consumer wellness application and is not a HIPAA-covered entity or business associate. We do not provide medical services and do not access, store, or transmit protected health information (PHI) on our servers.</p>
+                    <p>The app and website may contain links to third-party services (AI assistants, app stores, etc.). We are not responsible for the privacy practices of those services. We recommend reading their privacy policies before sharing data with them.</p>
+                </section>
+
+                <section class="legal-section">
+                    <h2>Governing Law</h2>
+                    <p>This Privacy Policy is governed by the laws of Uruguay. If you are located in the European Union, you also retain any mandatory rights granted under the laws of your country of residence, including the right to lodge a complaint with your local data protection authority.</p>
                 </section>
 
                 <section class="legal-section">
                     <h2>Changes to This Policy</h2>
-                    <p>We may update this Privacy Policy from time to time. We will notify you of any changes by posting the new Privacy Policy in the app and updating the "Last updated" date.</p>
+                    <p>We may update this Privacy Policy. When we make material changes, we will post the updated version in the app and on our website and update the "Last updated" date above.</p>
                 </section>
 
                 <section class="legal-section">
                     <h2>Contact Us</h2>
-                    <p>If you have any questions about this Privacy Policy, please contact us:</p>
+                    <p>Questions about this policy or want to exercise your privacy rights? Reach out:</p>
                     <ul class="contact-list">
                         <li><strong>Email:</strong> <a href="mailto:vytallink@xmartlabs.com">vytallink@xmartlabs.com</a></li>
                         <li><strong>Support:</strong> <a href="/contact.html">Contact Support</a></li>
-                        <li><strong>Xmartlabs:</strong> <a href="https://xmartlabs.com" target="_blank">https://xmartlabs.com</a></li>
-                           <li><strong>Privacy Questions:</strong> We do not have a formal DPO, but you can write to this email for any privacy-related questions.</li>
+                        <li><strong>Xmartlabs:</strong> <a href="https://xmartlabs.com" target="_blank" rel="noopener">https://xmartlabs.com</a></li>
                     </ul>
+                    <p>We do not have a formal Data Protection Officer (DPO). For any privacy-related inquiries, including GDPR data subject requests, please write to the email address above.</p>
                 </section>
 
             </div>
